@@ -848,3 +848,4 @@ export const ZERO_TO_HERO_OWNER_CURRICULUM: MindmapData = {
     { id: 'ze-syn-2', from: 'zhero-1-3', to: 'zhero-2-3', label: 'Rekening PT -> Kontrak Retailer', domains: ['Pajak', 'Bisnis'] }
   ]
 };
+

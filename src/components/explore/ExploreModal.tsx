@@ -34,10 +34,26 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onClose, onSelectTop
   const filtered = topicsList.filter((m) => {
     const matchesSearch =
       m.topic.toLowerCase().includes(searchFilter.toLowerCase()) ||
-      m.description.toLowerCase().includes(searchFilter.toLowerCase());
+      m.description.toLowerCase().includes(searchFilter.toLowerCase()) ||
+      m.nodes.some((n) => n.label.toLowerCase().includes(searchFilter.toLowerCase()));
 
-    if (selectedDomain === 'all') return matchesSearch;
-    return matchesSearch && m.nodes.some((n) => n.domain === selectedDomain);
+    if (!matchesSearch) return false;
+    if (selectedDomain === 'all') return true;
+
+    const domainLower = selectedDomain.toLowerCase();
+    const matchesDomain =
+      m.topic.toLowerCase().includes(domainLower) ||
+      m.description.toLowerCase().includes(domainLower) ||
+      m.nodes.some((n) => {
+        const nodeDomainLower = n.domain.toLowerCase();
+        if (nodeDomainLower === domainLower) return true;
+        if (domainLower === 'hukum' && (nodeDomainLower.includes('hukum') || nodeDomainLower.includes('legal'))) return true;
+        if (domainLower === 'pajak' && (n.label.toLowerCase().includes('pajak') || n.microContent.analogy.toLowerCase().includes('pajak'))) return true;
+        if (domainLower === 'data & analitik' && (nodeDomainLower.includes('data') || nodeDomainLower.includes('analitik'))) return true;
+        return false;
+      });
+
+    return matchesDomain;
   });
 
   return (

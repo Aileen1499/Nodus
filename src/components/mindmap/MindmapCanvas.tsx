@@ -236,10 +236,11 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
                     onSearch(query);
                   }}
                   disabled={isLoading}
-                  className={`shrink-0 rounded-full border px-3 py-1 text-xs font-medium transition-all ${isActive
-                      ? 'border-emerald-500/80 bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 shadow-sm'
-                      : 'border-slate-200/90 dark:border-slate-800/80 bg-white/90 dark:bg-slate-900/70 text-slate-700 dark:text-slate-300 hover:border-indigo-400 hover:text-indigo-600 dark:hover:text-white'
-                    }`}
+                  className={`shrink-0 rounded-full border px-3 py-1 text-xs font-medium transition-all ${
+                    isActive
+                      ? 'border-emerald-500/80 bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 shadow-sm font-semibold ring-1 ring-emerald-500/30'
+                      : 'border-slate-200/90 dark:border-slate-800/80 bg-white/90 dark:bg-slate-900/70 text-slate-700 dark:text-slate-300'
+                  }`}
                 >
                   {query}
                 </button>
@@ -285,8 +286,8 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
         </div>
       </div>
 
-      {/* Floating Canvas Controls (Bottom Left) */}
-      <div className="absolute bottom-16 md:bottom-6 left-3 sm:left-4 z-20 flex items-center gap-1 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/90 dark:bg-[#0B0F19]/90 p-1.5 shadow-xl backdrop-blur-xl transition-colors duration-300">
+      {/* Floating Canvas Controls (Bottom Right) */}
+      <div className="absolute bottom-16 md:bottom-6 right-3 sm:right-6 z-20 flex items-center gap-1 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/90 dark:bg-[#0B0F19]/90 p-1.5 shadow-xl backdrop-blur-xl transition-colors duration-300">
         <button
           onClick={() => handleZoom(0.15)}
           title="Perbesar Canvas (+)"
@@ -311,9 +312,9 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
         </button>
       </div>
 
-      {/* Floating "Mulai di Sini" Guide Button with Soft Pulse */}
+      {/* Floating "Mulai di Sini" Guide Button with Soft Pulse (Bottom Left) */}
       {startingNode && (
-        <div className="absolute bottom-16 md:bottom-6 right-3 sm:right-6 z-20">
+        <div className="absolute bottom-16 md:bottom-6 left-3 sm:left-6 z-20">
           <button
             onClick={() => {
               centerViewOnRoot();

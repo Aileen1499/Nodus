@@ -94,12 +94,15 @@ export interface MindmapData {
   edges: MindmapEdge[];
 }
 
+export type HighlightColor = 'yellow' | 'emerald' | 'indigo' | 'rose';
+
 export interface UserHighlight {
   id: string;
   nodeId: string;
   nodeTitle: string;
   domain: DomainType;
   text: string;
+  color: HighlightColor;
   createdAt: string;
 }
 
@@ -110,6 +113,8 @@ export interface UserProgress {
   masteredNodeIds: string[]; // Node IDs completed by user
   checkedActions: Record<string, boolean>; // Node ID + Action Index for actionable checklist
   highlights?: UserHighlight[]; // Digital stabilizer notes
+  totalStudyMinutes?: number; // Total minutes spent learning
+  lastStudyDate?: string; // YYYY-MM-DD when study activity was completed
   lastActiveDate: string; // YYYY-MM-DD for streak calculation
   apiKey?: string;
   aiModel?: string;

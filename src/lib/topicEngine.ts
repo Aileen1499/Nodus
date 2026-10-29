@@ -1761,19 +1761,19 @@ export const TOPIC_REGISTRY: Record<string, MindmapData> = {
   'bisnis': BUSINESS_STRATEGY_MAP,
   'strategi': BUSINESS_STRATEGY_MAP,
   'bisnis & strategi': BUSINESS_STRATEGY_MAP,
-  
+
   'psikologi': BEHAVIORAL_PSYCHOLOGY_MAP,
   'psikologi perilaku': BEHAVIORAL_PSYCHOLOGY_MAP,
-  
+
   'ekonomi': ECONOMICS_FINANCE_MAP,
   'keuangan': ECONOMICS_FINANCE_MAP,
   'ekonomi & keuangan': ECONOMICS_FINANCE_MAP,
-  
+
   'pemasaran': MARKETING_SALES_MAP,
   'sales': MARKETING_SALES_MAP,
   'pemasaran & sales': MARKETING_SALES_MAP,
   'marketing': MARKETING_SALES_MAP,
-  
+
   'geopolitik': GEOPOLITICS_SYSTEMS_MAP,
   'sistem': GEOPOLITICS_SYSTEMS_MAP,
   'geopolitik & sistem': GEOPOLITICS_SYSTEMS_MAP,
@@ -1785,33 +1785,33 @@ export const TOPIC_REGISTRY: Record<string, MindmapData> = {
  */
 export function getMindmapForTopic(queryOrDomain: string): MindmapData | null {
   const normalized = queryOrDomain.trim().toLowerCase();
-  
+
   // 1. Cek kecocokan langsung pada nama domain / topik utama
   if (TOPIC_REGISTRY[normalized]) {
     return JSON.parse(JSON.stringify(TOPIC_REGISTRY[normalized]));
   }
-  
+
   // 2. Cek kecocokan kata kunci domain
   if (normalized.includes('psikologi') || normalized.includes('bias') || normalized.includes('perilaku') || normalized.includes('kahneman') || normalized.includes('loss aversion') || normalized.includes('anchoring') || normalized.includes('fomo')) {
     return JSON.parse(JSON.stringify(BEHAVIORAL_PSYCHOLOGY_MAP));
   }
-  
+
   if (normalized.includes('ekonomi') || normalized.includes('keuangan') || normalized.includes('inflasi') || normalized.includes('bunga') || normalized.includes('the fed') || normalized.includes('dcf') || normalized.includes('valuasi') || normalized.includes('bank')) {
     return JSON.parse(JSON.stringify(ECONOMICS_FINANCE_MAP));
   }
-  
+
   if (normalized.includes('pemasaran') || normalized.includes('sales') || normalized.includes('marketing') || normalized.includes('copywriting') || normalized.includes('viral') || normalized.includes('brand') || normalized.includes('outreach')) {
     return JSON.parse(JSON.stringify(MARKETING_SALES_MAP));
   }
-  
+
   if (normalized.includes('geopolitik') || normalized.includes('impor') || normalized.includes('ekspor') || normalized.includes('chokepoint') || normalized.includes('petrodollar') || normalized.includes('rantai pasok') || normalized.includes('pabean')) {
     return JSON.parse(JSON.stringify(GEOPOLITICS_SYSTEMS_MAP));
   }
-  
+
   if (normalized.includes('bisnis') || normalized.includes('strategi') || normalized.includes('unit economics') || normalized.includes('cac') || normalized.includes('ltv') || normalized.includes('flywheel') || normalized.includes('moat') || normalized.includes('pricing')) {
     return JSON.parse(JSON.stringify(BUSINESS_STRATEGY_MAP));
   }
-  
+
   return null;
 }
 

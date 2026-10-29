@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { MindmapNode, DecisionChoice } from '../../types';
 import { useUser } from '../../context/UserContext';
 import confetti from 'canvas-confetti';
@@ -12,7 +12,9 @@ import {
   ArrowRight, 
   Award, 
   ShieldAlert,
-  Compass
+  Compass,
+  Layers,
+  HelpCircle
 } from 'lucide-react';
 
 interface QuizEngineProps {
@@ -21,7 +23,7 @@ interface QuizEngineProps {
   onComplete: (scoreBonus: number) => void;
 }
 
-type QuizPhase = 'decision' | 'quiz' | 'completed';
+type QuizPhase = 'intro' | 'decision' | 'quiz' | 'completed';
 
 export const QuizEngine: React.FC<QuizEngineProps> = ({
   node,
@@ -30,7 +32,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({
 }) => {
   const { markNodeMastered, addRankPoints } = useUser();
 
-  const [phase, setPhase] = useState<QuizPhase>('decision');
+  const [phase, setPhase] = useState<QuizPhase>('intro');
   const [selectedChoice, setSelectedChoice] = useState<DecisionChoice | null>(null);
   const [isDecisionConfirmed, setIsDecisionConfirmed] = useState(false);
 
@@ -151,7 +153,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({
             </span>
             <div>
               <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                {phase === 'decision' ? 'Tahap 1: Decision Simulator' : phase === 'quiz' ? 'Tahap 2: Timed Reasoning Quiz' : 'Hasil Evaluasi'}
+                {phase === 'intro' ? 'Evaluasi Pemahaman' : phase === 'decision' ? 'Tahap 1: Decision Simulator' : phase === 'quiz' ? 'Tahap 2: Timed Reasoning Quiz' : 'Hasil Evaluasi'}
               </span>
               <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate max-w-xs sm:max-w-md">
                 {node.label}
@@ -166,6 +168,86 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({
             <X className="h-4 w-4" />
           </button>
         </div>
+
+        {/* Phase 0: Elegant Pre-Quiz Intro Screen (Curio PDF Style) */}
+        {phase === 'intro' && (
+          <div className="flex flex-col flex-1 overflow-y-auto p-6 sm:p-8 space-y-6">
+            <div className="text-center space-y-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30">
+                <Layers className="h-3.5 w-3.5 text-indigo-500" />
+                <span>{node.stepNumber || node.stageTitle || node.domain}</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
+                Cek Paham: {node.label}
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
+                Uji ketajaman mental model Anda. Setiap keputusan yang Anda ambil memiliki konsekuensi modal, reputasi, dan risiko nyata.
+              </p>
+            </div>
+
+            {/* 3 Metric Cards (Curio Style) */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+              <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-4 text-center space-y-1">
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 mx-auto mb-1">
+                  <ShieldAlert className="h-4 w-4" />
+                </div>
+                <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
+                  1 Kasus + {questions.length} Soal
+                </div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                  Simulasi & Evaluasi
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-4 text-center space-y-1">
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 mx-auto mb-1">
+                  <Clock className="h-4 w-4" />
+                </div>
+                <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
+                  30 Detik
+                </div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                  Batas Waktu per Soal
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-4 text-center space-y-1">
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 mx-auto mb-1">
+                  <Sparkles className="h-4 w-4" />
+                </div>
+                <div className="text-base sm:text-lg font-black text-emerald-600 dark:text-emerald-400">
+                  +80 RP
+                </div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                  Bonus Kelulusan
+                </div>
+              </div>
+            </div>
+
+            {/* Instruction Tip */}
+            <div className="rounded-2xl border border-indigo-500/30 bg-indigo-50/40 dark:bg-indigo-950/30 p-4">
+              <div className="flex items-start gap-3">
+                <div className="mt-0.5 text-indigo-600 dark:text-indigo-400 shrink-0">
+                  <HelpCircle className="h-5 w-5" />
+                </div>
+                <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Pada tahap pertama, Anda akan menghadapi skenario dilema bisnis nyata. Pilih opsi paling strategis untuk memaksimalkan RP sebelum menjawab kuis penalaran berbatas waktu.
+                </p>
+              </div>
+            </div>
+
+            {/* Start CTA */}
+            <div className="pt-2">
+              <button
+                onClick={() => setPhase('decision')}
+                className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-indigo-600 via-teal-600 to-emerald-600 text-white font-black text-sm sm:text-base shadow-xl shadow-indigo-500/25 hover:opacity-95 active:scale-[0.99] transition-all flex items-center justify-center gap-2"
+              >
+                <span>Mulai Cek Paham Sekarang</span>
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Phase 1: Interactive Decision Simulator */}
         {phase === 'decision' && (
@@ -233,18 +315,17 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({
                         <div className="flex items-center gap-1.5 font-bold mb-1">
                           {choice.isOptimal ? (
                             <>
-                              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
-                              <span>Langkah Optimal (+{choice.scoreBonus} RP)</span>
+                              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+                              <span>Keputusan Optimal (+{choice.scoreBonus} RP)</span>
                             </>
                           ) : (
                             <>
-                              <XCircle className="h-3.5 w-3.5 text-rose-600 dark:text-rose-400" />
-                              <span>Kurang Optimal (+{choice.scoreBonus} RP)</span>
+                              <XCircle className="h-3.5 w-3.5 text-rose-600" />
+                              <span>Bukan Pilihan Ideal (+{choice.scoreBonus} RP)</span>
                             </>
                           )}
                         </div>
-                        <p>{choice.consequence}</p>
-                        <p className="mt-1 text-[11px] opacity-80">{choice.explanation}</p>
+                        <p>{choice.explanation || choice.consequence}</p>
                       </motion.div>
                     )}
                   </div>
@@ -252,23 +333,22 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({
               })}
             </div>
 
-            {/* Decision Action Footer */}
-            <div className="pt-2">
+            {/* Bottom Decision Actions */}
+            <div className="pt-2 flex items-center justify-between">
               {!isDecisionConfirmed ? (
                 <button
                   onClick={handleConfirmDecision}
                   disabled={!selectedChoice}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-indigo-600 py-3.5 font-bold text-white shadow-lg shadow-indigo-500/25 hover:bg-indigo-700 disabled:opacity-40 transition-all active:scale-[0.99]"
+                  className="w-full py-3 px-5 rounded-xl bg-indigo-600 text-white text-xs sm:text-sm font-bold shadow-md shadow-indigo-500/20 disabled:opacity-40 hover:bg-indigo-500 active:scale-95 transition-all"
                 >
-                  <span>Eksekusi Keputusan Ini</span>
-                  <ArrowRight className="h-4 w-4" />
+                  Kunci Keputusan Ini
                 </button>
               ) : (
                 <button
                   onClick={handleProceedToQuiz}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-emerald-500 py-3.5 font-bold text-white shadow-lg shadow-emerald-500/25 hover:opacity-95 transition-all active:scale-[0.99]"
+                  className="w-full py-3 px-5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-xs sm:text-sm font-bold shadow-md shadow-emerald-500/25 hover:opacity-95 active:scale-95 transition-all flex items-center justify-center gap-2"
                 >
-                  <span>Lanjut ke Kuis Penalaran (30s Timer)</span>
+                  <span>Lanjut ke Kuis Penalaran (+Soal Berbatas Waktu)</span>
                   <ArrowRight className="h-4 w-4" />
                 </button>
               )}
@@ -276,168 +356,154 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({
           </div>
         )}
 
-        {/* Phase 2: Gamified Timed Reasoning Quiz */}
+        {/* Phase 2: Timed Reasoning Quiz */}
         {phase === 'quiz' && currentQ && (
           <div className="flex flex-col flex-1 overflow-y-auto p-5 sm:p-6 space-y-5">
-            {/* Timer Bar */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs font-semibold">
-                <span className="text-slate-500 dark:text-slate-400">
-                  Pertanyaan {currentQuestionIndex + 1} dari {questions.length}
-                </span>
-                <div className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border ${
-                  timeLeft <= 8 
-                    ? 'border-rose-500 bg-rose-50 dark:bg-rose-500/20 text-rose-600 dark:text-rose-300 animate-pulse' 
-                    : 'border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
-                }`}>
-                  <Clock className="h-3.5 w-3.5" />
-                  <span className="tabular-nums font-mono font-bold">{timeLeft}s</span>
-                </div>
+            {/* Question Progress & Timer */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-400">
+                <span>Soal {currentQuestionIndex + 1} dari {questions.length}</span>
+                <span className="h-1 w-1 rounded-full bg-slate-400" />
+                <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{totalEarnedRP} RP Terkumpul</span>
               </div>
 
-              {/* Progress Bar for 30s */}
-              <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
-                <div
-                  className={`h-full transition-all duration-1000 ease-linear rounded-full ${
-                    timeLeft <= 8 ? 'bg-rose-500' : 'bg-gradient-to-r from-indigo-500 to-emerald-400'
-                  }`}
-                  style={{ width: `${(timeLeft / 30) * 100}%` }}
-                />
+              {/* Countdown Timer with warning color */}
+              <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border transition-colors ${
+                timeLeft <= 5 
+                  ? 'border-rose-500 bg-rose-50 dark:bg-rose-500/20 text-rose-600 animate-pulse' 
+                  : 'border-amber-500/40 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400'
+              }`}>
+                <Clock className="h-3.5 w-3.5" />
+                <span>{timeLeft}s</span>
               </div>
             </div>
 
-            {/* Question Text */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/50 p-4">
-              <h4 className="text-xs sm:text-sm font-semibold leading-relaxed text-slate-900 dark:text-white">
+            {/* Question Card */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-4">
+              <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-relaxed">
                 {currentQ.question}
               </h4>
             </div>
 
-            {/* Options List */}
+            {/* Answer Options */}
             <div className="space-y-2.5">
               {currentQ.options.map((opt, idx) => {
                 const isSelected = selectedAnswerIndex === idx;
                 const isCorrect = idx === currentQ.correctAnswerIndex;
-                let optionStyle = 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 hover:border-slate-400 dark:hover:border-slate-600';
+
+                let stateClasses = 'border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 text-slate-700 dark:text-slate-300 hover:border-slate-400';
 
                 if (isAnswerSubmitted) {
                   if (isCorrect) {
-                    optionStyle = 'border-emerald-500 bg-emerald-50 dark:bg-emerald-500/20 text-emerald-900 dark:text-emerald-100 ring-2 ring-emerald-500/50';
-                  } else if (isSelected) {
-                    optionStyle = 'border-rose-500 bg-rose-50 dark:bg-rose-500/20 text-rose-900 dark:text-rose-100 ring-2 ring-rose-500/50';
+                    stateClasses = 'border-emerald-500 bg-emerald-50 dark:bg-emerald-500/20 text-emerald-900 dark:text-emerald-100 ring-2 ring-emerald-500/40';
+                  } else if (isSelected && !isCorrect) {
+                    stateClasses = 'border-rose-500 bg-rose-50 dark:bg-rose-500/20 text-rose-900 dark:text-rose-100 ring-2 ring-rose-500/40';
                   } else {
-                    optionStyle = 'border-slate-200/50 dark:border-slate-800/50 bg-slate-100/50 dark:bg-slate-900/20 text-slate-400 opacity-60';
+                    stateClasses = 'opacity-50 border-slate-200 dark:border-slate-800';
                   }
                 }
 
                 return (
-                  <button
+                  <div
                     key={idx}
                     onClick={() => handleSelectAnswer(idx)}
-                    disabled={isAnswerSubmitted}
-                    className={`flex w-full items-start gap-3 rounded-2xl border p-3.5 text-left text-xs sm:text-sm transition-all ${optionStyle}`}
+                    className={`rounded-2xl border p-3.5 sm:p-4 text-xs sm:text-sm font-medium transition-all ${stateClasses} ${
+                      !isAnswerSubmitted ? 'cursor-pointer active:scale-[0.99]' : 'cursor-default'
+                    }`}
                   >
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-current text-[11px] font-bold">
-                      {String.fromCharCode(65 + idx)}
-                    </span>
-                    <span className="flex-1 leading-relaxed">{opt}</span>
-                    {isAnswerSubmitted && isCorrect && (
-                      <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
-                    )}
-                    {isAnswerSubmitted && isSelected && !isCorrect && (
-                      <XCircle className="h-4 w-4 shrink-0 text-rose-500" />
-                    )}
-                  </button>
+                    <div className="flex items-center gap-3">
+                      <div className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-xs font-bold border ${
+                        isSelected ? 'border-indigo-600 bg-indigo-600 text-white' : 'border-slate-300 dark:border-slate-700 text-slate-500'
+                      }`}>
+                        {String.fromCharCode(65 + idx)}
+                      </div>
+                      <span className="flex-1 leading-snug">{opt}</span>
+                    </div>
+                  </div>
                 );
               })}
             </div>
 
-            {/* Explanation box after answer is submitted */}
-            {isAnswerSubmitted && (
-              <motion.div 
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="rounded-2xl border border-indigo-500/40 bg-indigo-50/60 dark:bg-indigo-500/10 p-4 text-xs leading-relaxed text-slate-700 dark:text-slate-200"
-              >
-                <p className="font-bold text-indigo-700 dark:text-indigo-300 mb-1 flex items-center gap-1.5">
-                  <Sparkles className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
-                  Rasionalitas & Prinsip:
-                </p>
-                <p>{currentQ.explanation}</p>
-              </motion.div>
-            )}
-
-            {/* Next / Finish Button */}
-            {isAnswerSubmitted && (
-              <div className="pt-2">
-                <button
-                  onClick={handleNextQuestion}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-emerald-500 py-3.5 font-bold text-white shadow-lg shadow-emerald-500/25 hover:opacity-95 transition-all"
+            {/* Explanation when submitted */}
+            <AnimatePresence>
+              {isAnswerSubmitted && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="rounded-2xl border border-indigo-500/30 bg-indigo-50/50 dark:bg-indigo-950/40 p-4 space-y-3"
                 >
-                  <span>
-                    {currentQuestionIndex < questions.length - 1 ? 'Pertanyaan Berikutnya' : 'Lihat Hasil Akhir'}
-                  </span>
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-              </div>
-            )}
+                  <div className="flex items-center gap-2 text-xs font-bold">
+                    {selectedAnswerIndex === currentQ.correctAnswerIndex ? (
+                      <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                        <CheckCircle2 className="h-4 w-4" />
+                        Tepat Sekali! (+{30 + Math.floor(timeLeft / 2)} RP)
+                      </span>
+                    ) : (
+                      <span className="text-rose-600 dark:text-rose-400 flex items-center gap-1">
+                        <XCircle className="h-4 w-4" />
+                        Jawaban Kurang Tepat
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                    {currentQ.explanation}
+                  </p>
+
+                  <button
+                    onClick={handleNextQuestion}
+                    className="w-full mt-2 py-2.5 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-500 active:scale-95 transition-all flex items-center justify-center gap-1.5"
+                  >
+                    <span>{currentQuestionIndex < questions.length - 1 ? 'Soal Berikutnya' : 'Lihat Hasil Akhir'}</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         )}
 
-        {/* Phase 3: Completion Screen */}
+        {/* Phase 3: Final Completed Result */}
         {phase === 'completed' && (
-          <div className="flex flex-col flex-1 items-center justify-center p-6 sm:p-8 text-center space-y-6">
-            <div className="relative flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-tr from-indigo-500 via-purple-600 to-emerald-400 p-1 shadow-2xl shadow-emerald-500/30 animate-bounce">
-              <div className="flex h-full w-full items-center justify-center rounded-[22px] bg-slate-900 text-emerald-400">
-                <Award className="h-10 w-10" />
+          <div className="flex flex-col flex-1 items-center justify-center p-6 sm:p-8 text-center space-y-5">
+            <div className="relative">
+              <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-tr from-emerald-500 to-indigo-600 p-[2px] shadow-2xl">
+                <div className="flex h-full w-full items-center justify-center rounded-[22px] bg-slate-900 text-emerald-400">
+                  <Award className="h-10 w-10 animate-pulse" />
+                </div>
               </div>
+              <Sparkles className="absolute -top-2 -right-2 h-7 w-7 text-amber-400 animate-spin" />
             </div>
 
-            <div>
-              <span className="rounded-full bg-emerald-50 dark:bg-emerald-500/20 px-3 py-1 text-xs font-bold text-emerald-700 dark:text-emerald-300 border border-emerald-500/40">
-                Simpul Dikuasai!
-              </span>
-              <h3 className="mt-3 text-2xl font-black text-slate-900 dark:text-white">
-                Selamat! Anda Menguasai Simpul Ini
+            <div className="space-y-1.5">
+              <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white">
+                Simulasi Selesai & Teruji!
               </h3>
-              <p className="mt-1 text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-md">
-                Prinsip di balik <span className="font-semibold text-slate-900 dark:text-slate-200">"{node.label}"</span> kini terpatri dalam arsitektur berpikir Anda.
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-sm">
+                Anda telah membuktikan penguasaan atas konsep <strong>{node.label}</strong> dengan sukses.
               </p>
             </div>
 
-            {/* Reward Points Box */}
-            <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
-              <div className="rounded-2xl border border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 p-3.5">
-                <div className="flex items-center justify-center gap-1.5 text-amber-600 dark:text-amber-400 font-black text-lg">
-                  <Sparkles className="h-5 w-5" />
-                  <span>+{totalEarnedRP + 80}</span>
-                </div>
-                <p className="text-[11px] font-semibold text-amber-700 dark:text-amber-300/80 mt-0.5">
-                  Rank Points Diperoleh
-                </p>
+            {/* Score summary cards */}
+            <div className="grid grid-cols-2 gap-3 w-full max-w-xs">
+              <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-3">
+                <div className="text-xs text-slate-500 dark:text-slate-400">Total RP Didapat</div>
+                <div className="text-xl font-black text-emerald-600 dark:text-emerald-400">+{totalEarnedRP + 80} RP</div>
               </div>
 
-              <div className="rounded-2xl border border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 p-3.5">
-                <div className="flex items-center justify-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-black text-lg">
-                  <CheckCircle2 className="h-5 w-5" />
-                  <span>{correctCount}/{questions.length}</span>
+              <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-3">
+                <div className="text-xs text-slate-500 dark:text-slate-400">Akurasi Soal</div>
+                <div className="text-xl font-black text-indigo-600 dark:text-indigo-400">
+                  {correctCount}/{questions.length}
                 </div>
-                <p className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-300/80 mt-0.5">
-                  Akurasi Penalaran
-                </p>
               </div>
             </div>
 
-            {/* CTA */}
-            <div className="w-full max-w-sm pt-2">
-              <button
-                onClick={onClose}
-                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-emerald-500 py-3.5 font-bold text-white shadow-xl shadow-indigo-500/25 hover:opacity-95 transition-all active:scale-[0.99]"
-              >
-                <span>Buka Cabang Simpul Baru di Graf</span>
-                <ArrowRight className="h-4 w-4" />
-              </button>
-            </div>
+            <button
+              onClick={onClose}
+              className="w-full max-w-xs py-3 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 text-white text-xs sm:text-sm font-bold shadow-lg shadow-emerald-500/25 hover:opacity-95 active:scale-95 transition-all"
+            >
+              Kembali ke Peta Konsep
+            </button>
           </div>
         )}
       </motion.div>

@@ -15,7 +15,8 @@ import {
   Highlighter,
   Trash2,
   Copy,
-  Check
+  Check,
+  Clock
 } from 'lucide-react';
 
 interface ProfileModalProps {
@@ -190,22 +191,30 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose }) => {
               </div>
 
               {/* Quick Stats Grid */}
-              <div className="grid grid-cols-3 gap-3">
-                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-3.5 text-center">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-3 text-center">
                   <Flame className="h-5 w-5 text-rose-500 mx-auto mb-1 animate-bounce" />
-                  <div className="text-lg font-bold text-slate-900 dark:text-white">{progress.streak} Hari</div>
+                  <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white">{progress.streak} Hari</div>
                   <div className="text-[10px] text-slate-500 dark:text-slate-400">Daily Streak</div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-3.5 text-center">
+                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-3 text-center">
                   <CheckCircle2 className="h-5 w-5 text-emerald-500 mx-auto mb-1" />
-                  <div className="text-lg font-bold text-slate-900 dark:text-white">{progress.masteredNodeIds.length} Simpul</div>
+                  <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white">{progress.masteredNodeIds.length} Simpul</div>
                   <div className="text-[10px] text-slate-500 dark:text-slate-400">Dikuasai Penuh</div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-3.5 text-center">
+                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-3 text-center">
+                  <Clock className="h-5 w-5 text-sky-500 mx-auto mb-1" />
+                  <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
+                    {progress.totalStudyMinutes ? `${Math.round(progress.totalStudyMinutes)}m` : '0m'}
+                  </div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400">Waktu Belajar</div>
+                </div>
+
+                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-3 text-center">
                   <Zap className="h-5 w-5 text-indigo-500 mx-auto mb-1" />
-                  <div className="text-lg font-bold text-slate-900 dark:text-white">{progress.credits} Token</div>
+                  <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white">{progress.credits} Token</div>
                   <div className="text-[10px] text-slate-500 dark:text-slate-400">AI Deep-Dive</div>
                 </div>
               </div>
@@ -286,48 +295,58 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose }) => {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {highlights.map((hl) => (
-                    <div
-                      key={hl.id}
-                      className="rounded-2xl border border-amber-500/30 bg-amber-50/30 dark:bg-slate-900/70 p-4 shadow-sm space-y-2 relative group"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/70 px-2 py-0.5 rounded-md">
-                            {hl.domain}
-                          </span>
-                          <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate max-w-[200px] sm:max-w-[280px]">
-                            {hl.nodeTitle}
-                          </span>
+                  {highlights.map((hl) => {
+                    const colorStyle = hl.color === 'emerald'
+                      ? { card: 'border-emerald-500/30 bg-emerald-50/20 dark:bg-slate-900/70', badge: 'text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/70', border: 'border-emerald-400' }
+                      : hl.color === 'indigo'
+                      ? { card: 'border-indigo-500/30 bg-indigo-50/20 dark:bg-slate-900/70', badge: 'text-indigo-700 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-950/70', border: 'border-indigo-400' }
+                      : hl.color === 'rose'
+                      ? { card: 'border-rose-500/30 bg-rose-50/20 dark:bg-slate-900/70', badge: 'text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-950/70', border: 'border-rose-400' }
+                      : { card: 'border-amber-500/30 bg-amber-50/20 dark:bg-slate-900/70', badge: 'text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/70', border: 'border-amber-400' };
+
+                    return (
+                      <div
+                        key={hl.id}
+                        className={`rounded-2xl border p-4 shadow-sm space-y-2 relative group transition-all ${colorStyle.card}`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1.5">
+                            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${colorStyle.badge}`}>
+                              {hl.domain}
+                            </span>
+                            <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate max-w-[200px] sm:max-w-[280px]">
+                              {hl.nodeTitle}
+                            </span>
+                          </div>
+
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() => handleCopyQuote(hl.id, hl.text)}
+                              className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
+                              title="Salin Kalimat"
+                            >
+                              {copiedId === hl.id ? (
+                                <Check className="h-3.5 w-3.5 text-emerald-500" />
+                              ) : (
+                                <Copy className="h-3.5 w-3.5" />
+                              )}
+                            </button>
+                            <button
+                              onClick={() => removeHighlight(hl.id)}
+                              className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
+                              title="Hapus Stabilo"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </button>
+                          </div>
                         </div>
 
-                        <div className="flex items-center gap-1">
-                          <button
-                            onClick={() => handleCopyQuote(hl.id, hl.text)}
-                            className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
-                            title="Salin Kalimat"
-                          >
-                            {copiedId === hl.id ? (
-                              <Check className="h-3.5 w-3.5 text-emerald-500" />
-                            ) : (
-                              <Copy className="h-3.5 w-3.5" />
-                            )}
-                          </button>
-                          <button
-                            onClick={() => removeHighlight(hl.id)}
-                            className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
-                            title="Hapus Stabilo"
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </button>
-                        </div>
+                        <p className={`text-xs sm:text-sm leading-relaxed text-slate-800 dark:text-slate-100 font-serif italic border-l-2 pl-3 py-0.5 ${colorStyle.border}`}>
+                          "{hl.text}"
+                        </p>
                       </div>
-
-                      <p className="text-xs sm:text-sm leading-relaxed text-slate-800 dark:text-slate-100 font-serif italic border-l-2 border-amber-500 pl-3 py-0.5">
-                        "{hl.text}"
-                      </p>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { UserProgress, UserHighlight, DomainType } from '../types';
+import { UserProgress, UserHighlight, DomainType, HighlightColor } from '../types';
 import { useAuth } from './AuthContext';
 import { syncUserRP, syncUserCredits, syncUserMasteredNodes, getUserProgress, DEFAULT_FREE_CREDITS } from '../lib/db';
 
@@ -12,8 +12,9 @@ interface UserContextType {
   isNodeMastered: (nodeId: string) => boolean;
   toggleActionCheck: (nodeId: string, actionIndex: number) => void;
   isActionChecked: (nodeId: string, actionIndex: number) => boolean;
-  addHighlight: (nodeId: string, nodeTitle: string, domain: DomainType, text: string) => void;
+  addHighlight: (nodeId: string, nodeTitle: string, domain: DomainType, text: string, color?: HighlightColor) => void;
   removeHighlight: (id: string) => void;
+  addStudyMinutes: (minutes: number) => void;
   useCredit: () => boolean;
   resetProgress: () => void;
   saveApiKey: (key: string, model?: string) => void;
@@ -27,12 +28,14 @@ const getTodayString = (): string => {
 };
 
 const defaultProgress: UserProgress = {
-  rankPoints: 120,
-  streak: 3,
+  rankPoints: 0,
+  streak: 0,
   credits: DEFAULT_FREE_CREDITS, // 3 free credits per day
-  masteredNodeIds: ['miliarder-root', 'saham-root'],
+  masteredNodeIds: [],
   checkedActions: {},
   highlights: [],
+  totalStudyMinutes: 0,
+  lastStudyDate: undefined,
   lastActiveDate: getTodayString(),
   apiKey: '',
   aiModel: 'gemini-1.5-flash',
@@ -91,7 +94,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }));
 
       // Load mastered nodes from Firestore
-      getUserProgress(user.uid).then((nodes) => {
+      getUserProgress(user.uid).then((nodes: string[]) => {
         if (nodes && nodes.length > 0) {
           setProgress((prev) => ({
             ...prev,
@@ -130,6 +133,22 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const newMastered = alreadyMastered ? prev.masteredNodeIds : [...prev.masteredNodeIds, nodeId];
       const newPoints = alreadyMastered ? prev.rankPoints : prev.rankPoints + bonusPoints;
 
+      // Accurate streak calculation: only increment if activity happens on a new day
+      const today = getTodayString();
+      let updatedStreak = prev.streak;
+      if (!prev.lastStudyDate) {
+        updatedStreak = 1;
+      } else if (prev.lastStudyDate !== today) {
+        const diff = Math.floor(
+          (new Date(today).getTime() - new Date(prev.lastStudyDate).getTime()) / (1000 * 3600 * 24)
+        );
+        if (diff === 1) {
+          updatedStreak = prev.streak + 1;
+        } else {
+          updatedStreak = 1;
+        }
+      }
+
       if (user) {
         syncUserRP(user.uid, newPoints);
         syncUserMasteredNodes(user.uid, newMastered);
@@ -138,6 +157,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return {
         ...prev,
         rankPoints: newPoints,
+        streak: updatedStreak,
+        lastStudyDate: today,
         masteredNodeIds: newMastered,
       };
     });
@@ -145,6 +166,14 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const isNodeMastered = (nodeId: string): boolean => {
     return progress.masteredNodeIds.includes(nodeId);
+  };
+
+  const addStudyMinutes = (minutes: number) => {
+    if (minutes <= 0) return;
+    setProgress((prev) => ({
+      ...prev,
+      totalStudyMinutes: (prev.totalStudyMinutes || 0) + minutes,
+    }));
   };
 
   const toggleActionCheck = (nodeId: string, actionIndex: number) => {
@@ -172,7 +201,13 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const highlights = progress.highlights || [];
 
-  const addHighlight = (nodeId: string, nodeTitle: string, domain: DomainType, text: string) => {
+  const addHighlight = (
+    nodeId: string,
+    nodeTitle: string,
+    domain: DomainType,
+    text: string,
+    color: HighlightColor = 'yellow'
+  ) => {
     const trimmed = text.trim();
     if (!trimmed) return;
 
@@ -189,6 +224,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         nodeTitle,
         domain,
         text: trimmed,
+        color,
         createdAt: new Date().toISOString(),
       };
 
@@ -262,6 +298,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isActionChecked,
         addHighlight,
         removeHighlight,
+        addStudyMinutes,
         useCredit,
         resetProgress,
         saveApiKey,
