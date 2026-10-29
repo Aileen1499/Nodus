@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { MOCK_MINDMAPS } from '../../data/mockMindmaps';
 import { TOPIC_REGISTRY } from '../../lib/topicEngine';
+import { STRUCTURED_CURRICULA } from '../../lib/curriculumData';
 import { MindmapData } from '../../types';
 import { useUser } from '../../context/UserContext';
 import { X, Search, Sparkles, CheckCircle2, ArrowRight, BookOpen, Layers } from 'lucide-react';
@@ -17,13 +18,15 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onClose, onSelectTop
 
   const topicsList = useMemo(() => {
     const map = new Map<string, MindmapData>();
-    // First, add the 5 core distinct domains
-    Object.values(TOPIC_REGISTRY).forEach((m) => map.set(m.id, m));
-    // Next, add the comprehensive multi-discipline tracks
+    // 1. First priority: Structured step-by-step pathways (Langkah 1.1 -> 3.2)
+    Object.values(STRUCTURED_CURRICULA).forEach((m) => map.set(m.id, m));
+    // 2. Core distinct domains
+    Object.values(TOPIC_REGISTRY).forEach((m) => {
+      if (!map.has(m.id)) map.set(m.id, m);
+    });
+    // 3. Multi-discipline tracks
     Object.values(MOCK_MINDMAPS).forEach((m) => {
-      if (!map.has(m.id)) {
-        map.set(m.id, m);
-      }
+      if (!map.has(m.id)) map.set(m.id, m);
     });
     return Array.from(map.values());
   }, []);

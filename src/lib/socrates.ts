@@ -108,3 +108,4 @@ Pegang prinsip ini: Sederhanakan pilihan, kurangi friksi keraguan, dan buktikan 
 
 Bagaimana Anda akan menguji konsep ini pada proyek atau pekerjaan Anda dalam 48 jam ke depan?`;
 }
+

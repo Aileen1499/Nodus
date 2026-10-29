@@ -63,6 +63,9 @@ export interface MindmapNode {
   label: string;
   domain: DomainType;
   summary: string;
+  stepNumber?: string; // e.g. "Langkah 1.1"
+  stageTitle?: string; // e.g. "TAHAP 1: Fondasi & Kesadaran Nilai Uang"
+  prerequisiteId?: string; // ID node sebelumnya yang wajib dikuasai
   x: number; // Canvas coordinate
   y: number; // Canvas coordinate
   level: number; // 0 for root, 1 for branch, 2 for leaf

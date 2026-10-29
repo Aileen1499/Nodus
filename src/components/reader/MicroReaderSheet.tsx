@@ -131,6 +131,11 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({
         <div className="border-b border-slate-200/80 dark:border-slate-800/80 px-6 py-4 bg-slate-50/80 dark:bg-[#0F172A]/80">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 flex-wrap">
+              {node.stepNumber && (
+                <span className="rounded-lg bg-indigo-600 text-white px-2.5 py-1 text-xs font-black shadow-sm">
+                  {node.stepNumber} by Nodus
+                </span>
+              )}
               <span className="rounded-lg bg-indigo-50 dark:bg-indigo-500/20 px-2.5 py-1 text-xs font-bold text-indigo-700 dark:text-indigo-400 border border-indigo-500/30">
                 {node.domain}
               </span>
@@ -140,7 +145,7 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({
               </span>
               <span className="flex items-center gap-1 rounded-lg bg-slate-100 dark:bg-slate-800 px-2.5 py-1 text-xs font-medium text-slate-600 dark:text-slate-300">
                 <Clock className="h-3 w-3 text-slate-400" />
-                {readTime}
+                ±{readTime}
               </span>
               {mastered && (
                 <span className="flex items-center gap-1 rounded-lg bg-emerald-50 dark:bg-emerald-500/20 px-2 py-0.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300 border border-emerald-500/40">
@@ -194,6 +199,11 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({
             <>
               {/* Title & Headline Summary */}
               <div>
+                {node.stageTitle && (
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-1">
+                    {node.stageTitle}
+                  </p>
+                )}
                 <h2 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
                   {node.label}
                 </h2>

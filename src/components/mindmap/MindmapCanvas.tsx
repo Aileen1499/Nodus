@@ -162,6 +162,11 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
     if (node.level === 0 || node.id === data.rootId) return false;
     if (isNodeMastered(node.id)) return false;
 
+    // Prerequisite step condition (e.g. Langkah 1.2 requires Langkah 1.1)
+    if (node.prerequisiteId) {
+      return !isNodeMastered(node.prerequisiteId);
+    }
+
     const rootMastered = isNodeMastered(data.rootId);
     if (rootMastered) return false;
 
@@ -554,11 +559,11 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
                     {/* Node Header Content */}
                     <g transform={`translate(${-nodeWidth / 2 + 14}, ${-nodeHeight / 2 + 20})`}>
                       
-                      {/* Domain Badge */}
+                      {/* Step / Domain Badge */}
                       <rect
                         x="0"
                         y="-12"
-                        width={isRoot ? 74 : 66}
+                        width={node.stepNumber ? 84 : isRoot ? 74 : 66}
                         height="18"
                         rx="9"
                         fill={
@@ -570,7 +575,7 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
                         strokeWidth="0.8"
                       />
                       <text
-                        x={isRoot ? 37 : 33}
+                        x={node.stepNumber ? 42 : isRoot ? 37 : 33}
                         y="0"
                         textAnchor="middle"
                         fill={
@@ -582,7 +587,7 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
                         fontWeight="700"
                         className="select-none pointer-events-none"
                       >
-                        {node.domain.toUpperCase()}
+                        {node.stepNumber || node.domain.toUpperCase()}
                       </text>
 
                       {/* Status Icon Indicator */}

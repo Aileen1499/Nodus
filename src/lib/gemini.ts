@@ -1,6 +1,7 @@
 import { MindmapData, MindmapNode, MindmapEdge, DomainType, QuizQuestion } from '../types';
 import { MOCK_MINDMAPS } from '../data/mockMindmaps';
 import { getMindmapForTopic } from './topicEngine';
+import { getCurriculumForQuery } from './curriculumData';
 
 export interface PromptNodeSchema {
   id?: string;
@@ -63,7 +64,13 @@ export async function generateMindmapWithGemini(
 ): Promise<MindmapData> {
   const trimmed = query.trim();
 
-  // 0. Dynamic Domain & Core Topic Engine (Bisnis, Psikologi, Ekonomi, Pemasaran, Geopolitik)
+  // 0. Structured Step-by-Step Pathway (Basic to Advanced Curriculum)
+  const curriculumMatch = getCurriculumForQuery(trimmed);
+  if (curriculumMatch) {
+    return curriculumMatch;
+  }
+
+  // 0b. Dynamic Domain & Core Topic Engine (Bisnis, Psikologi, Ekonomi, Pemasaran, Geopolitik)
   const topicEngineMatch = getMindmapForTopic(trimmed);
   if (topicEngineMatch) {
     return topicEngineMatch;
