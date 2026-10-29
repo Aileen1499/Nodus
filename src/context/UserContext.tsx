@@ -1,8 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { UserProgress } from '../types';
+import { useAuth } from './AuthContext';
+import { syncUserRP, syncUserCredits, syncUserMasteredNodes, getUserProgress, DEFAULT_FREE_CREDITS } from '../lib/db';
 
 interface UserContextType {
   progress: UserProgress;
+  isPro: boolean;
   addRankPoints: (points: number) => void;
   markNodeMastered: (nodeId: string, bonusPoints?: number) => void;
   isNodeMastered: (nodeId: string) => boolean;
@@ -11,6 +14,7 @@ interface UserContextType {
   useCredit: () => boolean;
   resetProgress: () => void;
   saveApiKey: (key: string, model?: string) => void;
+  activatePro: () => void;
 }
 
 const STORAGE_KEY = 'nodus_user_progress_v1';
@@ -20,9 +24,9 @@ const getTodayString = (): string => {
 };
 
 const defaultProgress: UserProgress = {
-  rankPoints: 120, // Start with starter RP
-  streak: 3, // Starter encouraging streak
-  credits: 8, // Deep-dive credits
+  rankPoints: 120,
+  streak: 3,
+  credits: DEFAULT_FREE_CREDITS, // 3 free credits per day
   masteredNodeIds: ['miliarder-root', 'saham-root'],
   checkedActions: {},
   lastActiveDate: getTodayString(),
@@ -33,12 +37,14 @@ const defaultProgress: UserProgress = {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user, userProfile } = useAuth();
+  const [isPro, setIsPro] = useState<boolean>(false);
+
   const [progress, setProgress] = useState<UserProgress>(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        // Check streak maintenance
         const today = getTodayString();
         const lastActive = parsed.lastActiveDate || today;
         const diffDays = Math.floor(
@@ -46,16 +52,20 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         );
 
         let streak = parsed.streak || 1;
+        let credits = parsed.credits ?? DEFAULT_FREE_CREDITS;
+
         if (diffDays === 1) {
-          // Continuous
+          credits = DEFAULT_FREE_CREDITS;
         } else if (diffDays > 1) {
-          streak = 1; // Streak reset
+          streak = 1;
+          credits = DEFAULT_FREE_CREDITS;
         }
 
         return {
           ...defaultProgress,
           ...parsed,
           streak,
+          credits,
           lastActiveDate: today,
         };
       }
@@ -65,6 +75,30 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return defaultProgress;
   });
 
+  // Sync with Firestore profile when user logs in
+  useEffect(() => {
+    if (userProfile && user) {
+      setIsPro(userProfile.isPro || false);
+      setProgress((prev) => ({
+        ...prev,
+        rankPoints: Math.max(prev.rankPoints, userProfile.rp || 0),
+        streak: Math.max(prev.streak, userProfile.streak || 1),
+        credits: userProfile.isPro ? 999 : (userProfile.credits ?? prev.credits),
+      }));
+
+      // Load mastered nodes from Firestore
+      getUserProgress(user.uid).then((nodes) => {
+        if (nodes && nodes.length > 0) {
+          setProgress((prev) => ({
+            ...prev,
+            masteredNodeIds: Array.from(new Set([...prev.masteredNodeIds, ...nodes])),
+          }));
+        }
+      }).catch(() => {});
+    }
+  }, [userProfile, user]);
+
+  // Persist to LocalStorage
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
@@ -74,10 +108,16 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [progress]);
 
   const addRankPoints = (points: number) => {
-    setProgress((prev) => ({
-      ...prev,
-      rankPoints: Math.max(0, prev.rankPoints + points),
-    }));
+    setProgress((prev) => {
+      const newRP = Math.max(0, prev.rankPoints + points);
+      if (user) {
+        syncUserRP(user.uid, newRP);
+      }
+      return {
+        ...prev,
+        rankPoints: newRP,
+      };
+    });
   };
 
   const markNodeMastered = (nodeId: string, bonusPoints: number = 80) => {
@@ -85,6 +125,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const alreadyMastered = prev.masteredNodeIds.includes(nodeId);
       const newMastered = alreadyMastered ? prev.masteredNodeIds : [...prev.masteredNodeIds, nodeId];
       const newPoints = alreadyMastered ? prev.rankPoints : prev.rankPoints + bonusPoints;
+
+      if (user) {
+        syncUserRP(user.uid, newPoints);
+        syncUserMasteredNodes(user.uid, newMastered);
+      }
 
       return {
         ...prev,
@@ -102,13 +147,17 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const key = `${nodeId}_${actionIndex}`;
     setProgress((prev) => {
       const isChecked = !prev.checkedActions[key];
+      const newRP = isChecked ? prev.rankPoints + 10 : Math.max(0, prev.rankPoints - 10);
+      if (user) {
+        syncUserRP(user.uid, newRP);
+      }
       return {
         ...prev,
         checkedActions: {
           ...prev.checkedActions,
           [key]: isChecked,
         },
-        rankPoints: isChecked ? prev.rankPoints + 10 : prev.rankPoints - 10,
+        rankPoints: newRP,
       };
     });
   };
@@ -118,12 +167,27 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const useCredit = (): boolean => {
+    if (isPro) return true; // Pro users have unlimited searches
     if (progress.credits <= 0) return false;
+
+    const newCredits = Math.max(0, progress.credits - 1);
     setProgress((prev) => ({
       ...prev,
-      credits: Math.max(0, prev.credits - 1),
+      credits: newCredits,
     }));
+
+    if (user) {
+      syncUserCredits(user.uid, newCredits);
+    }
     return true;
+  };
+
+  const activatePro = () => {
+    setIsPro(true);
+    setProgress((prev) => ({
+      ...prev,
+      credits: 999,
+    }));
   };
 
   const resetProgress = () => {
@@ -148,6 +212,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     <UserContext.Provider
       value={{
         progress,
+        isPro,
         addRankPoints,
         markNodeMastered,
         isNodeMastered,
@@ -156,6 +221,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         useCredit,
         resetProgress,
         saveApiKey,
+        activatePro,
       }}
     >
       {children}
@@ -170,4 +236,3 @@ export const useUser = (): UserContextType => {
   }
   return context;
 };
-

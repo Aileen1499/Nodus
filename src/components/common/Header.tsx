@@ -1,17 +1,38 @@
 import React from 'react';
 import { useUser } from '../../context/UserContext';
 import { useTheme } from '../../context/ThemeContext';
-import { Sparkles, Flame, Zap, Settings, HelpCircle, Network, Sun, Moon } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { 
+  Sparkles, 
+  Flame, 
+  Zap, 
+  Settings, 
+  HelpCircle, 
+  Network, 
+  Sun, 
+  Moon, 
+  Crown,
+  User as UserIcon
+} from 'lucide-react';
 
 interface HeaderProps {
   onOpenSettings: () => void;
   onOpenHelp: () => void;
   onOpenProfile?: () => void;
+  onOpenAuth?: () => void;
+  onOpenPaywall?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenSettings, onOpenHelp, onOpenProfile }) => {
-  const { progress } = useUser();
+export const Header: React.FC<HeaderProps> = ({ 
+  onOpenSettings, 
+  onOpenHelp, 
+  onOpenProfile,
+  onOpenAuth,
+  onOpenPaywall
+}) => {
+  const { progress, isPro } = useUser();
   const { theme, toggleTheme } = useTheme();
+  const { user } = useAuth();
 
   return (
     <header className="sticky top-0 z-30 w-full border-b border-slate-200/80 bg-white/80 dark:border-slate-800/80 dark:bg-[#0B0F19]/80 backdrop-blur-md transition-colors duration-300">
@@ -29,9 +50,19 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSettings, onOpenHelp, onOp
               <span className="font-extrabold tracking-wider text-slate-900 dark:text-slate-50 text-base sm:text-xl">
                 NODUS
               </span>
-              <span className="rounded bg-indigo-500/10 dark:bg-indigo-500/20 px-1.5 py-0.5 text-[10px] font-bold text-indigo-600 dark:text-indigo-400 border border-indigo-500/30">
-                PRO
-              </span>
+              {isPro ? (
+                <span className="flex items-center gap-1 rounded bg-gradient-to-r from-amber-500/20 to-indigo-500/20 px-1.5 py-0.5 text-[10px] font-black text-amber-500 border border-amber-500/40">
+                  <Crown className="h-2.5 w-2.5" />
+                  PRO
+                </span>
+              ) : (
+                <button
+                  onClick={onOpenPaywall}
+                  className="rounded bg-indigo-500/10 dark:bg-indigo-500/20 px-1.5 py-0.5 text-[10px] font-bold text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 hover:bg-indigo-500/20 transition-colors"
+                >
+                  UPGRADE
+                </button>
+              )}
             </div>
             <p className="hidden text-[11px] font-medium text-slate-500 dark:text-slate-400 sm:block">
               Connect the Dots to Wealth & Business Mastery
@@ -63,15 +94,18 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSettings, onOpenHelp, onOp
             <span className="hidden text-[10px] text-rose-600 dark:text-rose-400/80 sm:inline">Hari</span>
           </div>
 
-          {/* Deep-Dive Credits */}
-          <div 
-            title="Deep-Dive Credits — Kredit eksplorasi AI Gemini"
-            className="hidden xs:flex items-center gap-1.5 rounded-full border border-indigo-500/30 bg-indigo-50 dark:bg-indigo-500/10 px-2.5 sm:px-3 py-1.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300 transition-all"
+          {/* Deep-Dive Credits (Click opens Paywall if empty) */}
+          <button
+            onClick={onOpenPaywall}
+            title={isPro ? "Akses Pro: Kredit Deep-Dive Tanpa Batas" : "Sisa Kredit Deep-Dive — Klik untuk Upgrade"}
+            className="hidden xs:flex items-center gap-1.5 rounded-full border border-indigo-500/30 bg-indigo-50 dark:bg-indigo-500/10 px-2.5 sm:px-3 py-1.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300 transition-all hover:border-indigo-500/60"
           >
             <Zap className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
-            <span className="tabular-nums font-bold">{progress.credits}</span>
-            <span className="hidden text-[10px] text-indigo-600 dark:text-indigo-300/80 sm:inline">Kredit</span>
-          </div>
+            <span className="tabular-nums font-bold">{isPro ? '∞' : progress.credits}</span>
+            <span className="hidden text-[10px] text-indigo-600 dark:text-indigo-300/80 sm:inline">
+              {isPro ? 'Pro' : 'Kredit'}
+            </span>
+          </button>
 
           <div className="h-4 w-[1px] bg-slate-200 dark:bg-slate-800 mx-0.5 hidden sm:block" />
 
@@ -107,6 +141,29 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSettings, onOpenHelp, onOp
             aria-label="Pengaturan"
           >
             <Settings className="h-4 w-4" />
+          </button>
+
+          {/* User Auth Button */}
+          <button
+            onClick={onOpenAuth}
+            title={user ? `Akun: ${user.email}` : "Masuk / Daftar Akun"}
+            className="flex items-center gap-1.5 rounded-xl border border-indigo-500/30 bg-indigo-600 text-white px-2.5 sm:px-3 py-1.5 text-xs font-bold hover:bg-indigo-700 transition-all shadow-sm shadow-indigo-500/20 active:scale-95"
+          >
+            {user ? (
+              <div className="flex items-center gap-1.5">
+                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400 text-slate-900 font-black text-[10px]">
+                  {(user.displayName || user.email || 'U')[0].toUpperCase()}
+                </div>
+                <span className="hidden md:inline max-w-[80px] truncate text-[11px]">
+                  {user.displayName?.split(' ')[0] || 'Profil'}
+                </span>
+              </div>
+            ) : (
+              <>
+                <UserIcon className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Masuk</span>
+              </>
+            )}
           </button>
 
         </div>

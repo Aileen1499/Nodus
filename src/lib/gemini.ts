@@ -1,112 +1,58 @@
-import { MindmapData, MindmapNode, MindmapEdge, DomainType } from '../types';
+import { MindmapData, MindmapNode, MindmapEdge, DomainType, QuizQuestion } from '../types';
 import { MOCK_MINDMAPS } from '../data/mockMindmaps';
 
-const SYSTEM_PROMPT = `
-Anda adalah NODUS AI Engine — arsitek sistem pengetahuan multi-disiplin berstandar eksekutif global dalam:
-- Bisnis (Strategi, Parit Ekonomi/Moat, Flywheel, Unit Economics)
-- Ekonomi (Makroekonomi, Suku Bunga, Kebijakan Moneter, Inflasi)
-- Keuangan (Valuasi DCF, WACC, Cash Flow, Pasar Modal, Forex/Exchange)
-- Psikologi (Mental Models, Behavioral Economics, Bias Kognitif, Negosiasi)
-- Geopolitik (Rantai Pasok Maritim, Chokepoints, Perang Tarif, Dedolarisasi)
-- Komunikasi (Seni Negosiasi, Artikulasi Berbicara Eksekutif, Piramida Minto, Pitching C-Suite)
-- Hukum (Struktur PT, Shareholders Agreement, Vesting, Drag/Tag-Along, HKI/Paten, Kontrak)
-- Data & Analitik (3-Statement Modeling, Excel Mahir, SQL Query, Analisis Kohort)
-- Pajak (Optimalisasi Pajak Legal/Tax Avoidance, Dividen Bebas PPh, Deductible Expenses)
+export interface PromptNodeSchema {
+  id?: string;
+  title?: string;
+  label?: string;
+  domain?: DomainType;
+  analogy_core_idea?: string;
+  cross_discipline_insight?: string;
+  practical_application?: string[] | string;
+  quiz?: Array<{
+    question: string;
+    options: string[];
+    correct_index: number;
+    explanation: string;
+  }>;
+}
 
-Tugas Anda adalah membedah topik/pertanyaan pengguna ke dalam bentuk Knowledge Graph (Mindmap) interaktif berorientasi aksi eksekutif dengan struktur JSON murni.
+export interface PromptResponseSchema {
+  topic: string;
+  nodes: PromptNodeSchema[];
+}
+
+const SYSTEM_PROMPT = `
+Anda adalah NODUS AI Engine — arsitek sistem pengetahuan multi-disiplin berstandar eksekutif global.
+Tugas Anda adalah membedah topik/pertanyaan pengguna ke dalam bentuk Knowledge Graph berorientasi aksi dengan struktur JSON murni.
 
 KEMBALIKAN HANYA JSON VALID TANPA MARKDOWN BACKTICKS (JANGAN GUNAKAN \`\`\`json ATAU \`\`\`).
 STRUKTUR JSON HARUS MENGIKUTI SCHEMA PERSIS SEPERTI INI:
 {
-  "id": "mindmap-unique-slug",
   "topic": "Judul Topik yang Dicari",
-  "rootId": "node-root",
-  "description": "Deskripsi sintetis topik dalam 1-2 kalimat tajam bernilai eksekutif",
   "nodes": [
     {
       "id": "node-root",
-      "label": "Judul Node Inti (Maks 4 kata)",
-      "domain": "Bisnis" | "Ekonomi" | "Keuangan" | "Psikologi" | "Geopolitik" | "Komunikasi" | "Hukum" | "Data & Analitik" | "Pajak",
-      "summary": "Ringkasan tesis node ini (1-2 kalimat)",
-      "x": 400,
-      "y": 280,
-      "level": 0,
-      "microContent": {
-        "analogy": "Analogi dunia nyata yang sederhana dan nampol, ditulis dalam gaya bahasa Indonesia lugas (di bawah 150 kata).",
-        "crossDisciplinary": {
-          "connectionText": "Nama Hubungan Lintas Disiplin (misal: 'Keuangan x Psikologi')",
-          "domains": ["Keuangan", "Psikologi"],
-          "insight": "Penjelasan bagaimana node ini menghubungkan kedua disiplin tersebut."
-        },
-        "actionableSteps": [
-          "Tindakan nyata 1 yang bisa dilakukan pengguna hari ini.",
-          "Tindakan nyata 2 yang bisa dilakukan pengguna hari ini.",
-          "Tindakan nyata 3 yang bisa dilakukan pengguna hari ini."
-        ]
-      },
-      "decisionScenario": {
-        "title": "Kasus Taktis Dunia Nyata",
-        "context": "Latar belakang dilema bisnis/finansial yang realistis.",
-        "dilemma": "Pertanyaan dilema tindakan yang harus diputuskan.",
-        "choices": [
-          {
-            "id": "c1",
-            "text": "Opsi tindakan A",
-            "consequence": "Konsekuensi strategis dan dampaknya terhadap bisnis/finansial.",
-            "scoreBonus": 15,
-            "isOptimal": false,
-            "explanation": "Mengapa pilihan ini kurang optimal."
-          },
-          {
-            "id": "c2",
-            "text": "Opsi tindakan B",
-            "consequence": "Konsekuensi strategis yang menghasilkan pertumbuhan optimal dan keunggulan kompetitif.",
-            "scoreBonus": 50,
-            "isOptimal": true,
-            "explanation": "Mengapa pilihan ini adalah langkah terbaik."
-          }
-        ]
-      },
+      "title": "Judul Cabang (Maks 4 kata)",
+      "analogy_core_idea": "Analogi sederhana dunia nyata (max 150 kata).",
+      "cross_discipline_insight": "Hubungan eksplisit lintas ilmu (misal: Ekonomi ke Psikologi/Geopolitik).",
+      "practical_application": "3 langkah tindakan nyata.",
       "quiz": [
         {
-          "id": "q1",
-          "question": "Pertanyaan penalaran konseptual mendalam (bukan hafalan definisi mentah)?",
-          "options": [
-            "Pilihan jawaban A",
-            "Pilihan jawaban B (Jawaban Benar)",
-            "Pilihan jawaban C",
-            "Pilihan jawaban D"
-          ],
-          "correctAnswerIndex": 1,
-          "explanation": "Penjelasan logis mengapa jawaban tersebut benar dan prinsip dasarnya."
+          "question": "Pertanyaan studi kasus penalaran mendalam.",
+          "options": ["Pilihan A", "Pilihan B (Benar)", "Pilihan C", "Pilihan D"],
+          "correct_index": 1,
+          "explanation": "Alasan logis jawaban benar dan prinsip dasarnya."
         }
       ]
     }
-  ],
-  "edges": [
-    {
-      "id": "e1",
-      "from": "node-root",
-      "to": "node-child-1",
-      "label": "Keterangan Hubungan Kausal",
-      "domains": ["Bisnis", "Ekonomi"]
-    }
   ]
 }
-
-PANDUAN POSISI KOORDINAT KANVAS (x, y):
-- Node Root: x: 400, y: 280
-- Buat 4 hingga 5 cabang node (level 1) yang mengelilingi root:
-  - Node 1 (Barat Laut): x: 180, y: 130
-  - Node 2 (Timur Laut): x: 620, y: 130
-  - Node 3 (Barat Daya): x: 180, y: 430
-  - Node 4 (Tenggara): x: 620, y: 430
-  - Node 5 (Opsional / Selatan): x: 400, y: 430
 `;
 
 export async function generateMindmapWithGemini(
   query: string,
-  apiKey?: string,
+  userApiKey?: string,
   model: string = 'gemini-1.5-flash'
 ): Promise<MindmapData> {
   const trimmed = query.trim();
@@ -118,7 +64,7 @@ export async function generateMindmapWithGemini(
     }
   }
 
-  // 2. Intelligent keyword match for curriculum tracks
+  // 2. Keyword match for curriculum tracks
   const qLower = trimmed.toLowerCase();
   for (const [presetKey, mockData] of Object.entries(MOCK_MINDMAPS)) {
     const kLower = presetKey.toLowerCase();
@@ -180,11 +126,39 @@ export async function generateMindmapWithGemini(
     }
   }
 
-  // 3. If API key is provided, query Gemini API
-  if (apiKey && apiKey.trim().length > 10) {
+  // 3. Try serverless backend route `/api/generate-node`
+  try {
+    const apiRouteRes = await fetch('/api/generate-node', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        topic: trimmed,
+        apiKey: userApiKey,
+        model,
+      }),
+    });
+
+    if (apiRouteRes.ok) {
+      const jsonOutput = await apiRouteRes.json();
+      if (jsonOutput && jsonOutput.nodes && jsonOutput.nodes.length > 0) {
+        return adaptPromptResponseToMindmap(jsonOutput, trimmed);
+      }
+    }
+  } catch {
+    // API route not reachable in local dev or network offline; proceed to direct client call
+  }
+
+  // 4. Direct Client-side Gemini API call if key is available
+  const apiKey = (
+    userApiKey ||
+    (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) ||
+    ''
+  ).trim();
+
+  if (apiKey && apiKey.length > 10) {
     try {
       const cleanModel = model.replace(/^models\//, '');
-      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${cleanModel}:generateContent?key=${apiKey.trim()}`;
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${cleanModel}:generateContent?key=${apiKey}`;
 
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -210,75 +184,122 @@ export async function generateMindmapWithGemini(
         }),
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.warn('Gemini API returned error status:', response.status, errorText);
-        throw new Error(`API error ${response.status}: ${errorText}`);
-      }
+      if (response.ok) {
+        const jsonResult = await response.json();
+        const rawText = jsonResult.candidates?.[0]?.content?.parts?.[0]?.text;
 
-      const jsonResult = await response.json();
-      const rawText = jsonResult.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (rawText) {
+          let cleaned = rawText.trim();
+          if (cleaned.startsWith('```json')) {
+            cleaned = cleaned.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+          } else if (cleaned.startsWith('```')) {
+            cleaned = cleaned.replace(/^```\s*/, '').replace(/\s*```$/, '');
+          }
 
-      if (!rawText) {
-        throw new Error('Gemini API did not return text part');
-      }
-
-      let cleaned = rawText.trim();
-      if (cleaned.startsWith('```json')) {
-        cleaned = cleaned.replace(/^```json\s*/, '').replace(/\s*```$/, '');
-      } else if (cleaned.startsWith('```')) {
-        cleaned = cleaned.replace(/^```\s*/, '').replace(/\s*```$/, '');
-      }
-
-      const parsed: MindmapData = JSON.parse(cleaned);
-      if (parsed && Array.isArray(parsed.nodes) && parsed.nodes.length > 0) {
-        return normalizeMindmapData(parsed, trimmed);
+          const parsed = JSON.parse(cleaned);
+          if (parsed && Array.isArray(parsed.nodes) && parsed.nodes.length > 0) {
+            return adaptPromptResponseToMindmap(parsed, trimmed);
+          }
+        }
       }
     } catch (apiError) {
-      console.warn('Failed to call or parse Gemini API, falling back to smart dynamic generator:', apiError);
+      console.warn('Direct Gemini call failed, falling back to smart dynamic generator:', apiError);
     }
   }
 
-  // 4. Intelligent Dynamic Fallback Generator for any custom query
+  // 5. Intelligent Dynamic Fallback Generator for any custom query
   return generateDynamicFallback(trimmed);
 }
 
-function normalizeMindmapData(data: MindmapData, originalQuery: string): MindmapData {
-  const rootId = data.rootId || data.nodes[0]?.id || 'root-node';
-  const nodes: MindmapNode[] = data.nodes.map((n, idx) => {
-    const isRoot = n.id === rootId || idx === 0;
+/**
+ * Adapt the required backend schema into full MindmapData canvas format
+ */
+function adaptPromptResponseToMindmap(data: any, originalQuery: string): MindmapData {
+  const rootId = 'node-root';
+  const nodesRaw: any[] = data.nodes || [];
+
+  const domainsList: DomainType[] = ['Bisnis', 'Keuangan', 'Ekonomi', 'Psikologi', 'Geopolitik', 'Komunikasi', 'Hukum'];
+
+  const nodes: MindmapNode[] = nodesRaw.map((n, idx) => {
+    const isRoot = idx === 0;
+    const label = n.title || n.label || `Cabang ${idx + 1}`;
+    const domain: DomainType = n.domain || domainsList[idx % domainsList.length];
+
+    let actionSteps: string[] = [];
+    if (Array.isArray(n.practical_application)) {
+      actionSteps = n.practical_application;
+    } else if (typeof n.practical_application === 'string') {
+      actionSteps = n.practical_application
+        .split('\n')
+        .map((s: string) => s.replace(/^\d+[\.\)]\s*/, '').trim())
+        .filter((s: string) => s.length > 0);
+    }
+    if (actionSteps.length === 0) {
+      actionSteps = [
+        'Audit kesiapan infrastruktur dan alokasi modal Anda.',
+        'Implementasikan eksperimen taktis skala kecil dalam 7 hari.',
+        'Ukur dampak terhadap efisiensi dan mitigasi risiko.',
+      ];
+    }
+
+    const quizzes: QuizQuestion[] = (n.quiz || []).map((q: any, qIdx: number) => ({
+      id: `q-${idx}-${qIdx}`,
+      question: q.question || 'Pertanyaan studi kasus penalaran:',
+      options: q.options || ['Opsi A', 'Opsi B', 'Opsi C', 'Opsi D'],
+      correctAnswerIndex: typeof q.correct_index === 'number' ? q.correct_index : (q.correctAnswerIndex ?? 0),
+      explanation: q.explanation || 'Alasan logis jawaban benar dan prinsip dasarnya.',
+    }));
+
+    if (quizzes.length === 0) {
+      quizzes.push({
+        id: `q-${idx}-1`,
+        question: `Apa prinsip paling fundamental yang mendasari keberhasilan ${label}?`,
+        options: [
+          'Mengandalkan intuisi semata tanpa metrik terukur',
+          'Pemahaman mendalam terhadap struktur insentif, parit pertahanan, dan alokasi modal efisien',
+          'Menunggu regulasi pemerintah sebelum berinovasi',
+          'Menghindari segala bentuk investasi teknologi',
+        ],
+        correctAnswerIndex: 1,
+        explanation: 'Pemahaman struktur insentif dan keunggulan biaya adalah fondasi penciptaan nilai jangka panjang.',
+      });
+    }
+
+    // Positions around canvas
+    let x = 400;
+    let y = 280;
+    if (idx === 1) { x = 180; y = 130; }
+    else if (idx === 2) { x = 620; y = 130; }
+    else if (idx === 3) { x = 180; y = 430; }
+    else if (idx === 4) { x = 620; y = 430; }
+    else if (idx > 4) { x = 200 + (idx * 140) % 520; y = 150 + Math.floor(idx / 2) * 160; }
+
     return {
-      id: n.id || `node-${idx}`,
-      label: n.label || `Prinsip ${idx + 1}`,
-      domain: (n.domain as DomainType) || (idx % 2 === 0 ? 'Bisnis' : 'Keuangan'),
-      summary: n.summary || 'Analisis mendalam konsep strategis ini.',
-      x: typeof n.x === 'number' ? n.x : 200 + (idx * 160) % 520,
-      y: typeof n.y === 'number' ? n.y : 140 + Math.floor(idx / 2) * 160,
+      id: isRoot ? rootId : (n.id || `node-${idx}`),
+      label,
+      domain,
+      summary: n.analogy_core_idea?.substring(0, 100) || n.summary || `Analisis mendalam konsep ${label}.`,
+      x,
+      y,
       level: isRoot ? 0 : 1,
       microContent: {
-        analogy: n.microContent?.analogy || 'Konsep ini bekerja seperti mesin tuas pengganda nilai dalam eksekusi bisnis.',
-        crossDisciplinary: n.microContent?.crossDisciplinary || {
-          connectionText: 'Bisnis Strategis x Psikologi Keputusan',
-          domains: ['Bisnis', 'Psikologi'],
-          insight: 'Menghubungkan arsitektur insentif rasional dengan dinamika perilaku manusia di pasar.',
+        analogy: n.analogy_core_idea || 'Konsep ini bekerja seperti mesin tuas pengganda nilai dalam eksekusi bisnis.',
+        crossDisciplinary: {
+          connectionText: 'Korelasi Lintas Ilmu',
+          domains: [domain, 'Psikologi'],
+          insight: n.cross_discipline_insight || 'Menghubungkan arsitektur insentif rasional dengan dinamika perilaku manusia di pasar.',
         },
-        actionableSteps: n.microContent?.actionableSteps?.length
-          ? n.microContent.actionableSteps
-          : [
-              'Audit kesiapan infrastruktur dan alokasi modal Anda terkait konsep ini.',
-              'Implementasikan eksperimen taktis skala terkontrol dalam 7 hari ke depan.',
-              'Ukur dampak terhadap margin keuntungan, efisiensi waktu, dan perlindungan risiko.',
-            ],
+        actionableSteps: actionSteps.slice(0, 3),
       },
-      decisionScenario: n.decisionScenario || {
-        title: `Keputusan Taktis: ${n.label}`,
-        context: 'Situasi menuntut keputusan tegas di tengah persaingan pasar.',
+      decisionScenario: {
+        title: `Dilema Taktis: ${label}`,
+        context: 'Situasi menuntut eksekusi cepat di tengah persaingan pasar.',
         dilemma: 'Bagaimana memilih alokasi sumber daya terbaik dengan risiko terkontrol?',
         choices: [
           {
             id: 'c1',
-            text: 'Pendekatan reaktif konvensional yang mengikuti kebiasaan lama.',
-            consequence: 'Margin tergerus dan pesaing mendominasi ceruk pasar lebih dulu.',
+            text: 'Pendekatan konvensional yang mengikuti kebiasaan lama pasar.',
+            consequence: 'Pesaing mendominasi ceruk pasar lebih dulu dan margin tergerus.',
             scoreBonus: 15,
             isOptimal: false,
             explanation: 'Kurang memiliki keunggulan parit pertahanan dan leverage sistemik.',
@@ -293,38 +314,26 @@ function normalizeMindmapData(data: MindmapData, originalQuery: string): Mindmap
           },
         ],
       },
-      quiz: n.quiz?.length
-        ? n.quiz
-        : [
-            {
-              id: `q-${idx}-1`,
-              question: `Apa prinsip paling fundamental yang mendasari keberhasilan penerapan ${n.label}?`,
-              options: [
-                'Mengandalkan intuisi semata tanpa metrik terukur',
-                'Pemahaman mendalam terhadap struktur insentif, parit pertahanan, dan alokasi modal efisien',
-                'Menunggu regulasi pemerintah sebelum berinovasi',
-                'Menghindari segala bentuk investasi teknologi',
-              ],
-              correctAnswerIndex: 1,
-              explanation: 'Pemahaman struktur insentif dan keunggulan biaya adalah fondasi penciptaan nilai jangka panjang.',
-            },
-          ],
+      quiz: quizzes,
     };
   });
 
-  const edges: MindmapEdge[] = (data.edges || []).map((e, idx) => ({
-    id: e.id || `edge-${idx}`,
-    from: e.from,
-    to: e.to,
-    label: e.label || 'Koneksi Kausal',
-    domains: e.domains || ['Bisnis', 'Keuangan'],
-  }));
+  const edges: MindmapEdge[] = [];
+  for (let i = 1; i < nodes.length; i++) {
+    edges.push({
+      id: `edge-${i}`,
+      from: rootId,
+      to: nodes[i].id,
+      label: 'Kausalitas Sistemik',
+      domains: [nodes[0].domain, nodes[i].domain],
+    });
+  }
 
   return {
-    id: data.id || `mindmap-${Date.now()}`,
+    id: `mindmap-${Date.now()}`,
     topic: data.topic || originalQuery,
     rootId,
-    description: data.description || `Sintesis multi-disiplin berstandar eksekutif untuk topik ${originalQuery}.`,
+    description: `Sintesis multi-disiplin berstandar eksekutif untuk topik ${originalQuery}.`,
     nodes,
     edges,
   };
