@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { MOCK_MINDMAPS } from '../../data/mockMindmaps';
+import { TOPIC_REGISTRY } from '../../lib/topicEngine';
+import { MindmapData } from '../../types';
 import { useUser } from '../../context/UserContext';
 import { X, Search, Sparkles, CheckCircle2, ArrowRight, BookOpen, Layers } from 'lucide-react';
 
@@ -13,7 +15,18 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onClose, onSelectTop
   const [searchFilter, setSearchFilter] = useState('');
   const [selectedDomain, setSelectedDomain] = useState<string>('all');
 
-  const topicsList = Object.values(MOCK_MINDMAPS);
+  const topicsList = useMemo(() => {
+    const map = new Map<string, MindmapData>();
+    // First, add the 5 core distinct domains
+    Object.values(TOPIC_REGISTRY).forEach((m) => map.set(m.id, m));
+    // Next, add the comprehensive multi-discipline tracks
+    Object.values(MOCK_MINDMAPS).forEach((m) => {
+      if (!map.has(m.id)) {
+        map.set(m.id, m);
+      }
+    });
+    return Array.from(map.values());
+  }, []);
 
   const filtered = topicsList.filter((m) => {
     const matchesSearch =

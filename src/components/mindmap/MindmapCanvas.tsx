@@ -246,18 +246,33 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
               <Layers className="h-3 w-3" />
               Domain:
             </span>
-            {['all', 'Bisnis', 'Ekonomi', 'Keuangan', 'Psikologi', 'Geopolitik', 'Komunikasi', 'Hukum', 'Data & Analitik', 'Pajak'].map((domain) => (
-              <button
-                key={domain}
-                onClick={() => setDomainFilter(domain)}
-                className={`rounded-lg px-2.5 py-0.5 font-medium transition-colors ${domainFilter === domain
-                    ? 'bg-indigo-600 text-white font-semibold shadow-sm'
-                    : 'bg-white/80 dark:bg-slate-900/50 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border border-slate-200/80 dark:border-slate-800/60'
+            {['Semua', 'Bisnis', 'Psikologi', 'Ekonomi', 'Pemasaran', 'Geopolitik', 'Keuangan', 'Komunikasi', 'Hukum'].map((domain) => {
+              const isSelected =
+                domainFilter === domain ||
+                (domain !== 'Semua' &&
+                  (data.topic.toLowerCase().includes(domain.toLowerCase()) ||
+                    data.nodes.some((n) => n.domain === domain)));
+              return (
+                <button
+                  key={domain}
+                  onClick={() => {
+                    if (domain === 'Semua') {
+                      setDomainFilter('all');
+                    } else {
+                      setDomainFilter(domain);
+                      onSearch(domain);
+                    }
+                  }}
+                  className={`rounded-lg px-2.5 py-0.5 font-medium transition-colors ${
+                    isSelected
+                      ? 'bg-indigo-600 text-white font-semibold shadow-sm'
+                      : 'bg-white/80 dark:bg-slate-900/50 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border border-slate-200/80 dark:border-slate-800/60'
                   }`}
-              >
-                {domain === 'all' ? 'Semua Domain' : domain}
-              </button>
-            ))}
+                >
+                  {domain}
+                </button>
+              );
+            })}
           </div>
 
         </div>

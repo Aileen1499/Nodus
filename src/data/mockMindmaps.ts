@@ -1,13 +1,13 @@
 import { MindmapData } from '../types';
 
 export const PRESET_QUERIES = [
+  'Bisnis & Strategi',
+  'Psikologi Perilaku',
+  'Ekonomi & Keuangan',
+  'Pemasaran & Sales',
+  'Geopolitik & Sistem',
   'Strategi Bisnis & Model Mental Miliarder',
   'Valuasi Saham, Trading & Makroekonomi',
-  'Ekspor-Impor, Rantai Pasok & Geopolitik',
-  'Seni Negosiasi & Komunikasi Eksekutif',
-  'Financial Modeling, Excel & Data Analytics',
-  'Hukum Bisnis, Kontrak & Efisiensi Pajak',
-  'Psikologi Marketing & Arsitektur Keputusan F&B',
 ];
 
 export const MOCK_MINDMAPS: Record<string, MindmapData> = {

@@ -49,8 +49,13 @@ KEMBALIKAN HANYA JSON VALID TANPA MARKDOWN BACKTICKS. IKUTI SCHEMA PERSIS SEPERT
     {
       "id": "node-1",
       "title": "Judul Cabang (Maks 4 kata)",
-      "analogy_core_idea": "Analogi sederhana dunia nyata (max 150 kata).",
+      "analogy_core_idea": "Analogi sederhana dunia nyata (max 120 kata).",
       "cross_discipline_insight": "Hubungan eksplisit lintas ilmu (misal: Ekonomi ke Psikologi/Geopolitik).",
+      "case_study": {
+        "company_or_figure": "Contoh: Apple Inc / Starbucks / Ray Dalio",
+        "story": "Kisah eksekusi nyata bagaimana mereka menerapkan prinsip ini.",
+        "takeaway": "Kunci taktis yang bisa diterapkan."
+      },
       "practical_application": "3 langkah tindakan nyata.",
       "quiz": [
         {
@@ -124,3 +129,4 @@ KEMBALIKAN HANYA JSON VALID TANPA MARKDOWN BACKTICKS. IKUTI SCHEMA PERSIS SEPERT
     });
   }
 }
+

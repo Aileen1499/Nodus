@@ -39,14 +39,23 @@ export interface QuizQuestion {
   explanation: string;
 }
 
+export interface CaseStudy {
+  companyOrFigure: string;
+  story: string;
+  takeaway: string;
+}
+
 export interface MicroContent {
-  analogy: string; // Inti Idemya (<150 words)
+  analogy: string; // Inti Idemya (<120 words)
   crossDisciplinary: {
     connectionText: string;
     domains: DomainType[];
     insight: string;
   };
+  caseStudy?: CaseStudy; // Real-world case study
   actionableSteps: string[]; // 3 practical steps
+  difficulty?: 'Pemula' | 'Menengah' | 'Mahir';
+  readTime?: string;
 }
 
 export interface MindmapNode {

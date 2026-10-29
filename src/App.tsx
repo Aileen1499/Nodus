@@ -16,6 +16,7 @@ import { PaywallModal } from './components/paywall/PaywallModal';
 import { MindmapData, MindmapNode } from './types';
 import { MOCK_MINDMAPS, PRESET_QUERIES } from './data/mockMindmaps';
 import { generateMindmapWithGemini } from './lib/gemini';
+import { getMindmapForTopic } from './lib/topicEngine';
 import { Sparkles, CheckCircle2, AlertCircle } from 'lucide-react';
 
 interface ToastMessage {
@@ -59,20 +60,28 @@ const AppContent: React.FC = () => {
 
   // Search Handler with Credit & Paywall Checking
   const handleSearch = async (query: string) => {
-    if (!isPro && progress.credits <= 0) {
+    // Reset active modal / sheet nodes immediately so state doesn't persist
+    setActiveReaderNode(null);
+    setActiveQuizNode(null);
+
+    const isPredefined = !!getMindmapForTopic(query);
+
+    if (!isPredefined && !isPro && progress.credits <= 0) {
       setIsPaywallOpen(true);
-      showToast('Kuota harian 3 pencarian Anda telah habis. Buka akses penuh di Nodus Pro!', 'warning');
+      showToast('Kuota harian 3 pencarian kustom AI telah habis. Buka akses penuh di Nodus Pro!', 'warning');
       return;
     }
 
     setIsLoadingMindmap(true);
     showToast(`Membedah jejaring kausal untuk "${query}"...`, 'info');
 
-    const creditUsed = useCredit();
-    if (!creditUsed && !isPro) {
-      setIsPaywallOpen(true);
-      setIsLoadingMindmap(false);
-      return;
+    if (!isPredefined && !isPro) {
+      const creditUsed = useCredit();
+      if (!creditUsed) {
+        setIsPaywallOpen(true);
+        setIsLoadingMindmap(false);
+        return;
+      }
     }
 
     try {

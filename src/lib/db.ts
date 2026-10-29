@@ -160,3 +160,4 @@ export async function getUserProgress(uid: string): Promise<string[]> {
   }
   return [];
 }
+

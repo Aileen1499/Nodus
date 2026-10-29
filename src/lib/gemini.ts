@@ -1,5 +1,6 @@
 import { MindmapData, MindmapNode, MindmapEdge, DomainType, QuizQuestion } from '../types';
 import { MOCK_MINDMAPS } from '../data/mockMindmaps';
+import { getMindmapForTopic } from './topicEngine';
 
 export interface PromptNodeSchema {
   id?: string;
@@ -8,6 +9,11 @@ export interface PromptNodeSchema {
   domain?: DomainType;
   analogy_core_idea?: string;
   cross_discipline_insight?: string;
+  case_study?: {
+    company_or_figure?: string;
+    story?: string;
+    takeaway?: string;
+  };
   practical_application?: string[] | string;
   quiz?: Array<{
     question: string;
@@ -56,6 +62,12 @@ export async function generateMindmapWithGemini(
   model: string = 'gemini-1.5-flash'
 ): Promise<MindmapData> {
   const trimmed = query.trim();
+
+  // 0. Dynamic Domain & Core Topic Engine (Bisnis, Psikologi, Ekonomi, Pemasaran, Geopolitik)
+  const topicEngineMatch = getMindmapForTopic(trimmed);
+  if (topicEngineMatch) {
+    return topicEngineMatch;
+  }
 
   // 1. Direct match with preset mock knowledge graphs
   for (const [presetKey, mockData] of Object.entries(MOCK_MINDMAPS)) {
@@ -289,7 +301,14 @@ function adaptPromptResponseToMindmap(data: any, originalQuery: string): Mindmap
           domains: [domain, 'Psikologi'],
           insight: n.cross_discipline_insight || 'Menghubungkan arsitektur insentif rasional dengan dinamika perilaku manusia di pasar.',
         },
+        caseStudy: n.case_study ? {
+          companyOrFigure: n.case_study.company_or_figure || 'Studi Kasus Pasar Global',
+          story: n.case_study.story || 'Penerapan langsung di industri terkemuka.',
+          takeaway: n.case_study.takeaway || 'Kunci taktis eksekusi.'
+        } : undefined,
         actionableSteps: actionSteps.slice(0, 3),
+        difficulty: 'Menengah',
+        readTime: '2 min'
       },
       decisionScenario: {
         title: `Dilema Taktis: ${label}`,
