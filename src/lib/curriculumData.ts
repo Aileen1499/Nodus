@@ -5,7 +5,8 @@
 import { MindmapData } from '../types';
 import { CORPORATE_STRATEGY_WEALTH_CURRICULUM } from './corporateCurriculum';
 import { ADVANCED_MACRO_FINANCE_CURRICULUM } from './macroCurriculum';
-export { CORPORATE_STRATEGY_WEALTH_CURRICULUM, ADVANCED_MACRO_FINANCE_CURRICULUM };
+import { ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM } from './behavioralCurriculum';
+export { CORPORATE_STRATEGY_WEALTH_CURRICULUM, ADVANCED_MACRO_FINANCE_CURRICULUM, ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM };
 
 // Legacy variable alias retained for backwards compatibility
 export const DEPRECATED_MACRO_FINANCE_CURRICULUM: MindmapData = {
@@ -838,9 +839,9 @@ export const ADVANCED_BUSINESS_STRATEGY_CURRICULUM: MindmapData = {
 };
 
 // ==============================================================================
-// 3. DOMAIN: PSIKOLOGI PERILAKU & BEHAVIORAL ECONOMICS
+// 3. DOMAIN: PSIKOLOGI PERILAKU & BEHAVIORAL ECONOMICS (LEGACY ALIAS)
 // ==============================================================================
-export const ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM: MindmapData = {
+export const DEPRECATED_BEHAVIORAL_CURRICULUM: MindmapData = {
   id: 'curriculum-psikologi-perilaku-advanced',
   topic: 'Psikologi Perilaku & Behavioral Economics',
   rootId: 'beh-1-1',
@@ -1142,9 +1143,18 @@ export const ALL_CURRICULA: Record<string, MindmapData> = {
   // Domain 3: Psikologi Perilaku & Behavioral Economics
   'psikologi perilaku & behavioral economics': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
   'psikologi perilaku & arsitektur keputusan': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
+  'psikologi perilaku, arsitektur keputusan & behavioral economics': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
   'psikologi': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
   'behavioral economics': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
   'bias kognitif': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
+  'sistem 1 vs sistem 2': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
+  'prospect theory & loss aversion': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
+  'the decoy effect & pricing psychology': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
+  'social proof, fomo & scarcity': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
+  'nudge theory & choice architecture': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
+  'psikologi negosiasi zopa & batna': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
+  'gamifikasi, dopamine loops & retensi': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
+  'overconfidence bias & pre-mortem': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
 
   // Domain 4: Strategi Korporat, Legalitas PT, Rantai Pasok & Arsitektur Kekayaan
   'strategi korporat, legalitas pt & arsitektur kekayaan': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
@@ -1256,9 +1266,33 @@ export function getCurriculumForQuery(query: string): MindmapData | null {
     normalized.includes('bias') ||
     normalized.includes('prospect') ||
     normalized.includes('kahneman') ||
-    normalized.includes('thaler') ||
-    normalized.includes('accounting') ||
+    normalized.includes('tversky') ||
+    normalized.includes('sistem 1') ||
+    normalized.includes('sistem 2') ||
+    normalized.includes('loss aversion') ||
+    normalized.includes('anchoring') ||
+    normalized.includes('framing') ||
     normalized.includes('decoy') ||
+    normalized.includes('social proof') ||
+    normalized.includes('fomo') ||
+    normalized.includes('scarcity') ||
+    normalized.includes('kelangkaan') ||
+    normalized.includes('thaler') ||
+    normalized.includes('mental accounting') ||
+    normalized.includes('frictionless') ||
+    normalized.includes('dilema tahanan') ||
+    normalized.includes('prisoner') ||
+    normalized.includes('nudge') ||
+    normalized.includes('negosiasi') ||
+    normalized.includes('batna') ||
+    normalized.includes('zopa') ||
+    normalized.includes('gamifikasi') ||
+    normalized.includes('dopamine') ||
+    normalized.includes('streak') ||
+    normalized.includes('overconfidence') ||
+    normalized.includes('hubris') ||
+    normalized.includes('dunning') ||
+    normalized.includes('pre-mortem') ||
     normalized.includes('behavioral')
   ) {
     return JSON.parse(JSON.stringify(ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM));
