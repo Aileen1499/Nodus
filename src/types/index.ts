@@ -2,7 +2,16 @@
 // NODUS — TYPE DEFINITIONS
 // ==============================================================================
 
-export type DomainType = 'Bisnis' | 'Ekonomi' | 'Keuangan' | 'Psikologi' | 'Geopolitik';
+export type DomainType = 
+  | 'Bisnis' 
+  | 'Ekonomi' 
+  | 'Keuangan' 
+  | 'Psikologi' 
+  | 'Geopolitik'
+  | 'Komunikasi'
+  | 'Hukum'
+  | 'Data & Analitik'
+  | 'Pajak';
 
 export type NodeStatus = 'locked' | 'available' | 'mastered';
 
@@ -58,7 +67,7 @@ export interface MindmapEdge {
   id: string;
   from: string; // Source Node ID
   to: string; // Target Node ID
-  label?: string; // Relationship description (e.g. "Memicu", "Memperkuat", "Menekan")
+  label?: string; // Relationship description
   domains: [DomainType, DomainType]; // Cross-discipline connection
 }
 
@@ -81,4 +90,3 @@ export interface UserProgress {
   apiKey?: string;
   aiModel?: string;
 }
-

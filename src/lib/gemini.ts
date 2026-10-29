@@ -2,7 +2,17 @@ import { MindmapData, MindmapNode, MindmapEdge, DomainType } from '../types';
 import { MOCK_MINDMAPS } from '../data/mockMindmaps';
 
 const SYSTEM_PROMPT = `
-Anda adalah NODUS AI Engine — arsitek sistem pengetahuan multi-disiplin berstandar dunia dalam Bisnis, Ekonomi, Keuangan, Psikologi Perilaku, dan Geopolitik.
+Anda adalah NODUS AI Engine — arsitek sistem pengetahuan multi-disiplin berstandar eksekutif global dalam:
+- Bisnis (Strategi, Parit Ekonomi/Moat, Flywheel, Unit Economics)
+- Ekonomi (Makroekonomi, Suku Bunga, Kebijakan Moneter, Inflasi)
+- Keuangan (Valuasi DCF, WACC, Cash Flow, Pasar Modal, Forex/Exchange)
+- Psikologi (Mental Models, Behavioral Economics, Bias Kognitif, Negosiasi)
+- Geopolitik (Rantai Pasok Maritim, Chokepoints, Perang Tarif, Dedolarisasi)
+- Komunikasi (Seni Negosiasi, Artikulasi Berbicara Eksekutif, Piramida Minto, Pitching C-Suite)
+- Hukum (Struktur PT, Shareholders Agreement, Vesting, Drag/Tag-Along, HKI/Paten, Kontrak)
+- Data & Analitik (3-Statement Modeling, Excel Mahir, SQL Query, Analisis Kohort)
+- Pajak (Optimalisasi Pajak Legal/Tax Avoidance, Dividen Bebas PPh, Deductible Expenses)
+
 Tugas Anda adalah membedah topik/pertanyaan pengguna ke dalam bentuk Knowledge Graph (Mindmap) interaktif berorientasi aksi eksekutif dengan struktur JSON murni.
 
 KEMBALIKAN HANYA JSON VALID TANPA MARKDOWN BACKTICKS (JANGAN GUNAKAN \`\`\`json ATAU \`\`\`).
@@ -11,12 +21,12 @@ STRUKTUR JSON HARUS MENGIKUTI SCHEMA PERSIS SEPERTI INI:
   "id": "mindmap-unique-slug",
   "topic": "Judul Topik yang Dicari",
   "rootId": "node-root",
-  "description": "Deskripsi sintetis topik dalam 1-2 kalimat tajam",
+  "description": "Deskripsi sintetis topik dalam 1-2 kalimat tajam bernilai eksekutif",
   "nodes": [
     {
       "id": "node-root",
       "label": "Judul Node Inti (Maks 4 kata)",
-      "domain": "Bisnis" | "Ekonomi" | "Keuangan" | "Psikologi" | "Geopolitik",
+      "domain": "Bisnis" | "Ekonomi" | "Keuangan" | "Psikologi" | "Geopolitik" | "Komunikasi" | "Hukum" | "Data & Analitik" | "Pajak",
       "summary": "Ringkasan tesis node ini (1-2 kalimat)",
       "x": 400,
       "y": 280,
@@ -24,8 +34,8 @@ STRUKTUR JSON HARUS MENGIKUTI SCHEMA PERSIS SEPERTI INI:
       "microContent": {
         "analogy": "Analogi dunia nyata yang sederhana dan nampol, ditulis dalam gaya bahasa Indonesia lugas (di bawah 150 kata).",
         "crossDisciplinary": {
-          "connectionText": "Nama Hubungan Lintas Disiplin (misal: 'Mikroekonomi x Psikologi Kognitif')",
-          "domains": ["Ekonomi", "Psikologi"],
+          "connectionText": "Nama Hubungan Lintas Disiplin (misal: 'Keuangan x Psikologi')",
+          "domains": ["Keuangan", "Psikologi"],
           "insight": "Penjelasan bagaimana node ini menghubungkan kedua disiplin tersebut."
         },
         "actionableSteps": [
@@ -51,7 +61,7 @@ STRUKTUR JSON HARUS MENGIKUTI SCHEMA PERSIS SEPERTI INI:
             "id": "c2",
             "text": "Opsi tindakan B",
             "consequence": "Konsekuensi strategis yang menghasilkan pertumbuhan optimal dan keunggulan kompetitif.",
-            "scoreBonus: 50,
+            "scoreBonus": 50,
             "isOptimal": true,
             "explanation": "Mengapa pilihan ini adalah langkah terbaik."
           }
@@ -87,11 +97,11 @@ STRUKTUR JSON HARUS MENGIKUTI SCHEMA PERSIS SEPERTI INI:
 PANDUAN POSISI KOORDINAT KANVAS (x, y):
 - Node Root: x: 400, y: 280
 - Buat 4 hingga 5 cabang node (level 1) yang mengelilingi root:
-  - Node 1 (Barat Laut): x: 180, y: 140
-  - Node 2 (Timur Laut): x: 620, y: 140
-  - Node 3 (Barat Daya): x: 200, y: 440
-  - Node 4 (Tenggara): x: 600, y: 440
-  - Node 5 (Opsional / Selatan): x: 400, y: 480
+  - Node 1 (Barat Laut): x: 180, y: 130
+  - Node 2 (Timur Laut): x: 620, y: 130
+  - Node 3 (Barat Daya): x: 180, y: 430
+  - Node 4 (Tenggara): x: 620, y: 430
+  - Node 5 (Opsional / Selatan): x: 400, y: 430
 `;
 
 export async function generateMindmapWithGemini(
@@ -108,16 +118,63 @@ export async function generateMindmapWithGemini(
     }
   }
 
-  // 2. Fuzzy match with presets
+  // 2. Intelligent keyword match for curriculum tracks
+  const qLower = trimmed.toLowerCase();
   for (const [presetKey, mockData] of Object.entries(MOCK_MINDMAPS)) {
-    const keyLower = presetKey.toLowerCase();
-    const queryLower = trimmed.toLowerCase();
+    const kLower = presetKey.toLowerCase();
+    
+    // Billionaire / Elon Musk / Warren Buffett / Bezos track
     if (
-      (queryLower.includes('elon') && keyLower.includes('elon')) ||
-      (queryLower.includes('inflasi') && keyLower.includes('inflasi')) ||
-      (queryLower.includes('f&b') && keyLower.includes('f&b')) ||
-      (queryLower.includes('ekspor') && keyLower.includes('ekspor')) ||
-      (queryLower.includes('geopolitik') && keyLower.includes('geopolitik'))
+      (qLower.includes('elon') || qLower.includes('musk') || qLower.includes('buffett') || qLower.includes('miliarder') || qLower.includes('bezos') || qLower.includes('kaya')) &&
+      kLower.includes('miliarder')
+    ) {
+      return JSON.parse(JSON.stringify(mockData));
+    }
+
+    // Stocks / DCF / Trading / Inflation / Forex track
+    if (
+      (qLower.includes('saham') || qLower.includes('inflasi') || qLower.includes('trading') || qLower.includes('dcf') || qLower.includes('dxy') || qLower.includes('forex') || qLower.includes('suku bunga')) &&
+      kLower.includes('saham')
+    ) {
+      return JSON.parse(JSON.stringify(mockData));
+    }
+
+    // Export / Import / Geopolitics / Customs / Chokepoint track
+    if (
+      (qLower.includes('ekspor') || qLower.includes('impor') || qLower.includes('geopolitik') || qLower.includes('pabean') || qLower.includes('hs code') || qLower.includes('incoterm') || qLower.includes('chokepoint') || qLower.includes('malaka')) &&
+      kLower.includes('ekspor')
+    ) {
+      return JSON.parse(JSON.stringify(mockData));
+    }
+
+    // Negotiation / Communication / Speaking / Minto track
+    if (
+      (qLower.includes('negosiasi') || qLower.includes('bicara') || qLower.includes('komunikasi') || qLower.includes('pitch') || qLower.includes('minto') || qLower.includes('chris voss') || qLower.includes('speaking') || qLower.includes('artikulasi')) &&
+      kLower.includes('negosiasi')
+    ) {
+      return JSON.parse(JSON.stringify(mockData));
+    }
+
+    // Financial Modeling / Excel / Data / SQL track
+    if (
+      (qLower.includes('excel') || qLower.includes('modeling') || qLower.includes('sql') || qLower.includes('kohort') || qLower.includes('data') || qLower.includes('ltv') || qLower.includes('cac') || qLower.includes('analisis data')) &&
+      kLower.includes('excel')
+    ) {
+      return JSON.parse(JSON.stringify(mockData));
+    }
+
+    // Law / Tax / Contract / Vesting / HKI track
+    if (
+      (qLower.includes('hukum') || qLower.includes('pajak') || qLower.includes('kontrak') || qLower.includes('vesting') || qLower.includes('sha') || qLower.includes('pt') || qLower.includes('paten') || qLower.includes('hki')) &&
+      kLower.includes('hukum')
+    ) {
+      return JSON.parse(JSON.stringify(mockData));
+    }
+
+    // F&B / Decoy / Marketing / Consumer psychology track
+    if (
+      (qLower.includes('f&b') || qLower.includes('kuliner') || qLower.includes('decoy') || qLower.includes('marketing') || qLower.includes('restoran')) &&
+      kLower.includes('psikologi marketing')
     ) {
       return JSON.parse(JSON.stringify(mockData));
     }
@@ -140,13 +197,13 @@ export async function generateMindmapWithGemini(
               role: 'user',
               parts: [
                 {
-                  text: `${SYSTEM_PROMPT}\n\nTOPIK PENGGUNA YANG HARUS DIBEDAH:\n"${trimmed}"`,
+                  text: `${SYSTEM_PROMPT}\n\nTOPIK EKSEKUTIF PENGGUNA YANG HARUS DIBEDAH:\n"${trimmed}"`,
                 },
               ],
             },
           ],
           generationConfig: {
-            temperature: 0.4,
+            temperature: 0.35,
             maxOutputTokens: 8192,
             responseMimeType: 'application/json',
           },
@@ -166,7 +223,6 @@ export async function generateMindmapWithGemini(
         throw new Error('Gemini API did not return text part');
       }
 
-      // Sanitize JSON text
       let cleaned = rawText.trim();
       if (cleaned.startsWith('```json')) {
         cleaned = cleaned.replace(/^```json\s*/, '').replace(/\s*```$/, '');
@@ -187,54 +243,53 @@ export async function generateMindmapWithGemini(
   return generateDynamicFallback(trimmed);
 }
 
-// Normalizer to ensure all node fields, coordinates, and types are safe
 function normalizeMindmapData(data: MindmapData, originalQuery: string): MindmapData {
   const rootId = data.rootId || data.nodes[0]?.id || 'root-node';
   const nodes: MindmapNode[] = data.nodes.map((n, idx) => {
     const isRoot = n.id === rootId || idx === 0;
     return {
       id: n.id || `node-${idx}`,
-      label: n.label || `Konsep ${idx + 1}`,
-      domain: (n.domain as DomainType) || (idx % 2 === 0 ? 'Bisnis' : 'Ekonomi'),
-      summary: n.summary || 'Analisis mendalam konsep ini.',
-      x: typeof n.x === 'number' ? n.x : 200 + (idx * 150) % 500,
-      y: typeof n.y === 'number' ? n.y : 150 + Math.floor(idx / 2) * 160,
+      label: n.label || `Prinsip ${idx + 1}`,
+      domain: (n.domain as DomainType) || (idx % 2 === 0 ? 'Bisnis' : 'Keuangan'),
+      summary: n.summary || 'Analisis mendalam konsep strategis ini.',
+      x: typeof n.x === 'number' ? n.x : 200 + (idx * 160) % 520,
+      y: typeof n.y === 'number' ? n.y : 140 + Math.floor(idx / 2) * 160,
       level: isRoot ? 0 : 1,
       microContent: {
-        analogy: n.microContent?.analogy || 'Konsep ini bekerja seperti mesin pendorong efisiensi dalam bisnis nyata.',
+        analogy: n.microContent?.analogy || 'Konsep ini bekerja seperti mesin tuas pengganda nilai dalam eksekusi bisnis.',
         crossDisciplinary: n.microContent?.crossDisciplinary || {
-          connectionText: 'Bisnis x Psikologi Perilaku',
+          connectionText: 'Bisnis Strategis x Psikologi Keputusan',
           domains: ['Bisnis', 'Psikologi'],
-          insight: 'Menghubungkan efisiensi sistem operasional dengan pengambilan keputusan manusia.',
+          insight: 'Menghubungkan arsitektur insentif rasional dengan dinamika perilaku manusia di pasar.',
         },
         actionableSteps: n.microContent?.actionableSteps?.length
           ? n.microContent.actionableSteps
           : [
-              'Audit kesiapan infrastruktur Anda terkait topik ini.',
-              'Implementasikan eksperimen skala kecil dalam 7 hari ke depan.',
-              'Ukur dampak terhadap arus kas dan efisiensi waktu tim.',
+              'Audit kesiapan infrastruktur dan alokasi modal Anda terkait konsep ini.',
+              'Implementasikan eksperimen taktis skala terkontrol dalam 7 hari ke depan.',
+              'Ukur dampak terhadap margin keuntungan, efisiensi waktu, dan perlindungan risiko.',
             ],
       },
       decisionScenario: n.decisionScenario || {
-        title: `Keputusan Strategis: ${n.label}`,
-        context: 'Situasi menuntut eksekusi cepat di tengah persaingan pasar.',
-        dilemma: 'Bagaimana memilih pendekatan alokasi sumber daya terbaik?',
+        title: `Keputusan Taktis: ${n.label}`,
+        context: 'Situasi menuntut keputusan tegas di tengah persaingan pasar.',
+        dilemma: 'Bagaimana memilih alokasi sumber daya terbaik dengan risiko terkontrol?',
         choices: [
           {
             id: 'c1',
-            text: 'Pendekatan konvensional yang lambat tapi minim risiko reputasi.',
-            consequence: 'Pesaing mengambil pangsa pasar lebih dulu.',
+            text: 'Pendekatan reaktif konvensional yang mengikuti kebiasaan lama.',
+            consequence: 'Margin tergerus dan pesaing mendominasi ceruk pasar lebih dulu.',
             scoreBonus: 15,
             isOptimal: false,
-            explanation: 'Kurang gesit dalam merespons dinamika pasar modern.',
+            explanation: 'Kurang memiliki keunggulan parit pertahanan dan leverage sistemik.',
           },
           {
             id: 'c2',
-            text: 'Pendekatan iteratif berbasis data dengan validasi mingguan.',
-            consequence: 'Mencapai kecocokan pasar lebih cepat dengan modal terkontrol.',
+            text: 'Pendekatan strategis berbasis data dengan validasi First Principles.',
+            consequence: 'Menciptakan parit pertahanan ekonomi (moat) dan efisiensi biaya struktural.',
             scoreBonus: 50,
             isOptimal: true,
-            explanation: 'Iterasi cepat meminimalkan biaya kegagalan.',
+            explanation: 'Pilihan optimal yang memaksimalkan pengembalian atas risiko terhitung.',
           },
         ],
       },
@@ -243,10 +298,10 @@ function normalizeMindmapData(data: MindmapData, originalQuery: string): Mindmap
         : [
             {
               id: `q-${idx}-1`,
-              question: `Apa prinsip paling fundamental yang mendasari keberhasilan ${n.label}?`,
+              question: `Apa prinsip paling fundamental yang mendasari keberhasilan penerapan ${n.label}?`,
               options: [
                 'Mengandalkan intuisi semata tanpa metrik terukur',
-                'Pemahaman mendalam terhadap struktur insentif dan keunggulan biaya',
+                'Pemahaman mendalam terhadap struktur insentif, parit pertahanan, dan alokasi modal efisien',
                 'Menunggu regulasi pemerintah sebelum berinovasi',
                 'Menghindari segala bentuk investasi teknologi',
               ],
@@ -262,20 +317,19 @@ function normalizeMindmapData(data: MindmapData, originalQuery: string): Mindmap
     from: e.from,
     to: e.to,
     label: e.label || 'Koneksi Kausal',
-    domains: e.domains || ['Bisnis', 'Ekonomi'],
+    domains: e.domains || ['Bisnis', 'Keuangan'],
   }));
 
   return {
     id: data.id || `mindmap-${Date.now()}`,
     topic: data.topic || originalQuery,
     rootId,
-    description: data.description || `Sintesis multi-disiplin untuk topik ${originalQuery}.`,
+    description: data.description || `Sintesis multi-disiplin berstandar eksekutif untuk topik ${originalQuery}.`,
     nodes,
     edges,
   };
 }
 
-// Generate rich, customized fallback data when user inputs a custom query offline
 function generateDynamicFallback(query: string): MindmapData {
   const rootId = 'custom-root';
   const nodes: MindmapNode[] = [
@@ -288,7 +342,7 @@ function generateDynamicFallback(query: string): MindmapData {
       y: 280,
       level: 0,
       microContent: {
-        analogy: `Memahami "${query}" bagaikan merakit mesin jam mekanis berputar. Di luar terlihat jarum jam berputar anggun, namun di dalam ada roda gerigi ekonomi yang memutar gir psikologi konsumen, pelumas arus kas keuangan, dan gravitasi geopolitik yang mengatur ruang geraknya.`,
+        analogy: `Memahami "${query}" bagaikan merakit mesin jet berkecepatan tinggi. Di luar terlihat mulus meluncur, namun di dalam ada roda gerigi ekonomi makro, pelumas arus kas keuangan, hukum regulasi yang membatasi jalurnya, dan navigasi psikologi yang menentukan arahnya.`,
         crossDisciplinary: {
           connectionText: 'Bisnis Strategis x Psikologi Keputusan',
           domains: ['Bisnis', 'Psikologi'],
@@ -296,9 +350,9 @@ function generateDynamicFallback(query: string): MindmapData {
             'Kunci dari menguasai bidang ini bukan menghafal teori terisolasi, melainkan memahami bagaimana persepsi manusia menggerakkan alokasi modal dan efisiensi operasional.',
         },
         actionableSteps: [
-          `Identifikasi 1 bottleneck terbesar dalam implementasi "${query}" di proyek/organisasi Anda.`,
+          `Identifikasi 1 bottleneck terbesar dalam penerapan "${query}" di proyek/organisasi Anda.`,
           'Susun kerangka First Principles: bedah biaya dan nilai tambah produk ke elemen paling mendasar.',
-          'Ukur feedback loop konsumen setiap 14 hari untuk memastikan arah adaptasi yang tepat.',
+          'Ukur feedback loop data setiap 14 hari untuk memastikan arah adaptasi yang tepat.',
         ],
       },
       decisionScenario: {
@@ -337,18 +391,6 @@ function generateDynamicFallback(query: string): MindmapData {
           correctAnswerIndex: 1,
           explanation: 'Free Cash Flow dan retensi konsumen adalah indikator kebenaran paling objektif dalam ekonomi bisnis.',
         },
-        {
-          id: 'q-custom-2',
-          question: 'Bagaimana pendekatan lintas ilmu (cross-disciplinary) meningkatkan kualitas pengambilan keputusan eksekutif?',
-          options: [
-            'Membuat proses keputusan menjadi 10 kali lebih lambat karena terlalu banyak teori',
-            'Menghindarkan dari blind spots (titik buta) dengan menguji asumsi ekonomi terhadap hukum psikologi perilaku manusia',
-            'Menghilangkan kebutuhan akan data kuantitatif lapangan',
-            'Memastikan semua orang selalu setuju tanpa perdebatan ide',
-          ],
-          correctAnswerIndex: 1,
-          explanation: 'Menggabungkan sudut pandang ekonomi dan psikologi mengungkap bias tersembunyi yang sering merusak analisis linier.',
-        },
       ],
     },
     {
@@ -357,7 +399,7 @@ function generateDynamicFallback(query: string): MindmapData {
       domain: 'Ekonomi',
       summary: 'Mengontrol struktur biaya satuan (Unit Economics) agar menghasilkan margin kontribusi yang sehat.',
       x: 180,
-      y: 150,
+      y: 130,
       level: 1,
       microContent: {
         analogy:
@@ -375,20 +417,20 @@ function generateDynamicFallback(query: string): MindmapData {
       },
       decisionScenario: {
         title: 'Kasus: Pertumbuhan vs Profitabilitas Unit',
-        context: 'Perusahaan Anda bisa membakar diskon demi meraih 100.000 pengguna baru dengan rugi Rp 5.000 per pesanan.',
+        context: 'Perusahaan Anda bisa membakar diskon demi meraih pengguna baru dengan rugi per transaksi.',
         dilemma: 'Apakah melanjutkan subsidi demi metrik vanitas pengguna?',
         choices: [
           {
             id: 'c1',
             text: 'Terus bakar uang subsidi agar grafiknya terlihat naik di mata pemodal spekulatif.',
-            consequence: 'Ketika kas habis dan subsidi dihentikan, 90% pengguna langsung kabur.',
+            consequence: 'Ketika kas habis dan subsidi dihentikan, pengguna langsung kabur.',
             scoreBonus: 10,
             isOptimal: false,
             explanation: 'Pertumbuhan berbasis subsidi murni adalah ilusi retensi semu.',
           },
           {
             id: 'c2',
-            text: 'Hentikan subsidi, fokus memperbaiki kelezatan/keunggulan produk sampai pelanggan rela membayar harga penuh.',
+            text: 'Hentikan subsidi, fokus memperbaiki keunggulan produk sampai pelanggan rela membayar harga penuh.',
             consequence: 'Basis pengguna berkualitas bertahan, unit economics berubah positif, dan bisnis berdiri di atas kaki sendiri.',
             scoreBonus: 50,
             isOptimal: true,
@@ -417,7 +459,7 @@ function generateDynamicFallback(query: string): MindmapData {
       domain: 'Psikologi',
       summary: 'Mendesain arsitektur pilihan (Nudge) yang menyelaraskan tindakan pengguna dengan nilai intrinsik produk.',
       x: 620,
-      y: 150,
+      y: 130,
       level: 1,
       microContent: {
         analogy:
@@ -426,7 +468,7 @@ function generateDynamicFallback(query: string): MindmapData {
           connectionText: 'Psikologi Kognitif x Konversi Bisnis',
           domains: ['Psikologi', 'Bisnis'],
           insight:
-            'Mengurangi friksi kognitif satu langkah pada alur checkout dapat melipatgandakan tingkat konversi transaksi tanpa menambah biaya iklan.',
+            'Mengurangi friksi kognitif satu langkah pada alur transaksi dapat melipatgandakan tingkat konversi tanpa menambah biaya iklan.',
         },
         actionableSteps: [
           'Kurangi jumlah kolom formulir yang harus diisi pelanggan di situs Anda.',
@@ -441,7 +483,7 @@ function generateDynamicFallback(query: string): MindmapData {
         choices: [
           {
             id: 'c1',
-            text: 'Kunci pengguna dengan kontrak 2 tahun dengan penalti pembatalan yang disembunyikan dalam syarat ketentuan kecil.',
+            text: 'Kunci pengguna dengan kontrak 2 tahun dengan penalti pembatalan yang disembunyikan.',
             consequence: 'Menimbulkan kemarahan, tuntutan hukum konsumen, dan rating reputasi hancur.',
             scoreBonus: 0,
             isOptimal: false,
@@ -449,7 +491,7 @@ function generateDynamicFallback(query: string): MindmapData {
           },
           {
             id: 'c2',
-            text: 'Tawarkan uji coba 14 hari bebas risiko dengan garansi uang kembali 100% tanpa syarat rumit.',
+            text: 'Tawarkan uji coba 14 hari bebas risiko dengan garansi kepuasan 100% tanpa syarat rumit.',
             consequence: 'Menghilangkan rasa takut gagal (risk reversal), angka pendaftaran naik 250%, dan kepuasan pelanggan melonjak.',
             scoreBonus: 50,
             isOptimal: true,
@@ -474,10 +516,10 @@ function generateDynamicFallback(query: string): MindmapData {
     },
     {
       id: 'custom-node-3',
-      label: 'Alokasi Modal & Pertahanan',
+      label: 'Alokasi Modal & Likuiditas',
       domain: 'Keuangan',
       summary: 'Menjaga bantalan likuiditas kas agar tetap hidup melewati siklus krisis dan memanfaatkan peluang murah.',
-      x: 220,
+      x: 180,
       y: 430,
       level: 1,
       microContent: {
@@ -538,7 +580,7 @@ function generateDynamicFallback(query: string): MindmapData {
       label: 'Konteks Regulasi & Geopolitik',
       domain: 'Geopolitik',
       summary: 'Mengantisipasi perubahan kebijakan bea, subsidi, dan rantai pasok antar-wilayah.',
-      x: 600,
+      x: 620,
       y: 430,
       level: 1,
       microContent: {
@@ -571,7 +613,7 @@ function generateDynamicFallback(query: string): MindmapData {
           },
           {
             id: 'c2',
-            text: 'Jadikan kepatuhan ramah lingkungan sebagai keunggulan diferensiasi branding hijau di mata konsumen generasi muda.',
+            text: 'Jadikan kepatuhan ramah lingkungan sebagai keunggulan diferensiasi branding hijau di mata konsumen.',
             consequence: 'Mendapat sertifikasi resmi pemerintah, keringanan pajak hijau, dan loyalitas konsumen premium.',
             scoreBonus: 50,
             isOptimal: true,
@@ -614,4 +656,3 @@ function generateDynamicFallback(query: string): MindmapData {
     edges,
   };
 }
-

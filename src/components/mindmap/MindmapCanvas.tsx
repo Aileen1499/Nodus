@@ -246,7 +246,7 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
               <Layers className="h-3 w-3" />
               Domain:
             </span>
-            {['all', 'Bisnis', 'Ekonomi', 'Keuangan', 'Psikologi', 'Geopolitik'].map((domain) => (
+            {['all', 'Bisnis', 'Ekonomi', 'Keuangan', 'Psikologi', 'Geopolitik', 'Komunikasi', 'Hukum', 'Data & Analitik', 'Pajak'].map((domain) => (
               <button
                 key={domain}
                 onClick={() => setDomainFilter(domain)}

@@ -1,705 +1,1974 @@
 import { MindmapData } from '../types';
 
 export const PRESET_QUERIES = [
-  'Kenapa Elon Musk Bisa Kaya?',
-  'Dasar-Dasar Inflasi & Saham',
-  'Psikologi Marketing F&B',
-  'Geopolitik Impor Ekspor',
+  'Strategi Bisnis & Model Mental Miliarder',
+  'Valuasi Saham, Trading & Makroekonomi',
+  'Ekspor-Impor, Rantai Pasok & Geopolitik',
+  'Seni Negosiasi & Komunikasi Eksekutif',
+  'Financial Modeling, Excel & Data Analytics',
+  'Hukum Bisnis, Kontrak & Efisiensi Pajak',
+  'Psikologi Marketing & Arsitektur Keputusan F&B',
 ];
 
 export const MOCK_MINDMAPS: Record<string, MindmapData> = {
-  'Kenapa Elon Musk Bisa Kaya?': {
-    id: 'mindmap-elon-musk',
-    topic: 'Kenapa Elon Musk Bisa Kaya?',
-    rootId: 'musk-root',
-    description: 'Dekonstruksi multi-disiplin: Dari First Principles Engineering, Asymmetric Risk, Narrative Capital, hingga Vertical Integration.',
+  // ============================================================================
+  // 1. STRATEGI BISNIS & MODEL MENTAL MILIARDER
+  // ============================================================================
+  'Strategi Bisnis & Model Mental Miliarder': {
+    id: 'mindmap-miliarder-mental-models',
+    topic: 'Strategi Bisnis & Model Mental Miliarder',
+    rootId: 'miliarder-root',
+    description: 'Sintesis multi-disiplin: Dari Parit Ekonomi Warren Buffett, First Principles Elon Musk, Flywheel Jeff Bezos, hingga Siklus Ray Dalio.',
     nodes: [
       {
-        id: 'musk-root',
-        label: 'Arsitektur Kekayaan Elon Musk',
+        id: 'miliarder-root',
+        label: 'Arsitektur Kapitalisme & Ekuitas',
         domain: 'Bisnis',
-        summary: 'Kekayaan Musk bukan dari gaji likuid, melainkan multiplikasi valuasi ekuitas via kepemilikan saham di industri frontier.',
+        summary: 'Kekayaan generasi miliarder sejati diciptakan melalui kepemilikan ekuitas pada mesin produktif yang scalable, bukan penukaran jam kerja fisik.',
         x: 400,
         y: 280,
         level: 0,
         microContent: {
           analogy:
-            'Bayangkan Anda tidak dibayar dengan sembako harian, melainkan Anda menanam pohon beringin langka di tanah yang belum dijamah. Setiap kali dunia menyadari pohon itu menghasilkan buah ajaib, seluruh investor berebut membeli selembar daun pohon Anda seharga miliaran rupiah. Musk kaya karena ia pemilik tanah dan penanam benih ekuitasnya.',
+            'Bekerja demi gaji bagaikan menimba air sumur dengan ember: saat tangan Anda lelah atau sakit, aliran air seketika terhenti. Para miliarder menghabiskan tahun-tahun awal mereka bukan untuk menimba air, melainkan merancang sistem pipa saluran air otomatis. Begitu pipa terpasang, air terus mengalir deras bahkan ketika mereka sedang terlelap tidur.',
           crossDisciplinary: {
-            connectionText: 'Keuangan x Psikologi Massa',
+            connectionText: 'Keuangan Korporat x Psikologi Leverage',
             domains: ['Keuangan', 'Psikologi'],
             insight:
-              'Valuasi pasar saham Tesla dan SpaceX digerakkan oleh "Narrative Economics" — keyakinan psikologis massa bahwa Musk akan memimpin masa depan peradaban, yang melipatgandakan Price-to-Earnings (P/E) ratio jauh melampaui pabrikan otomotif warisan.',
+              'Memahami "Leverage" (modal, sistem software, media, dan SDM) memungkinkan satu keputusan tepat melipatgandakan dampak finansial hingga jutaan kali lipat tanpa batas jam fisik harian.',
           },
           actionableSteps: [
-            'Audit portofolio pendapatan Anda: Hitung berapa persen pemasukan dari keringat per jam (linear) vs kepemilikan aset/ekuitas (multiplikatif).',
-            'Pelajari struktur Employee Stock Option Plan (ESOP) atau kepemilikan persentase bisnis sebelum menegosiasikan kompensasi karier.',
-            'Identifikasi 1 keahlian inti yang memiliki "leverage tinggi" (software, media, atau modal) agar output Anda tidak terikat jam fisik.',
+            'Audit pendapatan Anda: Berapa persen pemasukan yang murni berasal dari jam kerja fisik (linear) vs kepemilikan aset/sistem (leverage)?',
+            'Identifikasi 1 aset produktif yang bisa Anda bangun atau miliki (ekuitas bisnis, software, royalti hak cipta, atau portofolio investasi).',
+            'Tingkatkan "Judgment" eksekutif Anda: baca laporan tahunan emiten dan keputusan modal para CEO terbaik dunia.',
           ],
         },
         decisionScenario: {
-          title: 'Kasus: Pilihan Kompensasi di Startup Frontier',
-          context: 'Anda memimpin tim R&D untuk terobosan baterai baru. Valuasi perusahaan saat ini masih kecil.',
-          dilemma: 'Manajemen menawarkan Anda dua opsi kompensasi untuk 4 tahun ke depan.',
+          title: 'Kasus: Pilihan Alokasi Waktu & Modal',
+          context: 'Anda memiliki tabungan Rp 100 Juta dan waktu luang 15 jam per minggu setelah jam kerja.',
+          dilemma: 'Bagaimana mengalokasikan sumber daya ini untuk 3 tahun ke depan?',
           choices: [
             {
               id: 'c1',
-              text: 'Gaji tunai Rp 120 Juta/bulan tetap tanpa opsi saham sama sekali.',
-              consequence: 'Finansial Anda aman dan stabil saat ini, tetapi jika teknologi baterai ini meledak global senilai $10 Miliar, kekayaan Anda tetap datar tanpa apresiasi modal.',
-              scoreBonus: 20,
+              text: 'Mengambil lembur sampingan ojek online atau freelance ketik manual untuk pendapatan tunai instan.',
+              consequence: 'Uang tunai bertambah harian, namun begitu Anda berhenti mengemudi, pendapatan kembali nol tanpa ada aset yang terbangun.',
+              scoreBonus: 15,
               isOptimal: false,
-              explanation: 'Kurang optimal untuk menciptakan "step-function wealth". Musk selalu memilih kompensasi 100% berbasis milestone ekuitas performa.',
+              explanation: 'Ini adalah perangkap pertukaran waktu linear yang tidak menciptakan efek multiplikasi kekayaan jangka panjang.',
             },
             {
               id: 'c2',
-              text: 'Gaji tunai cukup untuk biaya hidup layak (Rp 40 Juta/bulan) + 3.5% Kepemilikan Ekuitas berbasis Milestone.',
-              consequence: 'Anda menanggung risiko volatilitas jangka pendek, namun memiliki upside tak terbatas jika target produksi dan valuasi perusahaan melonjak 50x lipat.',
+              text: 'Investasikan waktu untuk membangun produk digital/agensi berbasis sistem otomatis dan investasikan modal ke ekuitas bisnis bertumbuh.',
+              consequence: 'Tahun pertama mungkin terasa lambat, namun tahun ke-3 Anda memiliki mesin arus kas mandiri dengan nilai valuasi tinggi.',
               scoreBonus: 50,
               isOptimal: true,
-              explanation: 'Inilah prinsip "Asymmetric Payoff": risiko terbatasi oleh biaya hidup dasar, tetapi potensi kekayaan sejalan dengan multiplikasi aset kepemilikan.',
+              explanation: 'Prinsip penciptaan ekuitas: membangun sistem ber-leverage yang menghasilkan nilai tanpa keterikatan fisik konstan.',
             },
           ],
         },
         quiz: [
           {
-            id: 'q1',
-            question: 'Faktor primer manakah yang membuat kekayaan bersih (Net Worth) Elon Musk melonjak dari ~$2 Miliar menjadi >$200 Miliar dalam satu dekade?',
+            id: 'q-mil-1',
+            question: 'Apa faktor pembeda utama antara cara orang kaya mengumpulkan modal dibandingkan pekerja berpenghasilan tinggi?',
             options: [
-              'Dividen tunai bulanan yang ditransfer langsung ke rekening bank pribadinya',
-              'Multiplikasi valuasi kapitalisasi pasar ekuitas saham Tesla dan SpaceX yang dimilikinya',
-              'Penjualan royalti buku dan tiket seminar motivasi wirausaha',
-              'Gaji pokok eksekutif tertinggi di dunia yang dibayarkan dewan direksi',
+              'Pekerja berpenghasilan tinggi menabung uang tunai di tabungan bank, sementara orang kaya menaruhnya di obligasi pemerintah',
+              'Orang kaya berfokus mengakumulasi dan melipatgandakan kepemilikan aset ekuitas produktif (equity ownership), bukan mengandalkan upah per jam',
+              'Orang kaya menghindari segala bentuk risiko dan tidak pernah mempekerjakan karyawan',
+              'Pekerja berpenghasilan tinggi menghabiskan waktu lebih sedikit untuk belajar',
             ],
             correctAnswerIndex: 1,
-            explanation: 'Musk tidak menerima gaji tunai konvensional di Tesla. Kekayaannya terkonsentrasi pada kepemilikan saham dan stock option yang valuasinya meroket ratusan kali lipat di bursa saham.',
+            explanation: 'Kekayaan sejati dibangun di atas kepemilikan atas mesin ekonomi yang menghasilkan arus kas (bisnis, saham, hak kekayaan intelektual).',
           },
-          {
-            id: 'q2',
-            question: 'Dalam konsep "Narrative Capital", mengapa saham Tesla dihargai dengan multiplier rasio P/E yang jauh lebih tinggi dibanding Toyota atau Ford?',
-            options: [
-              'Tesla memproduksi volume mobil lebih banyak dari gabungan seluruh produsen dunia',
-              'Toyota memiliki utang yang jauh lebih rendah sehingga dihukum pasar saham',
-              'Pasar memperlakukan Tesla sebagai platform ekosistem AI, robotika, dan energi masa depan, bukan sekadar perakit pelat besi',
-              'Tesla menggunakan promosi iklan televisi konvensional dengan budget terbesar',
-            ],
-            correctAnswerIndex: 2,
-            explanation: 'Pasar modal menilai ekspektasi arus kas masa depan dan narasi disrupsi AI/Software otonom, bukan sekadar margin manufaktur fisik saat ini.',
+        ],
+      },
+      {
+        id: 'buffett-moat',
+        label: 'Warren Buffett & Charlie Munger',
+        domain: 'Keuangan',
+        summary: 'Economic Moats (Parit Pertahanan), Circle of Competence, dan kekuatan eksponensial Compounding Interest.',
+        x: 180,
+        y: 130,
+        level: 1,
+        microContent: {
+          analogy:
+            'Bayangkan bisnis Anda adalah kastil di abad pertengahan. Pesaing Anda adalah pasukan musuh yang ingin merebut benteng itu. Warren Buffett tidak tertarik seberapa megah kastil Anda di luar; ia hanya peduli seberapa lebar dan dalam parit pertahanan (Economic Moat) di sekeliling benteng tersebut: apakah ada buaya switching-cost, network effect, atau kekuatan brand yang membuat pesaing mustahil mendekat.',
+          crossDisciplinary: {
+            connectionText: 'Keuangan Nilai x Psikologi Emosi Investor',
+            domains: ['Keuangan', 'Psikologi'],
+            insight:
+              'Munger mengajarkan "Inversion" (membalik masalah): alih-alih mencari cara agar sukses cepat, cari tahu apa yang pasti membuat Anda bangkrut dan hindari hal tersebut seumur hidup.',
           },
+          actionableSteps: [
+            'Tentukan "Circle of Competence" Anda: tuliskan 3 industri yang benar-benar Anda pahami mekanismenya dan tolak berinvestasi di luar itu.',
+            'Analisis parit pertahanan bisnis Anda: Apakah Anda punya Pricing Power, Network Effect, atau Cost Advantage?',
+            'Praktikkan aturan Charlie Munger: "Pembalikan Masalah" (Inversion) sebelum menandatangani kontrak kerja sama penting.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Evaluasi Akuisisi Bisnis Waralaba Minuman',
+          context: 'Ada tawaran membeli bisnis minuman boba viral yang saat ini sedang ramai antreannya.',
+          dilemma: 'Harganya Rp 300 Juta dengan proyeksi balik modal dalam 8 bulan.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Beli langsung karena melihat tren media sosial saat ini sedang viral tanpa mengecek parit pertahanannya.',
+              consequence: 'Dalam 6 bulan tren meredup, kompetitor membuka gerai serupa di seberang jalan, modal Anda terjebak deadstock.',
+              scoreBonus: 10,
+              isOptimal: false,
+              explanation: 'Bisnis berbasis hype musiman tidak memiliki parit ekonomi (moat) dan mudah digantikan dalam semalam.',
+            },
+            {
+              id: 'c2',
+              text: 'Tolak tawaran tersebut dan alokasikan modal ke bisnis distributor barang primer yang memiliki kontrak eksklusif pasokan dan switching cost tinggi.',
+              consequence: 'Pertumbuhan mungkin lebih bertahap, namun arus kas stabil selama 10 tahun dan kebal dari tren musiman.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Pendekatan Buffett-Munger mengutamakan daya tahan parit ekonomi (predictable moat) di atas lonjakan sesaat.',
+            },
+          ],
+        },
+        quiz: [
           {
-            id: 'q3',
-            question: 'Jika seseorang ingin meniru prinsip akumulasi kekayaan Musk di tingkat personal, langkah fundamental apa yang paling relevan?',
+            id: 'q-buf-1',
+            question: 'Apa definisi "Circle of Competence" (Lingkaran Kompetensi) menurut Charlie Munger?',
             options: [
-              'Bekerja lembur 100 jam seminggu hanya untuk menaikkan upah per jam di sektor yang tidak scalable',
-              'Membangun atau memiliki aset yang memiliki leverage (kepemilikan bisnis, sistem otomatis, atau ekuitas) yang nilainya dapat diapresiasi pasar',
-              'Menyimpan seluruh tabungan dalam uang kartal di brankas rumah demi menghindari pajak',
-              'Mengikuti tren spekulasi koin baru tanpa memahami teknologi dasarnya',
+              'Mengetahui sedikit tentang semua hal agar bisa berbicara di setiap topik seminar',
+              'Memahami batasan yang jelas mengenai apa yang benar-benar Anda pahami secara mendalam dan berdisiplin menolak bertindak di luar batasan itu',
+              'Memperluas gelar akademis formal sebanyak mungkin',
+              'Mengikuti rekomendasi saham dari forum media sosial yang paling populer',
             ],
             correctAnswerIndex: 1,
-            explanation: 'Kekayaan masif mensyaratkan "leverage" dan kepemilikan hak atas arus kas masa depan (equity ownership), bukan pertukaran waktu linear.',
+            explanation: 'Mengetahui batasan pengetahuan Anda jauh lebih berharga daripada merasa tahu segalanya. Kesalahan fatal terjadi saat orang berspekulasi di luar lingkaran pemahamannya.',
           },
         ],
       },
       {
         id: 'musk-first-principles',
-        label: 'First Principles Thinking',
-        domain: 'Psikologi',
-        summary: 'Membongkar masalah ke hukum fisika dasar alih-alih meniru konvensi pasar (Reasoning by Analogy).',
+        label: 'Elon Musk: First Principles',
+        domain: 'Bisnis',
+        summary: 'Membongkar masalah ke hukum fisika dasar alih-alih meniru tradisi industri (Reasoning by Analogy).',
+        x: 620,
+        y: 130,
+        level: 1,
+        microContent: {
+          analogy:
+            'Koki biasa memasak dengan meniru resep orang lain (Reasoning by Analogy): jika restoran sebelah menjual kue Rp 500.000, ia ikut menjual Rp 480.000. Koki First Principles membedah bahan dasarnya: tepung Rp 10.000, telur Rp 15.000, gula Rp 12.000. Total Rp 37.000. Ia menciptakan kue dengan biaya 90% lebih murah dan kualitas lebih terkontrol.',
+          crossDisciplinary: {
+            connectionText: 'Inovasi Manufaktur x Psikologi Bias Status Quo',
+            domains: ['Bisnis', 'Psikologi'],
+            insight:
+              'Bias "Social Proof" membuat 95% industri membayar biaya perantara yang mahal karena "dari dulu memang begitu". First Principles meruntuhkan batas markup industri tersebut.',
+          },
+          actionableSteps: [
+            'Pilih 1 pos biaya terbesar dalam proyek Anda dan bedah menjadi komponen atomik bahan dasarnya.',
+            'Tanyakan: "Apakah aturan ini hukum alam yang tak terbantahkan, atau hanya konvensi lama yang belum diuji ulang?"',
+            'Lakukan negosiasi ulang dengan vendor berdasarkan harga komponen bahan mentah riil.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Efisiensi Biaya Produksi Software Perusahaan',
+          context: 'Vendor cloud enterprise menagih Rp 45 Juta/bulan untuk lisensi software database.',
+          dilemma: 'Tim teknik Anda melaporkan 80% fitur canggih vendor tersebut sebenarnya tidak pernah dipakai.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Tetap bayar lisensi mahal demi rasa aman dan formalitas kepatuhan.',
+              consequence: 'Biaya operasional membengkak Rp 540 Juta per tahun untuk fitur yang sia-sia.',
+              scoreBonus: 10,
+              isOptimal: false,
+              explanation: 'Mengabaikan bedah biaya atomik membebani margin bisnis Anda secara berkepanjangan.',
+            },
+            {
+              id: 'c2',
+              text: 'Gunakan arsitektur open-source terverifikasi dengan server mandiri yang hanya memproses fitur inti yang dibutuhkan.',
+              consequence: 'Biaya turun menjadi Rp 3 Juta/bulan, kontrol data 100% in-house, dan menghemat Rp 500 Juta per tahun.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Langkah otentik First Principles: membayar nilai riil fungsi fungsional, bukan markup nama vendor.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-musk-1',
+            question: 'Ketika Elon Musk menghitung harga pembuatan roket SpaceX pertama kali, apa dasar kalkulasi First Principles yang ia gunakan?',
+            options: [
+              'Membeli roket bekas dari Rusia dengan diskon diplomatik',
+              'Menghitung harga pasar bahan mentah (aluminium, titanium, tembaga, serat karbon) yang ternyata hanya ~2% dari harga jual roket konvensional',
+              'Meminta subsidi penuh dari anggaran pemerintah daerah',
+              'Meniru cetak biru pabrikan pertahanan Boeing tanpa perubahan desain',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'Musk menyadari bahwa harga roket mahal bukan karena harga bahan kimianya, melainkan karena inefisiensi birokrasi dan rantai perantara industri kontraktor pertahanan.',
+          },
+        ],
+      },
+      {
+        id: 'bezos-flywheel',
+        label: 'Jeff Bezos: Flywheel & Day 1',
+        domain: 'Bisnis',
+        summary: 'Efek roda gila (Flywheel Effect), Customer Obsession, dan doktrin Day 1 Culture untuk mencegah stagnasi korporasi.',
         x: 180,
-        y: 140,
+        y: 430,
         level: 1,
         microContent: {
           analogy:
-            'Koki pembuat kue biasa (reasoning by analogy) selalu membeli resep kue jadi di supermarket seharga Rp 500.000 karena "begitulah orang lain bikin kue". Koki First Principles membedah bahan dasarnya: tepung Rp 10.000, telur Rp 15.000, gula Rp 12.000. Total Rp 37.000. Ia menciptakan kue dengan biaya 90% lebih murah dan kualitas lebih terkontrol.',
+            'Bayangkan sebuah roda besi raksasa berbobot 5 ton. Mendorongnya pertama kali sangat melelahkan dan roda nyaris tidak bergerak. Namun setiap kali Anda terus mendorong ke arah yang sama secara konsisten, momentum terkumpul. Di putaran ke-100, bobot roda itu sendiri yang meluncur kencang dan melindas semua rintangan di depannya. Inilah Amazon Flywheel.',
           crossDisciplinary: {
-            connectionText: 'Psikologi Kognitif x Efisiensi Ekonomi',
-            domains: ['Psikologi', 'Ekonomi'],
+            connectionText: 'Skalabilitas Operasional x Psikologi Konsumen',
+            domains: ['Bisnis', 'Psikologi'],
             insight:
-              'Bias psikologis "Social Proof" dan "Status Quo Bias" membuat mayoritas industri membayar biaya perantara yang mahal. First Principles meruntuhkan batas markup industri tersebut.',
+              'Obsesi pada kepuasan konsumen (Customer Obsession) mengalahkan obsesi pada kompetitor, karena konsumen selalu menginginkan hal yang sama 20 tahun ke depan: harga lebih murah, pilihan lebih banyak, dan pengiriman lebih cepat.',
           },
           actionableSteps: [
-            'Pilih 1 pos pengeluaran bisnis terbesar Anda, dekonstruksi menjadi komponen atomik bahan mentahnya.',
-            'Tanyakan 3 kali: "Apakah aturan ini adalah hukum alam/fisika, atau sekadar kebiasaan lama orang sebelumnya?"',
-            'Buat kalkulasi "Cost of Raw Materials" sebelum menerima penawaran vendor ketiga.',
+            'Petakan "Flywheel" bisnis Anda: Aksi A apa yang memicu B, B memicu C, dan C memperkuat A kembali?',
+            'Terapkan doktrin "Day 1": hindari rapat birokratis tanpa pengambil keputusan yang jelas di ruangan.',
+            'Tulis memo 6 halaman terstruktur (Six-Page Narrative Memo) alih-alih slide PowerPoint untuk keputusan strategis.',
           ],
         },
         decisionScenario: {
-          title: 'Kasus: Pengadaan Komponen Satelit Dirgantara',
-          context: 'Vendor tradisional menjual komponen baterai penerbangan antariksa seharga $120.000 per unit.',
-          dilemma: 'Waktu peluncuran mendesak dan tim insinyur Anda ragu membuat sendiri.',
+          title: 'Kasus: Menghadapi Keluhan Retur Pelanggan',
+          context: 'Tingkat pengembalian barang di toko online Anda mencapai 4% karena pelanggan salah memilih ukuran pakaian.',
+          dilemma: 'Manajer keuangan menyarankan mempersulit proses retur untuk menghemat biaya pengiriman ekspedisi.',
           choices: [
             {
               id: 'c1',
-              text: 'Beli langsung dari vendor terverifikasi agar aman dari tuntutan birokrasi.',
-              consequence: 'Margin profit perusahaan Anda tergerus dan struktur biaya roket tetap setinggi para pesaing mapan.',
-              scoreBonus: 15,
+              text: 'Setujui saran manajer: buat syarat retur berbelit-belit agar konsumen enggan komplain.',
+              consequence: 'Anda menghemat sedikit biaya logistik, namun konsumen merasa terjebak, ulasan anjlok, dan 80% pelanggan tidak pernah kembali belanja.',
+              scoreBonus: 5,
               isOptimal: false,
-              explanation: 'Meniru tradisi industri (analogy) membuat biaya peluncuran tetap mahal dan membatasi frekuensi terbang.',
+              explanation: 'Mengorbankan kepercayaan jangka panjang demi penghematan kecil menghancurkan momentum roda gila.',
             },
             {
               id: 'c2',
-              text: 'Beli sel baterai komersial kelas konsumen di pasar bebas seharga $3.000 lalu rancang sistem pendingin & pelindung radiasi sendiri.',
-              consequence: 'Anda memangkas biaya 95%, menguasai hak paten arsitektur termal, dan memicu revolusi efisiensi industri.',
+              text: 'Sediakan retur gratis instan 1-klik tanpa tanya, dan gunakan data ukuran tersebut untuk memperbaiki tabel panduan fitting AI.',
+              consequence: 'Loyalitas konsumen melesat, frekuensi belanja berulang naik 3x lipat, dan retensi jangka panjang mendominasi pasar.',
               scoreBonus: 50,
               isOptimal: true,
-              explanation: 'Metode otentik SpaceX: komponen dasar baterai sama saja, rekayasa pelindungnyalah yang perlu dirancang cerdas.',
+              explanation: 'Customer Obsession Bezos: kepercayaan pelanggan adalah aset flywheel paling berharga yang tak bisa dibeli iklan.',
             },
           ],
         },
         quiz: [
           {
-            id: 'q1',
-            question: 'Apa perbedaan mendasar antara "Reasoning by First Principles" dengan "Reasoning by Analogy"?',
+            id: 'q-bez-1',
+            question: 'Dalam filosofi manajemen Jeff Bezos di Amazon, apa arti dari menjaga kondisi "Day 1"?',
             options: [
-              'First Principles berlandaskan peniruan praktik terbaik kompetitor, Analogy berlandaskan riset laboratorium',
-              'First Principles membedah masalah hingga kebenaran paling mendasar yang tidak bisa disangkal lagi, Analogy meniru apa yang sudah lazim dilakukan orang lain',
-              'First Principles hanya berlaku untuk ilmu matematika teoritis, Analogy berlaku untuk bisnis',
-              'Analogy selalu menghasilkan produk lebih murah daripada First Principles',
+              'Memulai kembali anggaran keuangan perusahaan ke angka nol setiap awal bulan',
+              'Mempertahankan rasa lapar, kecepatan inovasi, eksperimen cepat, dan obsesi pelanggan seperti startup baru agar terhindar dari kematian birokrasi (Day 2)',
+              'Membatasi jam kerja karyawan hanya di hari pertama setiap minggu',
+              'Menolak mempekerjakan karyawan eksekutif berpengalaman',
             ],
             correctAnswerIndex: 1,
-            explanation: 'First Principles menolak argumen "karena dari dulu sudah begitu", melainkan menganalisis fakta dasar fisika/kimia/ekonomi secara murni.',
-          },
-          {
-            id: 'q2',
-            question: 'Ketika Musk menganalisis biaya roket luar angkasa pertama kali, apa temuan mengejutkan dari First Principles?',
-            options: [
-              'Harga bahan mentah (aluminium, titanium, tembaga) roket ternyata hanya sekitar 2% dari harga jual roket konvensional',
-              'Bahan bakar roket menghabiskan 95% dari total anggaran peluncuran',
-              'Besi roket tidak bisa diproduksi tanpa izin khusus militer',
-              'Roket lebih murah jika dibeli second-hand dari negara lain',
-            ],
-            correctAnswerIndex: 0,
-            explanation: 'Musk menyadari bahwa 98% harga roket adalah biaya inefisiensi manufaktur, perantara berlapis, dan margin kontraktor pertahanan.',
+            explanation: 'Bezos menyatakan bahwa "Day 2 is stasis, followed by irrelevance, followed by excruciating decline, followed by death." Day 1 adalah disiplin menjaga kelincahan dan relevansi.',
           },
         ],
       },
       {
-        id: 'musk-vertical-integration',
-        label: 'Integrasi Vertikal & Rantai Pasok',
+        id: 'dalio-arnault',
+        label: 'Ray Dalio & Bernard Arnault',
         domain: 'Ekonomi',
-        summary: 'Mengontrol pasokan dari hulu ke hilir untuk memangkas margin perantara dan mempercepat iterasi produk.',
-        x: 640,
-        y: 150,
-        level: 1,
-        microContent: {
-          analogy:
-            'Jika Anda membuka restoran steak dan bergantung pada calo daging, calo arang, dan kurir luar, Anda terus diperas saat ada kelangkaan. Jika Anda punya peternakan sapi sendiri dan pabrik bumbu sendiri, Anda bisa menjual daging kualitas dewa dengan harga separuh harga pasar, kapan pun Anda mau.',
-          crossDisciplinary: {
-            connectionText: 'Mikroekonomi x Dinamika Manufaktur',
-            domains: ['Ekonomi', 'Bisnis'],
-            insight:
-              'Integrasi vertikal membalikkan doktrin "outsourcing total" dekade 1990-an. Dengan memproduksi 80% komponen in-house (seperti chip giga-casting Tesla), kecepatan siklus pembaruan software-hardware melonjak harian bukan tahunan.',
-          },
-          actionableSteps: [
-            'Petakan 3 ketergantungan paling rentan pada pihak ketiga yang bisa melumpuhkan operasi bisnis Anda.',
-            'Hitung Margin Markup yang diambil supplier utama Anda dalam 1 tahun.',
-            'Lakukan eksperimen "insourcing" pada 1 bottleneck operasional terkecil.',
-          ],
-        },
-        decisionScenario: {
-          title: 'Kasus: Krisis Kelangkaan Semikonduktor Global',
-          context: 'Pemasok chip global menghentikan pengiriman kontroler kemudi mobil selama 6 bulan.',
-          dilemma: 'Pesaing memilih menghentikan pabrik dan meliburkan buruh.',
-          choices: [
-            {
-              id: 'c1',
-              text: 'Hentikan jalur perakitan dan klaim asuransi force majeure sampai rantai pasok pulih.',
-              consequence: 'Pengiriman unit nol, arus kas berdarah-darah, dan antrean pembeli membatalkan pesanan.',
-              scoreBonus: 10,
-              isOptimal: false,
-              explanation: 'Pasif terhadap disrupsi rantai pasok menghancurkan momentum pertumbuhan dan kepercayaan investor.',
-            },
-            {
-              id: 'c2',
-              text: 'Kumpulkan insinyur in-house malam ini: beli microchip alternatif yang masih ada di pasaran, lalu tulis ulang firmware mobil dalam 2 minggu.',
-              consequence: 'Pabrik tetap memproduksi rekor mobil tertinggi di industri saat kompetitor lumpuh total.',
-              scoreBonus: 50,
-              isOptimal: true,
-              explanation: 'Langkah nyata Tesla saat chip crisis 2021: kemampuan integrasi vertikal hardware & software menyelamatkan bisnis dari kebangkrutan.',
-            },
-          ],
-        },
-        quiz: [
-          {
-            id: 'q1',
-            question: 'Mengapa integrasi vertikal ekstrem (membuat komponen sendiri) memberikan keunggulan kompetitif pada kecepatan inovasi?',
-            options: [
-              'Karena perusahaan tidak perlu lagi membayar pajak daerah',
-              'Karena modifikasi desain komponen bisa langsung diuji di pabrik sendiri dalam hitungan jam tanpa menunggu siklus negosiasi kontrak vendor berbulan-bulan',
-              'Karena buruh in-house selalu bersedia dibayar lebih rendah dari buruh vendor',
-              'Karena pemerintah melarang perusahaan membeli komponen luar negeri',
-            ],
-            correctAnswerIndex: 1,
-            explanation: 'Siklus feedback loop menjadi luar biasa cepat ketika insinyur desain dan operator manufaktur bekerja di bawah satu atap yang sama.',
-          },
-        ],
-      },
-      {
-        id: 'musk-asymmetric-bets',
-        label: 'Taruhan Asimetris & Reinvestasi Modal',
-        domain: 'Keuangan',
-        summary: 'Menginvestasikan 100% modal hasil exit (PayPal) ke risiko terhitung dengan upside 100x lipat.',
-        x: 230,
+        summary: 'Siklus Mesin Ekonomi Ray Dalio dan Monopoli Hasrat Barang Mewah (Veblen Moat) Bernard Arnault (LVMH).',
+        x: 620,
         y: 430,
         level: 1,
         microContent: {
           analogy:
-            'Mayoritas penjudi melempar koin: menang dapat Rp 100, kalah hilang Rp 100 (simetris). Investor asimetris bertaruh: jika kalah hilang Rp 10 (terbatas), tapi jika menang dapat Rp 1.000. Setelah PayPal dibeli eBay seharga $1.5 Miliar, Musk membawa $180 Juta bersih dan mempertaruhkan seluruhnya: $100M ke SpaceX, $70M ke Tesla, $10M ke SolarCity sampai harus meminjam uang sewa rumah.',
+            'Bernard Arnault tidak menjual tas kulit; ia menjual sertifikat status keanggotaan aristokrasi modern. Saat ekonomi lesu dan produsen mobil menurunkan harga, LVMH justru menaikkan harga tas Louis Vuitton 12%. Semakin mahal harganya, semakin orang kaya berebut membelinya karena hukum permintaan Veblen: nilai barang terletak pada ketidakterjangkauannya bagi orang banyak.',
           crossDisciplinary: {
-            connectionText: 'Keuangan Kuantitatif x Psikologi Toleransi Risiko',
-            domains: ['Keuangan', 'Psikologi'],
+            connectionText: 'Makroekonomi Siklikal x Sosiologi Status Simbolik',
+            domains: ['Ekonomi', 'Psikologi'],
             insight:
-              'Konsep "Antifragility" karya Nassim Taleb: dengan menerima kemungkinan gagal jangka pendek demi potensi payoff yang tak terbatas, portofolio modal berkembang secara eksponensial bukan linier.',
+              'Ray Dalio mengajarkan bahwa transaksi adalah atom dari ekonomi: pengeluaran satu orang adalah pendapatan orang lain. Mengombinasikan pemahaman siklus kredit dengan aset anti-inflasi Veblen menghasilkan portofolio kekal.',
           },
           actionableSteps: [
-            'Alokasikan "Barbell Strategy": 80% aset di instrumen super aman, 20% di eksperimen bernilai upside sangat tinggi.',
-            'Pastikan risiko kegagalan terburuk tidak membuat Anda bangkrut secara eksistensial.',
-            'Hindari taruhan simetris yang risikonya sama besar dengan potensi keuntungannya.',
+            'Pelajari 3 mesin pendorong ekonomi makro karya Ray Dalio: Pertumbuhan Produktivitas, Siklus Utang Jangka Pendek (5-8 tahun), dan Siklus Utang Jangka Panjang (50-75 tahun).',
+            'Analisis strategi diferensiasi Anda: Apakah Anda bersaing di zona komoditas harga murah atau zona nilai prestise eksklusif?',
+            'Bangun "All Weather Portfolio" yang tahan terhadap inflasi tinggi maupun deflasi.',
           ],
         },
         decisionScenario: {
-          title: 'Kasus: Reinvestasi Arus Kas Usaha Pertama',
-          context: 'Bisnis pertama Anda baru saja menghasilkan profit bersih Rp 500 Juta tunai.',
-          dilemma: 'Bagaimana mengalokasikan modal ini untuk fase dekade berikutnya?',
+          title: 'Kasus: Strategi Harga Saat Inflasi Global Naik',
+          context: 'Biaya bahan baku produk fashion premium lokal Anda naik 18% akibat pelemahan kurs mata uang.',
+          dilemma: 'Bagaimana merespons kenaikan biaya tanpa merusak persepsi pasar?',
           choices: [
             {
               id: 'c1',
-              text: 'Beli mobil mewah baru untuk flexing status sosial dan konsumsi hedonik.',
-              consequence: 'Depresiasi aset 20% per tahun, biaya pemeliharaan tinggi, dan modal ekspansi Anda lenyap.',
-              scoreBonus: 0,
+              text: 'Gunakan bahan sintetis murahan dan pasang label diskon 50% di etalase.',
+              consequence: 'Pelanggan elit merasa kualitas turun dan status produk Anda terdegradasi menjadi barang murahan pasar loak.',
+              scoreBonus: 5,
               isOptimal: false,
-              explanation: 'Konsumsi status sebelum memiliki fondasi aset produktif adalah perangkap psikologis kelas menengah.',
+              explanation: 'Menurunkan persepsi prestise menghancurkan parit emosional produk premium.',
             },
             {
               id: 'c2',
-              text: 'Kunci dana darurat 6 bulan, lalu gunakan sisanya untuk mendanai otomatisasi software dan penetrasi pasar baru.',
-              consequence: 'Bisnis Anda meningkatkan kapasitas skalabilitas dan melipatgandakan valuasi perusahaan tahun depan.',
+              text: 'Pertahankan bahan baku terbaik, naikkan harga 20%, rilis edisi bernomor seri terbatas (limited numbered batch) dengan sertifikat keaslian fisik.',
+              consequence: 'Konsumen kolektor berebut membeli karena unsur kelangkaan dan prestise status sosial kian mengkilap.',
               scoreBonus: 50,
               isOptimal: true,
-              explanation: 'Compound interest modal bisnis terjadi ketika arus kas diumpankan kembali ke mesin pencipta nilai.',
+              explanation: 'Prinsip Arnault: barang dengan nilai simbolik tinggi kebal dari elastisitas harga tradisional jika kelangkaannya terjaga.',
             },
           ],
         },
         quiz: [
           {
-            id: 'q1',
-            question: 'Apa definisi dari "Asymmetric Risk-Reward" dalam strategi alokasi modal tingkat tinggi?',
+            id: 'q-dal-1',
+            question: 'Dalam hukum ekonomi, apa yang dimaksud dengan "Barang Veblen" (Veblen Good) seperti produk LVMH, Hermès, atau Rolex?',
             options: [
-              'Kerugian yang mungkin terjadi tidak terbatas sementara keuntungannya kecil',
-              'Potensi penurunan (downside) telah dibatasi atau dipahami, sementara potensi kenaikan (upside) berkali-kali lipat lebih besar',
-              'Menaruh seluruh uang pada satu instrumen lotre tanpa analisa dasar',
-              'Menghindari segala bentuk risiko bisnis dengan menyimpan uang di bawah kasur',
+              'Barang kebutuhan pokok yang harganya dikontrol ketat oleh subsidi pemerintah',
+              'Barang yang jumlah permintaannya justru meningkat ketika harganya semakin mahal karena dipandang sebagai simbol status sosial',
+              'Barang bekas yang diperdagangkan secara ilegal di pasar gelap',
+              'Barang yang hanya boleh dibeli dengan mata uang kripto',
             ],
             correctAnswerIndex: 1,
-            explanation: 'Taruhan asimetris yang sehat membatasi total modal yang bisa hilang pada angka pasti, tetapi potensi apresiasinya bersifat eksponensial.',
-          },
-        ],
-      },
-      {
-        id: 'musk-narrative-capital',
-        label: 'Narrative Capital & Meme Efficiency',
-        domain: 'Psikologi',
-        summary: 'Mengubah atensi publik menjadi modal likuid tanpa belanja iklan konvensional.',
-        x: 600,
-        y: 430,
-        level: 1,
-        microContent: {
-          analogy:
-            'Kompetitor otomotif menghabiskan Rp 50 Triliun per tahun untuk memasang spanduk di stadion bola dan iklan komersial TV. Musk hanya mengetik satu tweet jenaka di akun pribadinya sambil menembakkan roket ke Mars. Siapa yang lebih diperbincangkan di meja makan keluarga sedunia? Atensi organik adalah mata uang termahal di era internet.',
-          crossDisciplinary: {
-            connectionText: 'Psikologi Massa x Biaya Akuisisi Konsumen (CAC)',
-            domains: ['Psikologi', 'Bisnis'],
-            insight:
-              'Biaya Customer Acquisition Cost (CAC) Tesla secara efektif mendekati $0 per kendaraan karena pendiri bertindak sebagai saluran media langsung (Direct-to-Consumer Distribution Channel).',
-          },
-          actionableSteps: [
-            'Bangun "Personal Monopoly": bagikan proses kerja dan visi Anda secara transparan di platform media sosial profesional.',
-            'Kurangi ketergantungan pada iklan berbayar (paid ads) dengan menciptakan produk yang memiliki faktor pembicaraan (Word-of-Mouth viral).',
-            'Sampaikan narasi misi yang lebih besar dari sekadar menjual komoditas (misal: akselerasi energi terbarukan).',
-          ],
-        },
-        decisionScenario: {
-          title: 'Kasus: Peluncuran Produk Baru dengan Budget Iklan Terbatas',
-          context: 'Anda memiliki produk minuman probiotik lokal dengan modal pemasaran hanya Rp 5 Juta.',
-          dilemma: 'Bagaimana menarik 10.000 pelanggan pertama?',
-          choices: [
-            {
-              id: 'c1',
-              text: 'Bakar uang Rp 5 Juta untuk pasang Google Ads acak tanpa diferensiasi konten.',
-              consequence: 'Budget habis dalam 3 hari, hanya mendapat segelintir klik tanpa konversi emosional yang loyal.',
-              scoreBonus: 10,
-              isOptimal: false,
-              explanation: 'Uang iklan kecil yang disebar tipis akan ditelan oleh algoritma raksasa korporasi.',
-            },
-            {
-              id: 'c2',
-              text: 'Dokumentasikan uji coba lab independen di video pendek: tunjukkan secara transparan kadar gula kompetitor vs kultur bakteri asli Anda.',
-              consequence: 'Konten otentik viral, ditonton jutaan kali karena unsur edukasi & keberanian, pesanan pre-order meledak.',
-              scoreBonus: 50,
-              isOptimal: true,
-              explanation: 'Keaslian dan narasi transparansi mengalahkan budget spanduk konvensional.',
-            },
-          ],
-        },
-        quiz: [
-          {
-            id: 'q1',
-            question: 'Apa dampak finansial langsung dari strategi "Zero Ad Spend" Tesla terhadap margin bisnisnya?',
-            options: [
-              'Tesla terpaksa menurunkan harga saham karena dianggap tidak profesional',
-              'Menghemat miliaran dolar anggaran marketing yang bisa dialihkan langsung ke anggaran R&D dan pabrik giga-casting',
-              'Mobil Tesla tidak dikenal oleh konsumen di luar Amerika Serikat',
-              'Penyalur diler mobil menuntut Tesla ke pengadilan perdata',
-            ],
-            correctAnswerIndex: 1,
-            explanation: 'Dengan memotong beban iklan tradisional, Tesla mengalihkan dana kas langsung untuk keunggulan teknis baterai dan perangkat lunak otonom.',
+            explanation: 'Dinamakan dari sosiolog Thorstein Veblen. Barang Veblen membalikkan kurva permintaan umum: semakin tinggi harganya, semakin tinggi daya tarik psikologis kepemilikannya.',
           },
         ],
       },
     ],
     edges: [
-      { id: 'e1', from: 'musk-root', to: 'musk-first-principles', label: 'Fondasi Logika', domains: ['Bisnis', 'Psikologi'] },
-      { id: 'e2', from: 'musk-root', to: 'musk-vertical-integration', label: 'Struktur Operasi', domains: ['Bisnis', 'Ekonomi'] },
-      { id: 'e3', from: 'musk-root', to: 'musk-asymmetric-bets', label: 'Mesin Multiplikasi', domains: ['Bisnis', 'Keuangan'] },
-      { id: 'e4', from: 'musk-root', to: 'musk-narrative-capital', label: 'Kekuatan Atensi', domains: ['Bisnis', 'Psikologi'] },
-      { id: 'e5', from: 'musk-first-principles', to: 'musk-vertical-integration', label: 'Biaya Bahan vs Vendor', domains: ['Psikologi', 'Ekonomi'] },
-      { id: 'e6', from: 'musk-asymmetric-bets', to: 'musk-narrative-capital', label: 'Sentimen Menggerakkan Valuasi', domains: ['Keuangan', 'Psikologi'] },
+      { id: 'me1', from: 'miliarder-root', to: 'buffett-moat', label: 'Parit Pertahanan & Modal', domains: ['Bisnis', 'Keuangan'] },
+      { id: 'me2', from: 'miliarder-root', to: 'musk-first-principles', label: 'Rekayasa Inovasi Radikal', domains: ['Bisnis', 'Psikologi'] },
+      { id: 'me3', from: 'miliarder-root', to: 'bezos-flywheel', label: 'Mesin Skala Jangka Panjang', domains: ['Bisnis', 'Psikologi'] },
+      { id: 'me4', from: 'miliarder-root', to: 'dalio-arnault', label: 'Siklus Makro & Pricing Power', domains: ['Bisnis', 'Ekonomi'] },
+      { id: 'me5', from: 'buffett-moat', to: 'dalio-arnault', label: 'Alokasi Modal Tahan Krisis', domains: ['Keuangan', 'Ekonomi'] },
+      { id: 'me6', from: 'musk-first-principles', to: 'bezos-flywheel', label: 'Kecepatan Iterasi Sistem', domains: ['Bisnis', 'Psikologi'] },
     ],
   },
 
-  'Dasar-Dasar Inflasi & Saham': {
-    id: 'mindmap-inflasi-saham',
-    topic: 'Dasar-Dasar Inflasi & Saham',
-    rootId: 'inflasi-root',
-    description: 'Bagaimana uang kertas tergerus waktu dan bagaimana kepemilikan bisnis riil (saham) menjadi tameng daya beli.',
+  // ============================================================================
+  // 2. VALUASI SAHAM, TRADING & MAKROEKONOMI
+  // ============================================================================
+  'Valuasi Saham, Trading & Makroekonomi': {
+    id: 'mindmap-saham-trading-makro',
+    topic: 'Valuasi Saham, Trading & Makroekonomi',
+    rootId: 'saham-root',
+    description: 'Bongkar gravitasi pasar modal: Model DCF, Suku Bunga The Fed, Analisis Siklus Likuiditas, Forex DXY, dan Psikologi Risk/Reward.',
     nodes: [
       {
-        id: 'inflasi-root',
-        label: 'Dinamika Inflasi & Ekuitas Saham',
-        domain: 'Ekonomi',
-        summary: 'Inflasi adalah pencuri tak kasat mata atas daya beli uang fiat. Saham adalah instrumen kepemilikan mesin bisnis yang memiliki pricing power.',
+        id: 'saham-root',
+        label: 'Gravitasi Pasar Modal & Arus Kas',
+        domain: 'Keuangan',
+        summary: 'Harga saham dalam jangka pendek adalah mesin pemungut suara (voting machine), namun dalam jangka panjang adalah timbangan bobot arus kas sejati (weighing machine).',
         x: 400,
         y: 280,
         level: 0,
         microContent: {
           analogy:
-            'Bayangkan Anda menyimpan 10 karung beras di lumbung. Setiap tahun ada tikus tak terlihat yang memakan 5% dari isi karung tanpa Anda sadari. Sepuluh tahun kemudian, fisik karungnya masih 10 buah, tetapi isinya tinggal separuh. Saham bukan karung beras pasif, melainkan kepemilikan sawah yang bisa menaikkan harga jual padinya kapan saja tikus datang.',
+            'Pasar saham bagaikan anjing energetik yang diikat tali kekang oleh majikannya saat berjalan-jalan di taman. Anjing itu bisa melompat 10 meter ke kiri (hype/euforia) atau berlari ke selokan di kanan (panik krisis), namun pada akhirnya ke mana pun anjing itu melompat, ia terikat tali gravitasi pada langkah sang majikan. Sang majikan adalah arus kas riil perusahaan.',
           crossDisciplinary: {
-            connectionText: 'Makroekonomi x Psikologi Tabungan',
-            domains: ['Ekonomi', 'Psikologi'],
+            connectionText: 'Keuangan Kuantitatif x Psikologi Kerumunan',
+            domains: ['Keuangan', 'Psikologi'],
             insight:
-              '"Money Illusion" membuat orang merasa kaya saat saldo tabungan di rekening tetap sama, padahal daya beli riil terhadap telur, tanah, dan layanan kesehatan telah anjlok drastis.',
+              'Volatilitas harga adalah sahabat bagi investor berdisiplin nilai karena memberikan peluang membeli bisnis hebat di harga diskon ekstrim saat pasar histeris.',
           },
           actionableSteps: [
-            'Hitung "Real Return" portofolio Anda: Bunga Tabungan dikurangi Angka Inflasi Riil = Pendapatan Bersih Sejati.',
-            'Alihkan dana darurat berlebih di atas 6 bulan ke instrumen produktif penyerap inflasi.',
-            'Koleksi saham perusahaan yang memproduksi barang kebutuhan primer yang tidak bisa ditinggalkan masyarakat.',
+            'Buka laporan keuangan emiten: fokus pada baris "Free Cash Flow" (Arus Kas Bebas), bukan sekadar Laba Bersih akuntansi.',
+            'Hitung Nilai Intrinsik sederhana sebelum memutuskan menekan tombol beli di aplikasi sekuritas.',
+            'Pisahkan rekening investasi jangka panjang (weighing) dengan rekening eksperimen trading jangka pendek (tactical).',
           ],
         },
         decisionScenario: {
-          title: 'Kasus: Mengamankan Tabungan Pensiun Rp 100 Juta',
-          context: 'Tingkat inflasi tahunan diperkirakan melonjak menjadi 7% akibat kenaikan harga energi dunia.',
-          dilemma: 'Teman Anda menyarankan mendiamkan seluruh uang di deposito bank dengan bunga 3%.',
+          title: 'Kasus: Saham Bluechip Turun 30% Akibat Berita Sentimen',
+          context: 'Emiten perbankan terbesar dengan laba bertumbuh 14% tiba-tiba terkoreksi 30% karena kekhawatiran geopolitik regional.',
+          dilemma: 'Portofolio Anda sedang minus sementara analis media sosial menyarankan jual semua aset.',
           choices: [
             {
               id: 'c1',
-              text: 'Ikuti saran teman: taruh 100% di deposito 3% karena tidak ada risiko fluktuasi angka di buku tabungan.',
-              consequence: 'Secara nominal uang Anda bertambah Rp 3 Juta, namun harga barang naik Rp 7 Juta. Anda tekor 4% daya beli setiap tahun.',
-              scoreBonus: 10,
-              isOptimal: false,
-              explanation: 'Menghindari volatilitas pasar saham justru menjerumuskan Anda ke dalam kepastian kehilangan daya beli.',
-            },
-            {
-              id: 'c2',
-              text: 'Pertahankan dana darurat di deposito/pasar uang, sisanya investasikan secara bertahap ke ETF indeks saham perusahaan berkualitas.',
-              consequence: 'Dalam jangka menengah dan panjang, dividen dan pertumbuhan laba perusahaan bertindak sebagai eskalator di atas laju inflasi.',
-              scoreBonus: 50,
-              isOptimal: true,
-              explanation: 'Perusahaan hebat menaikkan harga jual produknya saat inflasi naik, mengalirkan proteksi langsung ke pemegang sahamnya.',
-            },
-          ],
-        },
-        quiz: [
-          {
-            id: 'q1',
-            question: 'Jika inflasi tahun ini adalah 6% dan bunga tabungan bank Anda 2%, berapakah "Real Return" uang Anda?',
-            options: ['+4%', '-4%', '+8%', '0%'],
-            correctAnswerIndex: 1,
-            explanation: 'Return Riil = Return Nominal (2%) dikurangi Inflasi (6%) = -4%. Daya beli riil Anda menyusut 4% dalam setahun.',
-          },
-          {
-            id: 'q2',
-            question: 'Mengapa saham perusahaan dengan "Pricing Power" kuat menjadi lindung nilai (hedge) terbaik terhadap inflasi?',
-            options: [
-              'Karena perusahaan tersebut diwajibkan pemerintah membagikan bantuan tunai',
-              'Karena mereka dapat menaikkan harga jual produk ke konsumen tanpa kehilangan pangsa pasar yang signifikan',
-              'Karena saham tidak terpengaruh oleh kebijakan suku bunga bank sentral',
-              'Karena harga saham dipatok dengan emas murni',
-            ],
-            correctAnswerIndex: 1,
-            explanation: 'Pricing power memungkinkan bisnis mentransfer kenaikan biaya bahan mentah ke harga jual akhir, menjaga margin laba tetap tebal.',
-          },
-        ],
-      },
-      {
-        id: 'inflasi-purchasing-power',
-        label: 'Erosi Daya Beli & Uang Fiat',
-        domain: 'Keuangan',
-        summary: 'Uang kertas dicetak bank sentral; kelimpahan pasokan uang mendilusi nilai tukar setiap unitnya.',
-        x: 180,
-        y: 160,
-        level: 1,
-        microContent: {
-          analogy:
-            'Tahun 1995, selembar uang Rp 10.000 bisa mentraktir satu keluarga makan bakso lengkap dengan es teh. Hari ini, Rp 10.000 bahkan tidak cukup untuk parkir mobil di mall dua jam. Kertasnya sama, tintanya sama, tetapi daya tawar atomiknya telah menguap ke udara.',
-          crossDisciplinary: {
-            connectionText: 'Kebijakan Moneter x Nilai Riil Barang',
-            domains: ['Keuangan', 'Ekonomi'],
-            insight:
-              'Kuantitas uang beredar (M2 Money Supply) yang bertambah lebih cepat dari pertumbuhan barang fisik selalu berujung pada devaluasi mata uang.',
-          },
-          actionableSteps: [
-            'Bandingkan harga makanan favorit Anda 5 tahun lalu vs hari ini untuk mengukur inflasi personal riil Anda.',
-            'Jangan pernah mengukur kekayaan dari lembaran nominal uang, ukurlah dari berapa banyak aset produktif yang Anda miliki.',
-            'Diversifikasi sebagian kekayaan ke aset hard-asset.',
-          ],
-        },
-        decisionScenario: {
-          title: 'Kasus: Pilihan Menahan Uang Kas Dingin',
-          context: 'Anda memiliki sisa uang tunai yang menganggur selama 3 tahun tanpa rencana belanja.',
-          dilemma: 'Apakah membiarkannya di rekening giro tanpa bunga?',
-          choices: [
-            {
-              id: 'c1',
-              text: 'Biarkan di rekening giro bank demi kemudahan transfer belanja online sewaktu-waktu.',
-              consequence: 'Uang Anda tergerus biaya administrasi bulanan dan inflasi gabungan 15% selama 3 tahun.',
+              text: 'Panik dan jual seluruh saham di titik terendah agar bisa tidur nyenyak malam ini.',
+              consequence: 'Anda mengunci kerugian permanen dan melewatkan rebound pemulihan terbesar saat fundamental kembali dihargai pasar.',
               scoreBonus: 5,
               isOptimal: false,
-              explanation: 'Uang menganggur adalah pekerja malas yang terus dipotong gajinya oleh waktu.',
+              explanation: 'Menjual berdasarkan ketakutan berita sesaat adalah kesalahan psikologis paling mematikan bagi investor ritel.',
             },
             {
               id: 'c2',
-              text: 'Pindahkan ke instrumen Reksadana Pasar Uang atau Obligasi Ritel Negara yang memberikan imbal hasil di atas inflasi.',
-              consequence: 'Uang tetap likuid bisa ditarik kapan saja, namun modal Anda bertumbuh mengimbangi biaya hidup.',
+              text: 'Verifikasi neraca: pastikan NPL (kredit macet) bank tetap rendah, lalu lakukan akumulasi bertahap (DCA) di valuasi murah.',
+              consequence: 'Rata-rata harga beli Anda sangat menguntungkan, menghasilkan capital gain dan dividend yield luar biasa dalam 2 tahun ke depan.',
               scoreBonus: 50,
               isOptimal: true,
-              explanation: 'Prinsip efisiensi kas: setiap rupiah harus menghasilkan bunga minimal sama dengan laju kenaikan harga.',
+              explanation: 'Prinsip Benjamin Graham: jadikan ketakutan pasar sebagai diskon berharga untuk mengoleksi aset bernilai tinggi.',
             },
           ],
         },
         quiz: [
           {
-            id: 'q1',
-            question: 'Fenomena apa yang terjadi saat jumlah uang beredar meningkat drastis tanpa diimbangi peningkatan produksi barang di pasar?',
+            id: 'q-sh-1',
+            question: 'Mengapa "Free Cash Flow" (Arus Kas Bebas) sering dianggap indikator yang lebih jujur dibanding "Net Income" (Laba Bersih Akuntansi)?',
             options: [
-              'Deflasi dan apresiasi mata uang',
-              'Inflasi akibat tarikan permintaan (Demand-pull inflation) dan penurunan daya beli uang',
-              'Kenaikan upah buruh tanpa batas',
-              'Pengurangan utang negara secara otomatis',
+              'Karena Free Cash Flow tidak dilaporkan ke kantor pajak',
+              'Karena laba bersih dapat dimanipulasi dengan metode akuntansi akrual, sedangkan Free Cash Flow mengukur uang kas dingin yang benar-benar tersisa di rekening perusahaan setelah belanja modal',
+              'Karena Free Cash Flow selalu bernilai lebih besar dari omzet',
+              'Karena bursa efek melarang perusahaan menghitung dividen dari laba bersih',
             ],
             correctAnswerIndex: 1,
-            explanation: 'Lebih banyak uang memperebutkan jumlah barang yang sama, sehingga harga barang terdorong naik.',
+            explanation: 'Uang kas tidak bisa dipalsukan dengan pencatatan akrual. Free Cash Flow adalah darah hidup sejati untuk ekspansi, dividen, dan pembayaran utang.',
           },
         ],
       },
       {
-        id: 'inflasi-pricing-power',
-        label: 'Pricing Power & Economic Moats',
-        domain: 'Bisnis',
-        summary: 'Karakteristik bisnis unggulan (Warren Buffett): kemampuan menaikkan harga tanpa ditinggal konsumen.',
-        x: 620,
-        y: 160,
+        id: 'saham-dcf',
+        label: 'Discounted Cash Flow (DCF)',
+        domain: 'Keuangan',
+        summary: 'Menghitung nilai sekarang (Present Value) dari seluruh arus kas masa depan yang didiskontokan dengan biaya modal.',
+        x: 180,
+        y: 130,
         level: 1,
         microContent: {
           analogy:
-            'Jika tukang sayur di gang menaikkan harga wortel 20%, Anda langsung pindah ke tukang sayur sebelah. Tetapi ketika Apple menaikkan harga iPhone sebesar 15%, jutaan penggemar tetap mengantre di mall sejak subuh. Apple memiliki parit pelindung (Economic Moat) berupa keterikatan ekosistem dan prestise psikologis.',
+            'Uang Rp 1 Juta yang akan Anda terima 5 tahun lagi tidak sama nilainya dengan Rp 1 Juta di tangan Anda hari ini. Kenapa? Karena Rp 1 Juta hari ini bisa diinvestasikan berbunga dan terbebas dari erosi inflasi 5 tahun. Model DCF adalah mesin waktu matematika yang menarik seluruh uang masa depan sebuah perusahaan ke nilai rupiah hari ini.',
           crossDisciplinary: {
-            connectionText: 'Strategi Bisnis x Loyalitas Psikologis',
-            domains: ['Bisnis', 'Psikologi'],
+            connectionText: 'Matematika Finansial x Teori Peluang',
+            domains: ['Keuangan', 'Ekonomi'],
             insight:
-              'Biaya peralihan (Switching Costs) dan kekuatan brand emosional adalah perisai paling sakti melawan tekanan inflasi.',
+              'Tingkat diskonto (Discount Rate/WACC) sangat dipengaruhi oleh suku bunga bank sentral. Suku bunga naik = pembagi semakin besar = valuasi saham menyusut.',
           },
           actionableSteps: [
-            'Analisis bisnis Anda: Jika Anda menaikkan harga 10% besok pagi, berapa persen pelanggan yang akan benar-benar pergi?',
-            'Bangun keunikan nilai tambah yang tidak dimiliki kompetitor agar tidak terjebak perang harga komoditas.',
-            'Pilih saham yang memiliki Gross Margin tebal (>40%) saat menyeleksi emiten di bursa.',
+            'Pahami komponen WACC: Cost of Equity + Cost of Debt setelah pajak.',
+            'Gunakan Margin of Safety minimal 25-30% di bawah nilai intrinsik DCF Anda.',
+            'Hindari asumsi pertumbuhan abadi (terminal growth rate) yang melebihi pertumbuhan PDB nasional.',
           ],
         },
         decisionScenario: {
-          title: 'Kasus: Kenaikan Biaya Bahan Baku 25%',
-          context: 'Biaya kopi dan susu di kafe Anda melonjak 25% akibat cuaca buruk global.',
-          dilemma: 'Bagaimana merespons kenaikan biaya ini agar bisnis tidak bangkrut?',
+          title: 'Kasus: Menaksir Valuasi Perusahaan SaaS',
+          context: 'Sebuah startup software berlangganan memproyeksikan Free Cash Flow Rp 10 Miliar tahun depan dan tumbuh 20% per tahun.',
+          dilemma: 'Berapa harga wajar yang berani Anda tawarkan untuk mengakuisisi 10% sahamnya?',
           choices: [
             {
               id: 'c1',
-              text: 'Ganti biji kopi dengan kualitas murah yang rasanya hambar demi mempertahankan harga lama.',
-              consequence: 'Pelanggan setia merasa dibohongi, ulasan Google Maps drop ke bintang 2, omzet hancur.',
+              text: 'Bayar 50x lipat omzet karena percaya pada presentasi pitchdeck pendiri yang menjanjikan monopoli pasar.',
+              consequence: 'Valuasi terlalu mahal (overpaying), saat pertumbuhan melambat sedikit saja, nilai investasi Anda jatuh bebas.',
               scoreBonus: 10,
               isOptimal: false,
-              explanation: 'Mengorbankan integritas produk merusak reputasi jangka panjang yang sulit dipulihkan.',
+              explanation: 'Membayar valuasi euforia tanpa diskonto arus kas riil mengabaikan risiko eksekusi bisnis.',
             },
             {
               id: 'c2',
-              text: 'Pertahankan kualitas biji kopi terbaik, naikkan harga 15% disertai peluncuran menu seasonal eksklusif beraroma khas.',
-              consequence: 'Pelanggan loyal memahami kualitas, citra kafe tetap premium, dan margin operasional terselamatkan.',
+              text: 'Gunakan kalkulasi DCF dengan tingkat diskonto 12% dan terapkan Margin of Safety 30% dari hasil hitungan wajar.',
+              consequence: 'Anda masuk di valuasi yang memberikan perlindungan modal kuat bahkan jika target pertumbuhan perusahaan meleset.',
               scoreBonus: 50,
               isOptimal: true,
-              explanation: 'Bisnis dengan diferensiasi kuat mampu membebankan biaya secara elegan tanpa merusak persepsi rasa.',
+              explanation: 'Margin of Safety adalah jaring pengaman paling mendasar dalam manajemen risiko investasi profesional.',
             },
           ],
         },
         quiz: [
           {
-            id: 'q1',
-            question: 'Menurut investor legendaris Warren Buffett, indikator tunggal paling penting dalam mengevaluasi kekuatan bisnis adalah:',
+            id: 'q-dcf-1',
+            question: 'Jika suku bunga acuan bank sentral naik dari 2% menjadi 6%, apa dampak matematis langsung terhadap hasil valuasi model DCF saham teknologi?',
             options: [
-              'Berapa banyak gedung kantor megah yang dimiliki perusahaan',
-              'Kemampuan penetapan harga (Pricing Power) tanpa takut kehilangan bisnis ke kompetitor',
-              'Jumlah follower di akun media sosial korporat',
-              'Hubungan kedekatan direksi dengan politisi lokal',
+              'Valuasi DCF otomatis melonjak naik dua kali lipat',
+              'Valuasi DCF saham menyusut drastis karena tingkat diskonto (penyebut pecahan) meningkat, mengurangi nilai sekarang dari arus kas masa depan',
+              'Model DCF tidak dapat dihitung lagi di komputer',
+              'Dividen saham teknologi dibebaskan dari pajak',
             ],
             correctAnswerIndex: 1,
-            explanation: 'Jika sebuah perusahaan memiliki pricing power, mereka terlindungi dari inflasi dan memiliki margin profit yang sustainable.',
+            explanation: 'Suku bunga bertindak sebagai gravitasi: semakin tinggi suku bunga, semakin mahal biaya modal dan semakin kecil nilai sekarang dari laba masa depan.',
           },
         ],
       },
       {
-        id: 'inflasi-interest-rates',
-        label: 'Suku Bunga & Gravitasi Valuasi',
+        id: 'saham-monetary',
+        label: 'Kebijakan Moneter & Suku Bunga',
         domain: 'Ekonomi',
-        summary: 'Kenaikan suku bunga oleh The Fed atau Bank Indonesia bertindak sebagai rem bagi valuasi aset berisiko.',
-        x: 250,
-        y: 430,
+        summary: 'Bagaimana siklus likuiditas The Fed, Quantitative Easing (QE), dan Quantitative Tightening (QT) mengendalikan harga aset global.',
+        x: 620,
+        y: 130,
         level: 1,
         microContent: {
           analogy:
-            'Suku bunga bank sentral bagaikan gravitasi bumi bagi harga saham. Ketika suku bunga 0%, gravitasi menghilang, saham teknologi melayang tinggi ke angkasa. Saat inflasi mengamuk dan bank sentral menaikkan suku bunga ke 6%, gravitasi menjadi sangat berat: semua aset yang tidak punya arus kas nyata akan terhempas keras ke tanah.',
+            'Bank sentral (The Fed / Bank Indonesia) adalah pengatur kran pasokan air di kolam renang global. Ketika kran dibuka penuh (QE / suku bunga 0%), air likuiditas meluap membanjiri kolam: semua perahu bebek plastik (aset kripto spekulatif, saham rugi, obligasi sampah) ikut terapung tinggi. Saat kran ditutup dan air disedot kembali (QT / suku bunga dinaikkan), kolam mengering dan terlihat siapa yang berenang telanjang tanpa celana.',
           crossDisciplinary: {
-            connectionText: 'Kebijakan Moneter x Matematika Diskon Kas',
+            connectionText: 'Makroekonomi Moneter x Aliran Modal Global',
             domains: ['Ekonomi', 'Keuangan'],
             insight:
-              'Dalam rumus Discounted Cash Flow (DCF), kenaikan suku bunga risk-free menaikkan denominator (penyebut), sehingga nilai sekarang (present value) dari arus kas masa depan otomatis menyusut.',
+              '"Don\'t fight the Fed" — bertaruh melawan arah arus likuiditas bank sentral seperti mendayung sampan melawan arus air terjun.',
           },
           actionableSteps: [
-            'Cermati jadwal pengumuman suku bunga BI 7-Day Reverse Repo Rate setiap bulan.',
-            'Kurangi kepemilikan saham spekulatif yang masih membakar uang (cash burning) saat era suku bunga tinggi.',
-            'Manfaatkan yield obligasi pemerintah yang sedang tinggi sebagai instrumen pendapatan pasif bebas risiko kredit.',
+            'Catat kalender pertemuan FOMC The Fed dan RDG Bank Indonesia setiap kuartal.',
+            'Pantau kurva imbal hasil obligasi (Inverted Yield Curve) sebagai sinyal awal resesi ekonomi.',
+            'Rebalancing alokasi kas dan obligasi saat siklus pengetatan moneter dimulai.',
           ],
         },
         decisionScenario: {
-          title: 'Kasus: Bank Sentral Mengumumkan Kenaikan Suku Bunga 100 bps',
-          context: 'Anda memegang 80% portofolio di saham startup teknologi yang belum mencatat profit.',
-          dilemma: 'Pasar mulai panik dan harga saham teknologi mulai berjatuhan.',
+          title: 'Kasus: The Fed Mengumumkan Siklus Suku Bunga Naik (Rate Hike)',
+          context: 'Inflasi Amerika mencapai 8.5% dan The Fed bersiap menaikkan suku bunga 75 bps secara agresif.',
+          dilemma: 'Portofolio Anda saat ini didominasi saham pertumbuhan yang sarat utang obligasi berbunga mengambang.',
           choices: [
             {
               id: 'c1',
-              text: 'Tutup mata dan berharap saham bakar uang akan pulih dalam beberapa minggu.',
-              consequence: 'Valuasi saham terus tertekan hingga -60% karena biaya modal (cost of capital) menjadi sangat mahal.',
-              scoreBonus: 10,
+              text: 'Abaikan pengumuman dan tambah leverage pinjaman margin untuk spekulasi.',
+              consequence: 'Biaya bunga pinjaman melonjak tinggi dan nilai portofolio Anda terkena margin call paksa.',
+              scoreBonus: 0,
               isOptimal: false,
-              explanation: 'Era uang murah telah berakhir; perusahaan tanpa laba riil paling menderita di rezim suku bunga tinggi.',
+              explanation: 'Menentang siklus pengetatan moneter dengan leverage adalah resep kebangkrutan paling cepat.',
             },
             {
               id: 'c2',
-              text: 'Rebalancing portofolio: alihkan porsi saham ke emiten yang memiliki kas melimpah, utang minim, dan dividend yield solid.',
-              consequence: 'Portofolio Anda terlindungi dari badai suku bunga dan menerima aliran dividen tunai yang stabil.',
+              text: 'Kurangi saham dengan utang tinggi berbunga mengambang, alihkan porsi ke instrumen pasar uang berimbal hasil tinggi dan emiten kaya kas bersih.',
+              consequence: 'Modal terlindungi dari kehancuran pasar, sekaligus menikmati bunga tabungan tinggi yang bebas risiko.',
               scoreBonus: 50,
               isOptimal: true,
-              explanation: 'Perusahaan berlimpah kas justru diuntungkan karena pendapatan bunga atas saldo kasnya meningkat di bank.',
+              explanation: 'Perusahaan berlimpah kas justru diuntungkan di era suku bunga tinggi karena pendapatan bunganya meningkat.',
             },
           ],
         },
         quiz: [
           {
-            id: 'q1',
-            question: 'Mengapa kenaikan suku bunga acuan bank sentral cenderung menekan harga saham di bursa?',
+            id: 'q-mon-1',
+            question: 'Apa fenomena yang ditandai ketika imbal hasil (yield) obligasi pemerintah jangka pendek (2 tahun) lebih tinggi daripada jangka panjang (10 tahun)?',
             options: [
-              'Karena bursa efek akan ditutup paksa oleh pemerintah',
-              'Karena biaya pinjaman perusahaan meningkat dan investor dapat beralih ke obligasi bebas risiko yang menawarkan yield menarik',
-              'Karena dividen perusahaan secara otomatis disita oleh bank sentral',
-              'Karena masyarakat berhenti mengonsumsi semua jenis makanan',
+              'Normal Yield Curve yang menandakan pertumbuhan ekonomi super pesat',
+              'Inverted Yield Curve (Kurva Imbal Hasil Terbalik) yang secara historis menjadi prediktor kuat akan terjadinya resesi ekonomi',
+              'Kenaikan dividen saham secara serentak di bursa',
+              'Penutupan bursa efek internasional',
             ],
             correctAnswerIndex: 1,
-            explanation: 'Suku bunga tinggi menaikkan biaya bunga utang emiten sekaligus menaikkan daya tarik imbal hasil surat utang negara.',
+            explanation: 'Kurva imbal hasil terbalik mencerminkan ekspektasi pelaku pasar bahwa bank sentral akan terpaksa memotong suku bunga di masa depan akibat perlambatan ekonomi tajam.',
           },
         ],
       },
       {
-        id: 'inflasi-dca',
-        label: 'Disiplin Dollar-Cost Averaging (DCA)',
+        id: 'saham-forex-dxy',
+        label: 'Forex, DXY & Perang Mata Uang',
+        domain: 'Keuangan',
+        summary: 'Kekuatan Indeks Dolar AS (DXY), mekanisme Foreign Exchange, Carry Trade, dan dampaknya pada emiten importir lokal.',
+        x: 180,
+        y: 430,
+        level: 1,
+        microContent: {
+          analogy:
+            'Indeks Dolar AS (DXY) bagaikan monster gravitasi raksasa di tata surya keuangan dunia. Ketika Dolar menguat perkasa (DXY > 105), ia menyedot modal likuid dari seluruh planet berkembang (termasuk Indonesia) kembali ke New York. Mata uang lokal terdepresiasi, biaya utang luar negeri membengkak, dan harga gandum serta minyak mentah menjadi mahal seketika.',
+          crossDisciplinary: {
+            connectionText: 'Keuangan Internasional x Geopolitik Valas',
+            domains: ['Keuangan', 'Geopolitik'],
+            insight:
+              'Mekanisme "Yen Carry Trade": meminjam uang di negara bersuku bunga 0% (Jepang) untuk diinvestasikan di aset berimbal hasil tinggi (AS/Emerging Markets). Ketika suku bunga Jepang naik sedikit saja, pembalikan modal (unwinding) mengguncang bursa global.',
+          },
+          actionableSteps: [
+            'Simak pergerakan DXY di TradingView sebagai indikator awal tekanan nilai tukar Rupiah.',
+            'Koleksi saham emiten eksportir komoditas yang membukukan pendapatan dalam USD saat tren Dolar menguat.',
+            'Hindari perusahaan dengan utang berdenominasi USD tinggi jika pendapatannya 100% dalam Rupiah tanpa hedging.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Pilihan Portofolio Saat Kurs USD/IDR Melemah Tajam',
+          context: 'Kurs Rupiah tertekan dari Rp 15.000 menjadi Rp 16.500 per Dolar AS dalam hitungan bulan.',
+          dilemma: 'Anda harus memilih antara emiten farmasi pengimpor bahan baku obat vs emiten tambang batubara eksportir.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Beli saham farmasi pengimpor karena mengira bisnis obat-obatan selalu kebal krisis.',
+              consequence: 'Biaya pembelian bahan baku impor dalam USD membengkak sementara harga jual obat diatur regulasi, laba emiten anjlok 50%.',
+              scoreBonus: 10,
+              isOptimal: false,
+              explanation: 'Emiten importir tanpa kemampuan meneruskan kenaikan kurs valas akan tergerus margin keuntungannya.',
+            },
+            {
+              id: 'c2',
+              text: 'Pilih saham emiten eksportir yang mencatat pendapatan dalam mata uang USD namun biaya operasionalnya dalam Rupiah.',
+              consequence: 'Emiten menikmati windfall keuntungan ganda dari selisih konversi kurs valuta asing dan membagikan dividen jumbo.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Keuntungan struktural eksportir: pendapatan USD menguat sementara struktur biaya domestik tetap terlindungi.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-dxy-1',
+            question: 'Apa risiko terbesar dari transaksi spekulatif "Carry Trade" di pasar keuangan internasional?',
+            options: [
+              'Pemberian dividen tunai yang terlalu cepat',
+              'Volatilitas nilai tukar yang dapat memicu penguatan mendadak mata uang pinjaman, memaksa investor melikuidasi aset secara panik untuk menutup utang',
+              'Larangan transaksi valas oleh Perserikatan Bangsa-Bangsa (PBB)',
+              'Penyusutan nilai emas batangan',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'Carry Trade sangat rentan terhadap guncangan kurs valas. Jika mata uang yang dipinjam menguat mendadak, biaya pelunasan utang meledak seketika.',
+          },
+        ],
+      },
+      {
+        id: 'saham-trading-psychology',
+        label: 'Psikologi Trading & Risk/Reward',
         domain: 'Psikologi',
-        summary: 'Menjinakkan kecemasan psikologis pasar dengan akumulasi berkala tanpa menebak puncak atau dasar lembah.',
+        summary: 'Disiplin Cut-Loss, Posisi Sizing (Kelly Criterion), Risk-to-Reward Ratio 1:3, dan Mengatasi Bias FOMO.',
         x: 620,
         y: 430,
         level: 1,
         microContent: {
           analogy:
-            'Menebak dasar harga saham (market timing) bagaikan mencoba menangkap pisau yang sedang jatuh dari lantai 10 dengan mata tertutup: kemungkinan besar tangan Anda berdarah. Metode Dollar-Cost Averaging (DCA) bagaikan memasang ember di bawah talang hujan secara teratur: saat badai harga murah Anda dapat banyak tetesan, saat reda Anda memanen hasilnya dengan tenang.',
+            'Seorang petinju juara dunia tidak menang karena pukulannya paling keras, melainkan karena ia tahu kapan harus menaikkan sarung tinju melindungi dagunya. Di pasar modal, trader amatir selalu memikirkan: "Berapa banyak uang yang bisa kudapat hari ini?" Sementara trader profesional selalu bertanya: "Berapa batas maksimal kerugian yang rela kutanggung jika analisaku salah?"',
           crossDisciplinary: {
-            connectionText: 'Psikologi Perilaku x Akumulasi Modal',
+            connectionText: 'Psikologi Manajemen Emosi x Teori Probabilitas',
             domains: ['Psikologi', 'Keuangan'],
             insight:
-              'DCA mengeliminasi dua bias emosional paling merusak: FOMO (Fear of Missing Out) di pucuk harga dan Panic Selling di lembah krisis.',
+              'Dengan Risk/Reward Ratio 1:3, Anda bisa salah dalam 6 dari 10 perdagangan (hanya 40% akurasi), namun portofolio Anda tetap menghasilkan keuntungan bersih yang substansial.',
           },
           actionableSteps: [
-            'Atur autodebet investasi rutin di tanggal gajian setiap bulan tanpa memedulikan berita harian.',
-            'Hapus aplikasi trading yang sering memicu kecemasan memeriksa pergerakan grafik per menit.',
-            'Rayakan penurunan harga saham sebagai momen diskon belanja aset hebat, bukan sebagai bencana.',
+            'Tentukan Stop Loss sebelum menyentuh tombol beli, dan jangan pernah menggeser Stop Loss ke bawah saat harga turun.',
+            'Batasi risiko maksimal per transaksi pada angka 1% hingga 2% dari total modal portofolio Anda.',
+            'Tulis Jurnal Trading harian yang mendokumentasikan emosi Anda saat membuka dan menutup posisi.',
           ],
         },
         decisionScenario: {
-          title: 'Kasus: Indeks Saham Anjlok 15% Dalam Sepekan',
-          context: 'Berita di televisi penuh dengan headline kiamat ekonomi dan kepanikan massal.',
-          dilemma: 'Hari ini adalah jadwal autodebet bulanan investasi rutin Anda.',
+          title: 'Kasus: Posisi Trading Minus 7% Menyentuh Garis Stop Loss',
+          context: 'Saham yang Anda beli untuk swing trade jangka pendek menembus batas support dan menyentuh stop loss Rp 1.500.',
+          dilemma: 'Otak Anda berbisik: "Tahan sebentar lagi, siapa tahu besok membal balik ke harga modal."',
           choices: [
             {
               id: 'c1',
-              text: 'Batalkan autodebet dan jual semua saham di harga rugi karena takut uangnya hilang total.',
-              consequence: 'Anda merealisasikan kerugian di titik terendah dan melewatkan rebound pemulihan terbesar sejarah.',
+              text: 'Geser stop loss ke bawah dan lakukan average down menggunakan sisa modal tabungan.',
+              consequence: 'Harga saham terus longsor hingga minus 45%, modal Anda terkunci berbulan-bulan dalam posisi rugi telak.',
               scoreBonus: 0,
               isOptimal: false,
-              explanation: 'Menjual karena panik berita adalah penyebab 90% investor ritel gagal mengalahkan inflasi.',
+              explanation: 'Melanggar stop loss adalah penyebab nomor satu kehancuran modal trader ritel di seluruh dunia.',
             },
             {
               id: 'c2',
-              text: 'Tetap jalankan jadwal DCA bulanan: dapatkan lebih banyak lembar saham di harga diskon besar-besaran.',
-              consequence: 'Rata-rata harga beli Anda turun drastis, memposisikan portofolio Anda untuk lonjakan return saat pasar pulih.',
+              text: 'Eksekusi cut loss tanpa ragu sesuai rencana awal: kunci risiko pada -7% dan amankan sisa 93% modal untuk peluang berikutnya.',
+              consequence: 'Kerugian terkendali kecil, modal tetap cair, dan psikologi Anda terbebas dari stres mental yang melelahkan.',
               scoreBonus: 50,
               isOptimal: true,
-              explanation: 'Kedisiplinan psikologis di masa panik adalah rahasia terbesar investor legendaris.',
+              explanation: 'Disiplin manajemen risiko: memotong kerugian kecil sedini mungkin adalah kunci bertahan hidup di pasar modal.',
             },
           ],
         },
         quiz: [
           {
-            id: 'q1',
-            question: 'Keuntungan psikologis utama dari strategi Dollar-Cost Averaging (DCA) adalah:',
+            id: 'q-tr-1',
+            question: 'Dalam manajemen risiko trading, mengapa rasio Risk-to-Reward minimal 1:3 sangat direkomendasikan?',
             options: [
-              'Memastikan investor selalu membeli di titik paling dasar setiap saat tanpa cela',
-              'Menghilangkan stres emosional menebak waktu pasar (market timing) dan mendisiplinkan akumulasi modal jangka panjang',
-              'Membuat return investasi pasti berlipat ganda dalam waktu semalam',
-              'Membebaskan investor dari kewajiban riset kualitas bisnis',
+              'Karena bursa efek akan menolak order jika rasionya di bawah 1:3',
+              'Karena memungkinkan portofolio tetap untung secara matematis meskipun tingkat kemenangan (win rate) transaksi hanya sebesar 35%-40%',
+              'Karena dividen perusahaan dibagikan 3 kali dalam setahun',
+              'Karena dapat menghilangkan kewajiban membayar komisi broker',
             ],
             correctAnswerIndex: 1,
-            explanation: 'DCA membiasakan disiplin sistematis dan menetralisir rasa takut maupun keserakahan manusiawi.',
+            explanation: 'Rasio asimetris (rugi 1 unit jika salah, untung 3 unit jika benar) melindungi trader dari keharusan menebak pasar secara benar sepanjang waktu.',
           },
         ],
       },
     ],
     edges: [
-      { id: 'ie1', from: 'inflasi-root', to: 'inflasi-purchasing-power', label: 'Erosi Nilai Nyata', domains: ['Ekonomi', 'Keuangan'] },
-      { id: 'ie2', from: 'inflasi-root', to: 'inflasi-pricing-power', label: 'Perisai Bisnis Riil', domains: ['Ekonomi', 'Bisnis'] },
-      { id: 'ie3', from: 'inflasi-root', to: 'inflasi-interest-rates', label: 'Respon Bank Sentral', domains: ['Ekonomi', 'Keuangan'] },
-      { id: 'ie4', from: 'inflasi-root', to: 'inflasi-dca', label: 'Strategi Eksekusi Ritel', domains: ['Ekonomi', 'Psikologi'] },
-      { id: 'ie5', from: 'inflasi-purchasing-power', to: 'inflasi-pricing-power', label: 'Transfer Biaya', domains: ['Keuangan', 'Bisnis'] },
-      { id: 'ie6', from: 'inflasi-interest-rates', to: 'inflasi-dca', label: 'Menjinakkan Volatilitas', domains: ['Keuangan', 'Psikologi'] },
+      { id: 'se1', from: 'saham-root', to: 'saham-dcf', label: 'Nilai Intrinsik Arus Kas', domains: ['Keuangan', 'Keuangan'] },
+      { id: 'se2', from: 'saham-root', to: 'saham-monetary', label: 'Gravitasi Suku Bunga Makro', domains: ['Keuangan', 'Ekonomi'] },
+      { id: 'se3', from: 'saham-root', to: 'saham-forex-dxy', label: 'Likuiditas Mata Uang Dunia', domains: ['Keuangan', 'Keuangan'] },
+      { id: 'se4', from: 'saham-root', to: 'saham-trading-psychology', label: 'Disiplin Asimetris Risiko', domains: ['Keuangan', 'Psikologi'] },
+      { id: 'se5', from: 'saham-monetary', to: 'saham-forex-dxy', label: 'Divergensi Suku Bunga & Valas', domains: ['Ekonomi', 'Keuangan'] },
+      { id: 'se6', from: 'saham-dcf', to: 'saham-trading-psychology', label: 'Margin of Safety', domains: ['Keuangan', 'Psikologi'] },
     ],
   },
 
-  'Psikologi Marketing F&B': {
+  // ============================================================================
+  // 3. EKSPOR-IMPOR, RANTAI PASOK & GEOPOLITIK
+  // ============================================================================
+  'Ekspor-Impor, Rantai Pasok & Geopolitik': {
+    id: 'mindmap-ekspor-impor-geopolitik',
+    topic: 'Ekspor-Impor, Rantai Pasok & Geopolitik',
+    rootId: 'ekspor-root',
+    description: 'Kuasai Incoterms 2020, HS Code & Regulasi Bea Cukai, Chokepoints Maritim Global, Perang Tarif, dan Skema Dedolarisasi LCS.',
+    nodes: [
+      {
+        id: 'ekspor-root',
+        label: 'Arsitektur Perdagangan & Rantai Pasok',
+        domain: 'Geopolitik',
+        summary: 'Perdagangan lintas batas bukan sekadar pergerakan kontainer besi, melainkan sintesis hukum kontrak internasional, kepatuhan bea cukai, dan navigasi selat strategis.',
+        x: 400,
+        y: 280,
+        level: 0,
+        microContent: {
+          analogy:
+            'Dunia perdagangan global bagaikan peredaran darah di tubuh manusia. Kapal-kapal kargo adalah sel darah merah yang mengangkut oksigen komoditas. Jika ada penyumbatan kolesterol di satu arteri kecil (misal kapal tersangkut di Terusan Suez atau perang tarif di perbatasan), seluruh organ tubuh di belahan bumi lain mengalami serangan jantung inflasi mendadak.',
+          crossDisciplinary: {
+            connectionText: 'Geopolitik Maritim x Logistik Global',
+            domains: ['Geopolitik', 'Ekonomi'],
+            insight:
+              'Menguasai regulasi ekspor-impor dan rantai pasok memungkinkan pengusaha memindahkan barang melintasi benua dengan biaya terendah dan perlindungan hukum terkuat.',
+          },
+          actionableSteps: [
+            'Cek Harmonized System (HS Code) produk unggulan Anda di portal INSW (Indonesia National Single Window).',
+            'Kuasai perbedaan hak dan kewajiban antara Incoterms FOB (Free on Board) vs CIF (Cost, Insurance, Freight).',
+            'Manfaatkan fasilitas Certificate of Origin (Form D / Form E) untuk menikmati tarif bea masuk 0% di kawasan FTA.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Kontrak Ekspor Perdana Kopi ke Eropa',
+          context: 'Pembeli di Hamburg ingin membeli 2 kontainer biji kopi arabika senilai $80.000.',
+          dilemma: 'Pembeli meminta klausul pengiriman DDP (Delivered Duty Paid), sedangkan Anda belum memiliki izin impor di Jerman.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Setujui klausul DDP tanpa memahami risikonya demi mengamankan kesepakatan penjualan.',
+              consequence: 'Barang tertahan di pelabuhan Hamburg karena Anda tidak terdaftar membayar pajak PPN/Bea Masuk Eropa; denda demurrage ribuan euro memakan habis modal Anda.',
+              scoreBonus: 5,
+              isOptimal: false,
+              explanation: 'DDP membebankan seluruh izin dan bea masuk negara tujuan kepada eksportir; sangat berbahaya bagi pemula tanpa entitas lokal.',
+            },
+            {
+              id: 'c2',
+              text: 'Negosiasikan ulang ke syarat FOB (Pelabuhan Tanjung Priok) atau CIF (Hamburg Port) sehingga tanggung jawab izin pabean Jerman ditanggung pembeli.',
+              consequence: 'Risiko kepatuhan berada di pihak pembeli, pembayaran LC Anda aman saat barang termuat di kapal, dan margin profit terlindungi utuh.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Penggunaan Incoterms yang tepat melindungi eksportir dari risiko regulasi pabean asing yang tidak dikuasai.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-exp-1',
+            question: 'Dalam Incoterms 2020, apa perbedaan kritis antara FOB (Free on Board) dan CIF (Cost, Insurance, Freight)?',
+            options: [
+              'Pada FOB, eksportir menanggung biaya asuransi dan pengapalan sampai ke pelabuhan tujuan pembeli',
+              'Pada FOB, risiko dan biaya berpindah ke pembeli seketika barang dimuat di atas kapal di pelabuhan muat; sedangkan pada CIF, penjual wajib membiayai pengangkutan dan asuransi hingga pelabuhan tujuan',
+              'FOB hanya berlaku untuk angkutan udara, sedangkan CIF hanya untuk kereta api',
+              'FOB membebaskan pembeli dari kewajiban membayar bea cukai domestik',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'FOB membatasi kewajiban penjual sampai barang berada di atas kapal di pelabuhan asal, sedangkan CIF mewajibkan penjual membayar ongkos kapal dan premi asuransi perjalanan laut.',
+          },
+        ],
+      },
+      {
+        id: 'ekspor-hs-customs',
+        label: 'HS Code & Kepatuhan Bea Cukai',
+        domain: 'Hukum',
+        summary: 'Klasifikasi 8 digit HS Code, Tarif Bea Masuk MFN vs FTA, Jalur Merah/Kuning/Hijau, dan Larangan Terbatas (Lartas).',
+        x: 180,
+        y: 130,
+        level: 1,
+        microContent: {
+          analogy:
+            'HS Code adalah paspor genetik bagi setiap barang fisik di muka bumi. Jika Anda salah menuliskan satu digit kode paspor di dokumen manifest kargo, petugas bea cukai di pelabuhan akan menghentikan kontainer Anda di "Jalur Merah". Setiap hari kontainer Anda tertahan di dermaga, arloji denda penumpukan (demurrage & detention) berputar jutaan rupiah.',
+          crossDisciplinary: {
+            connectionText: 'Hukum Kepabeanan x Manajemen Arus Kas',
+            domains: ['Hukum', 'Keuangan'],
+            insight:
+              'Pemanfaatan perjanjian dagang (seperti RCEP atau ACFTA) dengan menyertakan Surat Keterangan Asal (SKA) yang sah dapat memangkas bea masuk dari 15% menjadi 0% secara legal.',
+          },
+          actionableSteps: [
+            'Ajukan permohonan Penetapan Klasifikasi Sebelum Impor (PKSI) ke Direktorat Jenderal Bea Cukai jika kode barang meragukan.',
+            'Lengkapi dokumen perizinan instansi teknis (BPOM, Karantina, Kemendag) sebelum kapal berangkat dari negara asal.',
+            'Audit kesesuaian antara Invoice, Packing List, dan Bill of Lading (B/L) hingga ke koma desimal berat tonase.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Kesalahan Klasifikasi HS Code Mesin Industri',
+          context: 'Importir mengira mesin perakitan yang diimpor masuk kategori bebas bea masuk (0%).',
+          dilemma: 'Pemeriksa Bea Cukai menetapkan mesin tersebut masuk pos tarif berbeda yang terkena bea masuk 10% dan denda administrasi.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Mencoba menyuap oknum petugas di lapangan agar kontainer diloloskan cepat.',
+              consequence: 'Terjerat pidana suap korupsi kepabeanan, izin NIB perusahaan dibekukan permanen, barang disita negara.',
+              scoreBonus: 0,
+              isOptimal: false,
+              explanation: 'Pelanggaran pidana menghancurkan kelangsungan hidup bisnis selamanya.',
+            },
+            {
+              id: 'c2',
+              text: 'Ajukan mekanisme Keberatan Resmi ke Kepala Kantor Bea Cukai dengan menyertakan dokumen spesifikasi teknis pabrikan resmi (Product Technical Datasheet).',
+              consequence: 'Klasifikasi disesuaikan secara sah berdasarkan fakta teknis, denda dibatalkan, dan reputasi kepatuhan perusahaan tetap bersih di sistem pabean.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Jalur keberatan pabean berbasis bukti teknis adalah hak hukum importir yang sah dan aman.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-hs-1',
+            question: 'Apa fungsi utama dari portal INSW (Indonesia National Single Window) dalam proses kepabeanan ekspor-impor?',
+            options: [
+              'Untuk memesan tiket kapal pesiar secara online',
+              'Mengintegrasikan sistem informasi dan validasi perizinan antara Bea Cukai dengan seluruh kementerian teknis (Karantina, BPOM, Perdagangan, Perindustrian) secara terpadu',
+              'Menyimpan uang kas devisa eksportir secara rahasia',
+              'Menghitung kurs valas kripto per detik',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'INSW adalah pintu gerbang nasional yang memastikan bahwa barang yang masuk/keluar telah memenuhi aturan Larangan dan Pembatasan (Lartas) dari kementerian terkait secara elektronik.',
+          },
+        ],
+      },
+      {
+        id: 'ekspor-chokepoints',
+        label: 'Maritime Chokepoints & Geopolitik',
+        domain: 'Geopolitik',
+        summary: 'Selat Malaka, Selat Hormuz, Terusan Suez, Terusan Panama, serta Risiko Freight Rate & Premi Asuransi Perang.',
+        x: 620,
+        y: 130,
+        level: 1,
+        microContent: {
+          analogy:
+            'Selat Hormuz dan Selat Malaka bagaikan leher pipa bensin untuk mobil seluruh dunia. Jika ada gesekan militer di leher selat yang lebarnya hanya belasan mil laut itu, seperlima pasokan energi dunia tertahan. Biaya premi asuransi kapal melonjak 10x lipat dalam 24 jam, dan biaya pengiriman kontainer (Freight Rate) melesat dari $1.500 menjadi $6.000 per FEU.',
+          crossDisciplinary: {
+            connectionText: 'Geostrategi Militer x Inflasi Rantai Pasok',
+            domains: ['Geopolitik', 'Ekonomi'],
+            insight:
+              'Krisis rute maritim mendorong tren "Nearshoring" dan "Friendshoring": memindahkan pabrik manufaktur ke negara tetangga yang dekat demi menghindari rute selat rawan konflik.',
+          },
+          actionableSteps: [
+            'Pantau Shanghai Containerized Freight Index (SCFI) untuk mengantisipasi lonjakan tarif pengapalan kontainer global.',
+            'Siapkan rute logistik alternatif multimodal (jalur darat kereta kargo atau pergudangan regional penyangga).',
+            'Pertahankan safety stock inventaris bahan baku impor minimal 45-60 hari cadangan.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Blokade Rute Laut Merah & Terusan Suez',
+          context: 'Serangan milisi di Selat Bab el-Mandeb memaksa kapal kargo memutar lewat Tanjung Harapan Afrika Selatan (+14 hari pelayaran).',
+          dilemma: 'Tarif kontainer naik 200% dan bahan baku pabrik Anda terancam habis sebelum kapal tiba.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Tutup pabrik dan liburkan pekerja sambil menunggu situasi perang mereda tanpa tindakan.',
+              consequence: 'Kontrak pembeli hangus karena gagal kirim, biaya tetap pabrik terus berjalan, bisnis merugi miliaran rupiah.',
+              scoreBonus: 5,
+              isOptimal: false,
+              explanation: 'Sikap pasif terhadap syok geopolitik melenyapkan pangsa pasar bisnis Anda secara permanen.',
+            },
+            {
+              id: 'c2',
+              text: 'Kirim sebagian komponen penting via kargo udara (air freight) untuk menjaga lini pabrik tetap menyala, sambil mencari pemasok lokal alternatif.',
+              consequence: 'Operasional pabrik terselamatkan, komitmen kontrak pelanggan terpenuhi, dan resiliensi pasokan bisnis Anda teruji unggul.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Logistik multimodal dan diversifikasi pasokan darurat adalah kunci bertahan di era ketidakpastian geopolitik global.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-chk-1',
+            question: 'Mengapa Selat Malaka memiliki posisi tawar geopolitik yang luar biasa krusial bagi perekonomian Asia Timur (China, Jepang, Korea Selatan)?',
+            options: [
+              'Karena selat tersebut menghasilkan seluruh pasokan garam laut dunia',
+              'Karena lebih dari 80% impor minyak mentah dan energi ke Asia Timur serta sepertiga perdagangan maritim global harus melintasi selat sempit ini',
+              'Karena tidak ada kapal yang boleh berlayar di Samudra Pasifik',
+              'Karena selat tersebut dimiliki oleh satu perusahaan multinasional swasta',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'Dikenal sebagai "Malacca Dilemma": ketergantungan energi negara-negara raksasa industri Asia Timur pada selat sempit ini menjadikannya titik genting maritim dunia.',
+          },
+        ],
+      },
+      {
+        id: 'ekspor-lcs-dedolarisasi',
+        label: 'Dedolarisasi & Skema LCS',
+        domain: 'Keuangan',
+        summary: 'Local Currency Settlement (LCS) Bank Indonesia, Pembayaran Lintas Batas Non-SWIFT, dan Mengeliminasi Risiko Konversi Valas USD.',
+        x: 180,
+        y: 430,
+        level: 1,
+        microContent: {
+          analogy:
+            'Jika Anda membeli barang dari tetangga sebelah rumah, mengapa Anda berdua harus menukar uang Rupiah ke Dolar Amerika terlebih dahulu hanya untuk membayar kue tetangga? Skema Local Currency Settlement (LCS) dari Bank Indonesia bagaikan jembatan langsung: pengusaha Indonesia dan mitra di China/Jepang/Thailand dapat bertransaksi langsung menggunakan Rupiah dan Yuan/Yen tanpa perantara Dolar New York.',
+          crossDisciplinary: {
+            connectionText: 'Kedaulatan Devisa Moneter x Efisiensi Biaya Transaksi',
+            domains: ['Keuangan', 'Geopolitik'],
+            insight:
+              'LCS memangkas biaya selisih kurs valas ganda (double conversion fee) hingga 2-4% dan melindungi eksportir dari sanksi pembekuan sistem kliring valuta asing negara ketiga.',
+          },
+          actionableSteps: [
+            'Buka rekening mata uang lokal (CNY, JPY, MYR, THB) di bank devisa terakreditasi Appointed Cross Currency Dealer (ACCD).',
+            'Tawarkan klausul pembayaran LCS langsung kepada pembeli atau pemasok di negara mitra kerja sama Bank Indonesia.',
+            'Hindari eksposur konversi USD saat bertransaksi bilateral dengan mitra Asia.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Transaksi Mesin Pabrik Senilai 5 Juta Renminbi (RMB)',
+          context: 'Pemasok di Shanghai menyetujui kontrak pembelian mesin senilai 5 Juta RMB.',
+          dilemma: 'Bank konvensional Anda menyarankan membayar dengan mengonversi Rupiah ke USD, lalu USD dikonversi ke RMB di China.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Gunakan skema konversi ganda via USD karena menganggap itu prosedur lama yang paling biasa dilakukan.',
+              consequence: 'Anda terkena dua kali spread kurs valas dan menanggung beban tambahan biaya administrasi kliring sekitar Rp 120 Juta.',
+              scoreBonus: 10,
+              isOptimal: false,
+              explanation: 'Ketergantungan buta pada satu mata uang pihak ketiga menambah friksi biaya yang seharusnya bisa dieliminasi.',
+            },
+            {
+              id: 'c2',
+              text: 'Gunakan fasilitas Local Currency Settlement (LCS) langsung IDR-to-RMB via bank devisa mitra resmi Bank Indonesia.',
+              consequence: 'Hemat biaya konversi kurs hingga Rp 120 Juta, settlement selesai hari yang sama (same-day), dan hubungan dagang kian kokoh.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Pemanfaatan LCS secara langsung mengoptimalkan efisiensi arus kas dan memangkas risiko volatilitas kurs mata uang ketiga.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-lcs-1',
+            question: 'Apa keunggulan strategis utama bagi pelaku usaha di Indonesia yang memanfaatkan kerangka kerja Local Currency Settlement (LCS)?',
+            options: [
+              'Mendapatkan pinjaman modal tanpa bunga dari Bank Indonesia',
+              'Memangkas biaya konversi valas ganda (Rupiah -> USD -> Mata Uang Mitra) dan mengurangi ketergantungan risiko nilai tukar Dolar AS',
+              'Terbebas dari kewajiban membuat laporan audit tahunan',
+              'Mempercepat proses bongkar muat kontainer di pelabuhan tanpa inspeksi',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'LCS memungkinkan penyelesaian transaksi perdagangan bilateral langsung menggunakan mata uang lokal masing-masing negara mitra tanpa perlu melalui konversi Dolar AS terlebih dahulu.',
+          },
+        ],
+      },
+      {
+        id: 'ekspor-tariffs-nearshoring',
+        label: 'Perang Tarif & Proteksionisme',
+        domain: 'Ekonomi',
+        summary: 'Strategi Menghadapi Tarif Bea Masuk Antidumping, Sertifikasi TKDN Lokal, dan Relokasi Pabrik (Nearshoring).',
+        x: 620,
+        y: 430,
+        level: 1,
+        microContent: {
+          analogy:
+            'Ketika suatu negara mengenakan tarif bea masuk 40% untuk produk impor, mereka tidak sedang membuat produk itu musnah. Mereka sedang menempelkan ransel berisi batu seberat 40 kg di punggung produk impor tersebut agar produk buatan pabrik domestik yang jalannya lambat bisa memenangkan perlombaan di pasar lokal. Pemenang sejati adalah produsen cerdas yang memindahkan sebagian perakitan akhir ke dalam negeri agar terbebas dari ransel batu tersebut.',
+          crossDisciplinary: {
+            connectionText: 'Kebijakan Perdagangan Publik x Strategi Manufaktur',
+            domains: ['Ekonomi', 'Bisnis'],
+            insight:
+              'Memenuhi sertifikasi Tingkat Komponen Dalam Negeri (TKDN) di atas 40% membuka akses eksklusif ke tender pengadaan barang instansi pemerintah senilai ratusan triliun rupiah.',
+          },
+          actionableSteps: [
+            'Audit struktur komponen produk Anda untuk memaksimalkan kandungan bahan baku dan tenaga kerja lokal (TKDN).',
+            'Manfaatkan Kawasan Berikat (Kawasan Ekonomi Khusus/KEK) untuk mendapatkan penangguhan bea masuk atas bahan baku re-ekspor.',
+            'Cermati penyelidikan Komite Anti Dumping Indonesia (KADI) terhadap barang pesaing impor yang dijual di bawah harga pasar.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Penerapan Kebijakan Wajib TKDN 40% untuk Tender BUMN',
+          context: 'Pemerintah menetapkan pengadaan alat kelistrikan wajib memenuhi sertifikasi TKDN minimal 40%.',
+          dilemma: 'Pesaing Anda memilih pasrah dan mengundurkan diri dari lelang pengadaan tender senilai Rp 50 Miliar.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Ikut mengundurkan diri dan mengeluh di forum asosiasi tentang sulitnya regulasi pemerintah.',
+              consequence: 'Peluang pendapatan Rp 50 Miliar hangus dan kapasitas pabrik Anda menganggur sepanjang tahun.',
+              scoreBonus: 5,
+              isOptimal: false,
+              explanation: 'Menyerah pada kebijakan proteksionisme lokal melenyapkan akses ke ceruk pasar terbesar di dalam negeri.',
+            },
+            {
+              id: 'c2',
+              text: 'Bermitra dengan bengkel perakitan lokal untuk proses perakitan casing dan kabel kabeling, hingga sertifikasi TKDN tembus 43%.',
+              consequence: 'Lolos kualifikasi tunggal tender BUMN, memenangkan kontrak tahunan bernilai puluhan miliar rupiah tanpa saingan berarti.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Adaptasi cerdas terhadap regulasi TKDN mengubah hambatan proteksionisme menjadi parit keunggulan bisnis yang sangat profitable.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-trf-1',
+            question: 'Apa tujuan utama pemerintah memberlakukan instrumen Bea Masuk Tindakan Pengamanan (Safeguard) atau Bea Masuk Anti-Dumping (BMAD)?',
+            options: [
+              'Membatasi masyarakat berbelanja online di akhir pekan',
+              'Melindungi industri dalam negeri dari lonjakan produk impor yang dijual di bawah harga wajar (predatory pricing) yang dapat mematikan produsen lokal',
+              'Menghapuskan peredaran mata uang kertas di pelabuhan',
+              'Memaksa semua kapal asing berganti bendera kebangsaan',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'BMAD dan Safeguard adalah instrumen sah di bawah aturan WTO untuk mencegah praktik banting harga dumping yang merugikan industri nasional.',
+          },
+        ],
+      },
+    ],
+    edges: [
+      { id: 'ee1', from: 'ekspor-root', to: 'ekspor-hs-customs', label: 'Klasifikasi & Pabean', domains: ['Geopolitik', 'Hukum'] },
+      { id: 'ee2', from: 'ekspor-root', to: 'ekspor-chokepoints', label: 'Rute Maritim Kritis', domains: ['Geopolitik', 'Geopolitik'] },
+      { id: 'ee3', from: 'ekspor-root', to: 'ekspor-lcs-dedolarisasi', label: 'Penyelesaian Valas Bilateral', domains: ['Geopolitik', 'Keuangan'] },
+      { id: 'ee4', from: 'ekspor-root', to: 'ekspor-tariffs-nearshoring', label: 'Regulasi Proteksionisme', domains: ['Geopolitik', 'Ekonomi'] },
+      { id: 'ee5', from: 'ekspor-chokepoints', to: 'ekspor-tariffs-nearshoring', label: 'Nearshoring & Freight Syok', domains: ['Geopolitik', 'Ekonomi'] },
+      { id: 'ee6', from: 'ekspor-hs-customs', to: 'ekspor-lcs-dedolarisasi', label: 'Kepatuhan Devisa Hasil Ekspor', domains: ['Hukum', 'Keuangan'] },
+    ],
+  },
+
+  // ============================================================================
+  // 4. SENI NEGOSIASI & KOMUNIKASI EKSEKUTIF
+  // ============================================================================
+  'Seni Negosiasi & Komunikasi Eksekutif': {
+    id: 'mindmap-negosiasi-komunikasi',
+    topic: 'Seni Negosiasi & Komunikasi Eksekutif',
+    rootId: 'nego-root',
+    description: 'Kuasai Tactical Empathy Chris Voss (FBI), BATNA, Piramida Minto, Artikulasi Berbicara C-Suite, dan Framing Psikologis.',
+    nodes: [
+      {
+        id: 'nego-root',
+        label: 'Arsitektur Negosiasi & Artikulasi',
+        domain: 'Komunikasi',
+        summary: 'Negosiasi tingkat tinggi bukan tentang berdebat atau membagi selisih di tengah; ini tentang menguasai persepsi, menemukan motif emosional tersembunyi (Black Swans), dan mengendalikan frame percakapan.',
+        x: 400,
+        y: 280,
+        level: 0,
+        microContent: {
+          analogy:
+            'Negosiator amatir masuk ke meja perundingan seperti pemain catur pemula yang sibuk memikirkan apa yang ingin ia ucapkan berikutnya. Negosiator ulung masuk seperti psikiater berpengalaman: ia mendengarkan secara intensif nada suara, jeda helaan napas, dan ketakutan terpendam lawan bicaranya. Kunci negosiasi bukan apa yang Anda katakan, melainkan apa yang berhasil Anda buat mereka rasakan aman untuk dikatakan.',
+          crossDisciplinary: {
+            connectionText: 'Psikologi Perilaku x Ilmu Komunikasi Persuasif',
+            domains: ['Psikologi', 'Komunikasi'],
+            insight:
+              'Manusia adalah makhluk emosional yang mencari pembenaran rasional. Ketika Anda meredakan kecemasan amygdala di otak lawan bicara, pertahanan logika mereka otomatis terbuka.',
+          },
+          actionableSteps: [
+            'Gunakan "Late-Night FM DJ Voice": turunkan nada bicara Anda menjadi tenang, lambat, dan penuh kendali saat situasi memanas.',
+            'Terapkan teknik "Mirroring": ulangi 1 hingga 3 kata kunci terakhir yang diucapkan lawan bicara dengan intonasi bertanya.',
+            'Sebelum negosiasi, petakan: Apa ketakutan terbesar yang ingin dihindari oleh pihak lawan?',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Klien Menuntut Penurunan Harga 40%',
+          context: 'Klien korporat penting mengancam akan membatalkan kontrak pembaruan software kecuali Anda memberi diskon 40%.',
+          dilemma: 'Jika diskon diberikan, profit margin Anda habis; jika ditolak mentah-mentah, kontrak melayang.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Langsung tawarkan kompromi di tengah: "Bagaimana kalau diskon 20%?"',
+              consequence: 'Klien menyadari Anda mudah ditekan dan terus menekan Anda untuk konsesi ekstra di klausul berikutnya.',
+              scoreBonus: 10,
+              isOptimal: false,
+              explanation: 'Membagi selisih di tengah (splitting the difference) menunjukkan kepanikan dan merusak kredibilitas harga Anda.',
+            },
+            {
+              id: 'c2',
+              text: 'Gunakan Tactical Empathy & Pertanyaan Terbuka: "Kelihatannya Anda berada di bawah tekanan anggaran dewan direksi yang ketat. Bagaimana saya bisa memberikan kualitas layanan penuh jika anggaran dipotong 40%?"',
+              consequence: 'Klien merasa dipahami secara emosional, menyadari ketidakmasukakalan tuntutannya, dan bersedia mencari solusi alternatif (seperti penyesuaian jadwal pembayaran).',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Metode Chris Voss: melontarkan pertanyaan terkalibrasi "Bagaimana saya bisa melakukan itu?" mengalihkan beban pemecahan masalah ke pundak lawan secara elegan.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-neg-1',
+            question: 'Menurut mantan negosiator sandera FBI Chris Voss, apa tujuan utama dari teknik "Mirroring" dalam percakapan menegangkan?',
+            options: [
+              'Mengejek lawan bicara agar mereka kehilangan kendali emosi',
+              'Mengulangi 1-3 kata terakhir untuk mendorong lawan bicara mengelaborasi pemikirannya lebih dalam sekaligus membangun koneksi bawah sadar tanpa terkesan agresif',
+              'Meniru gerakan tangan dan gaya berpakaian lawan secara persis',
+              'Memaksa lawan menandatangani draf kontrak seketika',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'Mirroring adalah teknik sederhana namun luar biasa ampuh: mengulangi kata kunci memicu lawan bicara untuk merasa didengarkan dan otomatis menjelaskan konteksnya lebih jauh.',
+          },
+        ],
+      },
+      {
+        id: 'nego-batna',
+        label: 'BATNA & Daya Tawar Walk-Away',
+        domain: 'Komunikasi',
+        summary: 'Best Alternative to a Negotiated Agreement (BATNA): Kekuatan negosiasi sejati bukan terletak pada kelihaian lidah, melainkan keberanian berjalan pergi (Walk Away).',
+        x: 180,
+        y: 130,
+        level: 1,
+        microContent: {
+          analogy:
+            'Jika Anda kelaparan di padang pasir dan ada satu-satunya penjual roti kering, penjual itu bisa mematok harga seharga mobil sport Anda karena Anda tidak punya pilihan lain. Namun jika di ransel Anda ada 10 kaleng makanan bergizi cadangan (BATNA Anda kuat), Anda bisa tersenyum ramah dan berkata: "Terima kasih, tapi tawaran Anda tidak masuk akal," lalu melangkah pergi dengan tenang.',
+          crossDisciplinary: {
+            connectionText: 'Teori Permainan (Game Theory) x Manajemen Posisi Tawar',
+            domains: ['Komunikasi', 'Bisnis'],
+            insight:
+              'Siapa yang paling tidak membutuhkan kesepakatan tersebut di dalam ruangan adalah pihak yang memegang kendali penuh atas hasil akhir negosiasi.',
+          },
+          actionableSteps: [
+            'Jangan pernah duduk di meja negosiasi sebelum memiliki minimal 2 alternatif cadangan konkret yang siap dieksekusi jika kesepakatan gagal.',
+            'Tingkatkan BATNA Anda sebelum negosiasi dimulai (misal: dapatkan tawaran pekerjaan lain atau supplier cadangan).',
+            'Cari tahu apa BATNA pihak lawan untuk memperkirakan batas titik jenuh (Reservation Price) mereka.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Negosiasi Kenaikan Gaji Eksekutif',
+          context: 'Anda merasa kontribusi Anda setara dengan posisi VP, namun atasan terkenal pelit menaikkan kompensasi.',
+          dilemma: 'Bagaimana mengajukan kenaikan gaji tanpa terlihat memohon atau mengancam kosong?',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Masuk ke ruangan atasan dan mengancam akan resign besok pagi tanpa memiliki tawaran kerja dari perusahaan lain.',
+              consequence: 'Atasan menguji gertakan Anda dan menerima pengunduran diri Anda; Anda menganggur tanpa penghasilan.',
+              scoreBonus: 0,
+              isOptimal: false,
+              explanation: 'Menggertak tanpa BATNA nyata adalah bunuh diri karier.',
+            },
+            {
+              id: 'c2',
+              text: 'Lakukan wawancara diam-diam dan amankan 1 tawaran konkret (BATNA) dari kompetitor, lalu ajukan data pencapaian metrik ROI Anda secara tenang ke atasan.',
+              consequence: 'Ketenangan Anda mencerminkan wibawa tinggi; perusahaan menyadari nilai penggantian Anda mahal dan menyetujui paket promosi.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Kekuatan BATNA memberikan ketenangan batin yang memancar dalam artikulasi negosiasi Anda.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-bat-1',
+            question: 'Dalam konsep Harvard Negotiation Project, apa kepanjangan dan arti dari istilah "BATNA"?',
+            options: [
+              'Business Agreement Total Net Asset (Nilai bersih aset bisnis)',
+              'Best Alternative to a Negotiated Agreement (Tindakan alternatif terbaik yang akan diambil jika kesepakatan di meja perundingan tidak tercapai)',
+              'Basic Account Target Number Analysis (Analisis angka target rekening)',
+              'Board Authorization To Nullify Action (Wewenang dewan untuk membatalkan aksi)',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'BATNA adalah jangkar kekuatan Anda: semakin kuat alternatif yang Anda miliki di luar meja perundingan, semakin besar daya tawar Anda.',
+          },
+        ],
+      },
+      {
+        id: 'nego-minto-pyramid',
+        label: 'Artikulasi Berbicara & Piramida Minto',
+        domain: 'Komunikasi',
+        summary: 'Struktur Komunikasi Eksekutif McKinsey: Bottom-Line First (Kesimpulan di Awal), Menghilangkan Filler Words, dan Mengendalikan Ruangan.',
+        x: 620,
+        y: 130,
+        level: 1,
+        microContent: {
+          analogy:
+            'Komunikator amatir bercerita seperti novel misteri: menjelaskan cuaca pagi hari, latar belakang pohon, detail perdebatan, dan baru di halaman 300 mengungkapkan siapa pembunuhnya. Para CEO dan direktur tidak punya waktu 300 halaman. Prinsip Piramida Minto (Barbara Minto) membalik struktur itu: sebutkan siapa pembunuhnya di kalimat pertama, lalu jelaskan 3 bukti terkuat di bawahnya.',
+          crossDisciplinary: {
+            connectionText: 'Efisiensi Kognitif Otak x Pengambilan Keputusan Dewan Direksi',
+            domains: ['Komunikasi', 'Psikologi'],
+            insight:
+              'Struktur "Answer First" (BLUF - Bottom Line Up Front) menghargai rentang atensi eksekutif dan langsung memposisikan Anda sebagai pemikir strategis yang matang.',
+          },
+          actionableSteps: [
+            'Mulai setiap update rapat dengan kesimpulan/rekomendasi: "Rekomendasi saya adalah opsi B karena 3 alasan: efisiensi biaya, kecepatan, dan kepatuhan hukum."',
+            'Eliminasi kata pengisi (filler words seperti "umm", "aaa", "kayak gitu"): gantikan dengan jeda hening selama 2 detik.',
+            'Gunakan kerangka SCQA: Situation (Situasi), Complication (Komplikasi Masalah), Question (Pertanyaan Kunci), Answer (Solusi).',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Presentasi Krisis di Depan Dewan Direksi (Board of Directors)',
+          context: 'Server utama aplikasi down selama 3 jam di hari gajian, direksi mengadakan rapat darurat.',
+          dilemma: 'Bagaimana menyampaikan laporan status saat para direktur sedang marah dan panik?',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Jelaskan riwayat kronologis teknis dari kabel optik, kesalahan vendor hosting, dan detail log server selama 20 menit.',
+              consequence: 'Direksi memotong pembicaraan Anda dengan geram: "Jadi solusinya apa dan kapan sistem menyala kembali?!" Reputasi kepemimpinan Anda tercoreng.',
+              scoreBonus: 10,
+              isOptimal: false,
+              explanation: 'Menyajikan rincian teknis berbelit di masa krisis memicu frustrasi para pengambil keputusan.',
+            },
+            {
+              id: 'c2',
+              text: 'Gunakan Piramida Minto: "Sistem telah pulih 100% per 15 menit lalu tanpa kebocoran data. Ada 2 langkah mitigasi permanen yang sedang kami pasang agar insiden ini tidak terulang."',
+              consequence: 'Kepanikan seketika reda, direksi merasa situasi terkendali penuh, dan wibawa Anda sebagai eksekutif kepemimpinan terbukti solid.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Menjawab inti kekhawatiran utama terlebih dahulu menenangkan kecemasan ruangan secara instan.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-min-1',
+            question: 'Dalam Prinsip Piramida Minto (Minto Pyramid Principle), mengapa kita harus selalu menaruh kesimpulan atau rekomendasi di awal kalimat?',
+            options: [
+              'Agar presentasi selesai dalam waktu 5 detik saja',
+              'Karena otak manusia memproses logika hierarki dari atas ke bawah: mengetahui kesimpulan utama memudahkan pendengar mengkategorikan argumen pendukung secara teratur',
+              'Karena aturan tata bahasa Inggris mewajibkan hal tersebut',
+              'Agar audiens tidak perlu mengajukan pertanyaan lagi',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'Metode Top-Down / Answer First menghemat energi mental audiens dan memungkinkan diskusi langsung berfokus pada validasi solusi strategis.',
+          },
+        ],
+      },
+      {
+        id: 'nego-framing-anchoring',
+        label: 'Framing Psikologis & Anchoring',
+        domain: 'Psikologi',
+        summary: 'Anchor Pricing, Framing Kehilangan vs Keuntungan (Loss Aversion Framing), dan Mengubah Penolakan ("Tidak") Menjadi Awal Kerja Sama.',
+        x: 180,
+        y: 430,
+        level: 1,
+        microContent: {
+          analogy:
+            'Jika Anda menjual mobil seharga Rp 500 Juta dan langsung menawarkannya, pembeli merasa angka itu mahal. Namun jika Anda terlebih dahulu menunjukkan versi mobil mewah edisi terbatas seharga Rp 1,2 Miliar, tiba-tiba mobil Rp 500 Juta terasa sangat terjangkau. Angka pertama yang diucapkan di meja perundingan bertindak sebagai jangkar magnetik (Anchor) yang menarik seluruh persepsi angka berikutnya.',
+          crossDisciplinary: {
+            connectionText: 'Ekonomi Perilaku (Behavioral Economics) x Taktik Penetapan Harga',
+            domains: ['Psikologi', 'Keuangan'],
+            insight:
+              'Daniel Kahneman membuktikan dalam Prospek Teori: rasa sakit kehilangan Rp 10 Juta dirasakan 2,5 kali lebih menyakitkan daripada rasa senang mendapatkan Rp 10 Juta yang sama. Frame risiko kerugian selalu lebih memotivasi aksi.',
+          },
+          actionableSteps: [
+            'Gunakan "Range Anchoring" dengan batas bawah angka target Anda (misal: "Proyek skala ini biasanya berada di rentang Rp 120-150 Juta").',
+            'Sajikan penawaran dengan frame pencegahan kerugian: "Menggunakan solusi ini mencegah risiko kebocoran kas Rp 50 Juta per bulan."',
+            'Jangan takut mendengar kata "Tidak": kata tidak adalah momen saat negosiasi sejati baru dimulai, karena orang merasa aman saat memiliki kendali menolak.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Menawarkan Jasa Konsultasi Keamanan Siber',
+          context: 'Perusahaan ritel ragu mengeluarkan anggaran Rp 150 Juta untuk audit keamanan database mereka.',
+          dilemma: 'Bagaimana membingkai (frame) penawaran agar dewan direksi menyetujui anggaran?',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Fokus memamerkan 50 sertifikasi teknis tim Anda dan betapa canggihnya software monitoring Anda.',
+              consequence: 'Klien memandang penawaran Anda sebagai beban biaya teknis tambahan yang tidak mendesak dan menunda keputusan berbulan-bulan.',
+              scoreBonus: 10,
+              isOptimal: false,
+              explanation: 'Menjual fitur teknis tanpa mengaitkannya dengan risiko bisnis nyata gagal menciptakan urgensi.',
+            },
+            {
+              id: 'c2',
+              text: 'Gunakan Loss Aversion Framing: "UU PDP terbaru mengenakan sanksi denda 2% dari omzet tahunan (Rp 4 Miliar) jika data pelanggan bocor. Investasi Rp 150 Juta ini mengamankan proteksi hukum dan reputasi publik Anda."',
+              consequence: 'Direksi menyadari Rp 150 Juta adalah asuransi yang sangat murah dibanding risiko denda Rp 4 Miliar; proposal disetujui dalam 48 jam.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Membingkai biaya sebagai proteksi dari kerugian katastropik memicu insting pertahanan eksekutif secara efektif.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-frm-1',
+            question: 'Mengapa negosiator ulung sering kali sengaja memancing kata "Tidak" di awal percakapan (misal: "Apakah sekarang waktu yang buruk untuk berbicara?")?',
+            options: [
+              'Karena mereka ingin percakapan segera diakhiri',
+              'Karena mengatakan "Tidak" membuat lawan bicara merasa memegang kendali dan terlindungi, meruntuhkan sikap defensif mereka dibanding dipaksa mengatakan "Ya" palsu',
+              'Karena kata tidak berarti penolakan mutlak selamanya',
+              'Karena dilarang oleh etika bisnis',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'Kata "Ya" sering kali merupakan komitmen palsu yang diucapkan orang agar percakapan cepat usai. Mengizinkan lawan berkata "Tidak" menciptakan rasa aman dan otonomi psikologis.',
+          },
+        ],
+      },
+      {
+        id: 'nego-csuite-pitch',
+        label: 'Pitching C-Suite & Storytelling Finansial',
+        domain: 'Bisnis',
+        summary: 'Mengubah Ide Teknis Menjadi Arus Kas, Menghubungkan Inovasi dengan ROE / EBITDA, dan Menguasai Bahasa Dewan Direksi.',
+        x: 620,
+        y: 430,
+        level: 1,
+        microContent: {
+          analogy:
+            'Para direktur dan pemodal ventura tidak membeli ide teknologi Anda; mereka membeli proyeksi pengembalian modal atas risiko (Risk-Adjusted Return). Jika Anda berbicara bahasa teknis coding di depan CFO, Anda seperti turis yang berbicara bahasa asing di pasar lokal. Bicaralah dalam dialek asli mereka: EBITDA, Working Capital, Payback Period, dan Risiko Kepatuhan.',
+          crossDisciplinary: {
+            connectionText: 'Keuangan Korporat x Komunikasi Strategis',
+            domains: ['Bisnis', 'Keuangan'],
+            insight:
+              'Penyajian cerita bisnis (Storytelling) yang hebat bukanlah dongeng fiksi, melainkan alur sebab-akibat yang menghubungkan masalah pasar, solusi produk, dan multiplikasi laba bersih di laporan neraca.',
+          },
+          actionableSteps: [
+            'Terjemahkan setiap fitur produk ke dampak finansial: "Fitur ini memangkas waktu kerja 4 jam = menghemat Rp 80 Juta biaya lembur per bulan."',
+            'Siapkan 1 halaman Executive Summary yang memuat: Masalah, Solusi, Biaya Investasi, dan Proyeksi Balik Modal (Payback Period).',
+            'Latih pitching 2 menit (Elevator Pitch) yang memikat tanpa bergantung pada slide proyektor.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Meminta Anggaran Riset AI Senilai Rp 500 Juta ke CFO',
+          context: 'Tim R&D Anda ingin mengimplementasikan model AI internal untuk otomatisasi customer support.',
+          dilemma: 'CFO terkenal sangat ketat memotong anggaran belanja non-esensial.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Jelaskan betapa kerennya arsitektur transformer AI dan parameter miliaran token algoritma tersebut.',
+              consequence: 'CFO menguap bosan dan menolak proposal: "Kita bukan universitas riset teoritis, anggarannya ditolak."',
+              scoreBonus: 10,
+              isOptimal: false,
+              explanation: 'Berbicara jargon teknis kepada pengambil keputusan finansial adalah kesalahan fatal komunikasi.',
+            },
+            {
+              id: 'c2',
+              text: 'Sajikan kalkulasi finansial: "Investasi Rp 500 Juta ini memangkas biaya operasional call center Rp 60 Juta/bulan. Titik balik modal (Break-Even) tercapai dalam 8,5 bulan, dan tahun ke-2 menghasilkan efisiensi bersih Rp 720 Juta per tahun."',
+              consequence: 'CFO melihat ROI dan Payback Period yang jelas dan terukur; anggaran disetujui dengan pujian atas kedewasaan finansial tim Anda.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Menghubungkan inovasi langsung ke kalkulasi pengembalian modal (ROI) adalah bahasa universal para eksekutif senior.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-pit-1',
+            question: 'Ketika melakukan pitching proyek baru di depan Chief Financial Officer (CFO), metrik apa yang paling mereka prioritaskan?',
+            options: [
+              'Berapa banyak slide animasi warna-warni yang ada di dokumen presentasi',
+              'Berapa Return on Investment (ROI), Payback Period, dan dampaknya terhadap Free Cash Flow perusahaan',
+              'Nama merek laptop yang digunakan saat presentasi',
+              'Berapa banyak foto selfie tim pengembang produk',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'CFO bertanggung jawab atas alokasi modal dan likuiditas perusahaan. Mereka mengevaluasi setiap pengeluaran berdasarkan rasio risiko dan potensi pengembalian arus kas riil.',
+          },
+        ],
+      },
+    ],
+    edges: [
+      { id: 'ne1', from: 'nego-root', to: 'nego-batna', label: 'Daya Tawar & Alternatif', domains: ['Komunikasi', 'Komunikasi'] },
+      { id: 'ne2', from: 'nego-root', to: 'nego-minto-pyramid', label: 'Artikulasi Bottom-Line First', domains: ['Komunikasi', 'Komunikasi'] },
+      { id: 'ne3', from: 'nego-root', to: 'nego-framing-anchoring', label: 'Jangkar Persepsi Angka', domains: ['Komunikasi', 'Psikologi'] },
+      { id: 'ne4', from: 'nego-root', to: 'nego-csuite-pitch', label: 'Storytelling Arus Kas', domains: ['Komunikasi', 'Bisnis'] },
+      { id: 'ne5', from: 'nego-batna', to: 'nego-framing-anchoring', label: 'Kekuatan Berani Walk Away', domains: ['Komunikasi', 'Psikologi'] },
+      { id: 'ne6', from: 'nego-minto-pyramid', to: 'nego-csuite-pitch', label: 'Struktur Laporan Dewan Direksi', domains: ['Komunikasi', 'Bisnis'] },
+    ],
+  },
+
+  // ============================================================================
+  // 5. FINANCIAL MODELING, EXCEL & DATA ANALYTICS
+  // ============================================================================
+  'Financial Modeling, Excel & Data Analytics': {
+    id: 'mindmap-financial-modeling-excel',
+    topic: 'Financial Modeling, Excel & Data Analytics',
+    rootId: 'excel-root',
+    description: 'Kuasai Model Finansial Tiga Laporan Terintegrasi (3-Statement), Formula Mahir Excel, Analisis Kohort LTV/CAC, SQL, dan Stres Testing.',
+    nodes: [
+      {
+        id: 'excel-root',
+        label: 'Arsitektur Data & Model Finansial',
+        domain: 'Data & Analitik',
+        summary: 'Model finansial adalah simulasi digital atas masa depan bisnis. Angka di spreadsheet bukan sekadar catatan masa lalu, melainkan kompas pengambilan keputusan alokasi modal bernilai miliaran rupiah.',
+        x: 400,
+        y: 280,
+        level: 0,
+        microContent: {
+          analogy:
+            'Menjalankan bisnis tanpa model finansial yang dinamis bagaikan menerbangkan pesawat jet komersial di tengah badai malam hari tanpa panel instrumen kokpit. Anda mungkin merasa sedang melaju kencang, namun Anda tidak tahu apakah ketinggian Anda turun mendekati tebing atau bahan bakar cadangan tinggal 10 menit lagi. Spreadsheet finansial adalah instrumen altimeter dan radar navigasi Anda.',
+          crossDisciplinary: {
+            connectionText: 'Kuantitatif Keuangan x Arsitektur Logika Sistem',
+            domains: ['Data & Analitik', 'Keuangan'],
+            insight:
+              'Kecakapan menghubungkan Laba Rugi, Neraca, dan Arus Kas secara otomatis membedakan antara staf pembukuan administratif dengan analis strategi kelas Wall Street.',
+          },
+          actionableSteps: [
+            'Bangun kebiasaan "Dynamic Driver": jangan pernah mengetik angka mentah (hardcoded) di dalam formula kalkulasi.',
+            'Warnai sel spreadsheet secara standar industri: Biru untuk input/asumsi, Hitam untuk kalkulasi formula, Hijau untuk referensi lembar lain.',
+            'Latih formula pencarian modern: kuasai XLOOKUP dan INDEX-MATCH untuk menggantikan VLOOKUP yang rentan error saat kolom bergeser.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Proyeksi Ekspansi Pabrik dengan Hardcoded Cell',
+          context: 'Analis magang membuat model finansial ekspansi pabrik namun mengetik angka inflasi 5% langsung di dalam formula.',
+          dilemma: 'Direksi ingin melihat apa yang terjadi jika inflasi melonjak menjadi 9% dalam skenario krisis.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Biarkan model hardcoded dan ubah angka di 80 sel spreadsheet satu per satu secara manual.',
+              consequence: 'Butuh waktu 4 jam, ada 5 sel yang terlewat salah ketik, laporan menghasilkan proyeksi laba palsu yang menyesatkan direksi.',
+              scoreBonus: 5,
+              isOptimal: false,
+              explanation: 'Hardcoding di dalam formula adalah dosa terbesar dalam pemodelan finansial profesional.',
+            },
+            {
+              id: 'c2',
+              text: 'Restrukturisasi model: buat satu sel "Assumption Driver Table" khusus di pojok atas, lalu hubungkan semua formula ke sel tersebut.',
+              consequence: 'Dalam 2 detik seluruh proyeksi 5 tahun ke depan otomatis berubah saat angka inflasi diubah; direksi terkesan dengan ketepatan simulasi Anda.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Prinsip Best Practice FAST: model finansial harus fleksibel, transparan, dan terhubung secara dinamis.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-mod-1',
+            question: 'Dalam standar pemodelan keuangan profesional (Wall Street Prep / Financial Modeling Institute), mengapa sel berisi angka input asumsi diwarnai dengan teks Biru?',
+            options: [
+              'Karena tinta printer warna biru lebih murah dari warna hitam',
+              'Sebagai konvensi visual standar internasional: teks Biru menandakan input manual yang boleh diubah pengguna, sedangkan teks Hitam menandakan formula kalkulasi yang tidak boleh disentuh',
+              'Hanya sekadar preferensi estetika desainer template',
+              'Menandakan sel tersebut mengandung link ke situs web eksternal',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'Standar pewarnaan font (Biru untuk input/asumsi, Hitam untuk formula, Hijau untuk lembar lain) mencegah pengguna salah menimpa rumus penting dalam spreadsheet korporat.',
+          },
+        ],
+      },
+      {
+        id: 'excel-3statement',
+        label: 'Integrated 3-Statement Model',
+        domain: 'Keuangan',
+        summary: 'Menghubungkan Laporan Laba Rugi (Income Statement), Neraca (Balance Sheet), dan Arus Kas (Cash Flow) Tanpa Selisih (Zero Discrepancy).',
+        x: 180,
+        y: 130,
+        level: 1,
+        microContent: {
+          analogy:
+            'Ketiga laporan keuangan bagaikan organ tubuh yang saling memompa darah: Laporan Laba Rugi adalah detak jantung omzet dan biaya; Arus Kas adalah darah segar yang mengalir ke seluruh urat nadi; dan Neraca adalah kerangka tulang yang menyangga seluruh bobot tubuh. Laba bersih mengalir ke Saldo Laba (Retained Earnings) di Neraca dan menjadi titik awal di Laporan Arus Kas.',
+          crossDisciplinary: {
+            connectionText: 'Akuntansi Korporat x Dinamika Modal Kerja',
+            domains: ['Keuangan', 'Data & Analitik'],
+            insight:
+              'Kunci integrasi: Kas akhir di Laporan Arus Kas wajib sama persis dengan baris Kas di Neraca, dan Neraca harus seimbang (Total Aset = Total Liabilitas + Ekuitas) tanpa selisih 1 rupiah pun.',
+          },
+          actionableSteps: [
+            'Buat baris "Check Balance" di bagian bawah Neraca: Formula `= Total Aset - (Liabilitas + Ekuitas)` harus selalu menghasilkan nilai 0.',
+            'Pahami hubungan Depresiasi: mengurangi Laba Kotor di Laba Rugi, diakumulasikan mengurangi Aset Tetap di Neraca, dan ditambahkan kembali di Arus Kas Operasional.',
+            'Petakan dampak kenaikan Piutang Usaha (Accounts Receivable): omzet tercatat di Laba Rugi namun arus kas riil berkurang karena uang belum diterima tunai.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Neraca Keuangan Selisih (Unbalanced) Rp 50 Juta',
+          context: 'Menjelang rapat investor pukul 14.00, neraca finansial model Anda menunjukkan selisih Rp 50 Juta.',
+          dilemma: 'Bagaimana melacak dan memperbaiki selisih tersebut dengan cepat?',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Masukkan angka "Penyesuaian Lain-lain" (Plug Cell) sebesar Rp 50 Juta di baris ekuitas agar neraca seimbang secara paksa.',
+              consequence: 'Auditor investor memeriksa formula dan menemukan manipulasi plug cell; integritas analisis Anda runtuh dan pendanaan dibatalkan.',
+              scoreBonus: 0,
+              isOptimal: false,
+              explanation: 'Membuat "plug cell" fiktif untuk menyeimbangkan neraca adalah pelanggaran etika dan kepatuhan finansial fatal.',
+            },
+            {
+              id: 'c2',
+              text: 'Telusuri baris Belanja Modal (CapEx) dan Depresiasi: periksa apakah arus kas investasi telah dikurangi dari nilai buku aset tetap di neraca secara konsisten.',
+              consequence: 'Ditemukan ada rumus depresiasi yang belum terhubung ke akumulasi penyusutan; neraca seimbang murni dan model lolos uji due-diligence.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Melacak aliran mekanis akuntansi secara teliti menyelesaikan akar masalah ketidakseimbangan neraca secara permanen.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-3st-1',
+            question: 'Ketika sebuah perusahaan membeli mesin baru seharga Rp 100 Juta secara tunai, bagaimana transaksi ini tercermin di dalam 3 Laporan Keuangan secara bersamaan?',
+            options: [
+              'Laba bersih langsung turun Rp 100 Juta di Laporan Laba Rugi hari itu juga',
+              'Di Neraca: Kas berkurang Rp 100 Juta dan Aset Tetap bertambah Rp 100 Juta (Total Aset tetap sama); di Laporan Arus Kas tercatat sebagai pengeluaran Cash Flow from Investing; Laba Rugi belum terpengaruh hingga beban depresiasi berjalan',
+              'Liabilitas utang bank otomatis bertambah Rp 100 Juta',
+              'Modal saham pemegang saham disita oleh bank',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'Pembelian aset modal (CapEx) tidak langsung memotong laba rugi sekaligus, melainkan dikapitalisasi di neraca sebagai aset tetap dan dialokasikan secara berkala melalui biaya penyusutan (depresiasi).',
+          },
+        ],
+      },
+      {
+        id: 'excel-unit-economics',
+        label: 'Unit Economics & Analisis Kohort',
+        domain: 'Data & Analitik',
+        summary: 'Customer Lifetime Value (LTV), Customer Acquisition Cost (CAC), Payback Period, Churn Rate, dan Tabel Kohort Retensi Pengguna.',
+        x: 620,
+        y: 130,
+        level: 1,
+        microContent: {
+          analogy:
+            'Bayangkan bisnis Anda adalah sebuah ember air. CAC adalah biaya untuk membeli gayung air untuk dituangkan ke dalam ember. LTV adalah berapa banyak air yang bisa ditampung dan diminum dari ember tersebut. Jika dasar ember Anda berlubang bocor parah (Churn Rate tinggi), menuangkan lebih banyak air iklan hanya membakar modal tanpa pernah mengisi ember sampai penuh.',
+          crossDisciplinary: {
+            connectionText: 'Analitika Data Pengguna x Kesehatan Fundamental Startup',
+            domains: ['Data & Analitik', 'Bisnis'],
+            insight:
+              'Benchmark bisnis sehat: Rasio LTV / CAC minimal harus di atas 3:1 dan Payback Period CAC idealnya di bawah 12 bulan.',
+          },
+          actionableSteps: [
+            'Buat Matriks Tabel Kohort bulanan: lacak berapa persen pengguna bulan Januari yang masih aktif bertransaksi di bulan ke-6 dan ke-12.',
+            'Hitung CAC Riil: (Total Biaya Pemasaran + Gaji Tim Sales) dibagi Jumlah Pengguna Baru yang Didapat.',
+            'Lacak Net Revenue Retention (NRR): pastikan pendapatan dari pelanggan lama bertumbuh (ekspansi) mengalahkan pelanggan yang churn.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Pilihan Alokasi Anggaran Marketing Rp 200 Juta',
+          context: 'Rasio LTV / CAC bisnis e-commerce Anda saat ini adalah 1.2:1 dengan tingkat retensi bulan ke-3 hanya 15%.',
+          dilemma: 'Tim marketing mengusulkan membakar Rp 200 Juta untuk iklan diskon TikTok demi mengejar pertumbuhan pengguna baru.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Setujui belanja iklan Rp 200 Juta agar grafik pertumbuhan pengguna baru terlihat meroket di mata publik.',
+              consequence: 'Pengguna baru datang hanya untuk berburu diskon, setelah itu pergi (churn); kas habis dan bisnis terancam kolaps.',
+              scoreBonus: 5,
+              isOptimal: false,
+              explanation: 'Mempercepat pertumbuhan di atas unit economics yang bocor sama dengan mempercepat kebangkrutan.',
+            },
+            {
+              id: 'c2',
+              text: 'Tahan belanja iklan masif, alokasikan anggaran untuk riset produk, onboarding pengguna, dan program loyalitas hingga retensi naik dan LTV/CAC mencapai >3:1.',
+              consequence: 'Ember diperbaiki, pengguna lama terus berbelanja berulang (repeat order), dan begitu iklan dinyalakan kembali, bisnis mencetak profit eksponensial.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Menyelaraskan unit economics sebelum melakukan scaling adalah hukum gravitasi bisnis yang tidak bisa dilanggar.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-ue-1',
+            question: 'Jika biaya Customer Acquisition Cost (CAC) Anda adalah Rp 50.000 dan rata-rata laba kotor yang dihasilkan pelanggan seumur hidup (LTV) adalah Rp 200.000, berapa rasio LTV / CAC dan apa kesimpulannya?',
+            options: [
+              'Rasio 1:4 (Bisnis merugi parah dan harus ditutup)',
+              'Rasio 4:1 (Unit economics sangat sehat dan memiliki potensi skalabilitas yang sangat menguntungkan)',
+              'Rasio 0.25 (Pajak perusahaan terlalu tinggi)',
+              'Rasio 10:1 (Harus memecat tim sales)',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'Rasio LTV/CAC 4:1 berada di atas benchmark emas (3:1). Setiap Rp 1 modal pemasaran yang diinvestasikan menghasilkan Rp 4 nilai kembali bagi bisnis.',
+          },
+        ],
+      },
+      {
+        id: 'excel-sql-database',
+        label: 'SQL & Database Query Eksekutif',
+        domain: 'Data & Analitik',
+        summary: 'Perintah SELECT, JOIN, GROUP BY, Window Functions, dan Menarik Data Transaksi Langsung dari PostgreSQL / BigQuery.',
+        x: 180,
+        y: 430,
+        level: 1,
+        microContent: {
+          analogy:
+            'Mengandalkan tim data analis untuk setiap pertanyaan bisnis kecil bagaikan harus memesan penerjemah setiap kali ingin berbicara dengan pelanggan. Eksekutif yang menguasai dasar SQL (Structured Query Language) dapat langsung membuka gudang data mentah perusahaan, menyaring jutaan baris transaksi dalam 3 detik, dan mengambil keputusan berbasis fakta saat itu juga.',
+          crossDisciplinary: {
+            connectionText: 'Ilmu Komputer Relasional x Kecepatan Keputusan Manajemen',
+            domains: ['Data & Analitik', 'Bisnis'],
+            insight:
+              'Data yang tertinggal seminggu adalah sejarah; data yang ditarik via SQL query hari ini adalah keunggulan kompetitif yang dapat ditindaklanjuti seketika.',
+          },
+          actionableSteps: [
+            'Kuasai sintaks dasar: `SELECT customer_id, SUM(amount) FROM orders WHERE status = \'completed\' GROUP BY customer_id ORDER BY 2 DESC;`',
+            'Pahami perbedaan INNER JOIN vs LEFT JOIN saat menggabungkan tabel pengguna dengan tabel pembayaran.',
+            'Gunakan fungsi jendela (Window Function seperti `ROW_NUMBER()` dan `LEAD/LAG`) untuk menghitung pertumbuhan dari bulan ke bulan.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Perbedaan Angka Penjualan Antara Tim Sales vs Akuntansi',
+          context: 'Tim sales mengklaim omzet bulan ini Rp 1,5 Miliar, namun akuntansi mencatat hanya Rp 1,1 Miliar.',
+          dilemma: 'Rapat evaluasi dimulai dalam 30 menit dan kedua belah pihak saling menyalahkan.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Percaya begitu saja pada klaim tim sales tanpa memeriksa database mentah.',
+              consequence: 'Ternyata ada transaksi pending fiktif yang belum dibayar pembeli; keputusan belanja modal Anda meleset dan kas tekor.',
+              scoreBonus: 5,
+              isOptimal: false,
+              explanation: 'Mengambil keputusan berbasis opini verbal tanpa verifikasi data mentah sangat berbahaya.',
+            },
+            {
+              id: 'c2',
+              text: 'Buka query tool database dan jalankan query: pisahkan transaksi dengan status `PAID` vs status `PENDING` atau `REFUND`.',
+              consequence: 'Dalam 5 menit fakta objektif tersaji di layar proyektor: selisih Rp 400 Juta adalah pesanan yang belum dibayar transfer; perdebatan selesai dan tindakan penagihan langsung dijalankan.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Kemampuan query data secara mandiri menghadirkan kebenaran faktual objektif di tengah konflik opini internal.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-sql-1',
+            question: 'Dalam perintah SQL database, klausul mana yang digunakan untuk mengelompokkan data penjualan berdasarkan kategori produk dan menghitung total omzetnya?',
+            options: [
+              'WHERE kategori = \'all\'',
+              'GROUP BY kategori dengan fungsi agregat SUM(omzet)',
+              'DROP TABLE kategori',
+              'DELETE FROM omzet',
+            ],
+            correctAnswerIndex: 1,
+            explanation: '`GROUP BY` mengelompokkan baris-baris data yang memiliki nilai kolom serupa sehingga fungsi agregasi seperti `SUM()`, `AVG()`, atau `COUNT()` dapat menghitung nilai total per kelompok.',
+          },
+        ],
+      },
+      {
+        id: 'excel-stress-testing',
+        label: 'Analisis Sensitivitas & Stres Testing',
+        domain: 'Data & Analitik',
+        summary: 'Data Tables (1 & 2 Dimensi), Goal Seek, Scenario Manager, dan Simulasi Skenario Terburuk (Worst-Case Shock Analysis).',
+        x: 620,
+        y: 430,
+        level: 1,
+        microContent: {
+          analogy:
+            'Insinyur jembatan gantung tidak mendesain kabel baja hanya untuk menahan beban mobil di hari yang cerah dan sepoi-sepoi; mereka menguji apakah jembatan itu tetap kokoh saat dihantam badai angin topan 150 km/jam bersamaan dengan gempa bumi berkekuatan 8 skala Richter. Analisis Sensitivitas di Excel menguji apakah bisnis Anda tetap hidup jika omzet turun 30% dan suku bunga utang melonjak 300 bps secara simultan.',
+          crossDisciplinary: {
+            connectionText: 'Statistika Probabilitas x Manajemen Kelangsungan Bisnis',
+            domains: ['Data & Analitik', 'Keuangan'],
+            insight:
+              'Mengetahui titik impas kritis (Breakeven Threshold) memberi Anda ketenangan eksekutif: Anda tahu persis berapa lama cadangan kas bertahan sebelum tindakan darurat harus dieksekusi.',
+          },
+          actionableSteps: [
+            'Gunakan fitur Excel Data Table 2 Dimensi untuk memetakan laba bersih terhadap variasi Harga Jual (sumbu X) dan Biaya Bahan Baku (sumbu Y).',
+            'Buat 3 skenario resmi di model Anda: Base Case (Realistis), Bull Case (Optimis), dan Bear Case (Krisis Parah).',
+            'Gunakan "Goal Seek" untuk menghitung berapa minimal unit produk yang wajib terjual per hari agar operasional tidak merugi.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Negosiasi Pinjaman Bank untuk Proyek Properti',
+          context: 'Bank menawarkan kredit konstruksi Rp 5 Miliar dengan asumsi bunga mengambang (floating rate).',
+          dilemma: 'Bagaimana membuktikan kepada komite risiko bahwa proyek Anda kebal dari gejolak suku bunga?',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Sajikan satu lembar proyeksi statis tunggal dengan asumsi suku bunga bunga flat 6% selamanya.',
+              consequence: 'Komite bank menolak proposal karena model dianggap naif dan tidak memperhitungkan risiko volatilitas makro.',
+              scoreBonus: 10,
+              isOptimal: false,
+              explanation: 'Model deterministik tanpa stres test mencerminkan ketidaksiapan manajemen menghadapi realitas pasar.',
+            },
+            {
+              id: 'c2',
+              text: 'Sajikan Data Table Sensitivitas yang menguji Debt Service Coverage Ratio (DSCR) pada skenario suku bunga naik ke 8%, 10%, hingga 12% disertai mitigasi cadangan kas escrow.',
+              consequence: 'Komite risiko bank terkesan dengan kedalaman perencanaan manajemen Anda; pinjaman disetujui dengan suku bunga preferensial.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Transparansi uji stres membangun kredibilitas tak terbantahkan di mata institusi keuangan profesional.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-st-1',
+            question: 'Apa fungsi utama dari fitur "Data Table" dua variabel di Microsoft Excel dalam pemodelan keuangan?',
+            options: [
+              'Untuk mengganti jenis font dan warna sel secara otomatis',
+              'Menampilkan matriks hasil keluaran (output) secara dinamis terhadap kombinasi perubahan dua variabel input yang berbeda secara bersamaan',
+              'Menghapus baris yang mengandung sel kosong',
+              'Mengirim email otomatis ke dewan direksi',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'Data Table 2 Dimensi sangat efektif untuk analisis sensitivitas: Anda bisa melihat seketika bagaimana kombinasi perubahan harga jual dan volume mempengaruhi laba bersih dalam satu tabel ringkas.',
+          },
+        ],
+      },
+    ],
+    edges: [
+      { id: 'xe1', from: 'excel-root', to: 'excel-3statement', label: 'Integritas 3 Laporan Keuangan', domains: ['Data & Analitik', 'Keuangan'] },
+      { id: 'xe2', from: 'excel-root', to: 'excel-unit-economics', label: 'Metrik LTV / CAC', domains: ['Data & Analitik', 'Bisnis'] },
+      { id: 'xe3', from: 'excel-root', to: 'excel-sql-database', label: 'Pengambilan Data Mentah', domains: ['Data & Analitik', 'Data & Analitik'] },
+      { id: 'xe4', from: 'excel-root', to: 'excel-stress-testing', label: 'Simulasi Skenario Krisis', domains: ['Data & Analitik', 'Keuangan'] },
+      { id: 'xe5', from: 'excel-3statement', to: 'excel-stress-testing', label: 'Uji Ketahanan Arus Kas', domains: ['Keuangan', 'Data & Analitik'] },
+      { id: 'xe6', from: 'excel-unit-economics', to: 'excel-sql-database', label: 'Kueri Kohort Retensi', domains: ['Bisnis', 'Data & Analitik'] },
+    ],
+  },
+
+  // ============================================================================
+  // 6. HUKUM BISNIS, KONTRAK & EFISIENSI PAJAK
+  // ============================================================================
+  'Hukum Bisnis, Kontrak & Efisiensi Pajak': {
+    id: 'mindmap-hukum-bisnis-pajak',
+    topic: 'Hukum Bisnis, Kontrak & Efisiensi Pajak',
+    rootId: 'hukum-root',
+    description: 'Bongkar Struktur PT, Perjanjian Pemegang Saham (SHA), Klausul Drag/Tag-Along, Vesting, Perlindungan HKI, dan Tax Avoidance Legal vs Tax Evasion.',
+    nodes: [
+      {
+        id: 'hukum-root',
+        label: 'Fondasi Legalitas & Optimalisasi Pajak',
+        domain: 'Hukum',
+        summary: 'Hukum dan perpajakan bukan beban administratif yang harus dihindari secara sembunyi-sembunyi, melainkan aturan permainan kapitalisme resmi yang jika dikuasai dengan cerdas menjadi perisai aset terbesar Anda.',
+        x: 400,
+        y: 280,
+        level: 0,
+        microContent: {
+          analogy:
+            'Memulai bisnis tanpa struktur hukum dan kontrak yang jelas bagaikan membangun gedung pencakar langit 40 lantai di atas fondasi pasir basah. Di masa damai saat matahari cerah, bangunan terlihat megah. Namun begitu terjadi gempa sengketa antar-pendiri atau badai pemeriksaan pajak, seluruh gedung runtuh menimpa pemiliknya. Kontrak yang kokoh adalah beton bertulang yang mengunci kekayaan Anda.',
+          crossDisciplinary: {
+            connectionText: 'Hukum Perdata Korporat x Perencanaan Pajak Strategis',
+            domains: ['Hukum', 'Pajak'],
+            insight:
+              'Hakim legendaris Learned Hand menyatakan: "Setiap orang berhak mengatur urusan keuangannya agar pajaknya serendah mungkin menurut hukum yang berlaku. Tidak ada kewajiban moral untuk membayar pajak lebih dari yang diwajibkan undang-undang."',
+          },
+          actionableSteps: [
+            'Pisahkan rekening dan aset pribadi dari aset perusahaan (PT) untuk menjaga prinsip "Tanggung Jawab Terbatas" (Limited Liability).',
+            'Pastikan setiap kemitraan bisnis memiliki Perjanjian Pemegang Saham (Shareholders Agreement) tertulis di depan notaris.',
+            'Kuasai perbedaan antara Tax Planning/Avoidance (Legal & Cerdas) dengan Tax Evasion (Ilegal & Pidana Penjara).',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Mendirikan Bisnis dengan Teman Akrab Tanpa Akta Perjanjian',
+          context: 'Anda dan sahabat karib sepakat mendirikan agensi digital dengan modal 50:50 hanya berdasarkan saling percaya secara lisan.',
+          dilemma: 'Tahun kedua bisnis menghasilkan laba Rp 1 Miliar dan teman Anda mulai malas bekerja namun tetap menuntut bagi hasil 50%.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Biarkan situasi berjalan tanpa kontrak formal karena merasa tidak enak hati menegur sahabat lama.',
+              consequence: 'Konflik memuncak menjadi perseteruan sengit, kas bisnis dibekukan, klien kabur, dan persahabatan hancur lebur.',
+              scoreBonus: 5,
+              isOptimal: false,
+              explanation: 'Mengandalkan rasa tidak enak dalam urusan modal adalah resep kehancuran bisnis paling umum di dunia.',
+            },
+            {
+              id: 'c2',
+              text: 'Sejak hari pertama buat Shareholders Agreement resmi dengan klausul Vesting 4 tahun dan Key Performance Indicators (KPI) keaktifan operasional.',
+              consequence: 'Hak kepemilikan saham diperoleh secara bertahap sejalan dengan kontribusi nyata; bisnis terlindungi dan persahabatan tetap terjaga profesional.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Klausul Vesting memastikan bahwa pemegang saham yang tidak berkontribusi tidak dapat membawa kabur ekuitas perusahaan.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-law-1',
+            question: 'Apa perbedaan hukum mendasar antara Perseroan Terbatas (PT) dengan Usaha Perorangan atau CV terkait tanggung jawab finansial pemegang saham?',
+            options: [
+              'PT tidak perlu membayar pajak ke negara',
+              'Pada PT berlaku prinsip Tanggung Jawab Terbatas (Limited Liability): tanggung jawab pemegang saham hanya sebatas modal saham yang disetorkan, sehingga harta pribadi terpisah dan terlindungi dari kebangkrutan perusahaan',
+              'CV memiliki wewenang menerbitkan obligasi di bursa efek internasional',
+              'Semua utang PT wajib dilunasi menggunakan rumah dan mobil pribadi direktur',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'Limited Liability adalah penemuan terbesar hukum korporat modern: membatasi risiko kerugian pemodal hanya pada modal yang disetor, memisahkan harta pribadi dari tuntutan kreditor bisnis.',
+          },
+        ],
+      },
+      {
+        id: 'hukum-sha-vesting',
+        label: 'Shareholders Agreement (SHA) & Vesting',
+        domain: 'Hukum',
+        summary: 'Klausul Drag-Along, Tag-Along, Right of First Refusal (ROFR), Anti-Dilusi, Deadlock Resolution, dan Reverse Vesting 4 Tahun dengan 1-Year Cliff.',
+        x: 180,
+        y: 130,
+        level: 1,
+        microContent: {
+          analogy:
+            'Klausul Vesting 4 Tahun dengan 1-Year Cliff bagaikan masa pertunangan sebelum pernikahan resmi. Jika seorang pendiri bisnis menjanjikan komitmen 4 tahun namun kabur di bulan ke-8, klausul 1-Year Cliff memastikan ia pulang dengan tangan kosong tanpa membawa selembar saham pun. Ekuitas bisnis hanya diberikan kepada mereka yang membuktikan keringat dan kesetiaannya.',
+          crossDisciplinary: {
+            connectionText: 'Hukum Kontrak Korporat x Psikologi Insentif Pendiri',
+            domains: ['Hukum', 'Bisnis'],
+            insight:
+              'Klausul "Drag-Along" melindungi pemegang saham mayoritas agar dapat menjual seluruh perusahaan ke pembeli akuisisi tanpa bisa disandera oleh pemegang saham minoritas yang menolak tanda tangan.',
+          },
+          actionableSteps: [
+            'Terapkan standar Vesting Schedule: 4 tahun masa vesting dengan 1-year cliff (25% terbuka di akhir tahun pertama, sisanya bertahap tiap bulan).',
+            'Sertakan klausul "Bad Leaver": pendiri yang dipecat karena kecurangan pidana wajib menjual kembali sahamnya ke perseroan di harga nominal (par value).',
+            'Gunakan klausul "Right of First Refusal (ROFR)" agar pemegang saham lama berhak membeli saham terlebih dahulu sebelum ditawarkan ke pihak luar asing.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Tawaran Akuisisi $5 Juta vs Pemegang Saham 2% yang Membangkang',
+          context: 'Korporasi global ingin mengakuisisi 100% saham startup Anda senilai $5 Juta tunai.',
+          dilemma: 'Satu investor malaikat minoritas yang hanya memegang 2% saham menolak menandatangani perjanjian jual beli karena motif dendam pribadi.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Batalkan kesepakatan akuisisi $5 Juta karena mengira semua pemegang saham harus sepakat 100% tanpa pengecualian.',
+              consequence: 'Peluang exit bernilai puluhan miliar rupiah lenyap sia-sia akibat ulah satu orang pemegang saham 2%.',
+              scoreBonus: 5,
+              isOptimal: false,
+              explanation: 'Ketiadaan klausul Drag-Along dalam perjanjian pemegang saham menyandera masa depan seluruh pemodal mayoritas.',
+            },
+            {
+              id: 'c2',
+              text: 'Aktifkan klausul "Drag-Along" (Hak Menyeret) yang telah disepakati di SHA: pemegang saham mayoritas berhak memaksa minoritas ikut menjual saham di syarat dan harga yang sama.',
+              consequence: 'Akuisisi $5 Juta selesai tepat waktu, seluruh pemegang saham menerima bagian tunai secara proporsional dan sah secara hukum.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Klausul Drag-Along dirancang khusus untuk mencegah pemegang saham minoritas menyandera transaksi penjualan perusahaan yang menguntungkan.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-vst-1',
+            question: 'Dalam struktur pendanaan startup dan korporasi modern, apa fungsi dari klausul "Tag-Along Right" bagi pemegang saham minoritas?',
+            options: [
+              'Memaksa pendiri bekerja lembur di hari libur',
+              'Melindungi pemegang saham minoritas: jika pemegang saham mayoritas menjual sahamnya ke pihak pembeli baru, minoritas berhak ikut menjual saham mereka dengan harga dan syarat yang sama menguntungkannya',
+              'Menghilangkan hak suara pemegang saham minoritas di RUPS',
+              'Mengalihkan seluruh dividen ke kas negara',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'Tag-Along (Hak Ikut Serta) mencegah investor mayoritas meninggalkan investor minoritas sendirian bersama pemilik baru yang tidak dikenal dengan harga yang berbeda.',
+          },
+        ],
+      },
+      {
+        id: 'hukum-pajak-efisiensi',
+        label: 'Optimalisasi Pajak Legal (Tax Avoidance)',
+        domain: 'Pajak',
+        summary: 'Perbedaan Tax Avoidance (Legal & Terstruktur) vs Tax Evasion (Pidana), Biaya Pengurang Pajak (Deductible Expenses), Dividen Bebas PPh, dan Natura.',
+        x: 620,
+        y: 130,
+        level: 1,
+        microContent: {
+          analogy:
+            'Pajak bagaikan jalan tol bertingkat. Tax Evasion (Penggelapan Pajak) bagaikan menerobos palang pintu tol tanpa membayar: Anda dikejar polisi sirene dan berakhir di balik jeruji besi. Tax Avoidance (Perencanaan Pajak Legal) bagaikan memilih rute alternatif resmi yang disediakan undang-undang: memanfaatkan diskon tarif, insentif investasi industri hijau, dan biaya operasional yang sah untuk meminimalkan beban tagihan secara legal.',
+          crossDisciplinary: {
+            connectionText: 'Hukum Perpajakan Positif x Strategi Struktur Neraca',
+            domains: ['Pajak', 'Keuangan'],
+            insight:
+              'Berdasarkan UU Harmonisasi Peraturan Perpajakan (HPP), dividen yang diterima oleh wajib pajak orang pribadi dalam negeri dibebaskan dari objek PPh jika diinvestasikan kembali di wilayah NKRI selama minimal 3 tahun.',
+          },
+          actionableSteps: [
+            'Manfaatkan fasilitas Dividen Bebas Pajak dengan menginvestasikan kembali dividen ke instrumen produktif di Indonesia.',
+            'Maksimalkan pos "Deductible Expenses" (biaya yang dapat dikurangkan dari penghasilan bruto perusahaan) sesuai aturan fiskal resmi.',
+            'Gunakan fasilitas natura (benefit in kind) yang dikecualikan dari objek pajak untuk kesejahteraan karyawan.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Penarikan Keuntungan Perusahaan Rp 500 Juta',
+          context: 'PT Anda mencetak laba bersih setelah PPh Badan dan Anda ingin menarik Rp 500 Juta untuk diinvestasikan kembali.',
+          dilemma: 'Teman Anda menyarankan menyamarkan penarikan sebagai transaksi palsu tanpa pelaporan resmi.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Ikuti saran teman: transfer diam-diam tanpa pencatatan pembukuan dividen resmi.',
+              consequence: 'Terdeteksi algoritma sistem Core Tax DJP; terkena surat SP2DK, denda bunga 200%, dan ancaman pidana perpajakan.',
+              scoreBonus: 0,
+              isOptimal: false,
+              explanation: 'Menyembunyikan penghasilan adalah tindak pidana Tax Evasion yang pasti terendus integrasi data perbankan modern.',
+            },
+            {
+              id: 'c2',
+              text: 'Tarik resmi sebagai Dividen Sah melalui RUPS, lalu laporkan dalam SPT dan investasikan kembali ke instrumen SBN/Reksadana/Aset Produktif selama minimal 3 tahun sesuai UU HPP.',
+              consequence: 'Beban PPh Dividen menjadi 0% (Bebas Pajak Resmi), uang aman, dan neraca kepatuhan Anda mendapatkan status Wajib Pajak Patuh.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Memanfaatkan celah insentif re-investasi dividen UU HPP adalah contoh nyata kejeniusan perencanaan pajak legal.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-tax-1',
+            question: 'Di bawah undang-undang perpajakan Indonesia yang berlaku saat ini (UU HPP), syarat utama agar dividen yang diterima orang pribadi bebas dari pengenaan PPh adalah:',
+            options: [
+              'Dividen disumbangkan ke partai politik',
+              'Dividen diinvestasikan kembali di wilayah Negara Kesatuan Republik Indonesia (NKRI) dalam jangka waktu minimal 3 tahun dan dilaporkan dalam laporan realisasi investasi',
+              'Dividen ditarik tunai dan disimpan di rumah',
+              'Dividen ditukarkan ke mata uang kripto luar negeri',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'Sesuai UU HPP Pasal 4 ayat (3) huruf f, dividen dalam negeri yang diinvestasikan kembali di instrumen keuangan atau sektor riil NKRI selama paling singkat 3 tahun dikecualikan dari objek pajak penghasilan.',
+          },
+        ],
+      },
+      {
+        id: 'hukum-hki-paten',
+        label: 'Perlindungan HKI, Merek & Rahasia Dagang',
+        domain: 'Hukum',
+        summary: 'Pendaftaran Hak Merek (First-to-File Principle), Paten Teknologi, Hak Cipta, dan Perjanjian Kerahasiaan (Non-Disclosure Agreement / NDA).',
+        x: 180,
+        y: 430,
+        level: 1,
+        microContent: {
+          analogy:
+            'Di Indonesia dan sebagian besar dunia, hukum merek menganut prinsip "First-to-File", bukan "First-to-Use". Anda bisa saja sudah merintis warung bakso selama 15 tahun dan terkenal seantero kota, namun jika kompetitor licik mendaftarkan nama merek itu ke Dirjen Kekayaan Intelektual (DJKI) satu hari lebih dulu dari Anda, secara hukum Anda yang dilarang menggunakan nama warung Anda sendiri dan bisa digugat ganti rugi miliaran rupiah.',
+          crossDisciplinary: {
+            connectionText: 'Hukum Hak Kekayaan Intelektual x Perlindungan Valuasi Brand',
+            domains: ['Hukum', 'Bisnis'],
+            insight:
+              'Merek dagang dan rahasia dagang (Trade Secret seperti formula Coca-Cola) adalah aset tak berwujud (intangible asset) yang valuasinya sering kali melampaui nilai fisik gedung kantor perusahaan.',
+          },
+          actionableSteps: [
+            'Daftarkan Hak Merek produk Anda di portal e-Status DJKI Kemenkumham sebelum meluncurkan kampanye pemasaran publik.',
+            'Wajibkan seluruh karyawan inti dan mitra eksternal menandatangani Non-Disclosure Agreement (NDA) dengan klausul denda liquidated damages.',
+            'Lindungi resep atau algoritma proprietary sebagai "Rahasia Dagang" dengan prosedur akses terbatas dan enkripsi berlapis.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Brand Produk Viral Belum Terdaftar di DJKI',
+          context: 'Produk skincare herbal Anda viral di TikTok dan menghasilkan omzet Rp 300 Juta/bulan.',
+          dilemma: 'Anda menunda mendaftarkan hak merek seharga Rp 1,8 Juta karena merasa prosesnya memakan waktu.',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Biarkan tidak terdaftar dulu sampai omzet mencapai Rp 1 Miliar baru mengurus legalitas.',
+              consequence: 'Pihak calo merek mendaftarkan nama brand Anda duluan; akun TikTok Shop Anda di-takedown permanen atas laporan pelanggaran merek, bisnis lumpuh total.',
+              scoreBonus: 0,
+              isOptimal: false,
+              explanation: 'Prinsip First-to-File tidak memedulikan siapa yang pertama membuat produk, melainkan siapa yang pertama mendaftar resmi ke negara.',
+            },
+            {
+              id: 'c2',
+              text: 'Daftarkan kelas merek (Kelas 3 kosmetik) hari ini juga melalui konsultan HKI terdaftar dan amankan bukti tanda terima pengajuan pendaftaran.',
+              consequence: 'Hak monopoli nama merek terlindungi sejak tanggal penerimaan pendaftaran, akun marketplace kebal takedown, dan aset brand aman selamanya.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Perlindungan HKI sedini mungkin mengamankan valuasi aset tak berwujud dari pembajakan kompetitor.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-hki-1',
+            question: 'Sistem pendaftaran Hak Merek di Indonesia menganut prinsip "First-to-File". Apa makna hukum dari prinsip ini?',
+            options: [
+              'Siapa yang pertama kali menggunakan merek di media sosial adalah pemilik sah merek tersebut',
+              'Pihak yang pertama kali mengajukan permohonan pendaftaran resmi ke DJKI yang akan diberikan hak eksklusif atas merek tersebut, tanpa mempedulikan siapa yang pertama kali menggunakan merek secara de facto di pasar',
+              'Pendaftaran merek hanya berlaku untuk perusahaan asing',
+              'Semua merek secara otomatis menjadi milik negara setelah 1 tahun',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'Prinsip First-to-File memberikan kepastian hukum: hak eksklusif diberikan kepada pemohon pertama yang dokumen pendaftarannya diterima secara lengkap oleh kantor pendaftaran merek negara.',
+          },
+        ],
+      },
+      {
+        id: 'hukum-kontrak-mitigasi',
+        label: 'Anatomi Kontrak & Klausul Proteksi',
+        domain: 'Hukum',
+        summary: 'Klausul Force Majeure, Indemnifikasi, Pembatasan Tanggung Jawab (Limitation of Liability), dan Penyelesaian Sengketa Arbitrase (BANI).',
+        x: 620,
+        y: 430,
+        level: 1,
+        microContent: {
+          analogy:
+            'Menandatangani kontrak bisnis tanpa membaca klausul "Limitation of Liability" bagaikan menandatangani cek kosong dengan nominal tak terhingga kepada pihak lain. Jika software Anda mengalami bug kecil senilai Rp 5 Juta namun menyebabkan klien merugi Rp 10 Miliar, tanpa klausul pembatasan tanggung jawab, pengadilan dapat menyita seluruh aset bisnis Anda untuk menutupi seluruh kerugian Rp 10 Miliar tersebut.',
+          crossDisciplinary: {
+            connectionText: 'Hukum Perjanjian Perdata x Mitigasi Risiko Eksistensial',
+            domains: ['Hukum', 'Keuangan'],
+            insight:
+              'Klausul "Limitation of Liability" wajib membatasi ganti rugi maksimal sebesar nilai kontrak yang telah dibayarkan klien dalam 12 bulan terakhir.',
+          },
+          actionableSteps: [
+            'Selalu masukkan klausul "Limitation of Liability" yang membatasi tanggung jawab ganti rugi pada nilai total kontrak yang diterima.',
+            'Pilih klausul penyelesaian sengketa melalui Arbitrase (BANI) yang bersifat tertutup dan rahasia, alih-alih pengadilan negeri terbuka yang merusak publisitas brand.',
+            'Definisikan keadaan memaksa (Force Majeure) secara rinci mencakup bencana alam, perang, pandemi, dan perubahan mendadak regulasi pemerintah.',
+          ],
+        },
+        decisionScenario: {
+          title: 'Kasus: Draf Kontrak Pengadaan Vendor Senilai Rp 200 Juta',
+          context: 'Klien korporat menyodorkan draf kontrak standar mereka yang menyatakan vendor bertanggung jawab atas "segala bentuk kerugian langsung maupun tidak langsung tanpa batas nominal".',
+          dilemma: 'Apakah menandatangani demi kecepatan kontrak atau meminta revisi klausul tanggung jawab?',
+          choices: [
+            {
+              id: 'c1',
+              text: 'Langsung tanda tangan tanpa revisi karena takut klien membatalkan proyek pengadaan.',
+              consequence: 'Terjadi keterlambatan pengiriman pihak ketiga; klien menuntut ganti rugi kerugian tidak langsung Rp 3 Miliar yang membuat perusahaan Anda bangkrut.',
+              scoreBonus: 5,
+              isOptimal: false,
+              explanation: 'Menerima tanggung jawab tak terbatas (unlimited liability) adalah risiko asimetris yang dapat membunuh bisnis dalam semalam.',
+            },
+            {
+              id: 'c2',
+              text: 'Ajukan revisi klausul: batasi ganti rugi maksimal sebesar total nilai kontrak yang diterima (Rp 200 Juta) dan kecualikan kerugian konsekuensial (consequential damages).',
+              consequence: 'Klien menyetujui revisi karena hal itu adalah standar umum industri profesional; risiko terbatasi dan kontrak tetap berjalan aman.',
+              scoreBonus: 50,
+              isOptimal: true,
+              explanation: 'Pembatasan tanggung jawab finansial melindungi eksistensi perusahaan dari klaim kerugian di luar kendali wajar.',
+            },
+          ],
+        },
+        quiz: [
+          {
+            id: 'q-ktr-1',
+            question: 'Mengapa dalam kontrak bisnis korporat, klausul pemilihan forum penyelesaian sengketa lewat Arbitrase (seperti BANI atau SIAC) sering dipilih dibanding Pengadilan Negeri konvensional?',
+            options: [
+              'Karena proses arbitrase sepenuhnya gratis tanpa biaya pendaftaran',
+              'Karena persidangan arbitrase bersifat rahasia (confidential/tertutup untuk publik), pemeriksa perkaranya adalah para ahli industri yang kompeten, dan putusannya bersifat final serta mengikat',
+              'Karena arbitrase dipimpin langsung oleh kepolisian daerah',
+              'Karena putusan arbitrase selalu memenangkan pihak yang lebih kaya',
+            ],
+            correctAnswerIndex: 1,
+            explanation: 'Kerahasiaan arbitrase menjaga sengketa internal tidak terekspos media dan merusak harga saham atau reputasi bisnis di mata publik, dipimpin oleh arbiter yang memahami teknis komersial bisnis.',
+          },
+        ],
+      },
+    ],
+    edges: [
+      { id: 'he1', from: 'hukum-root', to: 'hukum-sha-vesting', label: 'Struktur Kepemilikan Saham', domains: ['Hukum', 'Hukum'] },
+      { id: 'he2', from: 'hukum-root', to: 'hukum-pajak-efisiensi', label: 'Optimalisasi Pajak Legal', domains: ['Hukum', 'Pajak'] },
+      { id: 'he3', from: 'hukum-root', to: 'hukum-hki-paten', label: 'Perlindungan Aset Intelektual', domains: ['Hukum', 'Hukum'] },
+      { id: 'he4', from: 'hukum-root', to: 'hukum-kontrak-mitigasi', label: 'Benteng Pembatasan Tanggung Jawab', domains: ['Hukum', 'Keuangan'] },
+      { id: 'he5', from: 'hukum-sha-vesting', to: 'hukum-hki-paten', label: 'Pengalihan HKI Pendiri ke PT', domains: ['Hukum', 'Hukum'] },
+      { id: 'he6', from: 'hukum-pajak-efisiensi', to: 'hukum-kontrak-mitigasi', label: 'Klausul Beban Pajak Kontrak', domains: ['Pajak', 'Hukum'] },
+    ],
+  },
+
+  // ============================================================================
+  // 7. PSIKOLOGI MARKETING & ARSITEKTUR KEPUTUSAN F&B
+  // ============================================================================
+  'Psikologi Marketing & Arsitektur Keputusan F&B': {
     id: 'mindmap-psikologi-fnb',
-    topic: 'Psikologi Marketing F&B',
+    topic: 'Psikologi Marketing & Arsitektur Keputusan F&B',
     rootId: 'fnb-root',
-    description: 'Bagaimana restoran dan brand kuliner merekayasa persepsi harga, rasa, dan kenyamanan tanpa Anda sadari.',
+    description: 'Bagaimana restoran dan brand ritel merekayasa persepsi harga, rasa, aroma mentega, dan kenyamanan tanpa disadari konsumen.',
     nodes: [
       {
         id: 'fnb-root',
@@ -749,7 +2018,7 @@ export const MOCK_MINDMAPS: Record<string, MindmapData> = {
         },
         quiz: [
           {
-            id: 'q1',
+            id: 'q-fnb-1',
             question: 'Mengapa restoran mewah sering menghilangkan simbol mata uang (seperti "Rp" atau "$") pada daftar buku menunya?',
             options: [
               'Untuk menghemat tinta cetak kertas menu',
@@ -768,7 +2037,7 @@ export const MOCK_MINDMAPS: Record<string, MindmapData> = {
         domain: 'Psikologi',
         summary: 'Memanipulasi preferensi konsumen dengan menghadirkan opsi umpan yang membuat opsi target tampak murah.',
         x: 180,
-        y: 150,
+        y: 130,
         level: 1,
         microContent: {
           analogy:
@@ -810,7 +2079,7 @@ export const MOCK_MINDMAPS: Record<string, MindmapData> = {
         },
         quiz: [
           {
-            id: 'q1',
+            id: 'q-dec-1',
             question: 'Dalam eksperimen "Decoy Effect", peran utama dari produk umpan (decoy) adalah:',
             options: [
               'Menjadi produk yang paling laris terjual di toko',
@@ -829,7 +2098,7 @@ export const MOCK_MINDMAPS: Record<string, MindmapData> = {
         domain: 'Bisnis',
         summary: 'Menggunakan aroma mentega dan pencahayaan hangat untuk memicu lapar artifisial di gerai.',
         x: 620,
-        y: 150,
+        y: 130,
         level: 1,
         microContent: {
           analogy:
@@ -871,16 +2140,16 @@ export const MOCK_MINDMAPS: Record<string, MindmapData> = {
         },
         quiz: [
           {
-            id: 'q1',
+            id: 'q-sns-1',
             question: 'Mengapa stimulasi aroma (penciuman) lebih cepat memicu dorongan impulsif dibanding iklan tulisan?',
             options: [
-              'Karena saraf penciuman diproses langsung oleh sistem limbik dan amigdala yang mengatur emosi dan memori primer',
+              'Karena saraf penciuman diproses langsung oleh sistem limbik dan amigdala yang mengatur emosi dan memori primer tanpa filter prefrontal cortex',
               'Karena manusia tidak bisa membaca teks iklan di tempat umum',
               'Karena indra penciuman tidak memerlukan oksigen untuk bekerja',
               'Karena aroma makanan mengandung kalori yang langsung diserap kulit',
             ],
             correctAnswerIndex: 0,
-            explanation: 'Sistem limbik adalah bagian otak reptil/primitif tempat emosi dan impuls instingtual bersemayam tanpa hambatan logika prefrontal korteks.',
+            explanation: 'Sistem limbik adalah bagian otak tempat emosi dan impuls instingtual bersemayam tanpa hambatan logika prefrontal korteks.',
           },
         ],
       },
@@ -890,7 +2159,7 @@ export const MOCK_MINDMAPS: Record<string, MindmapData> = {
         domain: 'Psikologi',
         summary: 'Antrean sengaja diperlambat dan batch harian dibatasi untuk menciptakan ilusi kelangkaan prestise.',
         x: 400,
-        y: 440,
+        y: 430,
         level: 1,
         microContent: {
           analogy:
@@ -932,7 +2201,7 @@ export const MOCK_MINDMAPS: Record<string, MindmapData> = {
         },
         quiz: [
           {
-            id: 'q1',
+            id: 'q-prf-1',
             question: 'Dalam psikologi perilaku konsumen, fenomena "Social Proof" (Bukti Sosial) menyatakan bahwa:',
             options: [
               'Orang cenderung menentukan tindakan yang benar dengan melihat apa yang dilakukan oleh orang lain saat menghadapi situasi ambigu',
@@ -953,264 +2222,4 @@ export const MOCK_MINDMAPS: Record<string, MindmapData> = {
       { id: 'fe4', from: 'fnb-decoy-effect', to: 'fnb-social-proof', label: 'Justifikasi Nilai', domains: ['Psikologi', 'Ekonomi'] },
     ],
   },
-
-  'Geopolitik Impor Ekspor': {
-    id: 'mindmap-geopolitik-perdagangan',
-    topic: 'Geopolitik Impor Ekspor',
-    rootId: 'geo-root',
-    description: 'Bagaimana selat sempit, perang tarif, dan hegemoni mata uang mendikte harga barang di warung tetangga Anda.',
-    nodes: [
-      {
-        id: 'geo-root',
-        label: 'Anatomi Perdagangan Global & Geopolitik',
-        domain: 'Geopolitik',
-        summary: 'Perdagangan internasional bukan sekadar hukum ekonomi komparatif Ricardo, melainkan proyeksi kekuatan militer, kendali rute pelayaran, dan cadangan devisa.',
-        x: 400,
-        y: 280,
-        level: 0,
-        microContent: {
-          analogy:
-            'Bayangkan ada pasar desa besar yang dikelilingi pagar kawat berduri. Hanya ada satu pintu gerbang sempit yang dijaga oleh petugas bersenjata lengkap. Siapa pun pedagang yang ingin menjual beras atau membeli pupuk harus menunduk patuh pada aturan sang penjaga pintu dan membayar dengan kupon khusus yang dicetak sang penjaga. Geopolitik perdagangan adalah pertarungan siapa yang memegang kunci gerbang selat dan siapa yang mencetak kupon mata uangnya.',
-          crossDisciplinary: {
-            connectionText: 'Geopolitik Strategis x Rantai Pasok Makro',
-            domains: ['Geopolitik', 'Ekonomi'],
-            insight:
-              'Sebuah kapal kontainer yang terhambat 6 hari di Terusan Suez atau Selat Malaka dapat memicu kenaikan inflasi manufaktur 10.000 km jauhnya dalam 3 minggu.',
-          },
-          actionableSteps: [
-            'Petakan rantai pasok bisnis Anda: cari tahu negara asal bahan baku terdalam dari produk unggulan Anda.',
-            'Lakukan hedging (lindung nilai) mata uang jika bisnis Anda terpapar transaksi USD atau EUR dalam jumlah signifikan.',
-            'Diversifikasi vendor minimal dari dua benua berbeda untuk menghindari risiko blokade regional.',
-          ],
-        },
-        decisionScenario: {
-          title: 'Kasus: Krisis Blokade Selat Strategis',
-          context: 'Konflik bersenjata meletus di rute pelayaran Laut Merah dan Selat Bab el-Mandeb.',
-          dilemma: 'Waktu tempuh kapal logistik bertambah 14 hari karena harus memutar Tanjung Harapan Afrika dan tarif kontainer naik 300%.',
-          choices: [
-            {
-              id: 'c1',
-              text: 'Batalkan seluruh pesanan bahan baku luar negeri dan tutup operasional pabrik sampai selat dibuka kembali.',
-              consequence: 'Klien beralih ke produsen lain yang siap, pabrik Anda kehilangan reputasi dan kontrak tahunan hangus.',
-              scoreBonus: 10,
-              isOptimal: false,
-              explanation: 'Menyerah pada disrupsi rute geopolitik melenyapkan pangsa pasar bisnis Anda secara permanen.',
-            },
-            {
-              id: 'c2',
-              text: 'Aktifkan jalur darat alternatif (kereta kontainer trans-Eurasia) dan alihkan pengadaan parsial ke produsen lokal regional.',
-              consequence: 'Pabrik tetap beroperasi tepat waktu, pasokan terjamin, dan Anda diakui sebagai partner bisnis paling andal saat krisis.',
-              scoreBonus: 50,
-              isOptimal: true,
-              explanation: 'Resiliensi logistik multimodal adalah kunci bertahan hidup di era ketidakpastian geopolitik global.',
-            },
-          ],
-        },
-        quiz: [
-          {
-            id: 'q1',
-            question: 'Mengapa Selat Malaka disebut sebagai salah satu "Maritime Chokepoint" paling vital di planet bumi?',
-            options: [
-              'Karena selat tersebut menghasilkan seluruh pasokan mutiara dunia',
-              'Karena lebih dari 60% perdagangan maritim dunia dan pasokan energi minyak ke Asia Timur melintasi selat sempit ini',
-              'Karena tidak ada selat lain yang memiliki air asin di Samudra Hindia',
-              'Karena seluruh kabel internet bawah laut dilarang melintas di sana',
-            ],
-            correctAnswerIndex: 1,
-            explanation: 'Selat Malaka adalah urat nadi perdagangan Asia-Eropa; gangguan keamanan di sana melumpuhkan arus energi dan komoditas global.',
-          },
-        ],
-      },
-      {
-        id: 'geo-chokepoints',
-        label: 'Maritime Chokepoints & Jalur Rentan',
-        domain: 'Geopolitik',
-        summary: 'Titik genting selat dunia (Malaka, Hormuz, Suez, Panama) yang mengendalikan 80% tonase barang fisik.',
-        x: 180,
-        y: 160,
-        level: 1,
-        microContent: {
-          analogy:
-            'Selat Hormuz bagaikan leher pipa bensin untuk mobil seluruh dunia. Jika seseorang memasang kran penutup di leher selat yang lebarnya hanya puluhan mil laut itu, seperlima pasokan minyak dunia langsung terhenti. Harga bensin di pom bensin dekat rumah Anda akan melonjak sebelum matahari terbenam.',
-          crossDisciplinary: {
-            connectionText: 'Geografi Maritim x Volatilitas Harga Energi',
-            domains: ['Geopolitik', 'Ekonomi'],
-            insight:
-              'Biaya premi asuransi kapal kargo melonjak 10x lipat seketika saat kapal melewati zona maritim yang berstatus risiko konflik bersenjata.',
-          },
-          actionableSteps: [
-            'Simak indeks Baltic Dry Index untuk memantau tren tarif kargo kapal curah global.',
-            'Bangun cadangan penyangga (Buffer Stock) persediaan inventaris minimal 45 hari untuk bahan impor.',
-            'Cari alternatif jalur logistik kargo udara untuk barang berbobot ringan dengan nilai tambah tinggi.',
-          ],
-        },
-        decisionScenario: {
-          title: 'Kasus: Kekeringan Air di Terusan Panama',
-          context: 'Penurunan debit danau air tawar membatasi draft kapal yang melintasi Terusan Panama hingga 50%.',
-          dilemma: 'Barang impor Anda tertahan di antrean dermaga selama 30 hari.',
-          choices: [
-            {
-              id: 'c1',
-              text: 'Tunggu antrean sambil mengeluh di media sosial tanpa mencari opsi lain.',
-              consequence: 'Barang datang terlambat melewati musim belanja, barang menjadi deadstock di gudang.',
-              scoreBonus: 5,
-              isOptimal: false,
-              explanation: 'Pasif terhadap fenomena cuaca dan pembatasan infrastruktur menggerus modal kerja.',
-            },
-            {
-              id: 'c2',
-              text: 'Bongkar kontainer di pelabuhan pesisir barat dan sewa kereta api darat (land-bridge) untuk menyeberangi benua ke tujuan.',
-              consequence: 'Biaya sedikit bertambah tetapi barang tiba tepat waktu sebelum puncak musim belanja konsumen.',
-              scoreBonus: 50,
-              isOptimal: true,
-              explanation: 'Strategi logistik intermodal mengatasi hambatan infrastruktur air dengan efisiensi waktu.',
-            },
-          ],
-        },
-        quiz: [
-          {
-            id: 'q1',
-            question: 'Apa dampak ekonomi paling langsung jika Selat Hormuz ditutup akibat ketegangan militer?',
-            options: [
-              'Penurunan drastis harga emas batangan di seluruh dunia',
-              'Lonjakan tajam harga minyak mentah global dan kenaikan biaya logistik penerbangan internasional',
-              'Kelebihan pasokan gandum di benua Eropa',
-              'Penutupan bursa saham teknologi di Silicon Valley selamanya',
-            ],
-            correctAnswerIndex: 1,
-            explanation: 'Selat Hormuz mengalirkan sekitar 20% minyak bumi konsumsi dunia setiap hari; penutupannya memicu syok pasokan energi langsung.',
-          },
-        ],
-      },
-      {
-        id: 'geo-currency-wars',
-        label: 'Dedolarisasi & Hegemoni Mata Uang',
-        domain: 'Keuangan',
-        summary: 'Peran US Dollar sebagai mata uang cadangan dunia dan pergeseran menuju penyelesaian mata uang lokal (LCS).',
-        x: 620,
-        y: 160,
-        level: 1,
-        microContent: {
-          analogy:
-            'Jika Anda dan tetangga Anda bertransaksi sayur dan beras di desa, Anda berdua tidak boleh menggunakan koin desa sendiri, melainkan wajib menukar dulu ke kupon khusus milik Pak RT. Pak RT bisa mencetak kupon itu sesuka hati tanpa modal, dan jika Anda tidak patuh, Pak RT bisa membekukan tabungan kupon Anda di bank desa. Inilah yang disebut "Exorbitant Privilege" dari dolar AS.',
-          crossDisciplinary: {
-            connectionText: 'Keuangan Internasional x Kedaulatan Negara',
-            domains: ['Keuangan', 'Geopolitik'],
-            insight:
-              'Sanksi pembekuan cadangan devisa Rusia pada 2022 mempercepat negara-negara BRICS untuk membangun sistem pembayaran non-SWIFT dan beralih ke Local Currency Settlement (LCS).',
-          },
-          actionableSteps: [
-            'Manfaatkan fasilitas Local Currency Settlement (LCS) dari Bank Indonesia saat bertransaksi dengan partner di China, Jepang, Malaysia, atau Thailand.',
-            'Kurangi eksposur konversi ganda (Rupiah -> USD -> Mata Uang Mitra) untuk memangkas biaya selisih kurs.',
-            'Pantau pergerakan Dollar Index (DXY) sebagai barometer kekuatan modal global.',
-          ],
-        },
-        decisionScenario: {
-          title: 'Kasus: Impor Mesin Pabrik dari Mitra Shanghai',
-          context: 'Kurs USD/IDR sedang melonjak tinggi dan volatil.',
-          dilemma: 'Mitra pabrik menawarkan pembayaran via kuotasi Renminbi (RMB) langsung via skema LCS.',
-          choices: [
-            {
-              id: 'c1',
-              text: 'Tolak skema LCS dan tetap bayar menggunakan USD karena merasa lebih familiar dengan konvensi lama.',
-              consequence: 'Anda terkena dua kali fee konversi valas dan menanggung risiko depresiasi Rupiah terhadap Dolar yang sedang meroket.',
-              scoreBonus: 10,
-              isOptimal: false,
-              explanation: 'Ketergantungan buta pada satu mata uang pihak ketiga menambah biaya transaksi yang tidak perlu.',
-            },
-            {
-              id: 'c2',
-              text: 'Gunakan skema Local Currency Settlement (LCS) langsung Rupiah ke Yuan via bank devisa terdaftar.',
-              consequence: 'Hemat biaya konversi kurs hingga 3.5%, penyelesaian transfer lebih cepat, dan hubungan dagang kian kokoh.',
-              scoreBonus: 50,
-              isOptimal: true,
-              explanation: 'LCS memangkas ketergantungan pada kliring perbankan New York dan mengurangi paparan fluktuasi mata uang ketiga.',
-            },
-          ],
-        },
-        quiz: [
-          {
-            id: 'q1',
-            question: 'Apa manfaat strategis utama bagi eksportir/importir Indonesia yang menggunakan skema Local Currency Settlement (LCS)?',
-            options: [
-              'Mendapatkan subsidi modal gratis dari bank dunia',
-              'Mengurangi ketergantungan pada US Dollar dan memangkas biaya konversi ganda valas secara langsung',
-              'Terbebas dari kewajiban membayar pajak bea cukai di pelabuhan',
-              'Mempercepat kecepatan kapal kargo di lautan',
-            ],
-            correctAnswerIndex: 1,
-            explanation: 'LCS memungkinkan penyelesaian transaksi bilateral menggunakan mata uang lokal masing-masing negara mitra tanpa perlu melalui konversi USD terlebih dahulu.',
-          },
-        ],
-      },
-      {
-        id: 'geo-tariffs',
-        label: 'Perang Tarif & Proteksionisme',
-        domain: 'Ekonomi',
-        summary: 'Bagaimana bea masuk impor digunakan sebagai senjata proteksi industri domestik dan alat negosiasi diplomatik.',
-        x: 400,
-        y: 440,
-        level: 1,
-        microContent: {
-          analogy:
-            'Ketika suatu negara mengenakan tarif bea masuk 50% untuk mobil impor, mereka tidak sedang membuat mobil impor itu lenyap. Mereka sedang menempelkan beban batu di punggung mobil impor agar mobil buatan pabrik dalam negeri yang lebih lambat bisa menang balapan di pasar. Ujung-ujungnya, yang membayar harga batu itu adalah konsumen biasa yang kehilangan pilihan murah.',
-          crossDisciplinary: {
-            connectionText: 'Kebijakan Perdagangan x Beban Kesejahteraan Konsumen (Deadweight Loss)',
-            domains: ['Ekonomi', 'Geopolitik'],
-            insight:
-              'Dalam teori ekonomi publik, tarif impor menciptakan "Deadweight Loss" — kerugian kesejahteraan riil bagi masyarakat yang melebihi pendapatan pajak yang dipungut negara.',
-          },
-          actionableSteps: [
-            'Cek Harmonized System (HS Code) produk Anda di portal INSW Bea Cukai untuk mengetahui tarif bea masuk dan larangan terbatas (Lartas).',
-            'Manfaatkan perjanjian perdagangan bebas (FTA seperti RCEP atau ATIGA) untuk mendapatkan tarif preferensial 0%.',
-            'Pertimbangkan perakitan lokal (Completely Knocked Down/CKD) jika tarif impor barang jadi utuh terlalu tinggi.',
-          ],
-        },
-        decisionScenario: {
-          title: 'Kasus: Kenaikan Tarif Impor Komponen Elektronik 20%',
-          context: 'Pemerintah menetapkan bea masuk baru 20% untuk komponen impor utuh demi mendorong TKDN.',
-          dilemma: 'Bagaimana merestrukturisasi perakitan produk Anda?',
-          choices: [
-            {
-              id: 'c1',
-              text: 'Tetap impor utuh dan bebankan seluruh kenaikan 20% ke harga eceran konsumen tanpa nilai tambah.',
-              consequence: 'Daya saing produk Anda kalah telak dari kompetitor yang sudah memiliki sertifikasi TKDN lokal.',
-              scoreBonus: 10,
-              isOptimal: false,
-              explanation: 'Pasif terhadap regulasi tarif membuat produk Anda terlempar dari pengadaan tender pemerintah dan pasar massal.',
-            },
-            {
-              id: 'c2',
-              text: 'Gandeng mitra perakitan lokal untuk proses pengelasan dan packaging agar memenuhi syarat TKDN di atas 40%.',
-              consequence: 'Lolos bea masuk tarif preferensial 0%, memenuhi syarat tender instansi pemerintah, dan mengamankan kontrak volume besar.',
-              scoreBonus: 50,
-              isOptimal: true,
-              explanation: 'Adaptasi cerdas terhadap proteksionisme lokal membuka akses ke pasar pengadaan resmi yang eksklusif.',
-            },
-          ],
-        },
-        quiz: [
-          {
-            id: 'q1',
-            question: 'Siapakah pihak yang pada akhirnya menanggung beban finansial riil terbesar dari pengenaan tarif impor barang komoditas?',
-            options: [
-              'Pemerintah negara pengekspor',
-              'Konsumen dan industri hilir di negara pengimpor yang membeli produk tersebut di pasar domestik',
-              'Perusahaan ekspedisi kapal kargo di lautan lepas',
-              'Organisasi Perdagangan Dunia (WTO)',
-            ],
-            correctAnswerIndex: 1,
-            explanation: 'Secara empiris, tarif impor dibayarkan oleh perusahaan pengimpor di pelabuhan dan diteruskan ke harga jual akhir yang dibayar konsumen domestik.',
-          },
-        ],
-      },
-    ],
-    edges: [
-      { id: 'ge1', from: 'geo-root', to: 'geo-chokepoints', label: 'Urat Nadi Maritim', domains: ['Geopolitik', 'Ekonomi'] },
-      { id: 'ge2', from: 'geo-root', to: 'geo-currency-wars', label: 'Hegemoni Finansial', domains: ['Geopolitik', 'Keuangan'] },
-      { id: 'ge3', from: 'geo-root', to: 'geo-tariffs', label: 'Hambatan Tarif Regulasi', domains: ['Geopolitik', 'Ekonomi'] },
-      { id: 'ge4', from: 'geo-chokepoints', to: 'geo-tariffs', label: 'Risiko Biaya Rantai Pasok', domains: ['Geopolitik', 'Ekonomi'] },
-    ],
-  },
 };
-

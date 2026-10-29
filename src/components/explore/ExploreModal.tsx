@@ -55,7 +55,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onClose, onSelectTop
               type="text"
               value={searchFilter}
               onChange={(e) => setSearchFilter(e.target.value)}
-              placeholder="Cari topik kurikulum (misal: 'Elon Musk', 'Inflasi', 'F&B')..."
+              placeholder="Cari topik kurikulum (misal: 'Miliarder', 'Saham', 'Negosiasi', 'Excel', 'Pajak')..."
               className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/90 py-2.5 pl-10 pr-4 text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
             />
             <Search className="absolute left-3.5 top-3 h-4 w-4 text-slate-400" />
@@ -67,7 +67,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onClose, onSelectTop
               <Layers className="h-3 w-3" />
               Domain:
             </span>
-            {['all', 'Bisnis', 'Ekonomi', 'Keuangan', 'Psikologi', 'Geopolitik'].map((domain) => (
+            {['all', 'Bisnis', 'Ekonomi', 'Keuangan', 'Psikologi', 'Geopolitik', 'Komunikasi', 'Hukum', 'Data & Analitik', 'Pajak'].map((domain) => (
               <button
                 key={domain}
                 onClick={() => setSelectedDomain(domain)}

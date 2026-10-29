@@ -12,7 +12,10 @@ import {
   Brain, 
   Coins, 
   Globe2, 
-  Briefcase 
+  Briefcase,
+  MessageSquare,
+  FileSpreadsheet,
+  Scale
 } from 'lucide-react';
 
 interface ProfileModalProps {
@@ -80,6 +83,30 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose }) => {
       unlocked: progress.streak >= 3,
       icon: Flame,
       color: 'text-amber-500 bg-amber-500/10 border-amber-500/30',
+    },
+    {
+      id: 'master-negotiator',
+      name: 'Master Negosiator FBI',
+      desc: 'Menguasai Tactical Empathy, BATNA, dan Piramida Minto',
+      unlocked: progress.masteredNodeIds.some(id => id.includes('nego') || id.includes('batna') || id.includes('minto')),
+      icon: MessageSquare,
+      color: 'text-blue-500 bg-blue-500/10 border-blue-500/30',
+    },
+    {
+      id: 'financial-modeler',
+      name: 'Data & Financial Architect',
+      desc: 'Menguasai Model 3-Statement, Formula Excel & SQL Query',
+      unlocked: progress.masteredNodeIds.some(id => id.includes('excel') || id.includes('3statement') || id.includes('sql')),
+      icon: FileSpreadsheet,
+      color: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/30',
+    },
+    {
+      id: 'legal-tax-shield',
+      name: 'Benteng Hukum & Pajak',
+      desc: 'Menguasai SHA, Vesting, HKI, dan Optimalisasi Pajak UU HPP',
+      unlocked: progress.masteredNodeIds.some(id => id.includes('hukum') || id.includes('sha') || id.includes('pajak')),
+      icon: Scale,
+      color: 'text-violet-500 bg-violet-500/10 border-violet-500/30',
     },
     {
       id: 'wealth-builder',

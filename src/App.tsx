@@ -26,7 +26,7 @@ const AppContent: React.FC = () => {
 
   // Active Mindmap State
   const [currentMindmap, setCurrentMindmap] = useState<MindmapData>(() => {
-    return MOCK_MINDMAPS['Kenapa Elon Musk Bisa Kaya?'];
+    return MOCK_MINDMAPS['Strategi Bisnis & Model Mental Miliarder'];
   });
 
   // Navigation tab state (Mobile Bottom Nav)

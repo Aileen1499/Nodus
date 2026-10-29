@@ -23,7 +23,7 @@ const defaultProgress: UserProgress = {
   rankPoints: 120, // Start with starter RP
   streak: 3, // Starter encouraging streak
   credits: 8, // Deep-dive credits
-  masteredNodeIds: ['musk-root', 'inflasi-root'],
+  masteredNodeIds: ['miliarder-root', 'saham-root'],
   checkedActions: {},
   lastActiveDate: getTodayString(),
   apiKey: '',
