@@ -10,7 +10,10 @@ import {
   RotateCcw,
   Layers,
   ArrowRight,
-  BookOpen
+  BookOpen,
+  Compass,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 
 interface MindmapCanvasProps {
@@ -37,6 +40,7 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
   const [searchInput, setSearchInput] = useState('');
   const [domainFilter, setDomainFilter] = useState<string>('all');
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const [isBannerVisible, setIsBannerVisible] = useState(true);
 
   // Viewport Pan & Zoom state
   const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
@@ -283,11 +287,70 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
             })}
           </div>
 
+          {/* Active Curriculum Hero Card (iOS Standard) */}
+          {startingNode && isBannerVisible && (
+            <div className="relative overflow-hidden rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-2xl shadow-xl p-4 sm:p-5 transition-all">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
+                    <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30">
+                      <Sparkles className="h-3 w-3 text-indigo-500" />
+                      {data.topic}
+                    </span>
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                      {data.nodes.length} Simpul
+                    </span>
+                  </div>
+                  <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white truncate">
+                    {startingNode.stepNumber || 'Langkah Awal'}: {startingNode.label}
+                  </h3>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-1 mt-0.5">
+                    {startingNode.microContent.analogy}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">
+                  <button
+                    onClick={() => {
+                      centerViewOnRoot();
+                      onSelectNode(startingNode);
+                    }}
+                    className="flex-1 sm:flex-initial flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 px-5 py-2.5 text-xs sm:text-sm font-black text-white shadow-lg shadow-emerald-500/25 hover:opacity-95 active:scale-95 transition-all"
+                  >
+                    <span>{isStartingNodeMastered ? 'Lanjutkan Modul' : 'Mulai di Sini'}</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+
+                  <button
+                    onClick={() => setIsBannerVisible(false)}
+                    title="Sembunyikan Banner"
+                    className="flex h-9 w-9 items-center justify-center rounded-2xl border border-slate-200 dark:border-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  >
+                    <ChevronUp className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {startingNode && !isBannerVisible && (
+            <div className="flex justify-start">
+              <button
+                onClick={() => setIsBannerVisible(true)}
+                className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 shadow-md backdrop-blur-md hover:bg-slate-100 dark:hover:bg-slate-800"
+              >
+                <Compass className="h-3.5 w-3.5 text-indigo-500" />
+                <span>Lihat Panduan: {startingNode.label}</span>
+                <ChevronDown className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          )}
+
         </div>
       </div>
 
-      {/* Floating Canvas Controls (Bottom Right) */}
-      <div className="absolute bottom-16 md:bottom-6 right-3 sm:right-6 z-20 flex items-center gap-1 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/90 dark:bg-[#0B0F19]/90 p-1.5 shadow-xl backdrop-blur-xl transition-colors duration-300">
+      {/* Floating Canvas Controls (Bottom Right - Completely clear of bottom dock) */}
+      <div className="absolute bottom-24 sm:bottom-28 md:bottom-8 right-4 md:right-6 z-20 flex items-center gap-1 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/90 dark:bg-[#0B0F19]/90 p-1.5 shadow-2xl backdrop-blur-xl ring-1 ring-slate-900/5 dark:ring-white/10 transition-colors duration-300">
         <button
           onClick={() => handleZoom(0.15)}
           title="Perbesar Canvas (+)"
@@ -311,33 +374,6 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
           <RotateCcw className="h-4 w-4" />
         </button>
       </div>
-
-      {/* Floating "Mulai di Sini" Guide Button with Soft Pulse (Bottom Left) */}
-      {startingNode && (
-        <div className="absolute bottom-16 md:bottom-6 left-3 sm:left-6 z-20">
-          <button
-            onClick={() => {
-              centerViewOnRoot();
-              onSelectNode(startingNode);
-            }}
-            className="group flex items-center gap-2.5 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 px-4 py-2.5 text-xs sm:text-sm font-bold text-white shadow-xl shadow-emerald-500/25 ring-2 ring-emerald-400/40 hover:scale-105 active:scale-95 transition-all duration-300"
-          >
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white" />
-            </span>
-            <div className="text-left">
-              <div className="text-[10px] uppercase font-bold text-emerald-200 tracking-wider">
-                {isStartingNodeMastered ? 'Lanjutkan Modul' : 'Mulai di Sini'}
-              </div>
-              <div className="font-extrabold flex items-center gap-1.5">
-                <span>{startingNode.stepNumber || 'Langkah 1'}: {startingNode.label}</span>
-                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-              </div>
-            </div>
-          </button>
-        </div>
-      )}
 
       {/* Topic Overview Badge (Bottom Center-Right on Desktop) */}
       <div className="absolute bottom-6 right-64 z-10 hidden lg:flex items-center gap-2 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/90 dark:bg-[#0B0F19]/90 px-3.5 py-2 text-xs text-slate-700 dark:text-slate-300 shadow-xl backdrop-blur-xl transition-colors duration-300">

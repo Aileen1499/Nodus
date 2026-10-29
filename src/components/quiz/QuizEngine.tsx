@@ -143,7 +143,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="relative flex w-full max-w-2xl flex-col rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-[#0B0F19] shadow-2xl overflow-hidden max-h-[92vh] transition-colors duration-300"
+        className="relative flex w-full max-w-2xl flex-col rounded-[32px] border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-[#0B0F19] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden max-h-[92vh] transition-colors duration-300"
       >
         {/* Top Header Bar */}
         <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-5 sm:px-6 py-4 bg-slate-50 dark:bg-[#0F172A]">
@@ -240,9 +240,9 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({
             <div className="pt-2">
               <button
                 onClick={() => setPhase('decision')}
-                className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-indigo-600 via-teal-600 to-emerald-600 text-white font-black text-sm sm:text-base shadow-xl shadow-indigo-500/25 hover:opacity-95 active:scale-[0.99] transition-all flex items-center justify-center gap-2"
+                className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-indigo-600 via-teal-600 to-emerald-600 text-white font-black text-sm sm:text-base shadow-xl shadow-indigo-500/25 hover:opacity-95 active:scale-[0.99] transition-all flex items-center justify-center gap-2"
               >
-                <span>Mulai Cek Paham Sekarang</span>
+                <span>Mulai Evaluasi Sekarang</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>

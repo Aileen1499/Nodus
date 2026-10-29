@@ -283,7 +283,7 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-0 sm:p-4 md:p-6 transition-all">
-      <div className="relative flex flex-col w-full max-w-3xl h-full sm:h-[92vh] sm:rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-[#0B0F19] shadow-2xl overflow-hidden transition-all duration-300">
+      <div className="relative flex flex-col w-full max-w-3xl h-full sm:h-[92vh] sm:rounded-[32px] border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-[#0B0F19] shadow-[0_25px_60px_rgba(0,0,0,0.4)] overflow-hidden transition-all duration-300">
 
         {/* Top Reading Progress Bar (Substack Style) */}
         <div className="w-full h-1 bg-slate-100 dark:bg-slate-800">
