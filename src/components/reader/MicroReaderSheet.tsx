@@ -5,7 +5,6 @@ import { useUser } from '../../context/UserContext';
 import { askSocratesAI, ChatMessage } from '../../lib/socrates';
 import { 
   X, 
-  Lightbulb, 
   Share2, 
   CheckSquare, 
   Square, 
@@ -19,7 +18,9 @@ import {
   BookOpen,
   HelpCircle,
   Clock,
-  BarChart3
+  BarChart3,
+  GraduationCap,
+  Award
 } from 'lucide-react';
 
 interface MicroReaderSheetProps {
@@ -212,29 +213,75 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({
                 </p>
               </div>
 
-              {/* Lapis 1: 💡 Core Analogy & Fact (<120 kata) */}
+              {/* Section 1: 📌 Core Concept & Mental Model */}
               <div className="rounded-2xl border border-indigo-500/30 bg-indigo-50/40 dark:bg-slate-900/60 p-4 shadow-sm backdrop-blur-sm">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-500/20 text-indigo-600 dark:text-indigo-400">
-                    <Lightbulb className="h-4 w-4" />
+                    <Award className="h-4 w-4" />
                   </div>
                   <h3 className="font-bold text-xs sm:text-sm uppercase tracking-wider text-indigo-800 dark:text-indigo-300">
-                    1. Core Analogy & Fakta
+                    1. Core Concept & Mental Model
                   </h3>
                 </div>
+
+                {node.microContent.mentalModel && (
+                  <div className="mb-2.5 inline-flex items-center gap-1.5 rounded-lg bg-indigo-100/80 dark:bg-indigo-950/80 px-2.5 py-1 text-xs font-bold text-indigo-700 dark:text-indigo-300 border border-indigo-500/30">
+                    <span>Model Mental:</span> {node.microContent.mentalModel}
+                  </div>
+                )}
+
                 <p className="text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-200">
                   {node.microContent.analogy}
                 </p>
               </div>
 
-              {/* Lapis 2: 🌐 Cross-Discipline Link */}
+              {/* Section 2: 📖 Academic & Executive Insight */}
+              {node.microContent.academicInsight && (
+                <div className="rounded-2xl border border-sky-500/30 bg-sky-50/40 dark:bg-slate-900/60 p-4 shadow-sm backdrop-blur-sm">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-500/20 text-sky-600 dark:text-sky-400">
+                      <GraduationCap className="h-4 w-4" />
+                    </div>
+                    <h3 className="font-bold text-xs sm:text-sm uppercase tracking-wider text-sky-800 dark:text-sky-300">
+                      2. Academic / Executive Insight
+                    </h3>
+                  </div>
+                  <p className="text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-200">
+                    {node.microContent.academicInsight}
+                  </p>
+                </div>
+              )}
+
+              {/* Section 3: 💼 Real-World Executive Case Study */}
+              {node.microContent.caseStudy && (
+                <div className="rounded-2xl border border-amber-500/30 bg-amber-50/40 dark:bg-slate-900/60 p-4 shadow-sm backdrop-blur-sm">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-500/20 text-amber-600 dark:text-amber-400">
+                      <Building2 className="h-4 w-4" />
+                    </div>
+                    <h3 className="font-bold text-xs sm:text-sm uppercase tracking-wider text-amber-800 dark:text-amber-300">
+                      3. Real-World Executive Case Study: {node.microContent.caseStudy.companyOrFigure}
+                    </h3>
+                  </div>
+
+                  <p className="text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-200 mb-2.5">
+                    {node.microContent.caseStudy.story}
+                  </p>
+
+                  <div className="rounded-xl bg-amber-100/70 dark:bg-amber-950/40 border border-amber-500/25 p-3 text-xs text-amber-900 dark:text-amber-300 font-medium">
+                    <span className="font-bold">Kunci Taktis Eksekutif:</span> {node.microContent.caseStudy.takeaway}
+                  </div>
+                </div>
+              )}
+
+              {/* Section 4: 🌐 Cross-Discipline Link */}
               <div className="rounded-2xl border border-purple-500/30 bg-purple-50/40 dark:bg-slate-900/60 p-4 shadow-sm backdrop-blur-sm">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-purple-500/20 text-purple-600 dark:text-purple-400">
                     <Share2 className="h-4 w-4" />
                   </div>
                   <h3 className="font-bold text-xs sm:text-sm uppercase tracking-wider text-purple-800 dark:text-purple-300">
-                    2. Koneksi Lintas Disiplin
+                    4. Koneksi Lintas Disiplin
                   </h3>
                 </div>
                 
@@ -250,29 +297,7 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({
                 </p>
               </div>
 
-              {/* Lapis 3: 📊 Real-World Case Study */}
-              {node.microContent.caseStudy && (
-                <div className="rounded-2xl border border-amber-500/30 bg-amber-50/40 dark:bg-slate-900/60 p-4 shadow-sm backdrop-blur-sm">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-500/20 text-amber-600 dark:text-amber-400">
-                      <Building2 className="h-4 w-4" />
-                    </div>
-                    <h3 className="font-bold text-xs sm:text-sm uppercase tracking-wider text-amber-800 dark:text-amber-300">
-                      3. Real-World Case Study: {node.microContent.caseStudy.companyOrFigure}
-                    </h3>
-                  </div>
-
-                  <p className="text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-200 mb-2">
-                    {node.microContent.caseStudy.story}
-                  </p>
-
-                  <div className="rounded-xl bg-amber-100/60 dark:bg-amber-950/40 border border-amber-500/20 p-2.5 text-xs text-amber-900 dark:text-amber-300 font-medium">
-                    <span className="font-bold">Kunci Taktis:</span> {node.microContent.caseStudy.takeaway}
-                  </div>
-                </div>
-              )}
-
-              {/* Lapis 4: 🛠️ Tindakan Nyata Hari Ini (Interactive Checklists) */}
+              {/* Section 5: 🛠️ Tindakan Nyata Hari Ini (Interactive Checklists) */}
               <div className="rounded-2xl border border-emerald-500/30 bg-emerald-50/40 dark:bg-slate-900/60 p-4 shadow-sm backdrop-blur-sm">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
@@ -280,7 +305,7 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({
                       <CheckSquare className="h-4 w-4" />
                     </div>
                     <h3 className="font-bold text-xs sm:text-sm uppercase tracking-wider text-emerald-800 dark:text-emerald-300">
-                      4. Tindakan Nyata Hari Ini
+                      5. Tindakan Nyata Hari Ini
                     </h3>
                   </div>
                   <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold">
@@ -289,7 +314,7 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({
                 </div>
 
                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">
-                  Pilih dan eksekusi salah satu tindakan di bawah dalam 48 jam ke depan:
+                  Pilih dan eksekusi salah satu tindakan taktis di bawah dalam 48 jam ke depan:
                 </p>
 
                 <div className="space-y-2.5">

@@ -17,14 +17,14 @@ import { MindmapData, MindmapNode } from './types';
 import { PRESET_QUERIES } from './data/mockMindmaps';
 import { generateMindmapWithGemini } from './lib/gemini';
 import { getMindmapForTopic } from './lib/topicEngine';
-import { INVESTING_FUNDAMENTALS_CURRICULUM } from './lib/curriculumData';
+import { ADVANCED_MACRO_FINANCE_CURRICULUM } from './lib/curriculumData';
 
 const AppContent: React.FC = () => {
   const { progress, isPro, useCredit, isNodeMastered } = useUser();
 
-  // Active Mindmap State (Default: Dasar-Dasar Investasi & Keuangan berjenjang)
+  // Active Mindmap State (Default: Ekonomi Makro, Moneter & Keuangan Lanjutan)
   const [currentMindmap, setCurrentMindmap] = useState<MindmapData>(() => {
-    return INVESTING_FUNDAMENTALS_CURRICULUM;
+    return ADVANCED_MACRO_FINANCE_CURRICULUM;
   });
 
   // Navigation tab state (Mobile Bottom Nav)

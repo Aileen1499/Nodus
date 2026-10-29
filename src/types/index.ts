@@ -47,12 +47,14 @@ export interface CaseStudy {
 
 export interface MicroContent {
   analogy: string; // Inti Idemya (<120 words)
+  mentalModel?: string; // Kerangka berpikir / Teori utama (misal: "Prospect Theory (Kahneman & Tversky)")
+  academicInsight?: string; // Riset akademis / wawasan eksekutif mendalam
   crossDisciplinary: {
     connectionText: string;
     domains: DomainType[];
     insight: string;
   };
-  caseStudy?: CaseStudy; // Real-world case study
+  caseStudy?: CaseStudy; // Real-world executive case study
   actionableSteps: string[]; // 3 practical steps
   difficulty?: 'Pemula' | 'Menengah' | 'Mahir';
   readTime?: string;

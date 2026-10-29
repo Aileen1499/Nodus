@@ -19,13 +19,13 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onClose, onSelectTop
   const topicsList = useMemo(() => {
     const map = new Map<string, MindmapData>();
     // 1. First priority: Structured step-by-step pathways (Langkah 1.1 -> 3.2)
-    Object.values(STRUCTURED_CURRICULA).forEach((m) => map.set(m.id, m));
+    (Object.values(STRUCTURED_CURRICULA) as MindmapData[]).forEach((m: MindmapData) => map.set(m.id, m));
     // 2. Core distinct domains
-    Object.values(TOPIC_REGISTRY).forEach((m) => {
+    (Object.values(TOPIC_REGISTRY) as MindmapData[]).forEach((m: MindmapData) => {
       if (!map.has(m.id)) map.set(m.id, m);
     });
     // 3. Multi-discipline tracks
-    Object.values(MOCK_MINDMAPS).forEach((m) => {
+    (Object.values(MOCK_MINDMAPS) as MindmapData[]).forEach((m: MindmapData) => {
       if (!map.has(m.id)) map.set(m.id, m);
     });
     return Array.from(map.values());
