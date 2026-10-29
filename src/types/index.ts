@@ -1,0 +1,84 @@
+// ==============================================================================
+// NODUS — TYPE DEFINITIONS
+// ==============================================================================
+
+export type DomainType = 'Bisnis' | 'Ekonomi' | 'Keuangan' | 'Psikologi' | 'Geopolitik';
+
+export type NodeStatus = 'locked' | 'available' | 'mastered';
+
+export interface DecisionChoice {
+  id: string;
+  text: string;
+  consequence: string;
+  scoreBonus: number; // RP bonus
+  isOptimal: boolean;
+  explanation: string;
+}
+
+export interface DecisionScenario {
+  title: string;
+  context: string;
+  dilemma: string;
+  choices: DecisionChoice[];
+}
+
+export interface QuizQuestion {
+  id: string;
+  question: string;
+  options: string[];
+  correctAnswerIndex: number;
+  explanation: string;
+}
+
+export interface MicroContent {
+  analogy: string; // Inti Idemya (<150 words)
+  crossDisciplinary: {
+    connectionText: string;
+    domains: DomainType[];
+    insight: string;
+  };
+  actionableSteps: string[]; // 3 practical steps
+}
+
+export interface MindmapNode {
+  id: string;
+  label: string;
+  domain: DomainType;
+  summary: string;
+  x: number; // Canvas coordinate
+  y: number; // Canvas coordinate
+  level: number; // 0 for root, 1 for branch, 2 for leaf
+  status?: NodeStatus; // Computed dynamically based on user progress
+  microContent: MicroContent;
+  decisionScenario: DecisionScenario;
+  quiz: QuizQuestion[];
+}
+
+export interface MindmapEdge {
+  id: string;
+  from: string; // Source Node ID
+  to: string; // Target Node ID
+  label?: string; // Relationship description (e.g. "Memicu", "Memperkuat", "Menekan")
+  domains: [DomainType, DomainType]; // Cross-discipline connection
+}
+
+export interface MindmapData {
+  id: string;
+  topic: string;
+  rootId: string;
+  description: string;
+  nodes: MindmapNode[];
+  edges: MindmapEdge[];
+}
+
+export interface UserProgress {
+  rankPoints: number; // Total accumulated RP (Rank Points)
+  streak: number; // Daily learning streak
+  credits: number; // Deep-dive credits (default 10)
+  masteredNodeIds: string[]; // Node IDs completed by user
+  checkedActions: Record<string, boolean>; // Node ID + Action Index for actionable checklist
+  lastActiveDate: string; // YYYY-MM-DD for streak calculation
+  apiKey?: string;
+  aiModel?: string;
+}
+

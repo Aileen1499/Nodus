@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="nodusGradient" x1="8" y1="56" x2="56" y2="8" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="50%" stop-color="#8B5CF6" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <!-- Background subtle circle -->
+  <rect width="64" height="64" rx="16" fill="#0B0F19"/>
+  <!-- Connected paths forming "N" -->
+  <path d="M16 48 L16 16 L48 48 L48 16" stroke="url(#nodusGradient)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+  <!-- Secondary cross link -->
+  <path d="M16 32 L48 32" stroke="#6366F1" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6"/>
+  <!-- Nodes -->
+  <circle cx="16" cy="16" r="5" fill="#6366F1" stroke="#F8FAFC" stroke-width="2"/>
+  <circle cx="16" cy="48" r="5" fill="#6366F1" stroke="#F8FAFC" stroke-width="2"/>
+  <circle cx="48" cy="16" r="5" fill="#10B981" stroke="#F8FAFC" stroke-width="2"/>
+  <circle cx="48" cy="48" r="5" fill="#10B981" stroke="#F8FAFC" stroke-width="2"/>
+  <!-- Central pulse node -->
+  <circle cx="32" cy="32" r="3.5" fill="#8B5CF6" stroke="#F8FAFC" stroke-width="1.5"/>
+</svg>
+
