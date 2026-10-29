@@ -1,16 +1,19 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { UserProgress } from '../types';
+import { UserProgress, UserHighlight, DomainType } from '../types';
 import { useAuth } from './AuthContext';
 import { syncUserRP, syncUserCredits, syncUserMasteredNodes, getUserProgress, DEFAULT_FREE_CREDITS } from '../lib/db';
 
 interface UserContextType {
   progress: UserProgress;
   isPro: boolean;
+  highlights: UserHighlight[];
   addRankPoints: (points: number) => void;
   markNodeMastered: (nodeId: string, bonusPoints?: number) => void;
   isNodeMastered: (nodeId: string) => boolean;
   toggleActionCheck: (nodeId: string, actionIndex: number) => void;
   isActionChecked: (nodeId: string, actionIndex: number) => boolean;
+  addHighlight: (nodeId: string, nodeTitle: string, domain: DomainType, text: string) => void;
+  removeHighlight: (id: string) => void;
   useCredit: () => boolean;
   resetProgress: () => void;
   saveApiKey: (key: string, model?: string) => void;
@@ -29,6 +32,7 @@ const defaultProgress: UserProgress = {
   credits: DEFAULT_FREE_CREDITS, // 3 free credits per day
   masteredNodeIds: ['miliarder-root', 'saham-root'],
   checkedActions: {},
+  highlights: [],
   lastActiveDate: getTodayString(),
   apiKey: '',
   aiModel: 'gemini-1.5-flash',
@@ -166,6 +170,43 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return !!progress.checkedActions[`${nodeId}_${actionIndex}`];
   };
 
+  const highlights = progress.highlights || [];
+
+  const addHighlight = (nodeId: string, nodeTitle: string, domain: DomainType, text: string) => {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+
+    setProgress((prev) => {
+      const currentHighlights = prev.highlights || [];
+      // Prevent exact duplicate highlights
+      if (currentHighlights.some((h) => h.nodeId === nodeId && h.text === trimmed)) {
+        return prev;
+      }
+
+      const newHighlight: UserHighlight = {
+        id: `hl-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+        nodeId,
+        nodeTitle,
+        domain,
+        text: trimmed,
+        createdAt: new Date().toISOString(),
+      };
+
+      const updated = [newHighlight, ...currentHighlights];
+      return {
+        ...prev,
+        highlights: updated,
+      };
+    });
+  };
+
+  const removeHighlight = (id: string) => {
+    setProgress((prev) => ({
+      ...prev,
+      highlights: (prev.highlights || []).filter((h) => h.id !== id),
+    }));
+  };
+
   const useCredit = (): boolean => {
     if (isPro) return true; // Pro users have unlimited searches
     if (progress.credits <= 0) return false;
@@ -213,11 +254,14 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       value={{
         progress,
         isPro,
+        highlights,
         addRankPoints,
         markNodeMastered,
         isNodeMastered,
         toggleActionCheck,
         isActionChecked,
+        addHighlight,
+        removeHighlight,
         useCredit,
         resetProgress,
         saveApiKey,

@@ -17,14 +17,14 @@ import { MindmapData, MindmapNode } from './types';
 import { PRESET_QUERIES } from './data/mockMindmaps';
 import { generateMindmapWithGemini } from './lib/gemini';
 import { getMindmapForTopic } from './lib/topicEngine';
-import { getCurriculumForQuery, CORPORATE_STRATEGY_WEALTH_CURRICULUM } from './lib/curriculumData';
+import { getCurriculumForQuery, ZERO_TO_HERO_OWNER_CURRICULUM } from './lib/curriculumData';
 
 const AppContent: React.FC = () => {
   const { progress, isPro, useCredit, isNodeMastered } = useUser();
 
-  // Active Mindmap State (Default: Strategi Korporat, Legalitas PT & Arsitektur Kekayaan)
+  // Active Mindmap State (Default: Zero-to-Hero: Dari Nol Menjadi Business Owner)
   const [currentMindmap, setCurrentMindmap] = useState<MindmapData>(() => {
-    return CORPORATE_STRATEGY_WEALTH_CURRICULUM;
+    return ZERO_TO_HERO_OWNER_CURRICULUM;
   });
 
   // Navigation tab state (Mobile Bottom Nav)

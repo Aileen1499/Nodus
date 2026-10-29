@@ -177,6 +177,8 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
 
   // Empty state check
   const hasNodes = data.nodes && data.nodes.length > 0;
+  const startingNode = data.nodes.find((n) => n.id === data.rootId) || data.nodes[0];
+  const isStartingNodeMastered = startingNode ? isNodeMastered(startingNode.id) : false;
 
   return (
     <div className="relative flex flex-1 flex-col h-[calc(100vh-4rem)] pb-14 md:pb-0 w-full overflow-hidden bg-[#F8FAFC] dark:bg-[#070A11] transition-colors duration-300 select-none">
@@ -309,8 +311,35 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
         </button>
       </div>
 
-      {/* Topic Overview Badge (Bottom Right on Desktop) */}
-      <div className="absolute bottom-6 right-4 z-20 hidden md:flex items-center gap-2 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/90 dark:bg-[#0B0F19]/90 px-3.5 py-2 text-xs text-slate-700 dark:text-slate-300 shadow-xl backdrop-blur-xl transition-colors duration-300">
+      {/* Floating "Mulai di Sini" Guide Button with Soft Pulse */}
+      {startingNode && (
+        <div className="absolute bottom-16 md:bottom-6 right-3 sm:right-6 z-20">
+          <button
+            onClick={() => {
+              centerViewOnRoot();
+              onSelectNode(startingNode);
+            }}
+            className="group flex items-center gap-2.5 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 px-4 py-2.5 text-xs sm:text-sm font-bold text-white shadow-xl shadow-emerald-500/25 ring-2 ring-emerald-400/40 hover:scale-105 active:scale-95 transition-all duration-300"
+          >
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white" />
+            </span>
+            <div className="text-left">
+              <div className="text-[10px] uppercase font-bold text-emerald-200 tracking-wider">
+                {isStartingNodeMastered ? 'Lanjutkan Modul' : 'Mulai di Sini'}
+              </div>
+              <div className="font-extrabold flex items-center gap-1.5">
+                <span>{startingNode.stepNumber || 'Langkah 1'}: {startingNode.label}</span>
+                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+              </div>
+            </div>
+          </button>
+        </div>
+      )}
+
+      {/* Topic Overview Badge (Bottom Center-Right on Desktop) */}
+      <div className="absolute bottom-6 right-64 z-10 hidden lg:flex items-center gap-2 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/90 dark:bg-[#0B0F19]/90 px-3.5 py-2 text-xs text-slate-700 dark:text-slate-300 shadow-xl backdrop-blur-xl transition-colors duration-300">
         <span className="font-bold text-slate-900 dark:text-white">{data.topic}</span>
         <span className="text-slate-400 dark:text-slate-500">•</span>
         <span className="text-slate-500 dark:text-slate-400">{data.nodes.length} Simpul Ilmu</span>
@@ -526,6 +555,32 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
                         opacity={isDark ? "0.15" : "0.08"}
                         filter="url(#emeraldNodeGlow)"
                       />
+                    )}
+
+                    {/* Pulsating Indicator if it is Starting Node & Unmastered */}
+                    {isRoot && !isMastered && (
+                      <g transform={`translate(0, ${-nodeHeight / 2 - 13})`}>
+                        <rect
+                          x="-44"
+                          y="-9"
+                          width="88"
+                          height="18"
+                          rx="9"
+                          fill="#10B981"
+                          filter="drop-shadow(0 2px 8px rgba(16, 185, 129, 0.4))"
+                        />
+                        <text
+                          x="0"
+                          y="3.5"
+                          fill="#FFFFFF"
+                          fontSize="9.5"
+                          fontWeight="800"
+                          textAnchor="middle"
+                          className="select-none pointer-events-none"
+                        >
+                          📍 Mulai di Sini
+                        </text>
+                      </g>
                     )}
 
                     {/* Main Node Card Body (Dual Theme) */}

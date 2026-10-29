@@ -1034,3 +1034,4 @@ export const ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM: MindmapData = {
     { id: 'be-syn-2', from: 'beh-2-3', to: 'beh-4-1', label: 'Virtual Currency -> Dopamine Hook', domains: ['Psikologi', 'Data & Analitik'] }
   ]
 };
+

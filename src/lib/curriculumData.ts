@@ -6,7 +6,13 @@ import { MindmapData } from '../types';
 import { CORPORATE_STRATEGY_WEALTH_CURRICULUM } from './corporateCurriculum';
 import { ADVANCED_MACRO_FINANCE_CURRICULUM } from './macroCurriculum';
 import { ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM } from './behavioralCurriculum';
-export { CORPORATE_STRATEGY_WEALTH_CURRICULUM, ADVANCED_MACRO_FINANCE_CURRICULUM, ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM };
+import { ZERO_TO_HERO_OWNER_CURRICULUM } from './zeroToHeroCurriculum';
+export { 
+  CORPORATE_STRATEGY_WEALTH_CURRICULUM, 
+  ADVANCED_MACRO_FINANCE_CURRICULUM, 
+  ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
+  ZERO_TO_HERO_OWNER_CURRICULUM 
+};
 
 // Legacy variable alias retained for backwards compatibility
 export const DEPRECATED_MACRO_FINANCE_CURRICULUM: MindmapData = {
@@ -1171,6 +1177,14 @@ export const ALL_CURRICULA: Record<string, MindmapData> = {
   'tax planning': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
   'holding company': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
   'proteksi aset': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
+  // Domain 5: Zero-to-Hero (Dari Nol Menjadi Business Owner)
+  'zero-to-hero: dari nol menjadi business owner': ZERO_TO_HERO_OWNER_CURRICULUM,
+  'dari nol jadi pengusaha': ZERO_TO_HERO_OWNER_CURRICULUM,
+  'cara bikin pt': ZERO_TO_HERO_OWNER_CURRICULUM,
+  'owner mindset': ZERO_TO_HERO_OWNER_CURRICULUM,
+  'maklon pabrik & moq': ZERO_TO_HERO_OWNER_CURRICULUM,
+  'tembus retailer': ZERO_TO_HERO_OWNER_CURRICULUM,
+  'mulai dari nol': ZERO_TO_HERO_OWNER_CURRICULUM,
 };
 
 export const STRUCTURED_CURRICULA = ALL_CURRICULA;
@@ -1181,6 +1195,24 @@ export function getCurriculumForQuery(query: string): MindmapData | null {
   // 1. Direct match
   if (ALL_CURRICULA[normalized]) {
     return JSON.parse(JSON.stringify(ALL_CURRICULA[normalized]));
+  }
+
+  // 2. Keyword match - Zero to Hero Owner Roadmap
+  if (
+    normalized.includes('zero') ||
+    normalized.includes('dari nol') ||
+    normalized.includes('pemula') ||
+    normalized.includes('mulai') ||
+    normalized.includes('owner mindset') ||
+    normalized.includes('bikin pt') ||
+    normalized.includes('cara bikin pt') ||
+    normalized.includes('pt perorangan') ||
+    normalized.includes('maklon') ||
+    normalized.includes('moq') ||
+    normalized.includes('preselling') ||
+    normalized.includes('retailer')
+  ) {
+    return JSON.parse(JSON.stringify(ZERO_TO_HERO_OWNER_CURRICULUM));
   }
 
   // 2. Keyword match - Corporate, Legal, Supply Chain, Contractor, Tax & Wealth Module

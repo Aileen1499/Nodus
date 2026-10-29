@@ -94,12 +94,22 @@ export interface MindmapData {
   edges: MindmapEdge[];
 }
 
+export interface UserHighlight {
+  id: string;
+  nodeId: string;
+  nodeTitle: string;
+  domain: DomainType;
+  text: string;
+  createdAt: string;
+}
+
 export interface UserProgress {
   rankPoints: number; // Total accumulated RP (Rank Points)
   streak: number; // Daily learning streak
   credits: number; // Deep-dive credits (default 10)
   masteredNodeIds: string[]; // Node IDs completed by user
   checkedActions: Record<string, boolean>; // Node ID + Action Index for actionable checklist
+  highlights?: UserHighlight[]; // Digital stabilizer notes
   lastActiveDate: string; // YYYY-MM-DD for streak calculation
   apiKey?: string;
   aiModel?: string;

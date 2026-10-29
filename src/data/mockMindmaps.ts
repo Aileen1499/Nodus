@@ -1,16 +1,15 @@
 import { MindmapData } from '../types';
 
 export const PRESET_QUERIES = [
+  'Zero-to-Hero: Dari Nol Menjadi Business Owner',
+  'Cara Bikin PT Sendiri di OSS',
   'Strategi Korporat, Legalitas PT & Arsitektur Kekayaan',
   'Psikologi Perilaku & Behavioral Economics',
-  'Sistem 1 vs Sistem 2 & Prospect Theory',
   'The Decoy Effect & Psikologi Harga',
-  'Dilema Tahanan, Nudge & Negosiasi ZOPA',
   'Ekonomi Makro, Siklus Moneter & Valuasi Korporat Lanjutan',
   'Siklus Utang Ray Dalio & Bank Sentral',
   'Valuasi DCF, WACC & Rasio ROIC',
   'Hedging Derivatif & Portofolio All-Weather',
-  'Strategi Bisnis & Parit Pertahanan Korporat',
   'Distributor & Rantai Pasok',
   'Kontraktor & Tender Pengadaan',
   'Tax Planning & Holding Company',
