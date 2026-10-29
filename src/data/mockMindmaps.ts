@@ -2,7 +2,10 @@ import { MindmapData } from '../types';
 
 export const PRESET_QUERIES = [
   'Strategi Korporat, Legalitas PT & Arsitektur Kekayaan',
-  'Ekonomi Makro, Moneter & Keuangan Lanjutan',
+  'Ekonomi Makro, Siklus Moneter & Valuasi Korporat Lanjutan',
+  'Siklus Utang Ray Dalio & Bank Sentral',
+  'Valuasi DCF, WACC & Rasio ROIC',
+  'Hedging Derivatif & Portofolio All-Weather',
   'Strategi Bisnis & Parit Pertahanan Korporat',
   'Psikologi Perilaku & Behavioral Economics',
   'Distributor & Rantai Pasok',

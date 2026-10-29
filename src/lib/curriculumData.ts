@@ -4,12 +4,11 @@
 
 import { MindmapData } from '../types';
 import { CORPORATE_STRATEGY_WEALTH_CURRICULUM } from './corporateCurriculum';
-export { CORPORATE_STRATEGY_WEALTH_CURRICULUM };
+import { ADVANCED_MACRO_FINANCE_CURRICULUM } from './macroCurriculum';
+export { CORPORATE_STRATEGY_WEALTH_CURRICULUM, ADVANCED_MACRO_FINANCE_CURRICULUM };
 
-// ==============================================================================
-// 1. DOMAIN: EKONOMI MAKRO, MONETER & KEUANGAN LANJUTAN
-// ==============================================================================
-export const ADVANCED_MACRO_FINANCE_CURRICULUM: MindmapData = {
+// Legacy variable alias retained for backwards compatibility
+export const DEPRECATED_MACRO_FINANCE_CURRICULUM: MindmapData = {
   id: 'curriculum-ekonomi-makro-keuangan',
   topic: 'Ekonomi Makro, Moneter & Keuangan Lanjutan',
   rootId: 'macro-1-1',
@@ -1200,18 +1199,40 @@ export function getCurriculumForQuery(query: string): MindmapData | null {
     return JSON.parse(JSON.stringify(CORPORATE_STRATEGY_WEALTH_CURRICULUM));
   }
 
-  // 2. Keyword match
+  // 2. Keyword match - Macroeconomics, Monetary Cycles, Valuation & Risk Hedging
   if (
     normalized.includes('makro') ||
+    normalized.includes('moneter') ||
     normalized.includes('inflasi') ||
     normalized.includes('suku bunga') ||
+    normalized.includes('bank sentral') ||
+    normalized.includes('the fed') ||
     normalized.includes('dcf') ||
     normalized.includes('wacc') ||
     normalized.includes('invest') ||
     normalized.includes('keuangan') ||
     normalized.includes('dalio') ||
+    normalized.includes('debt cycle') ||
+    normalized.includes('siklus utang') ||
     normalized.includes('qe') ||
-    normalized.includes('tightening')
+    normalized.includes('quantitative easing') ||
+    normalized.includes('tightening') ||
+    normalized.includes('forex') ||
+    normalized.includes('kurs') ||
+    normalized.includes('devaluasi') ||
+    normalized.includes('rupiah') ||
+    normalized.includes('hedging') ||
+    normalized.includes('lindung nilai') ||
+    normalized.includes('derivatif') ||
+    normalized.includes('futures') ||
+    normalized.includes('roic') ||
+    normalized.includes('ev/ebitda') ||
+    normalized.includes('all-weather') ||
+    normalized.includes('risk parity') ||
+    normalized.includes('solvabilitas') ||
+    normalized.includes('likuiditas') ||
+    normalized.includes('cash conversion cycle') ||
+    normalized.includes('working capital')
   ) {
     return JSON.parse(JSON.stringify(ADVANCED_MACRO_FINANCE_CURRICULUM));
   }
