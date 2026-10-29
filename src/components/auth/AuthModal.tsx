@@ -70,11 +70,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-3 sm:p-4 backdrop-blur-md">
-      <div className="flex flex-col w-full max-w-md rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-[#0B0F19] shadow-2xl overflow-hidden transition-colors duration-300">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-5 backdrop-blur-xl animate-in fade-in duration-200">
+      <div className="flex flex-col w-full max-w-md rounded-[32px] border border-slate-200/90 dark:border-slate-800/90 bg-[#F4F7FC] dark:bg-[#0B0F19] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden transition-colors duration-300">
         
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-6 py-4 bg-slate-50 dark:bg-[#0F172A]">
+        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-6 py-5 bg-white/95 dark:bg-[#161E2E]/95">
           <div className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-500 to-emerald-400 p-[1.5px]">
               <div className="flex h-full w-full items-center justify-center rounded-[10px] bg-slate-900 text-emerald-400">

@@ -83,10 +83,10 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onClose, onSelectTop
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-5 md:p-6 backdrop-blur-xl animate-in fade-in duration-200">
-      <div className="flex flex-col w-full max-w-4xl max-h-[90vh] rounded-[32px] border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-[#0B0F19] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden transition-all duration-300">
+      <div className="flex flex-col w-full max-w-4xl max-h-[90vh] rounded-[32px] border border-slate-200/90 dark:border-slate-800/90 bg-[#F4F7FC] dark:bg-[#0B0F19] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden transition-all duration-300">
         
         {/* Header Bar */}
-        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-6 sm:px-8 py-5 bg-slate-50/90 dark:bg-[#0F172A]/90 backdrop-blur-md">
+        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-6 sm:px-8 py-5 bg-white/95 dark:bg-[#161E2E]/95 backdrop-blur-md">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-600 to-emerald-400 p-[1.5px] shadow-md shadow-indigo-500/20">
               <div className="flex h-full w-full items-center justify-center rounded-[14px] bg-slate-900 text-emerald-400">
@@ -113,7 +113,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onClose, onSelectTop
         </div>
 
         {/* Search & Domain Filter Bar */}
-        <div className="px-6 sm:px-8 py-4 border-b border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-[#0B0F19] space-y-3">
+        <div className="px-6 sm:px-8 py-4 border-b border-slate-200/60 dark:border-slate-800/60 bg-white/80 dark:bg-[#161E2E]/80 space-y-3">
           <div className="relative">
             <input
               type="text"
@@ -172,7 +172,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onClose, onSelectTop
                       onSelectTopic(map.topic);
                       onClose();
                     }}
-                    className="group relative flex flex-col justify-between rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-gradient-to-br from-slate-50/80 via-white to-indigo-50/20 dark:from-slate-900/90 dark:via-[#0B0F19] dark:to-indigo-950/20 p-5 sm:p-6 shadow-sm hover:shadow-xl hover:border-indigo-500/50 hover:-translate-y-0.5 cursor-pointer transition-all duration-300 overflow-hidden"
+                    className="group relative flex flex-col justify-between rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-[#161E2E] p-5 sm:p-6 shadow-[0_12px_30px_rgba(0,0,0,0.06)] hover:shadow-xl hover:border-indigo-500/50 hover:-translate-y-0.5 cursor-pointer transition-all duration-300 overflow-hidden"
                   >
                     <div>
                       {/* Top Badges */}

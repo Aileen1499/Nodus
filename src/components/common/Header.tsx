@@ -133,10 +133,10 @@ export const Header: React.FC<HeaderProps> = ({
             <HelpCircle className="h-4 w-4" />
           </button>
 
-          {/* Settings / API Key button */}
+          {/* Settings button */}
           <button
             onClick={onOpenSettings}
-            title="Pengaturan & Gemini API Key"
+            title="Pengaturan Preferensi"
             className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all"
             aria-label="Pengaturan"
           >

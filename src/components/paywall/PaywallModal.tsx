@@ -38,8 +38,8 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-4 backdrop-blur-md">
-      <div className="flex flex-col w-full max-w-lg max-h-[92vh] rounded-3xl border border-indigo-500/40 bg-white dark:bg-[#0B0F19] shadow-2xl overflow-hidden transition-colors duration-300">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-5 backdrop-blur-xl animate-in fade-in duration-200">
+      <div className="flex flex-col w-full max-w-lg max-h-[92vh] rounded-[32px] border border-indigo-500/40 bg-[#F4F7FC] dark:bg-[#0B0F19] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden transition-colors duration-300">
         
         {/* Banner Glow Header */}
         <div className="relative border-b border-indigo-500/30 bg-gradient-to-r from-indigo-900 via-indigo-950 to-slate-950 p-6 text-white text-center overflow-hidden">

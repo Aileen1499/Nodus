@@ -1,5 +1,5 @@
 import React from 'react';
-import { Map, Compass, BarChart3, User } from 'lucide-react';
+import { Map, BookOpen, Brain, User } from 'lucide-react';
 
 export type NavTab = 'map' | 'explore' | 'quiz' | 'profile';
 
@@ -11,15 +11,15 @@ interface BottomNavProps {
 export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onChangeTab }) => {
   const navItems = [
     { id: 'map' as NavTab, label: 'Peta', icon: Map },
-    { id: 'explore' as NavTab, label: 'Katalog', icon: Compass },
-    { id: 'quiz' as NavTab, label: 'Evaluasi', icon: BarChart3 },
+    { id: 'explore' as NavTab, label: 'Katalog', icon: BookOpen },
+    { id: 'quiz' as NavTab, label: 'Evaluasi', icon: Brain },
     { id: 'profile' as NavTab, label: 'Profil', icon: User },
   ];
 
   return (
     <div className="fixed bottom-4 sm:bottom-6 inset-x-0 mx-auto z-40 w-[92%] sm:w-auto sm:min-w-[420px] max-w-md pointer-events-none select-none">
       <nav 
-        className="pointer-events-auto flex items-center justify-between rounded-[28px] border border-slate-200/90 dark:border-slate-800/90 bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-2xl p-1.5 sm:p-2 shadow-[0_20px_50px_rgba(0,0,0,0.18)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.65)] ring-1 ring-slate-900/5 dark:ring-white/10 transition-all duration-300"
+        className="pointer-events-auto flex items-center justify-between rounded-[28px] border border-slate-200/90 dark:border-slate-800/90 bg-white/95 dark:bg-[#161E2E]/95 backdrop-blur-2xl p-1.5 sm:p-2 shadow-[0_20px_50px_rgba(0,0,0,0.18)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.65)] ring-1 ring-slate-900/5 dark:ring-white/10 transition-all duration-300"
         role="navigation"
         aria-label="Navigasi Utama"
       >

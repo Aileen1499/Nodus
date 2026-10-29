@@ -224,6 +224,47 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
             </div>
           </form>
 
+          {/* Domain Category Filter Pills (Claymorphic) */}
+          <div className="flex items-center gap-1.5 overflow-x-auto text-xs scrollbar-none py-0.5">
+            <span className="flex items-center gap-1 text-slate-400 font-bold shrink-0 mr-1 text-[11px]">
+              <Layers className="h-3.5 w-3.5" />
+              Domain:
+            </span>
+            {[
+              { id: 'all', label: 'Semua' },
+              { id: 'Bisnis', label: 'Bisnis & Legal' },
+              { id: 'Ekonomi', label: 'Makroekonomi' },
+              { id: 'Psikologi', label: 'Psikologi' },
+              { id: 'Keuangan', label: 'Keuangan' },
+              { id: 'Geopolitik', label: 'Geopolitik' },
+              { id: 'Komunikasi', label: 'Komunikasi' },
+              { id: 'Pajak', label: 'Pajak' },
+            ].map((cat) => {
+              const isSelected = domainFilter === cat.id || (cat.id === 'all' && (domainFilter === 'all' || !domainFilter));
+
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => {
+                    if (cat.id === 'all') {
+                      setDomainFilter('all');
+                    } else {
+                      setDomainFilter(cat.id);
+                      onSearch(cat.id);
+                    }
+                  }}
+                  className={`rounded-xl px-3 py-1 font-bold text-xs transition-all shrink-0 ${
+                    isSelected
+                      ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/25 ring-1 ring-indigo-500/30'
+                      : 'bg-white/95 dark:bg-[#161E2E]/90 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200/90 dark:border-slate-800/80 shadow-sm'
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              );
+            })}
+          </div>
+
           {/* Preset Prompt Chips (Quick Prompts) */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 scrollbar-none">
             <span className="flex items-center gap-1 text-[11px] font-semibold text-slate-500 dark:text-slate-400 shrink-0 mr-1">
@@ -243,7 +284,7 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
                   className={`shrink-0 rounded-full border px-3 py-1 text-xs font-medium transition-all ${
                     isActive
                       ? 'border-emerald-500/80 bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 shadow-sm font-semibold ring-1 ring-emerald-500/30'
-                      : 'border-slate-200/90 dark:border-slate-800/80 bg-white/90 dark:bg-slate-900/70 text-slate-700 dark:text-slate-300'
+                      : 'border-slate-200/90 dark:border-slate-800/80 bg-white/90 dark:bg-[#161E2E]/80 text-slate-700 dark:text-slate-300'
                   }`}
                 >
                   {query}
@@ -252,44 +293,9 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
             })}
           </div>
 
-          {/* Domain Category Filter Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto text-[11px] scrollbar-none">
-            <span className="flex items-center gap-1 text-slate-500 dark:text-slate-400 font-semibold shrink-0 mr-1">
-              <Layers className="h-3 w-3" />
-              Domain:
-            </span>
-            {['Semua', 'Bisnis', 'Psikologi', 'Ekonomi', 'Pemasaran', 'Geopolitik', 'Keuangan', 'Komunikasi', 'Hukum'].map((domain) => {
-              const isSelected =
-                domainFilter === domain ||
-                (domain !== 'Semua' &&
-                  (data.topic.toLowerCase().includes(domain.toLowerCase()) ||
-                    data.nodes.some((n) => n.domain === domain)));
-              return (
-                <button
-                  key={domain}
-                  onClick={() => {
-                    if (domain === 'Semua') {
-                      setDomainFilter('all');
-                    } else {
-                      setDomainFilter(domain);
-                      onSearch(domain);
-                    }
-                  }}
-                  className={`rounded-lg px-2.5 py-0.5 font-medium transition-colors ${
-                    isSelected
-                      ? 'bg-indigo-600 text-white font-semibold shadow-sm'
-                      : 'bg-white/80 dark:bg-slate-900/50 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border border-slate-200/80 dark:border-slate-800/60'
-                  }`}
-                >
-                  {domain}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Active Curriculum Hero Card (iOS Standard) */}
+          {/* Active Curriculum Hero Card (Claymorphic) */}
           {startingNode && isBannerVisible && (
-            <div className="relative overflow-hidden rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-2xl shadow-xl p-4 sm:p-5 transition-all">
+            <div className="relative overflow-hidden rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white/95 dark:bg-[#161E2E]/95 backdrop-blur-2xl shadow-[0_15px_35px_rgba(0,0,0,0.08)] p-4 sm:p-5 transition-all">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1 flex-wrap">
@@ -620,16 +626,18 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
                       </g>
                     )}
 
-                    {/* Main Node Card Body (Dual Theme) */}
+                    {/* Main Node Card Body (Dual Theme & Claymorphic Dopamine Fill) */}
                     <rect
                       x={-nodeWidth / 2}
                       y={-nodeHeight / 2}
                       width={nodeWidth}
                       height={nodeHeight}
-                      rx="18"
+                      rx="20"
                       fill={
-                        isDark
-                          ? isRoot ? '#131B2E' : '#1E293B'
+                        isMastered
+                          ? isDark ? '#064E3B' : '#ECFDF5'
+                          : isDark
+                          ? isRoot ? '#131B2E' : '#161E2E'
                           : isRoot ? '#F8FAFC' : '#FFFFFF'
                       }
                       stroke={
@@ -643,8 +651,8 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
                           ? isDark ? '#818CF8' : '#6366F1'
                           : isDark ? '#475569' : '#CBD5E1'
                       }
-                      strokeWidth={isSelected || isMastered || isRoot ? 2 : 1.2}
-                      filter={!isDark ? 'drop-shadow(0 4px 12px rgba(0,0,0,0.06))' : undefined}
+                      strokeWidth={isMastered ? 2.5 : isSelected || isRoot ? 2 : 1.2}
+                      filter={isMastered ? 'url(#emeraldNodeGlow)' : !isDark ? 'drop-shadow(0 6px 16px rgba(0,0,0,0.06))' : undefined}
                       className="transition-colors hover:stroke-indigo-500"
                     />
 
@@ -660,11 +668,11 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
                         rx="9"
                         fill={
                           isMastered
-                            ? isDark ? 'rgba(16, 185, 129, 0.2)' : '#D1FAE5'
+                            ? isDark ? 'rgba(16, 185, 129, 0.3)' : '#A7F3D0'
                             : isDark ? 'rgba(99, 102, 241, 0.2)' : '#EEF2FF'
                         }
                         stroke={isMastered ? '#10B981' : isDark ? '#6366F1' : '#818CF8'}
-                        strokeWidth="0.8"
+                        strokeWidth="1"
                       />
                       <text
                         x={node.stepNumber ? 42 : isRoot ? 37 : 33}
@@ -672,22 +680,22 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
                         textAnchor="middle"
                         fill={
                           isMastered
-                            ? isDark ? '#34D399' : '#065F46'
+                            ? isDark ? '#6EE7B7' : '#065F46'
                             : isDark ? '#A5B4FC' : '#4338CA'
                         }
                         fontSize="9"
-                        fontWeight="700"
+                        fontWeight="800"
                         className="select-none pointer-events-none"
                       >
                         {node.stepNumber || node.domain.toUpperCase()}
                       </text>
 
-                      {/* Status Icon Indicator */}
-                      <g transform={`translate(${nodeWidth - 46}, -4)`}>
+                      {/* Status Icon Indicator & Gold Star ⭐ */}
+                      <g transform={`translate(${nodeWidth - 44}, -4)`}>
                         {isMastered ? (
                           <g>
-                            <circle cx="0" cy="0" r="8" fill="#10B981" />
-                            <path d="M-3.5 0 L-1 2.5 L3.5 -2" stroke="#FFFFFF" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+                            <circle cx="0" cy="0" r="10" fill="#F59E0B" filter="drop-shadow(0 2px 6px rgba(245, 158, 11, 0.5))" />
+                            <text x="0" y="3.5" textAnchor="middle" fontSize="11" fill="#FFFFFF">⭐</text>
                           </g>
                         ) : locked ? (
                           <g>
@@ -707,9 +715,9 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
                       <text
                         x="0"
                         y="26"
-                        fill={isDark ? '#F8FAFC' : '#0F172A'}
+                        fill={isMastered ? (isDark ? '#34D399' : '#047857') : isDark ? '#F8FAFC' : '#0F172A'}
                         fontSize={isRoot ? "13.5" : "12"}
-                        fontWeight="700"
+                        fontWeight="800"
                         className="select-none pointer-events-none"
                       >
                         {node.label.length > (isRoot ? 22 : 18)

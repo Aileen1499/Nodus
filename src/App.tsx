@@ -7,6 +7,7 @@ import { BottomNav, NavTab } from './components/common/BottomNav';
 import { MindmapCanvas } from './components/mindmap/MindmapCanvas';
 import { MicroReaderSheet } from './components/reader/MicroReaderSheet';
 import { QuizEngine } from './components/quiz/QuizEngine';
+import { QuizHubModal } from './components/quiz/QuizHubModal';
 import { SettingsModal } from './components/common/SettingsModal';
 import { HelpModal } from './components/common/HelpModal';
 import { ExploreModal } from './components/explore/ExploreModal';
@@ -20,7 +21,7 @@ import { getMindmapForTopic } from './lib/topicEngine';
 import { getCurriculumForQuery, ZERO_TO_HERO_OWNER_CURRICULUM } from './lib/curriculumData';
 
 const AppContent: React.FC = () => {
-  const { progress, isPro, useCredit, isNodeMastered } = useUser();
+  const { progress, isPro, useCredit } = useUser();
 
   // Active Mindmap State (Default: Zero-to-Hero: Dari Nol Menjadi Business Owner)
   const [currentMindmap, setCurrentMindmap] = useState<MindmapData>(() => {
@@ -33,6 +34,7 @@ const AppContent: React.FC = () => {
   // Modal / Sheet States
   const [activeReaderNode, setActiveReaderNode] = useState<MindmapNode | null>(null);
   const [activeQuizNode, setActiveQuizNode] = useState<MindmapNode | null>(null);
+  const [isQuizHubOpen, setIsQuizHubOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isExploreOpen, setIsExploreOpen] = useState(false);
@@ -46,6 +48,7 @@ const AppContent: React.FC = () => {
     // Reset active modal / sheet nodes immediately so state doesn't persist
     setActiveReaderNode(null);
     setActiveQuizNode(null);
+    setIsQuizHubOpen(false);
 
     // 1. Check for structured masterclass curricula or pre-mapped domains
     const predefinedCurriculum = getCurriculumForQuery(query) || getMindmapForTopic(query);
@@ -81,6 +84,7 @@ const AppContent: React.FC = () => {
       setCurrentMindmap(generated);
       setActiveReaderNode(null);
       setActiveQuizNode(null);
+      setIsQuizHubOpen(false);
     } catch (err) {
       console.error('Error generating mindmap:', err);
     } finally {
@@ -93,14 +97,20 @@ const AppContent: React.FC = () => {
     setActiveTab(tab);
     if (tab === 'explore') {
       setIsExploreOpen(true);
+      setIsQuizHubOpen(false);
+      setIsProfileOpen(false);
     } else if (tab === 'profile') {
       setIsProfileOpen(true);
+      setIsExploreOpen(false);
+      setIsQuizHubOpen(false);
     } else if (tab === 'quiz') {
-      const targetNode =
-        currentMindmap.nodes.find((n) => !isNodeMastered(n.id)) || currentMindmap.nodes[0];
-      if (targetNode) {
-        setActiveQuizNode(targetNode);
-      }
+      setIsQuizHubOpen(true);
+      setIsExploreOpen(false);
+      setIsProfileOpen(false);
+    } else if (tab === 'map') {
+      setIsExploreOpen(false);
+      setIsQuizHubOpen(false);
+      setIsProfileOpen(false);
     }
   };
 
@@ -163,6 +173,22 @@ const AppContent: React.FC = () => {
         />
       )}
 
+      {/* Quiz Arena / Hub Modal */}
+      {isQuizHubOpen && (
+        <QuizHubModal
+          nodes={currentMindmap.nodes}
+          curriculumTitle={currentMindmap.topic}
+          onClose={() => {
+            setIsQuizHubOpen(false);
+            setActiveTab('map');
+          }}
+          onSelectNode={(node) => {
+            setIsQuizHubOpen(false);
+            setActiveQuizNode(node);
+          }}
+        />
+      )}
+
       {/* Explore Curriculum Modal */}
       {isExploreOpen && (
         <ExploreModal
@@ -172,6 +198,7 @@ const AppContent: React.FC = () => {
           }}
           onSelectTopic={(topic) => {
             handleSearch(topic);
+            setIsExploreOpen(false);
             setActiveTab('map');
           }}
         />
