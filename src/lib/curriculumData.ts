@@ -3,6 +3,8 @@
 // ==============================================================================
 
 import { MindmapData } from '../types';
+import { CORPORATE_STRATEGY_WEALTH_CURRICULUM } from './corporateCurriculum';
+export { CORPORATE_STRATEGY_WEALTH_CURRICULUM };
 
 // ==============================================================================
 // 1. DOMAIN: EKONOMI MAKRO, MONETER & KEUANGAN LANJUTAN
@@ -1144,6 +1146,22 @@ export const ALL_CURRICULA: Record<string, MindmapData> = {
   'psikologi': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
   'behavioral economics': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
   'bias kognitif': ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM,
+
+  // Domain 4: Strategi Korporat, Legalitas PT, Rantai Pasok & Arsitektur Kekayaan
+  'strategi korporat, legalitas pt & arsitektur kekayaan': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
+  'strategi korporat': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
+  'legalitas pt': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
+  'pt vs cv': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
+  'hukum bisnis': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
+  'distribusi': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
+  'distributor': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
+  'kontraktor': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
+  'tender': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
+  'pajak': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
+  'pajak korporat': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
+  'tax planning': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
+  'holding company': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
+  'proteksi aset': CORPORATE_STRATEGY_WEALTH_CURRICULUM,
 };
 
 export const STRUCTURED_CURRICULA = ALL_CURRICULA;
@@ -1154,6 +1172,32 @@ export function getCurriculumForQuery(query: string): MindmapData | null {
   // 1. Direct match
   if (ALL_CURRICULA[normalized]) {
     return JSON.parse(JSON.stringify(ALL_CURRICULA[normalized]));
+  }
+
+  // 2. Keyword match - Corporate, Legal, Supply Chain, Contractor, Tax & Wealth Module
+  if (
+    normalized.includes('korporat') ||
+    normalized.includes('legalitas') ||
+    normalized.includes('pt') ||
+    normalized.includes('cv') ||
+    normalized.includes('oss') ||
+    normalized.includes('kbli') ||
+    normalized.includes('rups') ||
+    normalized.includes('distribusi') ||
+    normalized.includes('distributor') ||
+    normalized.includes('kontraktor') ||
+    normalized.includes('tender') ||
+    normalized.includes('spk') ||
+    normalized.includes('retensi') ||
+    normalized.includes('pph') ||
+    normalized.includes('ppn') ||
+    normalized.includes('faktur') ||
+    normalized.includes('tax') ||
+    normalized.includes('pajak') ||
+    normalized.includes('holding') ||
+    normalized.includes('proteksi aset')
+  ) {
+    return JSON.parse(JSON.stringify(CORPORATE_STRATEGY_WEALTH_CURRICULUM));
   }
 
   // 2. Keyword match

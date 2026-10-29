@@ -17,14 +17,14 @@ import { MindmapData, MindmapNode } from './types';
 import { PRESET_QUERIES } from './data/mockMindmaps';
 import { generateMindmapWithGemini } from './lib/gemini';
 import { getMindmapForTopic } from './lib/topicEngine';
-import { ADVANCED_MACRO_FINANCE_CURRICULUM } from './lib/curriculumData';
+import { getCurriculumForQuery, CORPORATE_STRATEGY_WEALTH_CURRICULUM } from './lib/curriculumData';
 
 const AppContent: React.FC = () => {
   const { progress, isPro, useCredit, isNodeMastered } = useUser();
 
-  // Active Mindmap State (Default: Ekonomi Makro, Moneter & Keuangan Lanjutan)
+  // Active Mindmap State (Default: Strategi Korporat, Legalitas PT & Arsitektur Kekayaan)
   const [currentMindmap, setCurrentMindmap] = useState<MindmapData>(() => {
-    return ADVANCED_MACRO_FINANCE_CURRICULUM;
+    return CORPORATE_STRATEGY_WEALTH_CURRICULUM;
   });
 
   // Navigation tab state (Mobile Bottom Nav)
@@ -41,22 +41,28 @@ const AppContent: React.FC = () => {
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
   const [isLoadingMindmap, setIsLoadingMindmap] = useState(false);
 
-  // Search Handler with Credit & Paywall Checking
+  // Search Handler with Instant Predefined Routing & Fallback to Gemini AI
   const handleSearch = async (query: string) => {
     // Reset active modal / sheet nodes immediately so state doesn't persist
     setActiveReaderNode(null);
     setActiveQuizNode(null);
 
-    const isPredefined = !!getMindmapForTopic(query);
+    // 1. Check for structured masterclass curricula or pre-mapped domains
+    const predefinedCurriculum = getCurriculumForQuery(query) || getMindmapForTopic(query);
+    if (predefinedCurriculum) {
+      setCurrentMindmap(predefinedCurriculum);
+      return;
+    }
 
-    if (!isPredefined && !isPro && progress.credits <= 0) {
+    // 2. Custom AI Generation for novel queries
+    if (!isPro && progress.credits <= 0) {
       setIsPaywallOpen(true);
       return;
     }
 
     setIsLoadingMindmap(true);
 
-    if (!isPredefined && !isPro) {
+    if (!isPro) {
       const creditUsed = useCredit();
       if (!creditUsed) {
         setIsPaywallOpen(true);
