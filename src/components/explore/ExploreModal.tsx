@@ -83,22 +83,22 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onClose, onSelectTop
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-5 md:p-6 backdrop-blur-xl animate-in fade-in duration-200">
-      <div className="flex flex-col w-full max-w-4xl max-h-[90vh] rounded-[32px] border border-slate-200/90 dark:border-slate-800/90 bg-[#F4F7FC] dark:bg-[#0B0F19] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden transition-all duration-300">
+      <div className="flex flex-col w-full max-w-4xl max-h-[90vh] rounded-[32px] border border-slate-200/90 dark:border-slate-800/90 bg-[#F4F1EA] dark:bg-[#151517] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden transition-all duration-300">
         
         {/* Header Bar */}
-        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-6 sm:px-8 py-5 bg-white/95 dark:bg-[#161E2E]/95 backdrop-blur-md">
+        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-6 sm:px-8 py-5 bg-white/95 dark:bg-[#1F1F23]/95 backdrop-blur-md">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-600 to-emerald-400 p-[1.5px] shadow-md shadow-indigo-500/20">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#151517] p-[1.5px]">
               <div className="flex h-full w-full items-center justify-center rounded-[14px] bg-slate-900 text-emerald-400">
                 <Compass className="h-5 w-5" />
               </div>
             </div>
             <div>
               <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
-                Katalog Kurikulum Eksekutif
+                Kurikulum
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                Pilih topik strategis untuk langsung membedah peta simpul ilmu di kanvas
+                Pilih jalur belajar, lalu buka petanya
               </p>
             </div>
           </div>
@@ -113,7 +113,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onClose, onSelectTop
         </div>
 
         {/* Search & Domain Filter Bar */}
-        <div className="px-6 sm:px-8 py-4 border-b border-slate-200/60 dark:border-slate-800/60 bg-white/80 dark:bg-[#161E2E]/80 space-y-3">
+        <div className="px-6 sm:px-8 py-4 border-b border-slate-200/60 dark:border-slate-800/60 bg-white/80 dark:bg-[#1F1F23]/80 space-y-3">
           <div className="relative">
             <input
               type="text"
@@ -137,7 +137,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onClose, onSelectTop
                 onClick={() => setSelectedDomain(domain)}
                 className={`rounded-xl px-3 py-1.5 font-bold transition-all shrink-0 ${
                   selectedDomain === domain
-                    ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-md shadow-indigo-500/20'
+                    ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#151517]'
                     : 'bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
@@ -148,7 +148,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onClose, onSelectTop
         </div>
 
         {/* Cards Grid: Luxury Destination iOS Cards */}
-        <div className="flex-1 overflow-y-auto p-6 sm:p-8">
+        <div className="flex-1 overflow-y-auto p-6 pb-28 sm:p-8 sm:pb-28">
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center text-slate-500 dark:text-slate-400">
               <Compass className="h-12 w-12 text-slate-400 mb-3 opacity-40 animate-pulse" />
@@ -172,7 +172,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onClose, onSelectTop
                       onSelectTopic(map.topic);
                       onClose();
                     }}
-                    className="group relative flex flex-col justify-between rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-[#161E2E] p-5 sm:p-6 shadow-[0_12px_30px_rgba(0,0,0,0.06)] hover:shadow-xl hover:border-indigo-500/50 hover:-translate-y-0.5 cursor-pointer transition-all duration-300 overflow-hidden"
+                    className="group relative flex flex-col justify-between rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-[#1F1F23] p-5 sm:p-6 shadow-[0_12px_30px_rgba(0,0,0,0.06)] hover:shadow-xl hover:border-indigo-500/50 hover:-translate-y-0.5 cursor-pointer transition-all duration-300 overflow-hidden"
                   >
                     <div>
                       {/* Top Badges */}

@@ -120,7 +120,7 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen w-full flex-col overflow-hidden bg-[#F8FAFC] dark:bg-[#070A11] font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300">
+    <div className="flex h-screen w-full flex-col overflow-hidden bg-[#FBF9F5] dark:bg-[#151517] font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300">
       
       {/* Header with Logo, Theme Toggle, Auth, and Live Stats */}
       <Header
@@ -132,11 +132,12 @@ const AppContent: React.FC = () => {
       />
 
       {/* Main Interactive Canvas */}
-      <main className="relative flex-1 overflow-hidden">
+      <main className="relative flex-1 overflow-y-auto">
         <MindmapCanvas
           data={currentMindmap}
           activeNode={activeReaderNode}
           onSelectNode={(node) => setActiveReaderNode(node)}
+          onStartQuiz={(node) => setActiveQuizNode(node)}
           onSearch={handleSearch}
           isLoading={isLoadingMindmap}
           presetQueries={PRESET_QUERIES}
@@ -153,6 +154,8 @@ const AppContent: React.FC = () => {
       {activeReaderNode && (
         <MicroReaderSheet
           node={activeReaderNode}
+          data={currentMindmap}
+          onNavigate={(node) => setActiveReaderNode(node)}
           onClose={() => setActiveReaderNode(null)}
           onStartQuiz={(node) => {
             setActiveReaderNode(null);
@@ -210,6 +213,12 @@ const AppContent: React.FC = () => {
           onClose={() => {
             setIsProfileOpen(false);
             setActiveTab('map');
+          }}
+          onOpenNode={(node, map) => {
+            setCurrentMindmap(map);
+            setIsProfileOpen(false);
+            setActiveTab('map');
+            setActiveReaderNode(node);
           }}
         />
       )}

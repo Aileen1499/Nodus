@@ -1,359 +1,274 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useUser } from '../../context/UserContext';
-import { 
-  X, 
-  Award, 
-  Sparkles, 
-  Flame, 
-  Zap, 
-  CheckCircle2, 
-  ShieldCheck, 
-  TrendingUp, 
-  Brain, 
-  Globe2, 
-  Briefcase,
-  Highlighter,
-  Trash2,
-  Copy,
-  Check,
-  Clock
-} from 'lucide-react';
+import { MindmapData, MindmapNode } from '../../types';
+import { allNodes, findNode } from '../../lib/nodeIndex';
+import { plain } from '../../lib/pathLogic';
+import { X, Search, Bookmark, Highlighter, Trash2, Copy, Check, ArrowRight, Flame, Clock, CheckCircle2 } from 'lucide-react';
 
 interface ProfileModalProps {
   onClose: () => void;
-  onSelectNodeById?: (nodeId: string) => void;
+  /** Open a lesson (and the curriculum it belongs to) from the vault. */
+  onOpenNode?: (node: MindmapNode, map: MindmapData) => void;
 }
 
-export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose }) => {
-  const { progress, highlights, removeHighlight } = useUser();
-  const [activeTab, setActiveTab] = useState<'overview' | 'highlights'>('overview');
+type VaultTab = 'overview' | 'saved' | 'notes';
+
+const RANKS = [
+  { title: 'Junior Analyst', from: 0, to: 200 },
+  { title: 'Strategic Operator', from: 200, to: 500 },
+  { title: 'Executive Architect', from: 500, to: 1000 },
+  { title: 'Grand Sovereign', from: 1000, to: 1000 },
+];
+
+const getRank = (rp: number) => {
+  const idx = RANKS.findIndex((r, i) => rp < r.to || i === RANKS.length - 1);
+  const current = RANKS[idx];
+  const next = RANKS[idx + 1];
+  const percent = next ? ((rp - current.from) / (current.to - current.from)) * 100 : 100;
+  return { current, next, percent: Math.max(0, Math.min(100, percent)), remaining: next ? current.to - rp : 0 };
+};
+
+const MARK_DOT: Record<string, string> = {
+  yellow: 'bg-[#E3A63A]',
+  emerald: 'bg-[#2E7D5B]',
+  indigo: 'bg-[#4A7BB5]',
+  rose: 'bg-[#C5506A]',
+};
+
+const formatDate = (iso: string) => {
+  try {
+    return new Date(iso).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+  } catch {
+    return '';
+  }
+};
+
+export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose, onOpenNode }) => {
+  const { progress, highlights, removeHighlight, bookmarkedNodeIds, toggleBookmark, isNodeMastered } = useUser();
+  const [tab, setTab] = useState<VaultTab>('overview');
+  const [query, setQuery] = useState('');
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  // Compute Rank Title based on RP
-  const getRankInfo = (rp: number) => {
-    if (rp < 200) {
-      return { title: 'Junior Analyst', nextLevel: 'Strategic Operator', nextTarget: 200, progressPercent: (rp / 200) * 100 };
-    }
-    if (rp < 500) {
-      return { title: 'Strategic Operator', nextLevel: 'Executive Architect', nextTarget: 500, progressPercent: ((rp - 200) / 300) * 100 };
-    }
-    if (rp < 1000) {
-      return { title: 'Executive Architect', nextLevel: 'Grand Sovereign', nextTarget: 1000, progressPercent: ((rp - 500) / 500) * 100 };
-    }
-    return { title: 'Grand Sovereign', nextLevel: 'Max Rank Achieved', nextTarget: 1000, progressPercent: 100 };
+  const rank = getRank(progress.rankPoints);
+  const q = query.trim().toLowerCase();
+
+  // Mastery per domain, across every curriculum
+  const domainMastery = useMemo(() => {
+    const rows = new Map<string, { total: number; done: number }>();
+    allNodes().forEach(({ node }) => {
+      const row = rows.get(node.domain) || { total: 0, done: 0 };
+      row.total += 1;
+      if (progress.masteredNodeIds.includes(node.id)) row.done += 1;
+      rows.set(node.domain, row);
+    });
+    return Array.from(rows.entries())
+      .map(([domain, v]) => ({ domain, ...v }))
+      .sort((a, b) => b.done - a.done || b.total - a.total);
+  }, [progress.masteredNodeIds]);
+
+  const masteredEntries = progress.masteredNodeIds.map((id) => findNode(id)).filter((e): e is NonNullable<typeof e> => !!e);
+  const savedEntries = bookmarkedNodeIds.map((id) => findNode(id)).filter((e): e is NonNullable<typeof e> => !!e);
+
+  const filteredSaved = savedEntries.filter(({ node }) => !q || node.label.toLowerCase().includes(q) || node.domain.toLowerCase().includes(q));
+  const filteredNotes = highlights.filter((h) => !q || h.text.toLowerCase().includes(q) || h.nodeTitle.toLowerCase().includes(q) || (h.note || '').toLowerCase().includes(q));
+
+  const open = (nodeId: string) => {
+    const entry = findNode(nodeId);
+    if (!entry || !onOpenNode) return;
+    onOpenNode(entry.node, entry.map);
   };
 
-  const rank = getRankInfo(progress.rankPoints);
-
-  const handleCopyQuote = (id: string, text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedId(id);
-    setTimeout(() => setCopiedId(null), 2000);
+  const copy = (id: string, text: string) => {
+    try {
+      navigator.clipboard.writeText(text);
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 1800);
+    } catch {
+      /* clipboard unavailable */
+    }
   };
 
-  // Badge list with unlock conditions
-  const badges = [
-    {
-      id: 'first-principles',
-      name: 'First Principles Pioneer',
-      desc: 'Membedah masalah ke hukum atomik dasar',
-      unlocked: progress.masteredNodeIds.some(id => id.includes('first-principles') || id.includes('musk') || id.includes('zhero')),
-      icon: Briefcase,
-      color: 'text-indigo-500 bg-indigo-500/10 border-indigo-500/30',
-    },
-    {
-      id: 'inflation-shield',
-      name: 'Anti-Inflation Shield',
-      desc: 'Memahami erosi nilai uang fiat & saham riil',
-      unlocked: progress.masteredNodeIds.some(id => id.includes('inflasi') || id.includes('macro')),
-      icon: TrendingUp,
-      color: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/30',
-    },
-    {
-      id: 'neuro-marketer',
-      name: 'Behavioral Alchemist',
-      desc: 'Menguasai Decoy Effect & Sensory Framing',
-      unlocked: progress.masteredNodeIds.some(id => id.includes('decoy') || id.includes('beh')),
-      icon: Brain,
-      color: 'text-rose-500 bg-rose-500/10 border-rose-500/30',
-    },
-    {
-      id: 'geopolitical-sovereign',
-      name: 'Geopolitik Navigator',
-      desc: 'Menguasai choke points & perang mata uang',
-      unlocked: progress.masteredNodeIds.some(id => id.includes('geo') || id.includes('choke') || id.includes('forex')),
-      icon: Globe2,
-      color: 'text-cyan-500 bg-cyan-500/10 border-cyan-500/30',
-    },
-    {
-      id: 'corporate-founder',
-      name: 'PT Corporate Architect',
-      desc: 'Mendirikan badan usaha & tata kelola legal',
-      unlocked: progress.masteredNodeIds.some(id => id.includes('corp') || id.includes('zhero-1')),
-      icon: Award,
-      color: 'text-amber-500 bg-amber-500/10 border-amber-500/30',
-    },
+  const tabs: { id: VaultTab; label: string; count?: number }[] = [
+    { id: 'overview', label: 'Ringkasan' },
+    { id: 'saved', label: 'Tersimpan', count: savedEntries.length },
+    { id: 'notes', label: 'Stabilo & Catatan', count: highlights.length },
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-5 backdrop-blur-xl animate-in fade-in duration-200">
-      <div className="flex flex-col w-full max-w-2xl max-h-[90vh] rounded-[32px] border border-slate-200/90 dark:border-slate-800/90 bg-[#F4F7FC] dark:bg-[#0B0F19] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden transition-colors duration-300">
-        
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-5 sm:px-6 py-4 bg-white/95 dark:bg-[#161E2E]/95">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-500 to-emerald-400 p-[1.5px]">
-              <div className="flex h-full w-full items-center justify-center rounded-[10px] bg-slate-900 text-emerald-400">
-                <Award className="h-5 w-5" />
-              </div>
-            </div>
+    <div className="fixed inset-0 z-50 flex items-stretch justify-center bg-black/50 sm:items-center sm:p-5" role="dialog" aria-modal="true" aria-label="Brankas pengetahuan">
+      <div className="flex h-full w-full max-w-2xl animate-sheet-up flex-col overflow-hidden bg-[#FBF9F5] shadow-float dark:bg-[#151517] sm:h-[90vh] sm:rounded-[28px]">
+        <header className="shrink-0 border-b border-slate-200/70 px-5 pb-3 pt-4 dark:border-white/10 sm:px-7">
+          <div className="flex items-start justify-between gap-3">
             <div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-slate-50">Profil Kognitif & Catatan</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Pencapaian mastery dan kalimat penting yang Anda stabilo</p>
+              <p className="eyebrow">Pengetahuan pribadi</p>
+              <h2 className="font-serif text-[1.75rem] font-medium leading-tight tracking-tight text-slate-900 dark:text-white">Brankas</h2>
             </div>
+            <button onClick={onClose} aria-label="Tutup" className="flex h-10 w-10 items-center justify-center rounded-full text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10">
+              <X className="h-5 w-5" />
+            </button>
           </div>
 
-          <button
-            onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors"
-          >
-            <X className="h-5 w-5" />
-          </button>
-        </div>
+          <div className="mt-3 flex items-center gap-1 overflow-x-auto scrollbar-none" role="tablist">
+            {tabs.map((t) => (
+              <button
+                key={t.id}
+                role="tab"
+                aria-selected={tab === t.id}
+                onClick={() => setTab(t.id)}
+                className={`chip ${tab === t.id ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#151517]' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-white/10'}`}
+              >
+                {t.label}
+                {t.count !== undefined && t.count > 0 && <span className="rounded-full bg-[#E3A63A] px-1.5 text-[10px] font-extrabold tabular-nums text-[#151517]">{t.count}</span>}
+              </button>
+            ))}
+          </div>
+        </header>
 
-        {/* Tab Navigation: Ringkasan Prestasi vs Catatan Pentingku */}
-        <div className="flex items-center gap-2 px-5 pt-3 pb-2 border-b border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-[#0B0F19]">
-          <button
-            onClick={() => setActiveTab('overview')}
-            className={`flex items-center gap-1.5 py-1.5 px-3.5 rounded-xl text-xs font-bold transition-all ${
-              activeTab === 'overview'
-                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20'
-                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
-            }`}
-          >
-            <Award className="h-3.5 w-3.5" />
-            <span>Prestasi & Status</span>
-          </button>
+        <div className="flex-1 overflow-y-auto px-5 pb-32 pt-5 sm:px-7">
+          {tab !== 'overview' && (
+            <label className="mb-4 flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 focus-within:border-[#CF8E1F] dark:border-white/10 dark:bg-white/5">
+              <Search className="h-4 w-4 text-slate-400" />
+              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={tab === 'saved' ? 'Cari konsep tersimpan…' : 'Cari stabilo atau catatan…'} aria-label="Cari di Brankas" className="min-w-0 flex-1 bg-transparent text-sm text-slate-900 placeholder-slate-400 focus:outline-none dark:text-white" />
+            </label>
+          )}
 
-          <button
-            onClick={() => setActiveTab('highlights')}
-            className={`flex items-center gap-1.5 py-1.5 px-3.5 rounded-xl text-xs font-bold transition-all ${
-              activeTab === 'highlights'
-                ? 'bg-amber-500 text-white shadow-md shadow-amber-500/20'
-                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
-            }`}
-          >
-            <Highlighter className="h-3.5 w-3.5" />
-            <span>Catatan Pentingku</span>
-            {highlights.length > 0 && (
-              <span className="ml-1 px-1.5 py-0.2 rounded-full bg-white/25 text-[10px]">
-                {highlights.length}
-              </span>
-            )}
-          </button>
-        </div>
+          {tab === 'overview' && (
+            <div className="space-y-5">
+              <section className="rounded-3xl bg-[#151517] p-5 text-white">
+                <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#E3A63A]">Tingkat saat ini</p>
+                <div className="mt-1 flex items-end justify-between gap-3">
+                  <h3 className="font-serif text-2xl font-medium">{rank.current.title}</h3>
+                  <span className="text-sm font-bold tabular-nums text-[#E3A63A]">{progress.rankPoints} RP</span>
+                </div>
+                <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/15" role="progressbar" aria-valuenow={Math.round(rank.percent)} aria-valuemin={0} aria-valuemax={100} aria-label="Progres tingkat">
+                  <div className="h-full rounded-full bg-[#E3A63A] transition-all duration-500" style={{ width: `${rank.percent}%` }} />
+                </div>
+                <p className="mt-2 text-xs font-medium text-slate-300">{rank.next ? `${rank.remaining} RP lagi menuju ${rank.next.title}` : 'Tingkat tertinggi tercapai'}</p>
+              </section>
 
-        {/* Content Body */}
-        <div className="flex-1 overflow-y-auto p-5 space-y-6">
-          
-          {activeTab === 'overview' ? (
-            <>
-              {/* Rank & Level Banner */}
-              <div className="rounded-2xl border border-indigo-500/30 bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-emerald-500/10 p-5">
-                <div className="flex items-center justify-between mb-2">
-                  <div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
-                      Tingkat Keahlian Kognitif
-                    </span>
-                    <h4 className="text-xl font-extrabold text-slate-900 dark:text-white mt-0.5">
-                      {rank.title}
-                    </h4>
+              <section className="grid grid-cols-3 gap-2.5">
+                {[
+                  { icon: Flame, value: `${progress.streak}`, label: 'Hari beruntun' },
+                  { icon: CheckCircle2, value: `${progress.masteredNodeIds.length}`, label: 'Simpul dikuasai' },
+                  { icon: Clock, value: `${Math.round(progress.totalStudyMinutes || 0)}m`, label: 'Waktu belajar' },
+                ].map((s) => (
+                  <div key={s.label} className="rounded-2xl bg-white p-3.5 text-center shadow-card ring-1 ring-slate-200/70 dark:bg-white/5 dark:shadow-none dark:ring-white/10">
+                    <s.icon className="mx-auto h-5 w-5 text-[#CF8E1F]" />
+                    <p className="mt-1.5 text-xl font-extrabold tabular-nums text-slate-900 dark:text-white">{s.value}</p>
+                    <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">{s.label}</p>
                   </div>
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-amber-500/40 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold text-sm">
-                    <Sparkles className="h-4 w-4" />
-                    <span>{progress.rankPoints} RP</span>
-                  </div>
-                </div>
+                ))}
+              </section>
 
-                {/* Rank Progress Bar */}
-                <div className="mt-3 space-y-1.5">
-                  <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-                    <span>Progress ke {rank.nextLevel}</span>
-                    <span className="font-semibold">{Math.min(100, Math.round(rank.progressPercent))}%</span>
-                  </div>
-                  <div className="h-2.5 w-full rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-emerald-400 transition-all duration-500"
-                      style={{ width: `${Math.min(100, rank.progressPercent)}%` }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Quick Stats Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-3 text-center">
-                  <Flame className="h-5 w-5 text-rose-500 mx-auto mb-1 animate-bounce" />
-                  <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white">{progress.streak} Hari</div>
-                  <div className="text-[10px] text-slate-500 dark:text-slate-400">Daily Streak</div>
-                </div>
-
-                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-3 text-center">
-                  <CheckCircle2 className="h-5 w-5 text-emerald-500 mx-auto mb-1" />
-                  <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white">{progress.masteredNodeIds.length} Simpul</div>
-                  <div className="text-[10px] text-slate-500 dark:text-slate-400">Dikuasai Penuh</div>
-                </div>
-
-                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-3 text-center">
-                  <Clock className="h-5 w-5 text-sky-500 mx-auto mb-1" />
-                  <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
-                    {progress.totalStudyMinutes ? `${Math.round(progress.totalStudyMinutes)}m` : '0m'}
-                  </div>
-                  <div className="text-[10px] text-slate-500 dark:text-slate-400">Waktu Belajar</div>
-                </div>
-
-                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-3 text-center">
-                  <Zap className="h-5 w-5 text-indigo-500 mx-auto mb-1" />
-                  <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white">{progress.credits} Token</div>
-                  <div className="text-[10px] text-slate-500 dark:text-slate-400">AI Deep-Dive</div>
-                </div>
-              </div>
-
-              {/* Achievement Badges Section */}
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
-                    Lencana Prestasi Eksekutif
-                  </h4>
-                  <span className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold">
-                    {badges.filter(b => b.unlocked).length} dari {badges.length} Terbuka
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {badges.map((badge) => {
-                    const Icon = badge.icon;
-                    return (
-                      <div
-                        key={badge.id}
-                        className={`flex items-start gap-3 rounded-2xl border p-3.5 transition-all ${
-                          badge.unlocked
-                            ? 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 shadow-sm'
-                            : 'border-slate-200/50 dark:border-slate-800/40 bg-slate-100/50 dark:bg-slate-900/20 opacity-50'
-                        }`}
-                      >
-                        <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border ${badge.color}`}>
-                          <Icon className="h-4 w-4" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-1.5">
-                            <h5 className="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
-                              {badge.name}
-                            </h5>
-                            {badge.unlocked && (
-                              <ShieldCheck className="h-3 w-3 text-emerald-500 shrink-0" />
-                            )}
-                          </div>
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug mt-0.5 line-clamp-2">
-                            {badge.desc}
-                          </p>
-                        </div>
+              <section>
+                <h3 className="mb-1 text-base font-extrabold text-slate-900 dark:text-white">Penguasaan per domain</h3>
+                <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">Dihitung dari simpul yang lulus Cek Paham, bukan dari materi yang sekadar dibuka.</p>
+                <ul className="space-y-3">
+                  {domainMastery.map((row) => (
+                    <li key={row.domain}>
+                      <div className="mb-1 flex items-center justify-between text-sm font-semibold text-slate-800 dark:text-slate-100">
+                        <span>{row.domain}</span>
+                        <span className="text-xs tabular-nums text-slate-500 dark:text-slate-400">{row.done} / {row.total}</span>
                       </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </>
-          ) : (
-            /* Highlights / Catatan Pentingku View */
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="text-sm font-black text-slate-900 dark:text-white">
-                    Koleksi Kalimat Penting (Stabilo)
-                  </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Kutipan emas yang Anda sorot di Micro-Reader tersimpan di sini
-                  </p>
-                </div>
-                <span className="text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/30">
-                  {highlights.length} Catatan
-                </span>
-              </div>
-
-              {highlights.length === 0 ? (
-                <div className="rounded-3xl border border-dashed border-slate-300 dark:border-slate-800 p-8 text-center space-y-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/15 text-amber-500 mx-auto">
-                    <Highlighter className="h-6 w-6" />
-                  </div>
-                  <h5 className="text-sm font-bold text-slate-800 dark:text-slate-200">
-                    Belum Ada Kalimat yang Di-Stabilo
-                  </h5>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto leading-relaxed">
-                    Buka materi apapun di kanvas, lalu sorot teks dengan mouse atau jari Anda untuk menandai kalimat penting dengan stabilo.
-                  </p>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {highlights.map((hl) => {
-                    const colorStyle = hl.color === 'emerald'
-                      ? { card: 'border-emerald-500/30 bg-emerald-50/20 dark:bg-slate-900/70', badge: 'text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/70', border: 'border-emerald-400' }
-                      : hl.color === 'indigo'
-                      ? { card: 'border-indigo-500/30 bg-indigo-50/20 dark:bg-slate-900/70', badge: 'text-indigo-700 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-950/70', border: 'border-indigo-400' }
-                      : hl.color === 'rose'
-                      ? { card: 'border-rose-500/30 bg-rose-50/20 dark:bg-slate-900/70', badge: 'text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-950/70', border: 'border-rose-400' }
-                      : { card: 'border-amber-500/30 bg-amber-50/20 dark:bg-slate-900/70', badge: 'text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/70', border: 'border-amber-400' };
-
-                    return (
-                      <div
-                        key={hl.id}
-                        className={`rounded-2xl border p-4 shadow-sm space-y-2 relative group transition-all ${colorStyle.card}`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-1.5">
-                            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${colorStyle.badge}`}>
-                              {hl.domain}
-                            </span>
-                            <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate max-w-[200px] sm:max-w-[280px]">
-                              {hl.nodeTitle}
-                            </span>
-                          </div>
-
-                          <div className="flex items-center gap-1">
-                            <button
-                              onClick={() => handleCopyQuote(hl.id, hl.text)}
-                              className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
-                              title="Salin Kalimat"
-                            >
-                              {copiedId === hl.id ? (
-                                <Check className="h-3.5 w-3.5 text-emerald-500" />
-                              ) : (
-                                <Copy className="h-3.5 w-3.5" />
-                              )}
-                            </button>
-                            <button
-                              onClick={() => removeHighlight(hl.id)}
-                              className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
-                              title="Hapus Stabilo"
-                            >
-                              <Trash2 className="h-3.5 w-3.5" />
-                            </button>
-                          </div>
-                        </div>
-
-                        <p className={`text-xs sm:text-sm leading-relaxed text-slate-800 dark:text-slate-100 font-serif italic border-l-2 pl-3 py-0.5 ${colorStyle.border}`}>
-                          "{hl.text}"
-                        </p>
+                      <div className="h-2 overflow-hidden rounded-full bg-slate-200/80 dark:bg-white/10">
+                        <div className="h-full rounded-full bg-emerald-500 transition-all duration-500" style={{ width: `${Math.round((row.done / Math.max(1, row.total)) * 100)}%` }} />
                       </div>
-                    );
-                  })}
-                </div>
-              )}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
+              <section>
+                <h3 className="mb-1 text-base font-extrabold text-slate-900 dark:text-white">Ulangi untuk mengingat</h3>
+                <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">Materi yang sudah dikuasai. Uji ulang berkala menjaga ingatan; jadwal otomatis belum tersedia.</p>
+                {masteredEntries.length === 0 ? (
+                  <p className="rounded-2xl border border-dashed border-slate-300 p-5 text-center text-sm text-slate-500 dark:border-white/15 dark:text-slate-400">Belum ada simpul yang dikuasai. Selesaikan Cek Paham pertamamu dari tab Peta.</p>
+                ) : (
+                  <ul className="space-y-2">
+                    {masteredEntries.slice(0, 4).map(({ node }) => (
+                      <li key={node.id}>
+                        <button onClick={() => open(node.id)} className="flex w-full items-center gap-3 rounded-2xl bg-white p-3.5 text-left shadow-card ring-1 ring-slate-200/70 transition-colors hover:ring-[#E3A63A] dark:bg-white/5 dark:shadow-none dark:ring-white/10">
+                          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-white"><Check className="h-4 w-4" strokeWidth={3} /></span>
+                          <span className="min-w-0 flex-1">
+                            <span className="eyebrow block">{node.stepNumber || node.domain}</span>
+                            <span className="block truncate text-sm font-bold text-slate-900 dark:text-white">{node.label}</span>
+                          </span>
+                          <ArrowRight className="h-4 w-4 shrink-0 text-slate-400" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </section>
             </div>
           )}
 
-        </div>
+          {tab === 'saved' && (
+            filteredSaved.length === 0 ? (
+              <div className="rounded-3xl border border-dashed border-slate-300 p-8 text-center dark:border-white/15">
+                <Bookmark className="mx-auto h-8 w-8 text-slate-400" />
+                <h3 className="mt-3 text-base font-extrabold text-slate-900 dark:text-white">{savedEntries.length === 0 ? 'Belum ada konsep tersimpan' : 'Tidak ada hasil'}</h3>
+                <p className="mx-auto mt-1 max-w-xs text-sm text-slate-500 dark:text-slate-400">{savedEntries.length === 0 ? 'Ketuk ikon penanda pada simpul atau di halaman baca untuk menyimpannya di sini.' : 'Coba kata kunci lain.'}</p>
+              </div>
+            ) : (
+              <ul className="space-y-2.5">
+                {filteredSaved.map(({ node, map }) => (
+                  <li key={node.id} className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-card ring-1 ring-slate-200/70 dark:bg-white/5 dark:shadow-none dark:ring-white/10">
+                    <button onClick={() => open(node.id)} className="min-w-0 flex-1 text-left">
+                      <span className="eyebrow block">{node.domain}{isNodeMastered(node.id) ? ' • Dikuasai' : ''}</span>
+                      <span className="mt-0.5 block text-[15px] font-bold leading-snug text-slate-900 dark:text-white">{node.label}</span>
+                      <span className="mt-0.5 block truncate text-xs text-slate-500 dark:text-slate-400">{map.topic}</span>
+                    </button>
+                    <button onClick={() => toggleBookmark(node.id)} aria-label="Hapus dari tersimpan" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E3A63A] text-[#151517]">
+                      <Bookmark className="h-4 w-4" fill="currentColor" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )
+          )}
 
+          {tab === 'notes' && (
+            filteredNotes.length === 0 ? (
+              <div className="rounded-3xl border border-dashed border-slate-300 p-8 text-center dark:border-white/15">
+                <Highlighter className="mx-auto h-8 w-8 text-slate-400" />
+                <h3 className="mt-3 text-base font-extrabold text-slate-900 dark:text-white">{highlights.length === 0 ? 'Belum ada stabilo' : 'Tidak ada hasil'}</h3>
+                <p className="mx-auto mt-1 max-w-xs text-sm text-slate-500 dark:text-slate-400">{highlights.length === 0 ? 'Buka materi, sorot kalimat penting, dan tambahkan catatan. Semuanya terkumpul di sini.' : 'Coba kata kunci lain.'}</p>
+              </div>
+            ) : (
+              <ul className="space-y-3">
+                {filteredNotes.map((hl) => (
+                  <li key={hl.id} className="rounded-2xl bg-white p-4 shadow-card ring-1 ring-slate-200/70 dark:bg-white/5 dark:shadow-none dark:ring-white/10">
+                    <div className="flex items-start gap-3">
+                      <span aria-hidden className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${MARK_DOT[hl.color] || MARK_DOT.yellow}`} />
+                      <div className="min-w-0 flex-1">
+                        <p className="font-serif text-[1.0625rem] leading-relaxed text-slate-800 dark:text-slate-100">“{plain(hl.text)}”</p>
+                        {hl.note && (
+                          <p className="mt-2 rounded-xl bg-slate-100 px-3 py-2 text-sm leading-relaxed text-slate-700 dark:bg-white/10 dark:text-slate-200"><span className="font-bold">Catatanku: </span>{hl.note}</p>
+                        )}
+                        <div className="mt-3 flex items-center justify-between gap-2">
+                          <button onClick={() => open(hl.nodeId)} disabled={!findNode(hl.nodeId)} className="inline-flex min-w-0 items-center gap-1 text-xs font-bold text-[#9A6410] disabled:opacity-50 dark:text-[#E9C06B]">
+                            <span className="truncate">{hl.nodeTitle}</span>
+                            <ArrowRight className="h-3 w-3 shrink-0" />
+                          </button>
+                          <span className="flex shrink-0 items-center gap-0.5">
+                            <span className="mr-1 text-[11px] text-slate-400">{formatDate(hl.createdAt)}</span>
+                            <button onClick={() => copy(hl.id, hl.text)} aria-label="Salin kalimat" className="flex h-8 w-8 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-white/10">
+                              {copiedId === hl.id ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
+                            </button>
+                            <button onClick={() => removeHighlight(hl.id)} aria-label="Hapus stabilo" className="flex h-8 w-8 items-center justify-center rounded-full text-slate-500 hover:bg-rose-50 hover:text-rose-600 dark:hover:bg-rose-500/10">
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )
+          )}
+        </div>
       </div>
     </div>
   );

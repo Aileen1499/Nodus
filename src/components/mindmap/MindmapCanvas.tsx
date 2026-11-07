@@ -2,86 +2,191 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { MindmapData, MindmapNode } from '../../types';
 import { useUser } from '../../context/UserContext';
 import { useTheme } from '../../context/ThemeContext';
-import {
-  Search,
-  Sparkles,
-  ZoomIn,
-  ZoomOut,
-  RotateCcw,
-  Layers,
-  ArrowRight,
-  BookOpen,
-  Compass,
-  ChevronDown,
-  ChevronUp
-} from 'lucide-react';
+import { Search, Sparkles, ArrowRight, BookOpen, Layers, Minus, Plus, Check } from 'lucide-react';
+import { NodeState, countMastered, getNodeState, getRecommendedNode, plain } from '../../lib/pathLogic';
+import { NodeDetailCard } from './NodeDetailCard';
+import { LearningPath } from './LearningPath';
 
 interface MindmapCanvasProps {
   data: MindmapData;
   activeNode: MindmapNode | null;
+  /** Opens the reading experience for a node. */
   onSelectNode: (node: MindmapNode) => void;
+  onStartQuiz?: (node: MindmapNode) => void;
   onSearch: (query: string) => void;
   isLoading: boolean;
   presetQueries: string[];
 }
 
-export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
-  data,
-  activeNode,
-  onSelectNode,
-  onSearch,
-  isLoading,
-  presetQueries,
-}) => {
+const NODE_W = 212;
+const NODE_H = 64;
+const MIN_SCALE = 0.35;
+const MAX_SCALE = 2.2;
+
+const DOMAIN_FILTERS = [
+  { id: 'all', label: 'Semua' },
+  { id: 'Bisnis', label: 'Bisnis & Legal' },
+  { id: 'Ekonomi', label: 'Makroekonomi' },
+  { id: 'Psikologi', label: 'Psikologi' },
+  { id: 'Keuangan', label: 'Keuangan' },
+  { id: 'Geopolitik', label: 'Geopolitik' },
+  { id: 'Komunikasi', label: 'Komunikasi' },
+  { id: 'Pajak', label: 'Pajak' },
+];
+
+type Point = { x: number; y: number };
+type VisualState = NodeState | 'current';
+const clamp = (v: number, min: number, max: number) => Math.min(Math.max(v, min), max);
+
+/** Greedy word wrap for SVG text (SVG has no automatic wrapping). */
+const wrapTitle = (text: string, max: number, maxLines = 2): string[] => {
+  const words = plain(text).trim().split(/\s+/);
+  const lines: string[] = [];
+  let line = '';
+  for (const word of words) {
+    const candidate = line ? `${line} ${word}` : word;
+    if (candidate.length <= max) { line = candidate; continue; }
+    if (line) { lines.push(line); line = ''; }
+    if (lines.length === maxLines) {
+      lines[maxLines - 1] = lines[maxLines - 1].slice(0, max - 1).trimEnd() + '…';
+      return lines;
+    }
+    line = word.length > max ? word.slice(0, max - 1) + '…' : word;
+  }
+  if (line) lines.push(line);
+  if (lines.length > maxLines) {
+    lines.length = maxLines;
+    lines[maxLines - 1] = lines[maxLines - 1].slice(0, max - 1).trimEnd() + '…';
+  }
+  return lines;
+};
+
+/** Smooth connector leaving/entering on the sides that face each other. */
+const buildEdge = (a: Point, b: Point): { d: string; mid: Point } => {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  if (Math.abs(dx) >= Math.abs(dy)) {
+    const dir = dx >= 0 ? 1 : -1;
+    const sx = a.x + (dir * NODE_W) / 2;
+    const tx = b.x - (dir * NODE_W) / 2;
+    const mx = (sx + tx) / 2;
+    return { d: `M ${sx} ${a.y} C ${mx} ${a.y}, ${mx} ${b.y}, ${tx} ${b.y}`, mid: { x: mx, y: (a.y + b.y) / 2 } };
+  }
+  const dir = dy >= 0 ? 1 : -1;
+  const sy = a.y + (dir * NODE_H) / 2;
+  const ty = b.y - (dir * NODE_H) / 2;
+  const my = (sy + ty) / 2;
+  return { d: `M ${a.x} ${sy} C ${a.x} ${my}, ${b.x} ${my}, ${b.x} ${ty}`, mid: { x: (a.x + b.x) / 2, y: my } };
+};
+
+export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, onSelectNode, onStartQuiz, onSearch, isLoading, presetQueries }) => {
   const { isNodeMastered } = useUser();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
   const [searchInput, setSearchInput] = useState('');
   const [domainFilter, setDomainFilter] = useState<string>('all');
-  const [isInputFocused, setIsInputFocused] = useState(false);
-  const [isBannerVisible, setIsBannerVisible] = useState(true);
+  const [view, setView] = useState<'graph' | 'path'>('graph');
+  const [showPresets, setShowPresets] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  // Viewport Pan & Zoom state
   const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
   const [isPanning, setIsPanning] = useState(false);
-  const [panStart, setPanStart] = useState({ x: 0, y: 0 });
+  const [panStart, setPanStart] = useState<Point>({ x: 0, y: 0 });
+  const pinchRef = useRef<{ dist: number; scale: number } | null>(null);
 
-  // Draggable node state
   const [draggingNodeId, setDraggingNodeId] = useState<string | null>(null);
-  const [nodePositions, setNodePositions] = useState<Record<string, { x: number; y: number }>>({});
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-
+  const [nodePositions, setNodePositions] = useState<Record<string, Point>>({});
+  const [dragOffset, setDragOffset] = useState<Point>({ x: 0, y: 0 });
+  const dragOrigin = useRef<Point>({ x: 0, y: 0 });
+  const dragMoved = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const svgRef = useRef<SVGSVGElement>(null);
 
-  // Initialize and synchronize node positions from data
+  const hasNodes = !!data.nodes && data.nodes.length > 0;
+  const recommended = hasNodes ? getRecommendedNode(data, isNodeMastered) : undefined;
+  const selectedNode = (selectedId && data.nodes.find((n) => n.id === selectedId)) || recommended;
+  const masteredCount = countMastered(data, isNodeMastered);
+
+  const fitTo = useCallback(
+    (positions: Record<string, Point>) => {
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (!rect || rect.width === 0 || data.nodes.length === 0) return null;
+      const xs = data.nodes.map((n) => positions[n.id]?.x ?? n.x);
+      const ys = data.nodes.map((n) => positions[n.id]?.y ?? n.y);
+      const minX = Math.min(...xs) - NODE_W / 2 - 28;
+      const maxX = Math.max(...xs) + NODE_W / 2 + 28;
+      const minY = Math.min(...ys) - NODE_H / 2 - 28;
+      const maxY = Math.max(...ys) + NODE_H / 2 + 28;
+      const scale = clamp(Math.min(rect.width / (maxX - minX), rect.height / (maxY - minY)), MIN_SCALE, 1.15);
+      return { scale, x: rect.width / 2 - ((minX + maxX) / 2) * scale, y: rect.height / 2 - ((minY + maxY) / 2) * scale };
+    },
+    [data]
+  );
+
+  const focusPoint = useCallback((point: Point, scale: number) => {
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    setTransform({ x: rect.width / 2 - point.x * scale, y: rect.height / 2 - point.y * scale, scale });
+  }, []);
+
+  /** Whole map if it stays readable, otherwise zoom in on where the learner is. */
+  const frameInitialView = useCallback(
+    (positions: Record<string, Point>) => {
+      const fit = fitTo(positions);
+      if (fit && fit.scale >= 0.8) { setTransform(fit); return; }
+      const start = recommended || data.nodes[0];
+      if (start) focusPoint(positions[start.id] || { x: start.x, y: start.y }, 0.95);
+      else if (fit) setTransform(fit);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [fitTo, focusPoint, data]
+  );
+
   useEffect(() => {
-    const positions: Record<string, { x: number; y: number }> = {};
-    data.nodes.forEach((node) => {
-      positions[node.id] = { x: node.x, y: node.y };
-    });
+    const positions: Record<string, Point> = {};
+    data.nodes.forEach((n) => { positions[n.id] = { x: n.x, y: n.y }; });
     setNodePositions(positions);
-    centerViewOnRoot();
-  }, [data]);
+    setSelectedId(null);
+    setDomainFilter('all');
+    if (view !== 'graph') return;
+    const frame = requestAnimationFrame(() => frameInitialView(positions));
+    return () => cancelAnimationFrame(frame);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, view]);
 
-  const centerViewOnRoot = useCallback(() => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const rootNode = data.nodes.find((n) => n.id === data.rootId) || data.nodes[0];
-    const rootX = rootNode ? rootNode.x : 400;
-    const rootY = rootNode ? rootNode.y : 280;
-
-    const initialScale = rect.width < 640 ? 0.72 : 0.95;
-    const targetX = rect.width / 2 - rootX * initialScale;
-    const targetY = rect.height / 2 - rootY * initialScale;
-
-    setTransform({
-      x: targetX,
-      y: targetY,
-      scale: initialScale,
+  const zoomBy = (factor: number) => {
+    const rect = containerRef.current?.getBoundingClientRect();
+    setTransform((prev) => {
+      const scale = clamp(prev.scale * factor, MIN_SCALE, MAX_SCALE);
+      if (!rect) return { ...prev, scale };
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const wx = (cx - prev.x) / prev.scale;
+      const wy = (cy - prev.y) / prev.scale;
+      return { scale, x: cx - wx * scale, y: cy - wy * scale };
     });
-  }, [data]);
+  };
+
+  // Non-passive wheel listener: zoom the canvas without scrolling the page
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const factor = Math.exp(-e.deltaY * 0.0015);
+      setTransform((prev) => {
+        const scale = clamp(prev.scale * factor, MIN_SCALE, MAX_SCALE);
+        const rect = el.getBoundingClientRect();
+        const px = e.clientX - rect.left;
+        const py = e.clientY - rect.top;
+        const wx = (px - prev.x) / prev.scale;
+        const wy = (py - prev.y) / prev.scale;
+        return { scale, x: px - wx * scale, y: py - wy * scale };
+      });
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, [view, hasNodes]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,676 +194,347 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({
     onSearch(searchInput.trim());
   };
 
-  const handleZoom = (delta: number) => {
-    setTransform((prev) => {
-      const newScale = Math.min(Math.max(0.4, prev.scale + delta), 2.2);
-      return { ...prev, scale: newScale };
-    });
-  };
-
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    const zoomFactor = -e.deltaY * 0.0012;
-    setTransform((prev) => {
-      const newScale = Math.min(Math.max(0.4, prev.scale + zoomFactor), 2.2);
-      return { ...prev, scale: newScale };
-    });
-  };
-
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (draggingNodeId) return;
-    if (e.button === 0) {
-      setIsPanning(true);
-      setPanStart({ x: e.clientX - transform.x, y: e.clientY - transform.y });
-    }
+    if (draggingNodeId || e.button !== 0) return;
+    setIsPanning(true);
+    setPanStart({ x: e.clientX - transform.x, y: e.clientY - transform.y });
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (draggingNodeId) {
-      const newX = (e.clientX - transform.x) / transform.scale - dragOffset.x;
-      const newY = (e.clientY - transform.y) / transform.scale - dragOffset.y;
-      setNodePositions((prev) => ({
-        ...prev,
-        [draggingNodeId]: { x: Math.round(newX), y: Math.round(newY) },
-      }));
+      if (Math.hypot(e.clientX - dragOrigin.current.x, e.clientY - dragOrigin.current.y) > 4) dragMoved.current = true;
+      if (!dragMoved.current) return;
+      const x = (e.clientX - transform.x) / transform.scale - dragOffset.x;
+      const y = (e.clientY - transform.y) / transform.scale - dragOffset.y;
+      setNodePositions((prev) => ({ ...prev, [draggingNodeId]: { x: Math.round(x), y: Math.round(y) } }));
       return;
     }
-
-    if (isPanning) {
-      setTransform((prev) => ({
-        ...prev,
-        x: e.clientX - panStart.x,
-        y: e.clientY - panStart.y,
-      }));
-    }
+    if (isPanning) setTransform((prev) => ({ ...prev, x: e.clientX - panStart.x, y: e.clientY - panStart.y }));
   };
 
-  const handleMouseUp = () => {
-    setIsPanning(false);
-    setDraggingNodeId(null);
-  };
+  const handleMouseUp = () => { setIsPanning(false); setDraggingNodeId(null); };
+
+  const touchDistance = (e: React.TouchEvent) =>
+    Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    if (e.touches.length === 1 && !draggingNodeId) {
-      const touch = e.touches[0];
+    if (e.touches.length === 2) {
+      pinchRef.current = { dist: touchDistance(e), scale: transform.scale };
+      setIsPanning(false);
+    } else if (e.touches.length === 1) {
+      const t = e.touches[0];
       setIsPanning(true);
-      setPanStart({ x: touch.clientX - transform.x, y: touch.clientY - transform.y });
+      setPanStart({ x: t.clientX - transform.x, y: t.clientY - transform.y });
     }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (e.touches.length === 1 && isPanning) {
-      const touch = e.touches[0];
-      setTransform((prev) => ({
-        ...prev,
-        x: touch.clientX - panStart.x,
-        y: touch.clientY - panStart.y,
-      }));
+    if (e.touches.length === 2 && pinchRef.current) {
+      const p = pinchRef.current;
+      const scale = clamp((p.scale * touchDistance(e)) / p.dist, MIN_SCALE, MAX_SCALE);
+      setTransform((prev) => ({ ...prev, scale }));
+    } else if (e.touches.length === 1 && isPanning) {
+      const t = e.touches[0];
+      setTransform((prev) => ({ ...prev, x: t.clientX - panStart.x, y: t.clientY - panStart.y }));
     }
   };
 
-  const handleTouchEnd = () => {
-    setIsPanning(false);
+  const handleTouchEnd = () => { setIsPanning(false); pinchRef.current = null; };
+
+  const handleNodeActivate = (node: MindmapNode) => {
+    if (dragMoved.current) { dragMoved.current = false; return; }
+    setSelectedId(node.id);
   };
 
-  // Node Lock/Unlock Logic:
-  const isNodeLocked = (node: MindmapNode): boolean => {
-    if (node.level === 0 || node.id === data.rootId) return false;
-    if (isNodeMastered(node.id)) return false;
-
-    // Prerequisite step condition (e.g. Langkah 1.2 requires Langkah 1.1)
-    if (node.prerequisiteId) {
-      return !isNodeMastered(node.prerequisiteId);
-    }
-
-    const rootMastered = isNodeMastered(data.rootId);
-    if (rootMastered) return false;
-
-    const incomingEdges = data.edges.filter((e) => e.to === node.id);
-    if (incomingEdges.length === 0) return false;
-    return !incomingEdges.some((e) => isNodeMastered(e.from));
+  const c = {
+    dot: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(21,21,23,0.10)',
+    cardFill: isDark ? '#26262A' : '#FFFFFF',
+    cardStroke: isDark ? '#3A3A3F' : '#D6D1C5',
+    masteredFill: isDark ? '#16352A' : '#EAF6F0',
+    lockedFill: isDark ? '#1B1B1E' : '#F4F1EA',
+    lockedStroke: isDark ? '#2E2E32' : '#E8E4DB',
+    ink: isDark ? '#FBF9F5' : '#151517',
+    muted: isDark ? '#918C80' : '#6E695E',
+    line: isDark ? '#4A4A50' : '#C9C3B6',
+    gold: '#E3A63A',
+    goldDeep: isDark ? '#E9C06B' : '#9A6410',
+    green: '#2E7D5B',
+    greenText: isDark ? '#7BD9AE' : '#1F5640',
   };
 
-  // Empty state check
-  const hasNodes = data.nodes && data.nodes.length > 0;
-  const startingNode = data.nodes.find((n) => n.id === data.rootId) || data.nodes[0];
-  const isStartingNodeMastered = startingNode ? isNodeMastered(startingNode.id) : false;
+  const visualState = (node: MindmapNode): VisualState => {
+    const state = getNodeState(node, data, isNodeMastered);
+    return state === 'available' && recommended?.id === node.id ? 'current' : state;
+  };
+
+  const stateLabel: Record<VisualState, string> = { mastered: 'dikuasai', current: 'sedang dipelajari', available: 'siap dipelajari', locked: 'terkunci' };
+
+  const controlChip = (active: boolean) =>
+    `chip border ${
+      active
+        ? 'border-[#151517] bg-[#151517] text-[#FBF9F5] dark:border-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#151517]'
+        : 'border-slate-200 bg-white text-slate-600 hover:text-slate-900 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:text-white'
+    }`;
 
   return (
-    <div className="relative flex flex-1 flex-col h-[calc(100vh-4rem)] pb-14 md:pb-0 w-full overflow-hidden bg-[#F8FAFC] dark:bg-[#070A11] transition-colors duration-300 select-none">
+    <div className="mx-auto w-full max-w-5xl px-4 pb-36 pt-4 sm:px-6">
+      <div className="space-y-3">
+        <form onSubmit={handleSearchSubmit} role="search" className="flex items-center gap-2 rounded-full border border-slate-200/80 bg-white p-1.5 pl-4 shadow-card focus-within:border-[#CF8E1F] dark:border-white/10 dark:bg-[#1F1F23] dark:shadow-none">
+          <Search className="h-4 w-4 shrink-0 text-slate-400" />
+          <input
+            type="text"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            aria-label="Cari topik atau tanyakan apa pun"
+            placeholder="Cari topik atau tanyakan apa pun…"
+            className="min-w-0 flex-1 bg-transparent py-2 text-sm text-slate-900 placeholder-slate-400 focus:outline-none dark:text-white"
+          />
+          <button type="submit" disabled={isLoading || !searchInput.trim()} className="btn-gold !px-4 !py-2 text-sm">
+            {isLoading ? <Sparkles className="h-4 w-4 animate-spin" /> : (<><span>Bedah</span><ArrowRight className="h-4 w-4" /></>)}
+          </button>
+        </form>
 
-      {/* Top Floating Bar: Search, Preset Chips & Domain Filters */}
-      <div className="absolute top-3 sm:top-4 left-0 right-0 z-20 mx-auto w-full max-w-4xl px-3 sm:px-4 pointer-events-none">
-        <div className="flex flex-col gap-2 pointer-events-auto">
-
-          {/* Main Search Bar with Glowing Effect */}
-          <form onSubmit={handleSearchSubmit} className="relative flex w-full items-center">
-            <div className={`relative flex w-full items-center transition-all duration-300 rounded-2xl ${
-              isInputFocused ? 'ring-4 ring-indigo-500/25 shadow-xl shadow-indigo-500/15' : 'shadow-lg'
-            }`}>
-              <input
-                type="text"
-                value={searchInput}
-                onFocus={() => setIsInputFocused(true)}
-                onBlur={() => setIsInputFocused(false)}
-                onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="Cari topik atau tanyakan apapun (misal: 'Kenapa Elon Musk Bisa Kaya?')..."
-                className="w-full rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/95 dark:bg-[#0B0F19]/95 py-3 sm:py-3.5 pl-11 pr-24 sm:pr-28 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 backdrop-blur-xl transition-all focus:border-indigo-500 focus:outline-none"
-              />
-              <Search className="absolute left-4 h-4 w-4 text-slate-400" />
-
+        <div className="-mx-4 flex items-center gap-2 overflow-x-auto px-4 pb-0.5 scrollbar-none sm:mx-0 sm:px-0" role="group" aria-label="Filter domain">
+          {DOMAIN_FILTERS.map((cat) => {
+            const selected = domainFilter === cat.id;
+            return (
               <button
-                type="submit"
-                disabled={isLoading || !searchInput.trim()}
-                className="absolute right-2 flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-emerald-500 px-3 sm:px-4 py-1.5 sm:py-2 text-xs font-bold text-white shadow-md shadow-indigo-500/25 transition-all hover:opacity-95 active:scale-95 disabled:opacity-40"
+                key={cat.id}
+                aria-pressed={selected}
+                onClick={() => { setDomainFilter(cat.id); if (cat.id !== 'all') onSearch(cat.id); }}
+                className={controlChip(selected)}
               >
-                {isLoading ? (
-                  <Sparkles className="h-3.5 w-3.5 animate-spin" />
-                ) : (
-                  <>
-                    <span>Bedah</span>
-                    <ArrowRight className="h-3 w-3" />
-                  </>
-                )}
+                {cat.label}
               </button>
+            );
+          })}
+        </div>
+
+        <div className="rounded-2xl bg-[#FDF0D5] p-3.5 dark:bg-[#E3A63A]/10">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/70 text-[#9A6410] dark:bg-white/10 dark:text-[#E9C06B]"><Layers className="h-5 w-5" /></span>
+            <div className="min-w-0 flex-1">
+              <p className="eyebrow !text-[#7A4D0A] dark:!text-[#E9C06B]">Peta pengetahuan terpilih</p>
+              <h1 className="truncate text-[15px] font-extrabold leading-tight text-slate-900 dark:text-white">{data.topic}</h1>
             </div>
-          </form>
-
-          {/* Domain Category Filter Pills (Claymorphic) */}
-          <div className="flex items-center gap-1.5 overflow-x-auto text-xs scrollbar-none py-0.5">
-            <span className="flex items-center gap-1 text-slate-400 font-bold shrink-0 mr-1 text-[11px]">
-              <Layers className="h-3.5 w-3.5" />
-              Domain:
-            </span>
-            {[
-              { id: 'all', label: 'Semua' },
-              { id: 'Bisnis', label: 'Bisnis & Legal' },
-              { id: 'Ekonomi', label: 'Makroekonomi' },
-              { id: 'Psikologi', label: 'Psikologi' },
-              { id: 'Keuangan', label: 'Keuangan' },
-              { id: 'Geopolitik', label: 'Geopolitik' },
-              { id: 'Komunikasi', label: 'Komunikasi' },
-              { id: 'Pajak', label: 'Pajak' },
-            ].map((cat) => {
-              const isSelected = domainFilter === cat.id || (cat.id === 'all' && (domainFilter === 'all' || !domainFilter));
-
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => {
-                    if (cat.id === 'all') {
-                      setDomainFilter('all');
-                    } else {
-                      setDomainFilter(cat.id);
-                      onSearch(cat.id);
-                    }
-                  }}
-                  className={`rounded-xl px-3 py-1 font-bold text-xs transition-all shrink-0 ${
-                    isSelected
-                      ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/25 ring-1 ring-indigo-500/30'
-                      : 'bg-white/95 dark:bg-[#161E2E]/90 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200/90 dark:border-slate-800/80 shadow-sm'
-                  }`}
-                >
-                  {cat.label}
-                </button>
-              );
-            })}
+            <button onClick={() => setShowPresets((v) => !v)} aria-expanded={showPresets} className="shrink-0 rounded-full bg-white/80 px-3.5 py-1.5 text-xs font-bold text-[#5E3A08] transition-colors hover:bg-white dark:bg-white/10 dark:text-[#E9C06B] dark:hover:bg-white/15">
+              {showPresets ? 'Tutup' : 'Ganti'}
+            </button>
           </div>
 
-          {/* Preset Prompt Chips (Quick Prompts) */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 scrollbar-none">
-            <span className="flex items-center gap-1 text-[11px] font-semibold text-slate-500 dark:text-slate-400 shrink-0 mr-1">
-              <Sparkles className="h-3 w-3 text-indigo-500" />
-              Preset:
-            </span>
-            {presetQueries.map((query) => {
-              const isActive = data.topic === query;
-              return (
-                <button
-                  key={query}
-                  onClick={() => {
-                    setSearchInput(query);
-                    onSearch(query);
-                  }}
-                  disabled={isLoading}
-                  className={`shrink-0 rounded-full border px-3 py-1 text-xs font-medium transition-all ${
-                    isActive
-                      ? 'border-emerald-500/80 bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 shadow-sm font-semibold ring-1 ring-emerald-500/30'
-                      : 'border-slate-200/90 dark:border-slate-800/80 bg-white/90 dark:bg-[#161E2E]/80 text-slate-700 dark:text-slate-300'
-                  }`}
-                >
-                  {query}
-                </button>
-              );
-            })}
-          </div>
+          {showPresets && (
+            <ul className="mt-3 max-h-56 space-y-1 overflow-y-auto rounded-xl bg-white/80 p-1.5 dark:bg-black/20">
+              {presetQueries.map((query) => {
+                const isActive = data.topic === query;
+                return (
+                  <li key={query}>
+                    <button
+                      onClick={() => { setSearchInput(''); setShowPresets(false); onSearch(query); }}
+                      disabled={isLoading}
+                      className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-semibold transition-colors ${
+                        isActive ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#151517]' : 'text-slate-700 hover:bg-white dark:text-slate-200 dark:hover:bg-white/10'
+                      }`}
+                    >
+                      <span className="min-w-0 flex-1 truncate">{query}</span>
+                      {isActive && <Check className="h-4 w-4 shrink-0" />}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
 
-          {/* Active Curriculum Hero Card (Claymorphic) */}
-          {startingNode && isBannerVisible && (
-            <div className="relative overflow-hidden rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white/95 dark:bg-[#161E2E]/95 backdrop-blur-2xl shadow-[0_15px_35px_rgba(0,0,0,0.08)] p-4 sm:p-5 transition-all">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1 flex-wrap">
-                    <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30">
-                      <Sparkles className="h-3 w-3 text-indigo-500" />
-                      {data.topic}
-                    </span>
-                    <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-                      {data.nodes.length} Simpul
-                    </span>
-                  </div>
-                  <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white truncate">
-                    {startingNode.stepNumber || 'Langkah Awal'}: {startingNode.label}
-                  </h3>
-                  <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-1 mt-0.5">
-                    {startingNode.microContent.analogy}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">
-                  <button
-                    onClick={() => {
-                      centerViewOnRoot();
-                      onSelectNode(startingNode);
-                    }}
-                    className="flex-1 sm:flex-initial flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 px-5 py-2.5 text-xs sm:text-sm font-black text-white shadow-lg shadow-emerald-500/25 hover:opacity-95 active:scale-95 transition-all"
-                  >
-                    <span>{isStartingNodeMastered ? 'Lanjutkan Modul' : 'Mulai di Sini'}</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-
-                  <button
-                    onClick={() => setIsBannerVisible(false)}
-                    title="Sembunyikan Banner"
-                    className="flex h-9 w-9 items-center justify-center rounded-2xl border border-slate-200 dark:border-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                  >
-                    <ChevronUp className="h-4 w-4" />
-                  </button>
-                </div>
+          <div className="mt-3 flex items-center justify-between gap-3">
+            <div className="flex min-w-0 flex-1 items-center gap-2.5">
+              <div className="h-1.5 w-full max-w-[140px] overflow-hidden rounded-full bg-white/70 dark:bg-white/10">
+                <div className="h-full rounded-full bg-emerald-500 transition-all duration-500" style={{ width: `${Math.round((masteredCount / Math.max(1, data.nodes.length)) * 100)}%` }} />
               </div>
+              <span className="whitespace-nowrap text-xs font-semibold tabular-nums text-[#5E3A08] dark:text-[#E9C06B]">{masteredCount} / {data.nodes.length} selesai</span>
             </div>
-          )}
-
-          {startingNode && !isBannerVisible && (
-            <div className="flex justify-start">
-              <button
-                onClick={() => setIsBannerVisible(true)}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 shadow-md backdrop-blur-md hover:bg-slate-100 dark:hover:bg-slate-800"
-              >
-                <Compass className="h-3.5 w-3.5 text-indigo-500" />
-                <span>Lihat Panduan: {startingNode.label}</span>
-                <ChevronDown className="h-3.5 w-3.5" />
-              </button>
+            <div className="flex shrink-0 rounded-full bg-white/70 p-0.5 dark:bg-white/10" role="tablist" aria-label="Tampilan peta">
+              {([{ id: 'graph', label: 'Graf' }, { id: 'path', label: 'Jalur' }] as const).map((tab) => (
+                <button
+                  key={tab.id}
+                  role="tab"
+                  aria-selected={view === tab.id}
+                  onClick={() => setView(tab.id)}
+                  className={`rounded-full px-3.5 py-1 text-xs font-bold transition-colors ${
+                    view === tab.id ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#151517]' : 'text-[#5E3A08] dark:text-[#E9C06B]'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
-          )}
-
+          </div>
         </div>
       </div>
 
-      {/* Floating Canvas Controls (Bottom Right - Completely clear of bottom dock) */}
-      <div className="absolute bottom-24 sm:bottom-28 md:bottom-8 right-4 md:right-6 z-20 flex items-center gap-1 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/90 dark:bg-[#0B0F19]/90 p-1.5 shadow-2xl backdrop-blur-xl ring-1 ring-slate-900/5 dark:ring-white/10 transition-colors duration-300">
-        <button
-          onClick={() => handleZoom(0.15)}
-          title="Perbesar Canvas (+)"
-          className="flex h-8 w-8 items-center justify-center rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors"
-        >
-          <ZoomIn className="h-4 w-4" />
-        </button>
-        <button
-          onClick={() => handleZoom(-0.15)}
-          title="Perkecil Canvas (-)"
-          className="flex h-8 w-8 items-center justify-center rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors"
-        >
-          <ZoomOut className="h-4 w-4" />
-        </button>
-        <div className="h-4 w-[1px] bg-slate-200 dark:bg-slate-800" />
-        <button
-          onClick={centerViewOnRoot}
-          title="Pusatkan Tampilan (Reset)"
-          className="flex h-8 w-8 items-center justify-center rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors"
-        >
-          <RotateCcw className="h-4 w-4" />
-        </button>
-      </div>
+      {!hasNodes ? (
+        <div className="mt-4 flex flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 px-6 py-16 text-center dark:border-white/15">
+          <BookOpen className="mb-3 h-10 w-10 text-slate-400" />
+          <h2 className="text-base font-bold text-slate-800 dark:text-slate-100">Peta belum dimuat</h2>
+          <p className="mt-1 max-w-sm text-sm text-slate-500 dark:text-slate-400">Ketik topik di kolom pencarian, atau pilih salah satu peta lewat tombol “Ganti”.</p>
+        </div>
+      ) : view === 'path' ? (
+        <div className="mt-4"><LearningPath data={data} onOpenNode={onSelectNode} /></div>
+      ) : (
+        <div className="mt-4 grid min-w-0 gap-4 lg:grid-cols-[1fr_380px] lg:items-start">
+          <div className="min-w-0">
+            <div className="relative h-[52vh] min-h-[320px] max-h-[560px] overflow-hidden rounded-3xl border border-slate-200/70 bg-white shadow-card dark:border-white/10 dark:bg-[#1B1B1E] dark:shadow-none lg:h-[600px] lg:max-h-none">
+              <div className="absolute left-3 top-3 z-10 flex items-center gap-0.5 rounded-full bg-white/95 p-1 shadow-card ring-1 ring-slate-200/70 dark:bg-[#26262A]/95 dark:ring-white/10">
+                <button onClick={() => zoomBy(1 / 1.2)} aria-label="Perkecil" className="flex h-8 w-8 items-center justify-center rounded-full text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10"><Minus className="h-4 w-4" /></button>
+                <button onClick={() => { const fit = fitTo(nodePositions); if (fit) setTransform(fit); }} title="Tampilkan seluruh peta" className="rounded-full px-2.5 py-1.5 text-xs font-bold text-slate-800 transition-colors hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-white/10">Pas</button>
+                <button onClick={() => zoomBy(1.2)} aria-label="Perbesar" className="flex h-8 w-8 items-center justify-center rounded-full text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10"><Plus className="h-4 w-4" /></button>
+              </div>
 
-      {/* Topic Overview Badge (Bottom Center-Right on Desktop) */}
-      <div className="absolute bottom-6 right-64 z-10 hidden lg:flex items-center gap-2 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/90 dark:bg-[#0B0F19]/90 px-3.5 py-2 text-xs text-slate-700 dark:text-slate-300 shadow-xl backdrop-blur-xl transition-colors duration-300">
-        <span className="font-bold text-slate-900 dark:text-white">{data.topic}</span>
-        <span className="text-slate-400 dark:text-slate-500">•</span>
-        <span className="text-slate-500 dark:text-slate-400">{data.nodes.length} Simpul Ilmu</span>
-      </div>
+              <div className="absolute right-3 top-3 z-10 flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold tabular-nums text-slate-800 shadow-card ring-1 ring-slate-200/70 dark:bg-[#26262A]/95 dark:text-slate-100 dark:ring-white/10">
+                <span className="h-2 w-2 rounded-full bg-emerald-500" />{masteredCount} / {data.nodes.length} Selesai
+              </div>
 
-      {/* Interactive SVG / Canvas Engine */}
-      <div
-        ref={containerRef}
-        onWheel={handleWheel}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        className={`h-full w-full cursor-grab active:cursor-grabbing ${isPanning ? 'cursor-grabbing' : ''}`}
-        style={{ touchAction: 'none' }}
-      >
-        {!hasNodes ? (
-          <div className="flex flex-col items-center justify-center h-full text-center px-4">
-            <BookOpen className="h-12 w-12 text-slate-400 opacity-40 mb-3" />
-            <h3 className="text-base font-bold text-slate-700 dark:text-slate-300">Peta Konsep Belum Dimuat</h3>
-            <p className="text-xs text-slate-500 mt-1 max-w-sm">
-              Ketik pertanyaan di kolom pencarian atau klik salah satu preset prompt di atas untuk memulai.
-            </p>
+              <div className="absolute bottom-3 right-3 z-10 flex items-center gap-3 rounded-full bg-white/95 px-3 py-1.5 text-[11px] font-bold text-slate-700 shadow-card ring-1 ring-slate-200/70 dark:bg-[#26262A]/95 dark:text-slate-200 dark:ring-white/10">
+                <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-emerald-500" />Dikuasai</span>
+                <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-[#E3A63A]" />Aktif</span>
+                <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-slate-400" />Terkunci</span>
+              </div>
+
+              {isLoading && (
+                <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-white/80 backdrop-blur-sm dark:bg-[#1B1B1E]/80" role="status">
+                  <Sparkles className="h-7 w-7 animate-spin text-[#CF8E1F]" />
+                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">Menyusun peta pengetahuan…</p>
+                </div>
+              )}
+
+              <div
+                ref={containerRef}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                className={`h-full w-full select-none ${isPanning ? 'cursor-grabbing' : 'cursor-grab'}`}
+                style={{ touchAction: 'none' }}
+              >
+                <svg
+                  className="h-full w-full"
+                  role="group"
+                  aria-label={`Peta pengetahuan: ${data.topic}`}
+                  style={{
+                    backgroundImage: `radial-gradient(circle at 1px 1px, ${c.dot} 1.2px, transparent 0)`,
+                    backgroundSize: `${28 * transform.scale}px ${28 * transform.scale}px`,
+                    backgroundPosition: `${transform.x}px ${transform.y}px`,
+                  }}
+                >
+                  <g transform={`translate(${transform.x}, ${transform.y}) scale(${transform.scale})`}>
+                    {data.edges.map((edge) => {
+                      const from = data.nodes.find((n) => n.id === edge.from);
+                      const to = data.nodes.find((n) => n.id === edge.to);
+                      if (!from || !to) return null;
+                      const a = nodePositions[edge.from] || { x: from.x, y: from.y };
+                      const b = nodePositions[edge.to] || { x: to.x, y: to.y };
+                      const { d, mid } = buildEdge(a, b);
+                      const fromDone = isNodeMastered(edge.from);
+                      const toState = getNodeState(to, data, isNodeMastered);
+                      const kind = fromDone && toState === 'mastered' ? 'done' : fromDone && toState === 'available' ? 'active' : 'idle';
+                      const touchesSelected = selectedNode && (edge.from === selectedNode.id || edge.to === selectedNode.id);
+                      return (
+                        <g key={edge.id}>
+                          <path
+                            d={d}
+                            fill="none"
+                            stroke={kind === 'done' ? c.green : kind === 'active' ? c.gold : c.line}
+                            strokeWidth={kind === 'idle' ? 1.6 : 2.6}
+                            strokeLinecap="round"
+                            strokeDasharray={kind === 'done' ? undefined : kind === 'active' ? '7 7' : '3 6'}
+                            className={kind === 'active' ? 'animate-dash-flow' : undefined}
+                            opacity={kind === 'idle' ? 0.75 : 1}
+                          />
+                          {edge.label && touchesSelected && (
+                            <g transform={`translate(${mid.x}, ${mid.y})`} className="pointer-events-none">
+                              <rect x="-62" y="-11" width="124" height="22" rx="11" fill={c.cardFill} stroke={c.cardStroke} />
+                              <text x="0" y="4" textAnchor="middle" fill={c.muted} fontSize="10" fontWeight="600">{edge.label.length > 22 ? edge.label.slice(0, 21) + '…' : edge.label}</text>
+                            </g>
+                          )}
+                        </g>
+                      );
+                    })}
+
+                    {data.nodes.map((node) => {
+                      const pos = nodePositions[node.id] || { x: node.x, y: node.y };
+                      const vs = visualState(node);
+                      const isSelected = selectedNode?.id === node.id || activeNode?.id === node.id;
+                      const dimmed = domainFilter !== 'all' && node.domain !== domainFilter;
+                      const lines = wrapTitle(node.label, 20);
+                      const eyebrow = (node.stepNumber || node.domain).toUpperCase();
+                      const fill = vs === 'mastered' ? c.masteredFill : vs === 'locked' ? c.lockedFill : c.cardFill;
+                      const stroke = vs === 'mastered' ? c.green : vs === 'current' ? c.ink : vs === 'locked' ? c.lockedStroke : c.cardStroke;
+                      const eyebrowColor = vs === 'mastered' ? c.greenText : vs === 'locked' ? c.muted : c.goldDeep;
+                      const titleColor = vs === 'locked' ? c.muted : c.ink;
+                      const iconX = -NODE_W / 2 + 30;
+
+                      return (
+                        <g
+                          key={node.id}
+                          transform={`translate(${pos.x}, ${pos.y})`}
+                          opacity={dimmed ? 0.25 : 1}
+                          className="cursor-pointer outline-none"
+                          role="button"
+                          tabIndex={0}
+                          aria-label={`${node.stepNumber ? node.stepNumber + ': ' : ''}${node.label}, ${stateLabel[vs]}`}
+                          aria-pressed={isSelected}
+                          onClick={() => handleNodeActivate(node)}
+                          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedId(node.id); } }}
+                          onMouseDown={(e) => {
+                            if (e.button !== 0) return;
+                            e.stopPropagation();
+                            dragMoved.current = false;
+                            dragOrigin.current = { x: e.clientX, y: e.clientY };
+                            setDraggingNodeId(node.id);
+                            setDragOffset({ x: (e.clientX - transform.x) / transform.scale - pos.x, y: (e.clientY - transform.y) / transform.scale - pos.y });
+                          }}
+                        >
+                          {isSelected && <rect x={-NODE_W / 2 - 5} y={-NODE_H / 2 - 5} width={NODE_W + 10} height={NODE_H + 10} rx={26} fill="none" stroke={c.gold} strokeWidth={3} />}
+                          <rect x={-NODE_W / 2} y={-NODE_H / 2} width={NODE_W} height={NODE_H} rx={22} fill={fill} stroke={stroke} strokeWidth={vs === 'current' ? 2 : 1.5} />
+                          <circle cx={iconX} cy={0} r={16} fill={vs === 'mastered' ? c.green : vs === 'current' ? c.gold : vs === 'locked' ? (isDark ? '#2E2E32' : '#E8E4DB') : 'none'} stroke={vs === 'available' ? c.gold : 'none'} strokeWidth={2} />
+                          {vs === 'mastered' && <path d={`M ${iconX - 6} 0 L ${iconX - 1.5} 4.5 L ${iconX + 6} -4.5`} fill="none" stroke="#FFFFFF" strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round" />}
+                          {vs === 'current' && <path d={`M ${iconX - 3.5} -6 L ${iconX + 6} 0 L ${iconX - 3.5} 6 Z`} fill="#151517" />}
+                          {vs === 'available' && <circle cx={iconX} cy={0} r={3.5} fill={c.gold} />}
+                          {vs === 'locked' && (
+                            <g stroke={c.muted} fill="none" strokeWidth={1.6} strokeLinecap="round">
+                              <rect x={iconX - 5} y={-1} width={10} height={8} rx={2} fill={c.muted} />
+                              <path d={`M ${iconX - 3} -1 V -3.5 A 3 3 0 0 1 ${iconX + 3} -3.5 V -1`} />
+                            </g>
+                          )}
+                          <text x={-NODE_W / 2 + 54} y={lines.length > 1 ? -14 : -8} fill={eyebrowColor} fontSize={9.5} fontWeight={700} letterSpacing="0.6" className="pointer-events-none select-none">{eyebrow}</text>
+                          {lines.map((line, i) => (
+                            <text key={i} x={-NODE_W / 2 + 54} y={(lines.length > 1 ? 2 : 10) + i * 16} fill={titleColor} fontSize={13} fontWeight={700} className="pointer-events-none select-none">{line}</text>
+                          ))}
+                        </g>
+                      );
+                    })}
+                  </g>
+                </svg>
+              </div>
+            </div>
+            <p className="mt-2 px-1 text-center text-xs font-medium text-slate-500 dark:text-slate-400 lg:hidden">Ketuk simpul untuk melihat detail. Geser untuk menjelajah, cubit untuk zoom.</p>
           </div>
-        ) : (
-          <svg
-            ref={svgRef}
-            className="h-full w-full"
-            style={{
-              backgroundImage: isDark
-                ? `radial-gradient(circle at 1px 1px, rgba(99, 102, 241, 0.15) 1.2px, transparent 0)`
-                : `radial-gradient(circle at 1px 1px, rgba(79, 70, 229, 0.12) 1.2px, transparent 0)`,
-              backgroundSize: `${36 * transform.scale}px ${36 * transform.scale}px`,
-              backgroundPosition: `${transform.x}px ${transform.y}px`,
-            }}
-          >
-            <defs>
-              <linearGradient id="edgeGrad-Bisnis-Ekonomi" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#6366F1" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#10B981" stopOpacity="0.8" />
-              </linearGradient>
-              <linearGradient id="edgeGrad-Bisnis-Keuangan" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#6366F1" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#F59E0B" stopOpacity="0.8" />
-              </linearGradient>
-              <linearGradient id="edgeGrad-Bisnis-Psikologi" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#6366F1" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#EC4899" stopOpacity="0.8" />
-              </linearGradient>
-              <linearGradient id="edgeGrad-Ekonomi-Keuangan" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#10B981" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#F59E0B" stopOpacity="0.8" />
-              </linearGradient>
-              <linearGradient id="edgeGrad-Ekonomi-Psikologi" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#10B981" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#EC4899" stopOpacity="0.8" />
-              </linearGradient>
-              <linearGradient id="edgeGrad-default" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#6366F1" stopOpacity="0.7" />
-                <stop offset="100%" stopColor="#10B981" stopOpacity="0.7" />
-              </linearGradient>
 
-              {/* Glowing Filters */}
-              <filter id="nodeGlow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="#6366F1" floodOpacity="0.5" />
-              </filter>
-              <filter id="emeraldNodeGlow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="0" stdDeviation="8" floodColor="#10B981" floodOpacity="0.6" />
-              </filter>
-            </defs>
-
-            {/* Viewport Transform Group */}
-            <g transform={`translate(${transform.x}, ${transform.y}) scale(${transform.scale})`}>
-              
-              {/* 1. RENDER EDGES */}
-              {data.edges.map((edge) => {
-                const sourcePos = nodePositions[edge.from] || { x: 400, y: 280 };
-                const targetPos = nodePositions[edge.to] || { x: 400, y: 280 };
-
-                const gradKey = `edgeGrad-${edge.domains[0]}-${edge.domains[1]}`;
-
-                const midX = (sourcePos.x + targetPos.x) / 2;
-                const midY = (sourcePos.y + targetPos.y) / 2;
-                const dx = targetPos.x - sourcePos.x;
-                const dy = targetPos.y - sourcePos.y;
-                const offsetFactor = 0.18;
-                const ctrlX = midX - dy * offsetFactor;
-                const ctrlY = midY + dx * offsetFactor;
-
-                const pathD = `M ${sourcePos.x} ${sourcePos.y} Q ${ctrlX} ${ctrlY} ${targetPos.x} ${targetPos.y}`;
-
-                const isSourceMastered = isNodeMastered(edge.from);
-                const isTargetMastered = isNodeMastered(edge.to);
-                const isEdgeActive = isSourceMastered && isTargetMastered;
-
-                return (
-                  <g key={edge.id} className="transition-opacity duration-300">
-                    {/* Outer glow line */}
-                    <path
-                      d={pathD}
-                      fill="none"
-                      stroke={isEdgeActive ? '#10B981' : `url(#${gradKey})`}
-                      strokeWidth={isEdgeActive ? 3.5 : 2}
-                      strokeOpacity={isEdgeActive ? 0.8 : isDark ? 0.4 : 0.6}
-                    />
-
-                    {/* Animated flowing dash line */}
-                    <path
-                      d={pathD}
-                      fill="none"
-                      stroke={isEdgeActive ? '#10B981' : isDark ? '#818CF8' : '#4F46E5'}
-                      strokeWidth={1.5}
-                      strokeDasharray="6 8"
-                      className="animate-dash-flow"
-                      strokeOpacity={0.85}
-                    />
-
-                    {/* Edge Label badge */}
-                    {edge.label && (
-                      <g transform={`translate(${ctrlX}, ${ctrlY})`}>
-                        <rect
-                          x="-50"
-                          y="-10"
-                          width="100"
-                          height="20"
-                          rx="10"
-                          fill={isDark ? '#0F172A' : '#FFFFFF'}
-                          stroke={isDark ? '#334155' : '#CBD5E1'}
-                          strokeWidth="1"
-                          opacity="0.95"
-                          filter={!isDark ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.06))' : undefined}
-                        />
-                        <text
-                          x="0"
-                          y="3.5"
-                          textAnchor="middle"
-                          fill={isDark ? '#94A3B8' : '#475569'}
-                          fontSize="9.5"
-                          fontWeight="600"
-                          className="select-none pointer-events-none"
-                        >
-                          {edge.label.length > 16 ? edge.label.substring(0, 15) + '…' : edge.label}
-                        </text>
-                      </g>
-                    )}
-                  </g>
-                );
-              })}
-
-              {/* 2. RENDER NODES */}
-              {data.nodes.map((node) => {
-                const pos = nodePositions[node.id] || { x: node.x, y: node.y };
-                const isRoot = node.level === 0 || node.id === data.rootId;
-                const isMastered = isNodeMastered(node.id);
-                const locked = isNodeLocked(node);
-                const isSelected = activeNode?.id === node.id;
-
-                const isDomainMismatched = domainFilter !== 'all' && node.domain !== domainFilter;
-                const opacity = isDomainMismatched ? 0.25 : locked ? 0.45 : 1;
-
-                const nodeWidth = isRoot ? 224 : 184;
-                const nodeHeight = isRoot ? 104 : 88;
-
-                return (
-                  <g
-                    key={node.id}
-                    transform={`translate(${pos.x}, ${pos.y})`}
-                    opacity={opacity}
-                    className="cursor-pointer transition-all duration-200"
-                    onClick={() => {
-                      if (!locked) {
-                        onSelectNode(node);
-                      }
-                    }}
-                    onMouseDown={(e) => {
-                      if (e.button === 0) {
-                        e.stopPropagation();
-                        setDraggingNodeId(node.id);
-                        setDragOffset({
-                          x: (e.clientX - transform.x) / transform.scale - pos.x,
-                          y: (e.clientY - transform.y) / transform.scale - pos.y,
-                        });
-                      }
-                    }}
-                  >
-                    {/* Active selection halo */}
-                    {isSelected && (
-                      <rect
-                        x={-nodeWidth / 2 - 8}
-                        y={-nodeHeight / 2 - 8}
-                        width={nodeWidth + 16}
-                        height={nodeHeight + 16}
-                        rx="24"
-                        fill="none"
-                        stroke={isMastered ? '#10B981' : '#6366F1'}
-                        strokeWidth="2.5"
-                        strokeDasharray="4 4"
-                        className="animate-pulse"
-                      />
-                    )}
-
-                    {/* Mastered Glow */}
-                    {isMastered && (
-                      <rect
-                        x={-nodeWidth / 2}
-                        y={-nodeHeight / 2}
-                        width={nodeWidth}
-                        height={nodeHeight}
-                        rx="20"
-                        fill="#10B981"
-                        opacity={isDark ? "0.15" : "0.08"}
-                        filter="url(#emeraldNodeGlow)"
-                      />
-                    )}
-
-                    {/* Pulsating Indicator if it is Starting Node & Unmastered */}
-                    {isRoot && !isMastered && (
-                      <g transform={`translate(0, ${-nodeHeight / 2 - 13})`}>
-                        <rect
-                          x="-44"
-                          y="-9"
-                          width="88"
-                          height="18"
-                          rx="9"
-                          fill="#10B981"
-                          filter="drop-shadow(0 2px 8px rgba(16, 185, 129, 0.4))"
-                        />
-                        <text
-                          x="0"
-                          y="3.5"
-                          fill="#FFFFFF"
-                          fontSize="9.5"
-                          fontWeight="800"
-                          textAnchor="middle"
-                          className="select-none pointer-events-none"
-                        >
-                          📍 Mulai di Sini
-                        </text>
-                      </g>
-                    )}
-
-                    {/* Main Node Card Body (Dual Theme & Claymorphic Dopamine Fill) */}
-                    <rect
-                      x={-nodeWidth / 2}
-                      y={-nodeHeight / 2}
-                      width={nodeWidth}
-                      height={nodeHeight}
-                      rx="20"
-                      fill={
-                        isMastered
-                          ? isDark ? '#064E3B' : '#ECFDF5'
-                          : isDark
-                          ? isRoot ? '#131B2E' : '#161E2E'
-                          : isRoot ? '#F8FAFC' : '#FFFFFF'
-                      }
-                      stroke={
-                        isMastered
-                          ? '#10B981'
-                          : isSelected
-                          ? '#6366F1'
-                          : locked
-                          ? isDark ? '#334155' : '#E2E8F0'
-                          : isRoot
-                          ? isDark ? '#818CF8' : '#6366F1'
-                          : isDark ? '#475569' : '#CBD5E1'
-                      }
-                      strokeWidth={isMastered ? 2.5 : isSelected || isRoot ? 2 : 1.2}
-                      filter={isMastered ? 'url(#emeraldNodeGlow)' : !isDark ? 'drop-shadow(0 6px 16px rgba(0,0,0,0.06))' : undefined}
-                      className="transition-colors hover:stroke-indigo-500"
-                    />
-
-                    {/* Node Header Content */}
-                    <g transform={`translate(${-nodeWidth / 2 + 14}, ${-nodeHeight / 2 + 20})`}>
-                      
-                      {/* Step / Domain Badge */}
-                      <rect
-                        x="0"
-                        y="-12"
-                        width={node.stepNumber ? 84 : isRoot ? 74 : 66}
-                        height="18"
-                        rx="9"
-                        fill={
-                          isMastered
-                            ? isDark ? 'rgba(16, 185, 129, 0.3)' : '#A7F3D0'
-                            : isDark ? 'rgba(99, 102, 241, 0.2)' : '#EEF2FF'
-                        }
-                        stroke={isMastered ? '#10B981' : isDark ? '#6366F1' : '#818CF8'}
-                        strokeWidth="1"
-                      />
-                      <text
-                        x={node.stepNumber ? 42 : isRoot ? 37 : 33}
-                        y="0"
-                        textAnchor="middle"
-                        fill={
-                          isMastered
-                            ? isDark ? '#6EE7B7' : '#065F46'
-                            : isDark ? '#A5B4FC' : '#4338CA'
-                        }
-                        fontSize="9"
-                        fontWeight="800"
-                        className="select-none pointer-events-none"
-                      >
-                        {node.stepNumber || node.domain.toUpperCase()}
-                      </text>
-
-                      {/* Status Icon Indicator & Gold Star ⭐ */}
-                      <g transform={`translate(${nodeWidth - 44}, -4)`}>
-                        {isMastered ? (
-                          <g>
-                            <circle cx="0" cy="0" r="10" fill="#F59E0B" filter="drop-shadow(0 2px 6px rgba(245, 158, 11, 0.5))" />
-                            <text x="0" y="3.5" textAnchor="middle" fontSize="11" fill="#FFFFFF">⭐</text>
-                          </g>
-                        ) : locked ? (
-                          <g>
-                            <circle cx="0" cy="0" r="8" fill={isDark ? "#334155" : "#E2E8F0"} />
-                            <rect x="-3" y="-1" width="6" height="5" rx="1" fill={isDark ? "#94A3B8" : "#64748B"} />
-                            <path d="M-2 -1 V-3 A2 2 0 0 1 2 -3 V-1" stroke={isDark ? "#94A3B8" : "#64748B"} strokeWidth="1" fill="none" />
-                          </g>
-                        ) : (
-                          <g>
-                            <circle cx="0" cy="0" r="8" fill={isDark ? "rgba(99, 102, 241, 0.25)" : "rgba(79, 70, 229, 0.15)"} stroke="#6366F1" strokeWidth="1" />
-                            <circle cx="0" cy="0" r="3" fill="#6366F1" />
-                          </g>
-                        )}
-                      </g>
-
-                      {/* Node Title Text */}
-                      <text
-                        x="0"
-                        y="26"
-                        fill={isMastered ? (isDark ? '#34D399' : '#047857') : isDark ? '#F8FAFC' : '#0F172A'}
-                        fontSize={isRoot ? "13.5" : "12"}
-                        fontWeight="800"
-                        className="select-none pointer-events-none"
-                      >
-                        {node.label.length > (isRoot ? 22 : 18)
-                          ? node.label.substring(0, isRoot ? 20 : 16) + '…'
-                          : node.label}
-                      </text>
-
-                      {/* Subtitle / Summary snippet */}
-                      <text
-                        x="0"
-                        y={isRoot ? "44" : "40"}
-                        fill={isDark ? '#94A3B8' : '#64748B'}
-                        fontSize="9.5"
-                        fontWeight="400"
-                        className="select-none pointer-events-none"
-                      >
-                        {node.summary.length > (isRoot ? 32 : 26)
-                          ? node.summary.substring(0, isRoot ? 30 : 24) + '…'
-                          : node.summary}
-                      </text>
-                    </g>
-
-                    {/* Ping indicator if ready to learn */}
-                    {!locked && !isMastered && (
-                      <circle
-                        cx={nodeWidth / 2 - 12}
-                        cy={nodeHeight / 2 - 12}
-                        r="3.5"
-                        fill="#6366F1"
-                        className="animate-ping"
-                      />
-                    )}
-                  </g>
-                );
-              })}
-
-            </g>
-          </svg>
-        )}
-      </div>
-
+          {selectedNode && (
+            <div className="lg:sticky lg:top-20">
+              <NodeDetailCard
+                node={selectedNode}
+                data={data}
+                isRecommended={recommended?.id === selectedNode.id}
+                onOpen={onSelectNode}
+                onSelectNode={(node) => { setSelectedId(node.id); focusPoint(nodePositions[node.id] || { x: node.x, y: node.y }, Math.max(transform.scale, 0.85)); }}
+                onStartQuiz={onStartQuiz}
+              />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

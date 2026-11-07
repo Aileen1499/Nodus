@@ -12,8 +12,13 @@ interface UserContextType {
   isNodeMastered: (nodeId: string) => boolean;
   toggleActionCheck: (nodeId: string, actionIndex: number) => void;
   isActionChecked: (nodeId: string, actionIndex: number) => boolean;
-  addHighlight: (nodeId: string, nodeTitle: string, domain: DomainType, text: string, color?: HighlightColor) => void;
+  addHighlight: (nodeId: string, nodeTitle: string, domain: DomainType, text: string, color?: HighlightColor, note?: string) => void;
   removeHighlight: (id: string) => void;
+  updateHighlightNote: (id: string, note: string) => void;
+  bookmarkedNodeIds: string[];
+  toggleBookmark: (nodeId: string) => void;
+  isBookmarked: (nodeId: string) => boolean;
+  setLastOpenedNode: (nodeId: string) => void;
   addStudyMinutes: (minutes: number) => void;
   useCredit: () => boolean;
   resetProgress: () => void;
@@ -34,6 +39,7 @@ const defaultProgress: UserProgress = {
   masteredNodeIds: [],
   checkedActions: {},
   highlights: [],
+  bookmarkedNodeIds: [],
   totalStudyMinutes: 0,
   lastStudyDate: undefined,
   lastActiveDate: getTodayString(),
@@ -206,7 +212,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     nodeTitle: string,
     domain: DomainType,
     text: string,
-    color: HighlightColor = 'yellow'
+    color: HighlightColor = 'yellow',
+    note?: string
   ) => {
     const trimmed = text.trim();
     if (!trimmed) return;
@@ -225,6 +232,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         domain,
         text: trimmed,
         color,
+        ...(note && note.trim() ? { note: note.trim() } : {}),
         createdAt: new Date().toISOString(),
       };
 
@@ -234,6 +242,24 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         highlights: updated,
       };
     });
+  };
+
+  const bookmarkedNodeIds = progress.bookmarkedNodeIds || [];
+  const toggleBookmark = (nodeId: string) => {
+    setProgress((prev) => {
+      const current = prev.bookmarkedNodeIds || [];
+      return { ...prev, bookmarkedNodeIds: current.includes(nodeId) ? current.filter((id) => id !== nodeId) : [nodeId, ...current] };
+    });
+  };
+  const isBookmarked = (nodeId: string): boolean => bookmarkedNodeIds.includes(nodeId);
+  const setLastOpenedNode = (nodeId: string) => {
+    setProgress((prev) => (prev.lastOpenedNodeId === nodeId ? prev : { ...prev, lastOpenedNodeId: nodeId }));
+  };
+  const updateHighlightNote = (id: string, note: string) => {
+    setProgress((prev) => ({
+      ...prev,
+      highlights: (prev.highlights || []).map((h) => (h.id === id ? { ...h, note: note.trim() || undefined } : h)),
+    }));
   };
 
   const removeHighlight = (id: string) => {
@@ -298,6 +324,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isActionChecked,
         addHighlight,
         removeHighlight,
+        updateHighlightNote,
+        bookmarkedNodeIds,
+        toggleBookmark,
+        isBookmarked,
+        setLastOpenedNode,
         addStudyMinutes,
         useCredit,
         resetProgress,

@@ -39,10 +39,10 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-5 backdrop-blur-xl animate-in fade-in duration-200">
-      <div className="flex flex-col w-full max-w-lg max-h-[92vh] rounded-[32px] border border-indigo-500/40 bg-[#F4F7FC] dark:bg-[#0B0F19] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden transition-colors duration-300">
+      <div className="flex flex-col w-full max-w-lg max-h-[92vh] rounded-[32px] border border-indigo-500/40 bg-[#F4F1EA] dark:bg-[#151517] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden transition-colors duration-300">
         
         {/* Banner Glow Header */}
-        <div className="relative border-b border-indigo-500/30 bg-gradient-to-r from-indigo-900 via-indigo-950 to-slate-950 p-6 text-white text-center overflow-hidden">
+        <div className="relative border-b border-indigo-500/30 bg-[#151517] p-6 text-white text-center overflow-hidden">
           <div className="absolute -top-12 -right-12 h-36 w-36 rounded-full bg-indigo-500/20 blur-2xl pointer-events-none" />
           <div className="absolute -bottom-12 -left-12 h-36 w-36 rounded-full bg-emerald-500/20 blur-2xl pointer-events-none" />
 
@@ -53,7 +53,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({ onClose }) => {
             <X className="h-5 w-5" />
           </button>
 
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-amber-400 to-indigo-500 p-[1.5px] shadow-lg shadow-indigo-500/30 mb-2.5">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[#151517] p-[1.5px] mb-2.5">
             <div className="flex h-full w-full items-center justify-center rounded-[14px] bg-slate-900 text-amber-400">
               <Crown className="h-6 w-6" />
             </div>
@@ -143,7 +143,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({ onClose }) => {
           <div className="space-y-2.5 pt-1">
             <button
               onClick={handleWhatsAppCheckout}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 py-3.5 text-xs sm:text-sm font-bold text-white shadow-lg shadow-emerald-500/25 hover:opacity-95 transition-all active:scale-[0.99]"
+              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#E3A63A] py-3.5 text-xs sm:text-sm font-bold text-[#151517] hover:bg-[#EBB24F] transition-all active:scale-[0.99]"
             >
               <MessageCircle className="h-4 w-4" />
               <span>Berlangganan via WhatsApp Official</span>

@@ -71,12 +71,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-5 backdrop-blur-xl animate-in fade-in duration-200">
-      <div className="flex flex-col w-full max-w-md rounded-[32px] border border-slate-200/90 dark:border-slate-800/90 bg-[#F4F7FC] dark:bg-[#0B0F19] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden transition-colors duration-300">
+      <div className="flex flex-col w-full max-w-md rounded-[32px] border border-slate-200/90 dark:border-slate-800/90 bg-[#F4F1EA] dark:bg-[#151517] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden transition-colors duration-300">
         
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-6 py-5 bg-white/95 dark:bg-[#161E2E]/95">
+        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-6 py-5 bg-white/95 dark:bg-[#1F1F23]/95">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-500 to-emerald-400 p-[1.5px]">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#151517] p-[1.5px]">
               <div className="flex h-full w-full items-center justify-center rounded-[10px] bg-slate-900 text-emerald-400">
                 <Sparkles className="h-4 w-4" />
               </div>
@@ -103,7 +103,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
         {user ? (
           <div className="p-6 space-y-5">
             <div className="flex items-center gap-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-tr from-indigo-500 to-emerald-400 text-white font-black text-lg">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#151517] text-white font-black text-lg">
                 {(user.displayName || user.email || 'U')[0].toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
@@ -198,7 +198,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
             {/* Divider */}
             <div className="relative flex items-center justify-center">
               <div className="w-full border-t border-slate-200 dark:border-slate-800" />
-              <span className="absolute bg-white dark:bg-[#0B0F19] px-3 text-[11px] text-slate-400">
+              <span className="absolute bg-white dark:bg-[#151517] px-3 text-[11px] text-slate-400">
                 atau gunakan email
               </span>
             </div>
@@ -294,7 +294,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-emerald-500 py-3 text-xs sm:text-sm font-bold text-white shadow-lg shadow-indigo-500/25 hover:opacity-95 transition-all active:scale-[0.99] disabled:opacity-50 mt-1"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#E3A63A] py-3 text-xs sm:text-sm font-bold text-[#151517] hover:bg-[#EBB24F] transition-all active:scale-[0.99] disabled:opacity-50 mt-1"
               >
                 <span>{tab === 'login' ? 'Masuk ke Akun' : 'Daftar Sekarang'}</span>
                 <ArrowRight className="h-4 w-4" />

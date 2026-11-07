@@ -127,7 +127,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({
         particleCount: 130,
         spread: 85,
         origin: { y: 0.6 },
-        colors: ['#6366F1', '#10B981', '#F59E0B', '#EC4899'],
+        colors: ['#CF8E1F', '#2E7D5B', '#E3A63A', '#EC4899'],
       });
     } catch {
       // ignore
@@ -137,16 +137,16 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-3 sm:p-4 backdrop-blur-md">
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 p-3 sm:p-4">
       <motion.div 
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="relative flex w-full max-w-2xl flex-col rounded-[32px] border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-[#0B0F19] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden max-h-[92vh] transition-colors duration-300"
+        className="relative flex w-full max-w-2xl flex-col rounded-[32px] border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-[#151517] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden max-h-[92vh] transition-colors duration-300"
       >
         {/* Top Header Bar */}
-        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-5 sm:px-6 py-4 bg-slate-50 dark:bg-[#0F172A]">
+        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-5 sm:px-6 py-4 bg-slate-50 dark:bg-[#1B1B1E]">
           <div className="flex items-center gap-3">
             <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/15 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400">
               <Compass className="h-4 w-4" />
@@ -240,7 +240,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({
             <div className="pt-2">
               <button
                 onClick={() => setPhase('decision')}
-                className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-indigo-600 via-teal-600 to-emerald-600 text-white font-black text-sm sm:text-base shadow-xl shadow-indigo-500/25 hover:opacity-95 active:scale-[0.99] transition-all flex items-center justify-center gap-2"
+                className="w-full py-4 px-6 rounded-2xl bg-[#E3A63A] text-[#151517] hover:bg-[#EBB24F] font-black text-sm sm:text-base hover:opacity-95 active:scale-[0.99] transition-all flex items-center justify-center gap-2"
               >
                 <span>Mulai Evaluasi Sekarang</span>
                 <ArrowRight className="h-4 w-4" />
@@ -265,7 +265,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({
               </p>
               <div className="mt-3 rounded-xl bg-white dark:bg-slate-950/70 p-3 border border-slate-200 dark:border-slate-800">
                 <p className="text-xs font-semibold text-slate-900 dark:text-white">
-                  ⚖️ Dilema: {node.decisionScenario.dilemma}
+                  Dilema: {node.decisionScenario.dilemma}
                 </p>
               </div>
             </div>
@@ -325,7 +325,12 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({
                             </>
                           )}
                         </div>
-                        <p>{choice.explanation || choice.consequence}</p>
+                        {choice.consequence && (
+                          <p className="mb-2"><span className="font-bold">Konsekuensi: </span>{choice.consequence}</p>
+                        )}
+                        {choice.explanation && (
+                          <p><span className="font-bold">Alasan & trade-off: </span>{choice.explanation}</p>
+                        )}
                       </motion.div>
                     )}
                   </div>
@@ -333,20 +338,32 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({
               })}
             </div>
 
+            {isDecisionConfirmed && selectedChoice && !selectedChoice.isOptimal && (() => {
+              const best = node.decisionScenario.choices.find((c) => c.isOptimal);
+              if (!best) return null;
+              return (
+                <div className="rounded-2xl border border-[#E3A63A]/50 bg-[#FDF0D5] p-4 text-xs sm:text-sm leading-relaxed text-[#5E3A08] dark:bg-[#E3A63A]/10 dark:text-[#F1D8A0]">
+                  <p className="mb-1 font-bold uppercase tracking-wider text-[11px]">Alternatif yang lebih kuat</p>
+                  <p className="font-semibold">{best.text}</p>
+                  {best.explanation && <p className="mt-1.5">{best.explanation}</p>}
+                </div>
+              );
+            })()}
+
             {/* Bottom Decision Actions */}
             <div className="pt-2 flex items-center justify-between">
               {!isDecisionConfirmed ? (
                 <button
                   onClick={handleConfirmDecision}
                   disabled={!selectedChoice}
-                  className="w-full py-3 px-5 rounded-xl bg-indigo-600 text-white text-xs sm:text-sm font-bold shadow-md shadow-indigo-500/20 disabled:opacity-40 hover:bg-indigo-500 active:scale-95 transition-all"
+                  className="w-full py-3 px-5 rounded-xl bg-indigo-600 text-white text-xs sm:text-sm font-bold disabled:opacity-40 hover:bg-indigo-500 active:scale-95 transition-all"
                 >
                   Kunci Keputusan Ini
                 </button>
               ) : (
                 <button
                   onClick={handleProceedToQuiz}
-                  className="w-full py-3 px-5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-xs sm:text-sm font-bold shadow-md shadow-emerald-500/25 hover:opacity-95 active:scale-95 transition-all flex items-center justify-center gap-2"
+                  className="w-full py-3 px-5 rounded-xl bg-[#E3A63A] text-[#151517] hover:bg-[#EBB24F] text-xs sm:text-sm font-bold hover:opacity-95 active:scale-95 transition-all flex items-center justify-center gap-2"
                 >
                   <span>Lanjut ke Kuis Penalaran (+Soal Berbatas Waktu)</span>
                   <ArrowRight className="h-4 w-4" />
@@ -466,7 +483,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({
         {phase === 'completed' && (
           <div className="flex flex-col flex-1 items-center justify-center p-6 sm:p-8 text-center space-y-5">
             <div className="relative">
-              <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-tr from-emerald-500 to-indigo-600 p-[2px] shadow-2xl">
+              <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-[#151517] p-[2px] shadow-2xl">
                 <div className="flex h-full w-full items-center justify-center rounded-[22px] bg-slate-900 text-emerald-400">
                   <Award className="h-10 w-10 animate-pulse" />
                 </div>
@@ -500,7 +517,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({
 
             <button
               onClick={onClose}
-              className="w-full max-w-xs py-3 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 text-white text-xs sm:text-sm font-bold shadow-lg shadow-emerald-500/25 hover:opacity-95 active:scale-95 transition-all"
+              className="w-full max-w-xs py-3 px-6 rounded-2xl bg-[#E3A63A] text-[#151517] hover:bg-[#EBB24F] text-xs sm:text-sm font-bold hover:opacity-95 active:scale-95 transition-all"
             >
               Kembali ke Peta Konsep
             </button>

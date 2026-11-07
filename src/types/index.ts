@@ -103,6 +103,7 @@ export interface UserHighlight {
   domain: DomainType;
   text: string;
   color: HighlightColor;
+  note?: string; // Optional personal note attached to the highlight
   createdAt: string;
 }
 
@@ -113,6 +114,8 @@ export interface UserProgress {
   masteredNodeIds: string[]; // Node IDs completed by user
   checkedActions: Record<string, boolean>; // Node ID + Action Index for actionable checklist
   highlights?: UserHighlight[]; // Digital stabilizer notes
+  bookmarkedNodeIds?: string[]; // Saved concepts (Brankas)
+  lastOpenedNodeId?: string; // Resume point
   totalStudyMinutes?: number; // Total minutes spent learning
   lastStudyDate?: string; // YYYY-MM-DD when study activity was completed
   lastActiveDate: string; // YYYY-MM-DD for streak calculation

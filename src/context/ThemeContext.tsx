@@ -19,13 +19,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       if (stored === 'light' || stored === 'dark') {
         return stored;
       }
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-        return 'light';
-      }
     } catch {
       // ignore
     }
-    return 'dark'; // Default to Slate Obsidian
+    return 'light'; // Default to the NODUS warm paper theme
   });
 
   useEffect(() => {

@@ -13,13 +13,15 @@ NODUS adalah platform pembelajaran kognitif interaktif yang dirancang untuk menj
 
 ## 🎨 Design System & Branding
 
-- **Background Utama (Dark Mode):** Slate Obsidian (`#0B0F19`)
-- **Card & Container Surface:** Dark Slate (`#1E293B`)
-- **Aksen Primer & AI Glow:** Electric Indigo (`#6366F1`)
-- **Aksen Keberhasilan & Mastery:** Emerald Mint (`#10B981`)
-- **Aksen Finansial / Perhatian:** Amber Gold (`#F59E0B`)
-- **Aksen Psikologi / Perilaku:** Rose Violet (`#EC4899`)
-- **Tipografi:** Pure White (`#F8FAFC`) untuk judul, Muted Slate (`#94A3B8`) untuk paragraf
+Arah visual: **editorial, hangat, premium** (krem / arang / emas). Token ada di `tailwind.config.js`.
+
+- **Latar (terang):** Paper `#FBF9F5`, permukaan sunken `#F4F1EA`, garis `#E8E4DB`
+- **Latar (gelap):** Ink `#151517`, permukaan `#1F1F23`
+- **Aksen utama:** Gold `#E3A63A` (CTA, status aktif), Bronze `#9A6410` (teks aksen)
+- **Keberhasilan / mastery:** Leaf `#2E7D5B`
+- **Tipografi:** Plus Jakarta Sans (UI) + Newsreader (judul & bacaan editorial)
+- Skala `slate`, `indigo`, dan `emerald` Tailwind diarahkan ulang ke palet di atas, sehingga seluruh layar mewarisi identitas yang sama. Kode baru sebaiknya memakai `ink`, `paper`, `gold`, `leaf`.
+- Primitif komponen di `src/index.css`: `.eyebrow`, `.btn-gold`, `.btn-ink`, `.chip`, `.surface`.
 
 ---
 

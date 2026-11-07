@@ -41,12 +41,12 @@ export const QuizHubModal: React.FC<QuizHubModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-5 md:p-6 backdrop-blur-xl animate-in fade-in duration-200">
-      <div className="flex flex-col w-full max-w-4xl max-h-[90vh] rounded-[32px] border border-slate-200/90 dark:border-slate-800/90 bg-[#F4F7FC] dark:bg-[#0B0F19] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden transition-all duration-300">
+      <div className="flex flex-col w-full max-w-4xl max-h-[90vh] rounded-[32px] border border-slate-200/90 dark:border-slate-800/90 bg-[#F4F1EA] dark:bg-[#151517] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden transition-all duration-300">
         
         {/* Header Bar */}
-        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-6 sm:px-8 py-5 bg-white/95 dark:bg-[#161E2E]/95 backdrop-blur-md">
+        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-6 sm:px-8 py-5 bg-white/95 dark:bg-[#1F1F23]/95 backdrop-blur-md">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-tr from-amber-500 via-orange-500 to-indigo-600 p-[1.5px] shadow-md shadow-orange-500/20">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#151517] p-[1.5px]">
               <div className="flex h-full w-full items-center justify-center rounded-[14px] bg-slate-900 text-amber-400">
                 <Brain className="h-5 w-5" />
               </div>
@@ -77,7 +77,7 @@ export const QuizHubModal: React.FC<QuizHubModalProps> = ({
         </div>
 
         {/* Progress Overview & Clay Filter Bar */}
-        <div className="px-6 sm:px-8 py-4 bg-white/70 dark:bg-[#161E2E]/70 border-b border-slate-200/60 dark:border-slate-800/60 space-y-3">
+        <div className="px-6 sm:px-8 py-4 bg-white/70 dark:bg-[#1F1F23]/70 border-b border-slate-200/60 dark:border-slate-800/60 space-y-3">
           
           {/* Progress stats banner */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
@@ -90,7 +90,7 @@ export const QuizHubModal: React.FC<QuizHubModalProps> = ({
                   Status Penguasaan Materi: {masteredCount} dari {nodes.length} Dikuasai
                 </div>
                 <div className="text-[11px] text-slate-500 dark:text-slate-400">
-                  Setiap kelulusan kuis mengubah simpul menjadi Hijau Emerald Terang ⭐
+                  Lulus Cek Paham untuk menandai simpul sebagai dikuasai
                 </div>
               </div>
             </div>
@@ -98,7 +98,7 @@ export const QuizHubModal: React.FC<QuizHubModalProps> = ({
             <div className="flex items-center gap-2">
               <div className="w-28 sm:w-36 h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-500"
+                  className="h-full bg-emerald-500 transition-all duration-500"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
@@ -114,7 +114,7 @@ export const QuizHubModal: React.FC<QuizHubModalProps> = ({
               onClick={() => setFilter('all')}
               className={`rounded-xl px-3.5 py-1.5 font-bold transition-all ${
                 filter === 'all'
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20'
+                  ? 'bg-indigo-600 text-white'
                   : 'bg-white dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 border border-slate-200/80 dark:border-slate-800'
               }`}
             >
@@ -125,7 +125,7 @@ export const QuizHubModal: React.FC<QuizHubModalProps> = ({
               onClick={() => setFilter('unmastered')}
               className={`rounded-xl px-3.5 py-1.5 font-bold transition-all ${
                 filter === 'unmastered'
-                  ? 'bg-amber-600 text-white shadow-md shadow-amber-500/20'
+                  ? 'bg-amber-600 text-white'
                   : 'bg-white dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 border border-slate-200/80 dark:border-slate-800'
               }`}
             >
@@ -136,17 +136,17 @@ export const QuizHubModal: React.FC<QuizHubModalProps> = ({
               onClick={() => setFilter('mastered')}
               className={`rounded-xl px-3.5 py-1.5 font-bold transition-all ${
                 filter === 'mastered'
-                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/20'
+                  ? 'bg-emerald-600 text-white'
                   : 'bg-white dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 border border-slate-200/80 dark:border-slate-800'
               }`}
             >
-              ⭐ Sudah Dikuasai ({masteredCount})
+              Sudah Dikuasai ({masteredCount})
             </button>
           </div>
         </div>
 
         {/* Quiz Cards Grid (Claymorphism style) */}
-        <div className="flex-1 overflow-y-auto p-6 sm:p-8">
+        <div className="flex-1 overflow-y-auto p-6 pb-28 sm:p-8 sm:pb-28">
           {filteredNodes.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center text-slate-500 dark:text-slate-400">
               <Award className="h-12 w-12 text-slate-400 mb-3 opacity-40 animate-pulse" />
@@ -164,8 +164,8 @@ export const QuizHubModal: React.FC<QuizHubModalProps> = ({
                     onClick={() => onSelectNode(node)}
                     className={`group relative flex flex-col justify-between rounded-3xl p-5 sm:p-6 transition-all duration-300 cursor-pointer overflow-hidden ${
                       mastered
-                        ? 'border-2 border-emerald-500/60 bg-gradient-to-br from-emerald-50/80 via-white to-teal-50/30 dark:from-emerald-950/30 dark:via-[#161E2E] dark:to-teal-950/20 shadow-[0_12px_30px_rgba(16,185,129,0.12)]'
-                        : 'border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-[#161E2E] shadow-[0_10px_25px_rgba(0,0,0,0.05)] hover:shadow-xl hover:border-indigo-500/50 hover:-translate-y-0.5'
+                        ? 'border-2 border-emerald-500/60 bg-emerald-50 dark:bg-emerald-500/10 shadow-[0_12px_30px_rgba(16,185,129,0.12)]'
+                        : 'border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-[#1F1F23] shadow-[0_10px_25px_rgba(0,0,0,0.05)] hover:shadow-xl hover:border-indigo-500/50 hover:-translate-y-0.5'
                     }`}
                   >
                     <div>
@@ -218,8 +218,8 @@ export const QuizHubModal: React.FC<QuizHubModalProps> = ({
 
                       <div className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black transition-all ${
                         mastered
-                          ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20 group-hover:bg-emerald-500'
-                          : 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20 group-hover:bg-indigo-500'
+                          ? 'bg-emerald-600 text-white group-hover:bg-emerald-500'
+                          : 'bg-indigo-600 text-white group-hover:bg-indigo-500'
                       }`}>
                         <span>{mastered ? 'Uji Ulang' : 'Mulai Evaluasi'}</span>
                         <ArrowRight className="h-3.5 w-3.5" />

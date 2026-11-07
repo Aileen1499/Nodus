@@ -2,76 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
+/* NODUS base: warm paper (light) / warm charcoal (dark) */
 @layer base {
-  :root {
-    color-scheme: dark;
-  }
-  
-  html.light {
-    color-scheme: light;
-  }
+  :root { color-scheme: light; }
+  html.dark { color-scheme: dark; }
 
   body {
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
+  html.dark body { background-color: #151517; color: #FBF9F5; }
+  html.light body { background-color: #FBF9F5; color: #1B1B1E; }
 
-  html.dark body {
-    background-color: #0B0F19;
-    color: #F8FAFC;
-  }
-
-  html.light body {
-    background-color: #F8FAFC;
-    color: #0F172A;
-  }
+  :focus-visible { outline: 2px solid #CF8E1F; outline-offset: 2px; }
+  input:focus-visible, textarea:focus-visible { outline: none; }
+  ::selection { background: rgba(227, 166, 58, 0.35); }
 }
 
-/* Custom scrollbar for dark mode */
-html.dark ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-html.dark ::-webkit-scrollbar-track {
-  background: #0B0F19;
-}
-html.dark ::-webkit-scrollbar-thumb {
-  background: #1E293B;
-  border-radius: 9999px;
-}
-html.dark ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+html.dark ::-webkit-scrollbar, html.light ::-webkit-scrollbar { width: 6px; height: 6px; }
+html.dark ::-webkit-scrollbar-track { background: #151517; }
+html.dark ::-webkit-scrollbar-thumb { background: #3A3A3F; border-radius: 9999px; }
+html.light ::-webkit-scrollbar-track { background: #F4F1EA; }
+html.light ::-webkit-scrollbar-thumb { background: #D6D1C5; border-radius: 9999px; }
+
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* NODUS primitives: a small set, each with one job */
+@layer components {
+  .eyebrow { @apply text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.08em] text-slate-500 dark:text-slate-400; }
+  .btn-gold { @apply inline-flex items-center justify-center gap-2 rounded-full bg-[#E3A63A] px-5 py-3 text-sm font-bold text-[#151517] transition-all hover:bg-[#EBB24F] active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none; }
+  .btn-ink { @apply inline-flex items-center justify-center gap-2 rounded-full bg-[#151517] px-5 py-3 text-sm font-bold text-[#FBF9F5] transition-all hover:bg-[#262629] active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none; }
+  html.dark .btn-ink { @apply bg-[#FBF9F5] text-[#151517] hover:bg-white; }
+  .chip { @apply inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors; }
+  .surface { @apply rounded-3xl border border-slate-200/80 bg-white shadow-card dark:border-slate-800 dark:bg-[#1F1F23] dark:shadow-none; }
 }
 
-/* Custom scrollbar for light mode */
-html.light ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-html.light ::-webkit-scrollbar-track {
-  background: #F1F5F9;
-}
-html.light ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 9999px;
-}
-html.light ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
-}
-
-/* Hide scrollbar utility */
-.scrollbar-none::-webkit-scrollbar {
-  display: none;
-}
-.scrollbar-none {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Glowing text and borders */
-.glow-indigo {
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.35);
-}
-
-.glow-emerald {
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.35);
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }

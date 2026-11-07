@@ -8,10 +8,10 @@ interface HelpModalProps {
 export const HelpModal: React.FC<HelpModalProps> = ({ onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-md">
-      <div className="w-full max-w-xl rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-[#0B0F19] shadow-2xl overflow-hidden max-h-[90vh] flex flex-col transition-colors duration-300">
+      <div className="w-full max-w-xl rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-[#151517] shadow-2xl overflow-hidden max-h-[90vh] flex flex-col transition-colors duration-300">
 
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-6 py-4 bg-slate-50 dark:bg-[#0F172A]">
+        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-6 py-4 bg-slate-50 dark:bg-[#1B1B1E]">
           <div className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/15 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400">
               <Network className="h-4 w-4" />
