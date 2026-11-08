@@ -11,6 +11,9 @@ import { QuizHubModal } from './components/quiz/QuizHubModal';
 import { SettingsModal } from './components/common/SettingsModal';
 import { HelpModal } from './components/common/HelpModal';
 import { ExploreModal } from './components/explore/ExploreModal';
+import { ToolkitView } from './components/tools/ToolkitView';
+import type { ToolId } from './lib/curriculumBuilder';
+import { getMapById } from './lib/nodeIndex';
 import { ProfileModal } from './components/profile/ProfileModal';
 import { AuthModal } from './components/auth/AuthModal';
 import { PaywallModal } from './components/paywall/PaywallModal';
@@ -38,6 +41,7 @@ const AppContent: React.FC = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isExploreOpen, setIsExploreOpen] = useState(false);
+  const [toolkit, setToolkit] = useState<{ open: boolean; tool: ToolId | null }>({ open: false, tool: null });
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
@@ -95,23 +99,19 @@ const AppContent: React.FC = () => {
   // Tab change handler from Mobile Bottom Nav
   const handleTabChange = (tab: NavTab) => {
     setActiveTab(tab);
-    if (tab === 'explore') {
-      setIsExploreOpen(true);
-      setIsQuizHubOpen(false);
-      setIsProfileOpen(false);
-    } else if (tab === 'profile') {
-      setIsProfileOpen(true);
-      setIsExploreOpen(false);
-      setIsQuizHubOpen(false);
-    } else if (tab === 'quiz') {
-      setIsQuizHubOpen(true);
-      setIsExploreOpen(false);
-      setIsProfileOpen(false);
-    } else if (tab === 'map') {
-      setIsExploreOpen(false);
-      setIsQuizHubOpen(false);
-      setIsProfileOpen(false);
-    }
+    setIsExploreOpen(tab === 'explore');
+    setIsQuizHubOpen(tab === 'quiz');
+    setIsProfileOpen(tab === 'profile');
+    setToolkit({ open: tab === 'tools', tool: null });
+    if (tab !== 'map') setActiveReaderNode(null);
+  };
+
+  const openMap = (map: MindmapData) => {
+    setCurrentMindmap(map);
+    setActiveReaderNode(null);
+    setActiveQuizNode(null);
+    setIsExploreOpen(false);
+    setActiveTab('map');
   };
 
   // Complete Quiz Handler
@@ -139,6 +139,7 @@ const AppContent: React.FC = () => {
           onSelectNode={(node) => setActiveReaderNode(node)}
           onStartQuiz={(node) => setActiveQuizNode(node)}
           onSearch={handleSearch}
+          onSelectMap={(mapId) => { const m = getMapById(mapId); if (m) openMap(m); }}
           isLoading={isLoadingMindmap}
           presetQueries={PRESET_QUERIES}
         />
@@ -156,6 +157,7 @@ const AppContent: React.FC = () => {
           node={activeReaderNode}
           data={currentMindmap}
           onNavigate={(node) => setActiveReaderNode(node)}
+          onOpenTool={(tool) => { setActiveReaderNode(null); setToolkit({ open: true, tool: tool as ToolId }); setActiveTab('tools'); }}
           onClose={() => setActiveReaderNode(null)}
           onStartQuiz={(node) => {
             setActiveReaderNode(null);
@@ -192,16 +194,24 @@ const AppContent: React.FC = () => {
         />
       )}
 
-      {/* Explore Curriculum Modal */}
+      {/* Kurikulum (full screen) */}
       {isExploreOpen && (
         <ExploreModal
           onClose={() => {
             setIsExploreOpen(false);
             setActiveTab('map');
           }}
-          onSelectTopic={(topic) => {
-            handleSearch(topic);
-            setIsExploreOpen(false);
+          onSelectMap={openMap}
+        />
+      )}
+
+      {/* Alat bisnis (full screen) */}
+      {toolkit.open && (
+        <ToolkitView
+          key={toolkit.tool || 'list'}
+          initialTool={toolkit.tool}
+          onClose={() => {
+            setToolkit({ open: false, tool: null });
             setActiveTab('map');
           }}
         />

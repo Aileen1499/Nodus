@@ -72,6 +72,7 @@ export interface MindmapNode {
   y: number; // Canvas coordinate
   level: number; // 0 for root, 1 for branch, 2 for leaf
   status?: NodeStatus; // Computed dynamically based on user progress
+  toolId?: string; // Kalkulator terkait di tab Alat (lihat lib/toolkit)
   microContent: MicroContent;
   decisionScenario: DecisionScenario;
   quiz: QuizQuestion[];

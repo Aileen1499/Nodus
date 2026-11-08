@@ -3,6 +3,7 @@ import { MindmapData, MindmapNode, HighlightColor } from '../../types';
 import { useUser } from '../../context/UserContext';
 import { askSocratesAI, ChatMessage } from '../../lib/socrates';
 import { getNeighbours, getNodeState, plain } from '../../lib/pathLogic';
+import { toolTitle } from '../tools/ToolkitView';
 import {
   X,
   CheckSquare,
@@ -28,6 +29,8 @@ interface MicroReaderSheetProps {
   onStartQuiz: (node: MindmapNode) => void;
   /** Move to another lesson on the path. */
   onNavigate?: (node: MindmapNode) => void;
+  /** Open a calculator from the Alat tab. */
+  onOpenTool?: (toolId: string) => void;
 }
 
 const HIGHLIGHT_COLORS: Record<HighlightColor, { name: string; dot: string; mark: string }> = {
@@ -71,7 +74,7 @@ const SectionHeading: React.FC<{ children: React.ReactNode; aside?: React.ReactN
   </div>
 );
 
-export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, onClose, onStartQuiz, onNavigate }) => {
+export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, onClose, onStartQuiz, onNavigate, onOpenTool }) => {
   const {
     isNodeMastered,
     toggleActionCheck,
@@ -460,6 +463,16 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, 
                   })}
                 </ul>
               </section>
+
+              {node.toolId && onOpenTool && (
+                <button onClick={() => onOpenTool(node.toolId as string)} className="mt-6 flex w-full items-center gap-3 rounded-2xl border border-[#E3A63A]/50 bg-[#FDF0D5] p-4 text-left transition-colors hover:bg-[#FBE7BD] dark:bg-[#E3A63A]/10 dark:hover:bg-[#E3A63A]/15">
+                  <span className="min-w-0 flex-1">
+                    <span className="eyebrow !text-[#7A4D0A] dark:!text-[#E9C06B]">Alat terkait</span>
+                    <span className="block text-sm font-extrabold text-slate-900 dark:text-white">Hitung langsung: {toolTitle(node.toolId)}</span>
+                  </span>
+                  <ArrowRight className="h-4 w-4 shrink-0 text-[#9A6410] dark:text-[#E9C06B]" />
+                </button>
+              )}
 
               {/* Next up: one clear continuation */}
               <section className="mt-14 rounded-3xl bg-white p-5 shadow-card ring-1 ring-slate-200/70 dark:bg-white/5 dark:ring-white/10">

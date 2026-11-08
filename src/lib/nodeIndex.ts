@@ -32,3 +32,7 @@ const build = () => {
 export const findNode = (nodeId: string): IndexedNode | undefined => build().byId.get(nodeId);
 
 export const allNodes = (): IndexedNode[] => Array.from(build().byId.values());
+
+export const allMaps = (): MindmapData[] => build().maps;
+
+export const getMapById = (mapId: string): MindmapData | undefined => build().maps.find((m) => m.id === mapId);

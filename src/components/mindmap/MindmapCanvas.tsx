@@ -14,6 +14,7 @@ interface MindmapCanvasProps {
   onSelectNode: (node: MindmapNode) => void;
   onStartQuiz?: (node: MindmapNode) => void;
   onSearch: (query: string) => void;
+  onSelectMap: (mapId: string) => void;
   isLoading: boolean;
   presetQueries: string[];
 }
@@ -23,15 +24,19 @@ const NODE_H = 64;
 const MIN_SCALE = 0.35;
 const MAX_SCALE = 2.2;
 
-const DOMAIN_FILTERS = [
-  { id: 'all', label: 'Semua' },
-  { id: 'Bisnis', label: 'Bisnis & Legal' },
-  { id: 'Ekonomi', label: 'Makroekonomi' },
-  { id: 'Psikologi', label: 'Psikologi' },
-  { id: 'Keuangan', label: 'Keuangan' },
-  { id: 'Geopolitik', label: 'Geopolitik' },
-  { id: 'Komunikasi', label: 'Komunikasi' },
-  { id: 'Pajak', label: 'Pajak' },
+// Setiap chip membuka satu jalur belajar yang berbeda. Chip aktif selalu diturunkan dari peta yang sedang dibuka.
+const TRACK_CHIPS = [
+  { id: 'curriculum-zero-to-hero-owner', label: 'Mulai dari Nol' },
+  { id: 'curriculum-corporate-strategy-wealth', label: 'Bisnis & Legal' },
+  { id: 'curriculum-bisnis-strategi-moat', label: 'Strategi' },
+  { id: 'curriculum-ekonomi-makro-keuangan', label: 'Makroekonomi' },
+  { id: 'curriculum-psikologi-perilaku-keputusan', label: 'Psikologi' },
+  { id: 'curriculum-akuntansi-pemilik-usaha', label: 'Akuntansi' },
+  { id: 'curriculum-unit-economics-harga', label: 'Unit Economics' },
+  { id: 'curriculum-pemasaran-brand', label: 'Pemasaran' },
+  { id: 'curriculum-operasi-stok-rantai-pasok', label: 'Operasi & Stok' },
+  { id: 'curriculum-negosiasi-penjualan-b2b', label: 'Negosiasi & Sales' },
+  { id: 'curriculum-investasi-dasar', label: 'Investasi' },
 ];
 
 type Point = { x: number; y: number };
@@ -79,13 +84,12 @@ const buildEdge = (a: Point, b: Point): { d: string; mid: Point } => {
   return { d: `M ${a.x} ${sy} C ${a.x} ${my}, ${b.x} ${my}, ${b.x} ${ty}`, mid: { x: (a.x + b.x) / 2, y: my } };
 };
 
-export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, onSelectNode, onStartQuiz, onSearch, isLoading, presetQueries }) => {
+export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, onSelectNode, onStartQuiz, onSearch, onSelectMap, isLoading, presetQueries }) => {
   const { isNodeMastered } = useUser();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
   const [searchInput, setSearchInput] = useState('');
-  const [domainFilter, setDomainFilter] = useState<string>('all');
   const [view, setView] = useState<'graph' | 'path'>('graph');
   const [showPresets, setShowPresets] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -147,7 +151,6 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, 
     data.nodes.forEach((n) => { positions[n.id] = { x: n.x, y: n.y }; });
     setNodePositions(positions);
     setSelectedId(null);
-    setDomainFilter('all');
     if (view !== 'graph') return;
     const frame = requestAnimationFrame(() => frameInitialView(positions));
     return () => cancelAnimationFrame(frame);
@@ -294,14 +297,14 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, 
           </button>
         </form>
 
-        <div className="-mx-4 flex items-center gap-2 overflow-x-auto px-4 pb-0.5 scrollbar-none sm:mx-0 sm:px-0" role="group" aria-label="Filter domain">
-          {DOMAIN_FILTERS.map((cat) => {
-            const selected = domainFilter === cat.id;
+        <div className="-mx-4 flex items-center gap-2 overflow-x-auto px-4 pb-0.5 scrollbar-none sm:mx-0 sm:px-0" role="group" aria-label="Pilih jalur belajar">
+          {TRACK_CHIPS.map((cat) => {
+            const selected = data.id === cat.id;
             return (
               <button
                 key={cat.id}
                 aria-pressed={selected}
-                onClick={() => { setDomainFilter(cat.id); if (cat.id !== 'all') onSearch(cat.id); }}
+                onClick={() => { if (!selected) onSelectMap(cat.id); }}
                 className={controlChip(selected)}
               >
                 {cat.label}
@@ -465,7 +468,6 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, 
                       const pos = nodePositions[node.id] || { x: node.x, y: node.y };
                       const vs = visualState(node);
                       const isSelected = selectedNode?.id === node.id || activeNode?.id === node.id;
-                      const dimmed = domainFilter !== 'all' && node.domain !== domainFilter;
                       const lines = wrapTitle(node.label, 20);
                       const eyebrow = (node.stepNumber || node.domain).toUpperCase();
                       const fill = vs === 'mastered' ? c.masteredFill : vs === 'locked' ? c.lockedFill : c.cardFill;
@@ -478,7 +480,7 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, 
                         <g
                           key={node.id}
                           transform={`translate(${pos.x}, ${pos.y})`}
-                          opacity={dimmed ? 0.25 : 1}
+                          opacity={1}
                           className="cursor-pointer outline-none"
                           role="button"
                           tabIndex={0}

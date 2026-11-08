@@ -196,6 +196,7 @@ export const ZERO_TO_HERO_OWNER_CURRICULUM: MindmapData = {
     // --------------------------------------------------------------------------
     {
       id: 'zhero-0-3',
+      toolId: 'margin',
       stepNumber: 'Langkah 0.3',
       stageTitle: 'LEVEL 0: The Absolute Zero (Mentalitas Pemilik)',
       label: 'Preselling & First 10 Paying Customers',
@@ -469,6 +470,7 @@ export const ZERO_TO_HERO_OWNER_CURRICULUM: MindmapData = {
     // --------------------------------------------------------------------------
     {
       id: 'zhero-1-3',
+      toolId: 'cashflow',
       stepNumber: 'Langkah 1.3',
       stageTitle: 'LEVEL 1: Legalitas dari Nol (Badan Usaha Sah)',
       label: 'Fondasi Pajak Usaha & Rekening Bank Anti-Campur',
@@ -651,6 +653,7 @@ export const ZERO_TO_HERO_OWNER_CURRICULUM: MindmapData = {
     // --------------------------------------------------------------------------
     {
       id: 'zhero-2-2',
+      toolId: 'inventory',
       stepNumber: 'Langkah 2.2',
       stageTitle: 'LEVEL 2: Eksekusi Pabrik & Rantai Pasok',
       label: 'Seni Negosiasi MOQ & Syarat Pembayaran (TOP)',

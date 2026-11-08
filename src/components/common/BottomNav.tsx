@@ -1,19 +1,20 @@
 import React from 'react';
-import { Compass, BookOpen, Zap, Lock } from 'lucide-react';
+import { Compass, BookOpen, Zap, Lock, Calculator } from 'lucide-react';
 
 // Tab ids stay stable (App routing); labels follow the NODUS design.
-export type NavTab = 'map' | 'explore' | 'quiz' | 'profile';
+export type NavTab = 'map' | 'explore' | 'tools' | 'quiz' | 'profile';
 
 interface BottomNavProps {
   activeTab: NavTab;
   onChangeTab: (tab: NavTab) => void;
 }
 
-/** Charcoal pill dock, gold active state. Peta / Kurikulum / Arena / Brankas. */
+/** Charcoal pill dock, gold active state. Peta / Kurikulum / Alat / Arena / Brankas. */
 export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onChangeTab }) => {
   const navItems = [
     { id: 'map' as NavTab, label: 'Peta', icon: Compass },
     { id: 'explore' as NavTab, label: 'Kurikulum', icon: BookOpen },
+    { id: 'tools' as NavTab, label: 'Alat', icon: Calculator },
     { id: 'quiz' as NavTab, label: 'Arena', icon: Zap },
     { id: 'profile' as NavTab, label: 'Brankas', icon: Lock },
   ];

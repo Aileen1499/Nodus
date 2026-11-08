@@ -7,6 +7,12 @@ import { CORPORATE_STRATEGY_WEALTH_CURRICULUM } from './corporateCurriculum';
 import { ADVANCED_MACRO_FINANCE_CURRICULUM } from './macroCurriculum';
 import { ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM } from './behavioralCurriculum';
 import { ZERO_TO_HERO_OWNER_CURRICULUM } from './zeroToHeroCurriculum';
+import { ACCOUNTING_CURRICULUM } from './curricula/accounting';
+import { UNIT_ECONOMICS_CURRICULUM } from './curricula/unitEconomics';
+import { MARKETING_CURRICULUM } from './curricula/marketing';
+import { INVESTING_CURRICULUM } from './curricula/investing';
+import { OPERATIONS_CURRICULUM } from './curricula/operations';
+import { NEGOTIATION_CURRICULUM } from './curricula/negotiation';
 export { 
   CORPORATE_STRATEGY_WEALTH_CURRICULUM, 
   ADVANCED_MACRO_FINANCE_CURRICULUM, 
@@ -1185,7 +1191,36 @@ export const ALL_CURRICULA: Record<string, MindmapData> = {
   'maklon pabrik & moq': ZERO_TO_HERO_OWNER_CURRICULUM,
   'tembus retailer': ZERO_TO_HERO_OWNER_CURRICULUM,
   'mulai dari nol': ZERO_TO_HERO_OWNER_CURRICULUM,
+  // Jalur praktis baru
+  'akuntansi & laporan keuangan untuk pemilik usaha': ACCOUNTING_CURRICULUM,
+  'akuntansi': ACCOUNTING_CURRICULUM,
+  'laporan keuangan': ACCOUNTING_CURRICULUM,
+  'pembukuan': ACCOUNTING_CURRICULUM,
+  'neraca': ACCOUNTING_CURRICULUM,
+  'unit economics, harga & arus kas': UNIT_ECONOMICS_CURRICULUM,
+  'unit economics': UNIT_ECONOMICS_CURRICULUM,
+  'harga & arus kas': UNIT_ECONOMICS_CURRICULUM,
+  'arus kas': UNIT_ECONOMICS_CURRICULUM,
+  'break even': UNIT_ECONOMICS_CURRICULUM,
+  'titik impas': UNIT_ECONOMICS_CURRICULUM,
+  'pemasaran, brand & pertumbuhan pelanggan': MARKETING_CURRICULUM,
+  'pemasaran': MARKETING_CURRICULUM,
+  'marketing': MARKETING_CURRICULUM,
+  'brand': MARKETING_CURRICULUM,
+  'branding': MARKETING_CURRICULUM,
+  'investasi & pasar modal untuk pemula': INVESTING_CURRICULUM,
+  'investasi pemula': INVESTING_CURRICULUM,
+  'pasar modal': INVESTING_CURRICULUM,
+  'saham': INVESTING_CURRICULUM,
+  'reksa dana': INVESTING_CURRICULUM,
+  'operasi, stok & rantai pasok untuk pemilik usaha': OPERATIONS_CURRICULUM,
+  'manajemen stok': OPERATIONS_CURRICULUM,
+  'persediaan': OPERATIONS_CURRICULUM,
+  'negosiasi, penjualan b2b & kepemimpinan tim': NEGOTIATION_CURRICULUM,
+  'penjualan b2b': NEGOTIATION_CURRICULUM,
+  'kepemimpinan tim': NEGOTIATION_CURRICULUM,
 };
+
 
 export const STRUCTURED_CURRICULA = ALL_CURRICULA;
 
