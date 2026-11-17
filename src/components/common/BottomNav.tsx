@@ -7,10 +7,12 @@ export type NavTab = 'map' | 'explore' | 'tools' | 'quiz' | 'profile';
 interface BottomNavProps {
   activeTab: NavTab;
   onChangeTab: (tab: NavTab) => void;
+  /** Angka kecil di atas ikon, misalnya jumlah pelajaran yang perlu diulang. */
+  badges?: Partial<Record<NavTab, number>>;
 }
 
 /** Charcoal pill dock, gold active state. Peta / Kurikulum / Alat / Arena / Brankas. */
-export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onChangeTab }) => {
+export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onChangeTab, badges }) => {
   const navItems = [
     { id: 'map' as NavTab, label: 'Peta', icon: Compass },
     { id: 'explore' as NavTab, label: 'Kurikulum', icon: BookOpen },
@@ -37,7 +39,12 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onChangeTab }) 
                 isActive ? 'bg-[#E3A63A] text-[#151517]' : 'text-slate-300 hover:text-white'
               }`}
             >
-              <Icon className="h-5 w-5" strokeWidth={isActive ? 2.4 : 2} />
+              <span className="relative">
+                <Icon className="h-5 w-5" strokeWidth={isActive ? 2.4 : 2} />
+                {!!badges?.[item.id] && (
+                  <span aria-label={`${badges[item.id]} perlu diulang`} className="absolute -right-2.5 -top-2 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-[#E3A63A] px-1 text-[10px] font-extrabold leading-none text-[#151517] ring-2 ring-[#151517]">{badges[item.id]}</span>
+                )}
+              </span>
               <span className="text-[11px] font-bold leading-none tracking-tight">{item.label}</span>
             </button>
           );

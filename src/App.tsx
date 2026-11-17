@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { UserProvider, useUser } from './context/UserContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
@@ -7,13 +7,15 @@ import { BottomNav, NavTab } from './components/common/BottomNav';
 import { MindmapCanvas } from './components/mindmap/MindmapCanvas';
 import { MicroReaderSheet } from './components/reader/MicroReaderSheet';
 import { QuizEngine } from './components/quiz/QuizEngine';
-import { QuizHubModal } from './components/quiz/QuizHubModal';
+import { ArenaView } from './components/quiz/ArenaView';
+import { getNeighbours } from './lib/pathLogic';
 import { SettingsModal } from './components/common/SettingsModal';
 import { HelpModal } from './components/common/HelpModal';
 import { ExploreModal } from './components/explore/ExploreModal';
 import { ToolkitView } from './components/tools/ToolkitView';
 import type { ToolId } from './lib/curriculumBuilder';
-import { getMapById } from './lib/nodeIndex';
+import { allNodes, getMapById } from './lib/nodeIndex';
+import { isDueForReview } from './lib/review';
 import { ProfileModal } from './components/profile/ProfileModal';
 import { AuthModal } from './components/auth/AuthModal';
 import { PaywallModal } from './components/paywall/PaywallModal';
@@ -30,6 +32,11 @@ const AppContent: React.FC = () => {
   const [currentMindmap, setCurrentMindmap] = useState<MindmapData>(() => {
     return ZERO_TO_HERO_OWNER_CURRICULUM;
   });
+
+  const dueReviews = useMemo(
+    () => allNodes().filter((p) => progress.masteredNodeIds.includes(p.node.id) && isDueForReview(p.node.id, progress.lastReviewed)).length,
+    [progress.masteredNodeIds, progress.lastReviewed]
+  );
 
   // Navigation tab state (Mobile Bottom Nav)
   const [activeTab, setActiveTab] = useState<NavTab>('map');
@@ -149,6 +156,7 @@ const AppContent: React.FC = () => {
       <BottomNav
         activeTab={activeTab}
         onChangeTab={handleTabChange}
+        badges={{ quiz: dueReviews }}
       />
 
       {/* Micro-Reader Bottom Sheet / Drawer */}
@@ -166,33 +174,40 @@ const AppContent: React.FC = () => {
         />
       )}
 
-      {/* Decision Simulation & Gamified Quiz Engine */}
-      {activeQuizNode && (
-        <QuizEngine
-          node={activeQuizNode}
+      {/* Arena (full screen) */}
+      {isQuizHubOpen && (
+        <ArenaView
+          data={currentMindmap}
           onClose={() => {
-            setActiveQuizNode(null);
+            setIsQuizHubOpen(false);
             setActiveTab('map');
           }}
-          onComplete={handleQuizComplete}
+          onSelectNode={(node) => setActiveQuizNode(node)}
         />
       )}
 
-      {/* Quiz Arena / Hub Modal */}
-      {isQuizHubOpen && (
-        <QuizHubModal
-          nodes={currentMindmap.nodes}
-          curriculumTitle={currentMindmap.topic}
-          onClose={() => {
-            setIsQuizHubOpen(false);
-            setActiveTab('map');
-          }}
-          onSelectNode={(node) => {
-            setIsQuizHubOpen(false);
-            setActiveQuizNode(node);
-          }}
-        />
-      )}
+      {/* Evaluasi (full screen, di atas Arena atau Peta) */}
+      {activeQuizNode && (() => {
+        const quizNode = activeQuizNode;
+        const nextNode = getNeighbours(quizNode, currentMindmap).next;
+        const openReader = (node: MindmapNode) => {
+          setActiveQuizNode(null);
+          setIsQuizHubOpen(false);
+          setActiveTab('map');
+          setActiveReaderNode(node);
+        };
+        return (
+          <QuizEngine
+            key={quizNode.id}
+            node={quizNode}
+            onClose={() => setActiveQuizNode(null)}
+            onComplete={handleQuizComplete}
+            onNext={nextNode ? () => openReader(nextNode) : undefined}
+            nextLabel={nextNode ? `Lanjut: ${nextNode.label}` : undefined}
+            onReadLesson={() => openReader(quizNode)}
+          />
+        );
+      })()}
 
       {/* Kurikulum (full screen) */}
       {isExploreOpen && (

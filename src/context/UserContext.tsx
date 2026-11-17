@@ -9,6 +9,7 @@ interface UserContextType {
   highlights: UserHighlight[];
   addRankPoints: (points: number) => void;
   markNodeMastered: (nodeId: string, bonusPoints?: number) => void;
+  recordReview: (nodeIds: string[], rp?: number) => void;
   isNodeMastered: (nodeId: string) => boolean;
   toggleActionCheck: (nodeId: string, actionIndex: number) => void;
   isActionChecked: (nodeId: string, actionIndex: number) => boolean;
@@ -30,6 +31,14 @@ const STORAGE_KEY = 'nodus_user_progress_v1';
 
 const getTodayString = (): string => {
   return new Date().toISOString().split('T')[0];
+};
+
+/** Streak berjalan hanya jika ada aktivitas belajar di hari baru. */
+const nextStreak = (prev: UserProgress, today: string): number => {
+  if (!prev.lastStudyDate) return 1;
+  if (prev.lastStudyDate === today) return prev.streak;
+  const diff = Math.floor((new Date(today).getTime() - new Date(prev.lastStudyDate).getTime()) / (1000 * 3600 * 24));
+  return diff === 1 ? prev.streak + 1 : 1;
 };
 
 const defaultProgress: UserProgress = {
@@ -139,21 +148,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const newMastered = alreadyMastered ? prev.masteredNodeIds : [...prev.masteredNodeIds, nodeId];
       const newPoints = alreadyMastered ? prev.rankPoints : prev.rankPoints + bonusPoints;
 
-      // Accurate streak calculation: only increment if activity happens on a new day
       const today = getTodayString();
-      let updatedStreak = prev.streak;
-      if (!prev.lastStudyDate) {
-        updatedStreak = 1;
-      } else if (prev.lastStudyDate !== today) {
-        const diff = Math.floor(
-          (new Date(today).getTime() - new Date(prev.lastStudyDate).getTime()) / (1000 * 3600 * 24)
-        );
-        if (diff === 1) {
-          updatedStreak = prev.streak + 1;
-        } else {
-          updatedStreak = 1;
-        }
-      }
+      const updatedStreak = nextStreak(prev, today);
 
       if (user) {
         syncUserRP(user.uid, newPoints);
@@ -167,6 +163,17 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         lastStudyDate: today,
         masteredNodeIds: newMastered,
       };
+    });
+  };
+
+  const recordReview = (nodeIds: string[], rp: number = 0) => {
+    setProgress((prev) => {
+      const today = getTodayString();
+      const reviewed = { ...(prev.lastReviewed || {}) };
+      nodeIds.forEach((id) => { reviewed[id] = today; });
+      const newRP = Math.max(0, prev.rankPoints + rp);
+      if (user && rp !== 0) syncUserRP(user.uid, newRP);
+      return { ...prev, lastReviewed: reviewed, rankPoints: newRP, streak: nextStreak(prev, today), lastStudyDate: today };
     });
   };
 
@@ -319,6 +326,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         highlights,
         addRankPoints,
         markNodeMastered,
+        recordReview,
         isNodeMastered,
         toggleActionCheck,
         isActionChecked,

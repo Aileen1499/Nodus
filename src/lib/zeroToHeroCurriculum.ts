@@ -96,6 +96,13 @@ export const ZERO_TO_HERO_OWNER_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Media dan Software adalah bentuk leverage tanpa izin (permissionless); Anda bisa membuat konten atau sistem online malam ini juga dengan laptop dan koneksi internet.'
+        },
+        {
+          id: 'q-zh-0-1-b',
+          question: 'Apa ciri utama jebakan karyawan (employee trap) menurut materi ini?',
+          options: ['Penghasilan bertumbuh hanya jika jam kerja bertambah, sehingga ada batas fisik absolut.', 'Penghasilan otomatis naik tanpa kerja.', 'Bebas dari risiko pemutusan kerja.', 'Gaji selalu dibayar di muka.'],
+          correctAnswerIndex: 0,
+          explanation: 'Menukar waktu dengan uang punya batas 24 jam. Bisnis dan aset membuka penghasilan yang tidak terikat jam kerja Anda.'
         }
       ]
     },
@@ -187,6 +194,13 @@ export const ZERO_TO_HERO_OWNER_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Fokus pada perilaku masa lalu yang nyata (uang dan waktu yang sudah dikeluarkan), bukan pada opini sopan atau janji hipotetis di masa depan.'
+        },
+        {
+          id: 'q-zh-0-2-b',
+          question: 'Sebelum membuat produk, bukti validasi masalah yang paling kuat adalah...',
+          options: ['Teman dan keluarga berkata idenya bagus.', 'Calon pelanggan menceritakan masalah nyata yang sudah mereka coba selesaikan, bahkan rela membayar untuk solusinya.', 'Banyak orang menyukai unggahan media sosial Anda.', 'Pesaing belum pernah ada.'],
+          correctAnswerIndex: 1,
+          explanation: 'Perilaku nyata (sudah mencoba solusi, mau membayar) jauh lebih dapat dipercaya daripada pujian.'
         }
       ]
     },
@@ -279,6 +293,13 @@ export const ZERO_TO_HERO_OWNER_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Preselling mengeliminasi risiko terbesar bisnis pemula: memproduksi barang yang tidak laku dan kehabisan kas operasional.'
+        },
+        {
+          id: 'q-zh-0-3-b',
+          question: 'Mengapa preselling mengurangi risiko bagi pengusaha pemula?',
+          options: ['Karena produk tidak perlu berkualitas.', 'Karena permintaan terbukti dan sebagian modal produksi datang dari pelanggan sebelum stok dibuat.', 'Karena tidak perlu menepati tanggal pengiriman.', 'Karena pajak otomatis nol.'],
+          correctAnswerIndex: 1,
+          explanation: 'Preselling menguji permintaan sekaligus mendanai produksi, namun janji pengiriman tetap harus ditepati.'
         }
       ]
     },
@@ -370,6 +391,13 @@ export const ZERO_TO_HERO_OWNER_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Status badan hukum PT memisahkan kekayaan perseroan dari harta pribadi organ PT; sedangkan CV bukan badan hukum sehingga harta pribadi pengurusnya dapat disita pengadilan.'
+        },
+        {
+          id: 'q-zh-1-1-b',
+          question: 'Mengapa memilih badan usaha dengan pemisahan tanggung jawab (seperti PT) bermanfaat bagi pemilik?',
+          options: ['Seluruh utang usaha otomatis dibayar negara.', 'Tanggung jawab pemegang saham pada dasarnya terbatas pada modal yang disetor, selama aturan dipatuhi dan harta tidak dicampur.', 'Pemilik tidak perlu membuat pembukuan.', 'Tidak ada kewajiban pajak.'],
+          correctAnswerIndex: 1,
+          explanation: 'Pemisahan harta usaha dan pribadi melindungi pemilik, tetapi perlu disiplin: mencampur uang pribadi dan usaha dapat melemahkan perlindungan itu.'
         }
       ]
     },
@@ -461,6 +489,13 @@ export const ZERO_TO_HERO_OWNER_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Bagi kegiatan usaha risiko rendah, NIB berfungsi sebagai legalitas operasional dan komersial tunggal yang langsung berlaku efektif sejak diterbitkan.'
+        },
+        {
+          id: 'q-zh-1-2-b',
+          question: 'Apa fungsi Nomor Induk Berusaha (NIB)?',
+          options: ['Identitas pelaku usaha yang menjadi dasar perizinan berusaha yang diterbitkan melalui sistem OSS.', 'Pengganti seluruh laporan pajak.', 'Jaminan bahwa usaha pasti untung.', 'Surat izin tinggal bagi pemilik usaha.'],
+          correctAnswerIndex: 0,
+          explanation: 'NIB adalah identitas pelaku usaha dalam sistem OSS dan menjadi pintu masuk perizinan sesuai tingkat risiko usaha.'
         }
       ]
     },
@@ -553,6 +588,13 @@ export const ZERO_TO_HERO_OWNER_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Berdasarkan PP No. 55/2022, tarif PPh Final UMKM adalah 0.5% dari peredaran bruto bulanan yang sangat terjangkau bagi pelaku usaha rintisan.'
+        },
+        {
+          id: 'q-zh-1-3-b',
+          question: 'Mengapa rekening bank usaha sebaiknya dipisah dari rekening pribadi?',
+          options: ['Agar laba usaha dapat diukur dengan benar dan pembukuan serta pajak lebih mudah dipertanggungjawabkan.', 'Supaya bank memberi bunga lebih tinggi.', 'Agar tidak perlu mencatat transaksi.', 'Karena hukum melarang punya dua rekening.'],
+          correctAnswerIndex: 0,
+          explanation: 'Pemisahan membuat arus kas usaha jelas, mempermudah audit, pajak, dan pengajuan pendanaan.'
         }
       ]
     },
@@ -644,6 +686,13 @@ export const ZERO_TO_HERO_OWNER_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'OEM memproduksi spesifikasi eksklusif milik pemesan, sedangkan ODM menawarkan formula atau desain siap pakai dari pabrik yang tinggal diberi label merek pemesan (White Label).'
+        },
+        {
+          id: 'q-zh-2-1-b',
+          question: 'Saat memilih pabrik maklon, langkah apa yang paling mengurangi risiko mutu?',
+          options: ['Memesan langsung dalam jumlah terbesar.', 'Meminta sampel dan melakukan uji produksi kecil sebelum komitmen besar.', 'Memilih yang paling murah tanpa memeriksa.', 'Menghindari kontrak tertulis.'],
+          correctAnswerIndex: 1,
+          explanation: 'Sampel dan batch uji membuktikan kemampuan pabrik sebelum Anda mengikat modal besar.'
         }
       ]
     },
@@ -736,6 +785,13 @@ export const ZERO_TO_HERO_OWNER_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Cash Trap mengunci likuiditas hidup bisnis ke tumpukan barang mati; jika produk lambat berputar, bisnis akan mati kehabisan kas tunai likuid.'
+        },
+        {
+          id: 'q-zh-2-2-b',
+          question: 'Mengapa termin pembayaran (TOP) yang lebih panjang membantu arus kas Anda?',
+          options: ['Karena Anda memakai uang pemasok lebih lama untuk berjualan sebelum membayar.', 'Karena harga barang otomatis turun.', 'Karena pesanan dibatalkan otomatis.', 'Karena pajak berkurang.'],
+          correctAnswerIndex: 0,
+          explanation: 'Termin panjang menurunkan kebutuhan modal kerja karena penjualan dapat menutup tagihan sebelum jatuh tempo.'
         }
       ]
     },
@@ -827,6 +883,13 @@ export const ZERO_TO_HERO_OWNER_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Margin Stacking memastikan bahwa setiap entitas di sepanjang jalur distribusi mendapatkan persentase keuntungan yang layak, sehingga mereka termotivasi memajang dan menjual produk Anda ke konsumen akhir.'
+        },
+        {
+          id: 'q-zh-2-3-b',
+          question: 'Saat menawarkan produk ke retailer, mengapa Anda perlu menghitung margin tiap pihak terlebih dahulu?',
+          options: ['Agar retailer, distributor, dan Anda masing-masing masih untung pada harga rak yang masih dapat diterima konsumen.', 'Agar harga rak bisa ditentukan sembarangan.', 'Agar tidak perlu bernegosiasi.', 'Karena retailer wajib memberi diskon.'],
+          correctAnswerIndex: 0,
+          explanation: 'Margin bertingkat menentukan apakah produk bisa hidup di rak: harga akhir harus tetap wajar bagi konsumen.'
         }
       ]
     }

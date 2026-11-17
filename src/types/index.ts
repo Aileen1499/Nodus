@@ -117,6 +117,7 @@ export interface UserProgress {
   highlights?: UserHighlight[]; // Digital stabilizer notes
   bookmarkedNodeIds?: string[]; // Saved concepts (Brankas)
   lastOpenedNodeId?: string; // Resume point
+  lastReviewed?: Record<string, string>; // nodeId -> YYYY-MM-DD terakhir diuji/diulas (untuk pengulangan berjarak)
   totalStudyMinutes?: number; // Total minutes spent learning
   lastStudyDate?: string; // YYYY-MM-DD when study activity was completed
   lastActiveDate: string; // YYYY-MM-DD for streak calculation
