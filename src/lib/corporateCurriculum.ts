@@ -96,6 +96,18 @@ export const CORPORATE_STRATEGY_WEALTH_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Status Badan Hukum pada PT memisahkan harta kekayaan perseroan dengan harta pribadi pendiri (Limited Liability), sedangkan pada CV harta pengurus aktif menyatu dengan liabilitas usaha.'
+        },
+        {
+          id: 'q-corp-1-1-b',
+          question: 'Dalam analogi kapal pada simpul ini, apa yang terjadi jika sebuah PT karam akibat utang bisnis murni?',
+          options: [
+            'Seluruh rumah dan tabungan pribadi pendiri otomatis dapat disita kreditor',
+            'Pendiri wajib menyerahkan seluruh hartanya kepada negara',
+            'Kreditor pada prinsipnya hanya dapat menyita aset milik PT, bukan harta pribadi pemegang saham',
+            'Utang PT otomatis terhapus tanpa proses hukum apa pun'
+          ],
+          correctAnswerIndex: 2,
+          explanation: 'PT adalah badan hukum dengan tanggung jawab terbatas, sehingga kreditor pada dasarnya hanya dapat menjangkau aset di dalam PT, kecuali terjadi pengecualian seperti percampuran harta.'
         }
       ]
     },
@@ -183,6 +195,18 @@ export const CORPORATE_STRATEGY_WEALTH_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Kode KBLI 5 digit menentukan parameter regulasi, tingkat risiko (Rendah/Menengah/Tinggi), dan izin sektoral yang wajib dimiliki agar kegiatan bisnis sah di mata hukum.'
+        },
+        {
+          id: 'q-corp-1-2-b',
+          question: 'Dalam sistem OSS RBA, apa yang umumnya dibutuhkan untuk kegiatan usaha berisiko rendah?',
+          options: [
+            'NIB beserta izin dan AMDAL',
+            'NIB ditambah Sertifikat Standar yang harus diverifikasi pemerintah',
+            'Izin khusus dari kementerian teknis tanpa NIB',
+            'Cukup Nomor Induk Berusaha (NIB)'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'Pada OSS RBA, usaha berisiko rendah cukup memiliki NIB, sedangkan tingkat risiko yang lebih tinggi menuntut sertifikat standar atau izin tambahan.'
         }
       ]
     },
@@ -270,6 +294,18 @@ export const CORPORATE_STRATEGY_WEALTH_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'RUPS adalah organ perseroan pemegang kekuasaan tertinggi yang berwenang mengangkat/memberhentikan Direksi dan Komisaris, mengubah anggaran dasar, serta menyetujui merger atau likuidasi.'
+        },
+        {
+          id: 'q-corp-1-3-b',
+          question: 'Apa konsekuensi bagi Direksi yang mengambil keputusan ceroboh di luar batas kewenangannya (ultra vires) dan merugikan perseroan?',
+          options: [
+            'Direksi otomatis bebas dari tanggung jawab karena bertindak atas nama perseroan',
+            'Hanya Dewan Komisaris yang menanggung kerugian tersebut',
+            'Kerugian ditanggung seluruhnya oleh pemegang saham minoritas',
+            'Perlindungan limited liability gugur dan Direksi dapat bertanggung jawab secara pribadi'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'Direksi terikat fiduciary duty; bila bertindak ceroboh melampaui kewenangan sehingga merugikan perseroan, ia dapat dimintai pertanggungjawaban hingga harta pribadinya.'
         }
       ]
     },
@@ -361,6 +397,18 @@ export const CORPORATE_STRATEGY_WEALTH_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Retailer menanggung biaya tempat ritel, risiko barang kedaluwarsa satuan, dan biaya operasional langsung, sehingga membutuhkan margin per unit lebih tebal dibanding distributor yang mengandalkan volume grosir masif.'
+        },
+        {
+          id: 'q-corp-2-1-b',
+          question: 'Menurut simpul ini, apa risiko jika principal memotong jalur distributor tanpa memiliki armada logistik mandiri?',
+          options: [
+            'Biaya operasional pengiriman last-mile justru dapat membengkak lebih mahal daripada fee distributor',
+            'Margin principal otomatis naik karena tidak ada lagi biaya distribusi',
+            'Retailer akan berhenti menjual produk tersebut secara hukum',
+            'Harga produk di tingkat konsumen pasti turun'
+          ],
+          correctAnswerIndex: 0,
+          explanation: 'Distributor menyediakan kapabilitas logistik; tanpa armada sendiri, biaya pengiriman langsung ke banyak outlet bisa melebihi fee yang sebelumnya dibayarkan kepada distributor.'
         }
       ]
     },
@@ -448,6 +496,18 @@ export const CORPORATE_STRATEGY_WEALTH_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Pasal 1266 KUHPerdata mewajibkan pembatalan perjanjian dilakukan melalui putusan hakim pengadilan; mengesampingkannya memungkinkan terminasi kontrak instan saat salah satu pihak ingkar janji.'
+        },
+        {
+          id: 'q-corp-2-2-b',
+          question: 'Mengapa principal perlu mengikat distributor dengan Bank Garansi atau instrumen sejenis dalam PKS?',
+          options: [
+            'Agar distributor bebas menjual di luar wilayah teritorinya',
+            'Untuk menghapus kewajiban pencapaian target penjualan',
+            'Untuk memitigasi risiko gagal bayar atas barang yang dikirim dengan tempo pembayaran',
+            'Agar principal dapat menetapkan harga eceran sepihak'
+          ],
+          correctAnswerIndex: 2,
+          explanation: 'Bank Garansi memberi jaminan pembayaran bagi principal apabila distributor gagal membayar barang yang diberikan dengan tempo (TOP).'
         }
       ]
     },
@@ -535,6 +595,18 @@ export const CORPORATE_STRATEGY_WEALTH_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Cash trap terjadi ketika laba akuntansi tidak terkonversi menjadi kas cair karena tertahan pada perpanjangan piutang pelanggan dan pembengkakan persediaan barang gudang.'
+        },
+        {
+          id: 'q-corp-2-3-b',
+          question: 'Dalam analisis ABC inventaris, produk mana yang buffer stock-nya wajib dijaga?',
+          options: [
+            'Produk Slow-Moving Kategori C',
+            'Produk Fast-Moving Kategori A',
+            'Seluruh produk dengan jumlah yang sama persis',
+            'Produk yang belum pernah terjual'
+          ],
+          correctAnswerIndex: 1,
+          explanation: 'Produk Fast-Moving (Kategori A) harus dijaga buffer stock-nya agar tidak kehabisan, sedangkan produk Slow-Moving (Kategori C) lebih baik diproduksi berdasarkan pesanan.'
         }
       ]
     },
@@ -626,6 +698,18 @@ export const CORPORATE_STRATEGY_WEALTH_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Mengundurkan diri setelah menang lelang merugikan keuangan negara, sehingga jaminan penawaran disita dan entitas di-blacklist dari seluruh tender pengadaan nasional.'
+        },
+        {
+          id: 'q-corp-3-1-b',
+          question: 'Apa yang dimaksud dengan "Kutukan Pemenang" (Winner\'s Curse) dalam tender proyek?',
+          options: [
+            'Peserta yang kalah tender dikenai denda oleh panitia lelang',
+            'Panitia tender membatalkan lelang karena penawaran terlalu banyak',
+            'Peserta menang karena harga tertinggi namun ditolak oleh bank',
+            'Memenangkan proyek dengan penawaran terlalu murah sehingga bangkrut saat mengeksekusinya karena anggaran tidak menutup biaya'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'Winner\'s Curse terjadi ketika harga dibanting demi menang lelang, sehingga biaya riil di lapangan melampaui anggaran dan kontraktor merugi.'
         }
       ]
     },
@@ -713,6 +797,18 @@ export const CORPORATE_STRATEGY_WEALTH_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Retensi 5% berfungsi sebagai jaminan kepatuhan kontraktor untuk merawat dan memperbaiki cacat fisik bangunan selama masa garansi pemeliharaan berlangsung.'
+        },
+        {
+          id: 'q-corp-3-2-b',
+          question: 'Mengapa kontraktor tidak boleh memulai pekerjaan lapangan sebelum SPK resmi ditandatangani?',
+          options: [
+            'Tanpa SPK dan berita acara resmi, pemilik proyek dapat menolak membayar karena tidak ada dasar hukum yang kuat',
+            'Karena SPK menjamin proyek pasti selesai tepat waktu',
+            'Karena SPK menghapus kewajiban pembayaran uang retensi',
+            'Karena SPK hanya diperlukan untuk proyek di luar Pulau Jawa'
+          ],
+          correctAnswerIndex: 0,
+          explanation: 'Janji lisan atau pesan singkat tidak cukup kuat; SPK resmi bermeterai dan berita acara opname menjadi dasar hukum penagihan pembayaran.'
         }
       ]
     },
@@ -800,6 +896,18 @@ export const CORPORATE_STRATEGY_WEALTH_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Liquidated Damages mematok kompensasi pasti atas keterlambatan jadwal tanpa pemilik proyek perlu membuktikan rincian kerugian riil di pengadilan.'
+        },
+        {
+          id: 'q-corp-3-3-b',
+          question: 'Apa tujuan prinsip "Pay-When-Paid" dalam kontrak dengan sub-kontraktor?',
+          options: [
+            'Mempercepat pembayaran sub-kontraktor sebelum pekerjaan selesai',
+            'Mengisolasi risiko kontraktor utama agar tidak mengalami krisis likuiditas saat pemilik proyek menunda pembayaran',
+            'Menghapus kewajiban sub-kontraktor memenuhi standar mutu',
+            'Menjamin kontraktor utama menerima denda keterlambatan'
+          ],
+          correctAnswerIndex: 1,
+          explanation: 'Dengan pembayaran subcon bergantung pada pembayaran dari pemilik proyek, kontraktor utama tidak menanggung sendiri beban kas bila termin tertunda.'
         }
       ]
     },
@@ -891,6 +999,18 @@ export const CORPORATE_STRATEGY_WEALTH_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Fasilitas Pasal 31E memberikan diskon tarif pajak badan 50% untuk mendukung pertumbuhan usaha kecil dan menengah di Indonesia.'
+        },
+        {
+          id: 'q-corp-4-1-b',
+          question: 'Kapan tarif normal (fasilitas Pasal 31E) cenderung lebih hemat dibanding PPh Final 0.5% dari omzet?',
+          options: [
+            'Saat margin laba bersih sangat tebal',
+            'Saat margin laba tipis atau perusahaan sedang merugi',
+            'Saat perusahaan tidak memiliki omzet sama sekali dan tidak dibukukan',
+            'Selalu, tanpa memandang margin laba'
+          ],
+          correctAnswerIndex: 1,
+          explanation: 'Tarif normal dihitung dari laba bersih sehingga menguntungkan saat margin tipis atau rugi, sedangkan PPh Final dihitung dari peredaran bruto.'
         }
       ]
     },
@@ -978,6 +1098,18 @@ export const CORPORATE_STRATEGY_WEALTH_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Mekanisme PPN bertumpu pada pengkreditan: Pajak Terutang = Pajak Keluaran dikurangi Pajak Masukan yang sah dan berkaitan dengan kegiatan operasional bisnis.'
+        },
+        {
+          id: 'q-corp-4-2-b',
+          question: 'Syarat apa yang harus dipenuhi agar Pajak Masukan dapat dikreditkan dengan Pajak Keluaran?',
+          options: [
+            'Faktur boleh berupa nota biasa tanpa QR code',
+            'Pembelian harus selalu dilakukan secara tunai',
+            'Perusahaan tidak boleh berstatus PKP',
+            'Berhubungan langsung dengan kegiatan usaha dan didukung Faktur Pajak elektronik yang valid'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'Pajak Masukan dapat dikreditkan jika terkait langsung dengan kegiatan usaha (3M) dan didukung e-Faktur yang valid.'
         }
       ]
     },
@@ -1065,6 +1197,18 @@ export const CORPORATE_STRATEGY_WEALTH_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Tax avoidance adalah hak wajib pajak mengatur urusan keuangannya sesuai aturan hukum, sedangkan tax evasion adalah perbuatan melanggar hukum pidana dengan memalsukan data riil.'
+        },
+        {
+          id: 'q-corp-4-3-b',
+          question: 'Manakah contoh Tax Evasion (penggelapan pajak ilegal) menurut simpul ini?',
+          options: [
+            'Membeli faktur pajak masukan fiktif untuk mengklaim restitusi',
+            'Memanfaatkan biaya natura karyawan sesuai ketentuan',
+            'Memilih metode depresiasi fiskal yang sah',
+            'Menyusun dokumentasi transfer pricing untuk transaksi afiliasi'
+          ],
+          correctAnswerIndex: 0,
+          explanation: 'Faktur pajak fiktif dan penyembunyian omzet adalah tindak pidana perpajakan, berbeda dengan tax planning legal yang berbasis dokumen riil.'
         }
       ]
     },
@@ -1156,6 +1300,18 @@ export const CORPORATE_STRATEGY_WEALTH_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Insentif bebas PPh dividen diberikan kepada perorangan jika dividen diinvestasikan kembali ke instrumen produktif di dalam negeri minimal selama 3 tahun.'
+        },
+        {
+          id: 'q-corp-5-1-b',
+          question: 'Mengapa Warren Buffett menahan laba di Berkshire Hathaway alih-alih membagikannya sebagai dividen tunai?',
+          options: [
+            'Karena hukum melarang perusahaan membagikan dividen',
+            'Agar pemegang saham tidak perlu memiliki saham',
+            'Untuk dialokasikan kembali ke investasi yang menghasilkan imbal hasil di atas rata-rata pasar',
+            'Karena laba ditahan selalu dikenai pajak lebih tinggi dari dividen'
+          ],
+          correctAnswerIndex: 2,
+          explanation: 'Laba yang ditahan tetap bekerja penuh di dalam perusahaan untuk diinvestasikan kembali, sehingga efek compounding berjalan tanpa terpotong pajak dividen.'
         }
       ]
     },
@@ -1243,6 +1399,18 @@ export const CORPORATE_STRATEGY_WEALTH_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Dividen antar-perusahaan berbadan hukum di Indonesia tidak dikenakan PPh (Non-Objek Pajak), memungkinkan perputaran modal internal di dalam grup holding secara efisien bebas friksi pajak.'
+        },
+        {
+          id: 'q-corp-5-2-b',
+          question: 'Apa manfaat memisahkan aset properti atau HKI di anak perusahaan khusus, terpisah dari anak perusahaan operasional?',
+          options: [
+            'Aset tidak langsung terancam disita kreditor jika perusahaan operasional mengalami insolvensi',
+            'Seluruh utang perusahaan operasional otomatis lunas',
+            'Perusahaan operasional tidak perlu membayar sewa apa pun',
+            'Holding tidak lagi memiliki kendali atas anak perusahaan'
+          ],
+          correctAnswerIndex: 0,
+          explanation: 'Pemisahan PropCo/IP HoldCo dari OpCo membuat aset bernilai terlindung bila operasional menghadapi kegagalan dagang.'
         }
       ]
     },
@@ -1330,6 +1498,18 @@ export const CORPORATE_STRATEGY_WEALTH_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Tirai perlindungan tanggung jawab terbatas perseroan akan gugur jika pemegang saham mencampuradukkan harta pribadi dengan kas perseroan (commingling of funds) atau bertindak dengan itikad buruk.'
+        },
+        {
+          id: 'q-corp-5-3-b',
+          question: 'Manakah perilaku yang paling berisiko meruntuhkan perlindungan tanggung jawab terbatas pemegang saham PT?',
+          options: [
+            'Membagikan dividen melalui keputusan RUPS yang sah',
+            'Menggunakan rekening bank PT untuk belanja dan cicilan pribadi tanpa mekanisme gaji atau dividen resmi',
+            'Menjalani audit tahunan oleh Kantor Akuntan Publik',
+            'Memberikan gaji resmi kepada direksi'
+          ],
+          correctAnswerIndex: 1,
+          explanation: 'Percampuran harta pribadi dan harta perseroan adalah dasar penembusan tirai perseroan (Piercing the Corporate Veil).'
         }
       ]
     }

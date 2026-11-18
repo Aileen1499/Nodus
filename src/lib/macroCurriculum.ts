@@ -96,6 +96,18 @@ export const ADVANCED_MACRO_FINANCE_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Kredit memperbesar pengeluaran saat ini melampaui produktivitas, namun kewajiban membayar utang dan bunga di masa depan memaksa pengeluaran ditekan di bawah pendapatan.'
+        },
+        {
+          id: 'q-macro-1-1-b',
+          question: 'Dalam persamaan PDB pendekatan pengeluaran GDP = C + I + G + (X - M), apa arti komponen (X - M)?',
+          options: [
+            'Ekspor dikurangi impor, yaitu ekspor neto.',
+            'Pajak dikurangi subsidi pemerintah.',
+            'Investasi dikurangi konsumsi rumah tangga.',
+            'Pengeluaran pemerintah dikurangi utang luar negeri.'
+          ],
+          correctAnswerIndex: 0,
+          explanation: 'Dalam rumus pengeluaran, X adalah ekspor dan M adalah impor, sehingga (X - M) menunjukkan ekspor neto yang menambah atau mengurangi PDB.'
         }
       ]
     },
@@ -187,6 +199,18 @@ export const ADVANCED_MACRO_FINANCE_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Pada akhir siklus utang jangka panjang, beban utang begitu besar sehingga pemotongan suku bunga konvensional tak lagi mampu menstimulasi pinjaman baru (Zero Lower Bound), menuntut restrukturisasi atau pencetakan uang QE.'
+        },
+        {
+          id: 'q-macro-1-2-b',
+          question: 'Dalam proses deleveraging menurut kerangka Ray Dalio, apa yang dimaksud dengan restrukturisasi atau write-down utang?',
+          options: [
+            'Penambahan utang baru untuk membayar utang lama.',
+            'Menaikkan pajak kepada kelompok kaya untuk membiayai pemerintah.',
+            'Pengurangan nilai atau pembatalan sebagian kewajiban utang, yang bersifat deflasi.',
+            'Pencetakan uang oleh bank sentral untuk membeli obligasi.'
+          ],
+          correctAnswerIndex: 2,
+          explanation: 'Restrukturisasi atau write-down utang menurunkan nilai kewajiban dan termasuk tuas deflasi, berbeda dengan pencetakan uang yang bersifat inflasi.'
         }
       ]
     },
@@ -278,6 +302,18 @@ export const ADVANCED_MACRO_FINANCE_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Kenaikan suku bunga menaikkan Risk-Free Rate, yang otomatis meningkatkan tingkat diskonto arus kas masa depan dan menaikkan beban bunga pinjaman, menekan valuasi saham.'
+        },
+        {
+          id: 'q-macro-1-3-b',
+          question: 'Jalur transmisi moneter manakah yang bekerja melalui nilai tukar ketika suku bunga domestik dinaikkan?',
+          options: [
+            'Kanal harga aset, karena saham otomatis naik.',
+            'Kanal ekspektasi inflasi, karena kurs dipatok tetap.',
+            'Kanal suku bunga, karena kurs tidak berubah.',
+            'Kanal nilai tukar, karena kenaikan suku bunga menarik capital inflow dan memperkuat kurs.'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'Kenaikan suku bunga domestik menarik arus modal masuk sehingga mata uang cenderung menguat, itulah kanal nilai tukar.'
         }
       ]
     },
@@ -369,6 +405,18 @@ export const ADVANCED_MACRO_FINANCE_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Demand-pull inflation ditarik oleh lonjakan permintaan belanja moneter ($Aggregate Demand > Aggregate Supply$), sedangkan cost-push inflation didorong oleh kenaikan biaya input produksi di sisi penawaran.'
+        },
+        {
+          id: 'q-macro-2-1-b',
+          question: 'Apa yang dimaksud dengan Wage-Price Spiral?',
+          options: [
+            'Kenaikan harga memicu tuntutan upah lebih tinggi, yang dibebankan kembali ke harga barang sehingga inflasi menjadi kronis.',
+            'Penurunan upah yang menyebabkan harga barang turun secara bertahap.',
+            'Kebijakan bank sentral untuk menetapkan upah dan harga secara bersamaan.',
+            'Penurunan jumlah uang beredar akibat berkurangnya jumlah buruh.'
+          ],
+          correctAnswerIndex: 0,
+          explanation: 'Wage-Price Spiral adalah lingkaran setan ketika kenaikan harga memicu kenaikan upah, lalu upah dibebankan lagi ke harga.'
         }
       ]
     },
@@ -460,6 +508,18 @@ export const ADVANCED_MACRO_FINANCE_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Impossible Trinity membuktikan bahwa pembuat kebijakan hanya bisa memilih 2 dari 3 pilar: Nilai tukar tetap, Aliran modal bebas, atau Kebijakan moneter independen.'
+        },
+        {
+          id: 'q-macro-2-2-b',
+          question: 'Pada krisis 1997, mengapa korporasi Indonesia yang berpenghasilan Rupiah namun berutang USD tanpa hedging sangat terpukul?',
+          options: [
+            'Karena bunga utang USD otomatis naik 100% setiap tahun.',
+            'Karena Rupiah melemah tajam sehingga beban utang dalam Rupiah membengkak sementara pendapatan tidak ikut naik.',
+            'Karena pemerintah melarang korporasi membayar utang dalam USD.',
+            'Karena Rupiah menguat sehingga pendapatan perusahaan menyusut.'
+          ],
+          correctAnswerIndex: 1,
+          explanation: 'Saat kurs runtuh, kewajiban USD jauh lebih mahal dalam Rupiah padahal pendapatan tetap dalam Rupiah, menyebabkan kebangkrutan massal.'
         }
       ]
     },
@@ -551,6 +611,18 @@ export const ADVANCED_MACRO_FINANCE_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Efek Cantillon menjelaskan bahwa injeksi uang tidak netral; entitas yang paling dekat dengan sumber pencetakan uang membelanjakannya sebelum harga-harga naik, memperkaya pemilik aset modal dengan mengorbankan penerima upah tetap.'
+        },
+        {
+          id: 'q-macro-2-3-b',
+          question: 'Melalui jalur apa QE bekerja menurut Portfolio Rebalancing Channel?',
+          options: [
+            'Dengan menaikkan suku bunga jangka pendek agar tabungan lebih menarik.',
+            'Dengan membagikan uang tunai langsung kepada seluruh rumah tangga.',
+            'Dengan menekan yield obligasi jangka panjang sehingga investor beralih mencari imbal hasil pada aset berisiko.',
+            'Dengan melarang bank menyalurkan kredit ke pasar modal.'
+          ],
+          correctAnswerIndex: 2,
+          explanation: 'QE menekan yield dan term premium obligasi, memaksa investor mencari imbal hasil lebih tinggi pada aset berisiko.'
         }
       ]
     },
@@ -642,6 +714,18 @@ export const ADVANCED_MACRO_FINANCE_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Beban bunga pinjaman merupakan biaya yang mengurangi penghasilan kena pajak (tax-deductible expense), sehingga biaya riil utang bagi perusahaan setelah penghematan pajak menjadi $K_d \\times (1 - T)$.'
+        },
+        {
+          id: 'q-macro-3-1-b',
+          question: 'Mengapa uang Rp 100 juta hari ini lebih berharga daripada Rp 100 juta yang baru diterima 5 tahun lagi?',
+          options: [
+            'Karena uang kertas hari ini dicetak dengan bahan lebih baik.',
+            'Karena bank sentral menjamin nilai uang hari ini tidak berubah.',
+            'Karena pajak atas uang masa depan selalu lebih besar.',
+            'Karena uang hari ini dapat diinvestasikan untuk menghasilkan imbal hasil dan terhindar dari risiko gagal bayar serta pengikisan inflasi.'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'Inilah konsep nilai waktu uang: uang yang tersedia sekarang bisa diinvestasikan dan tidak terpapar risiko serta inflasi masa depan.'
         }
       ]
     },
@@ -733,6 +817,18 @@ export const ADVANCED_MACRO_FINANCE_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Asumsi tingkat pertumbuhan abadi ($g$) harus realistis dan dibatasi di bawah atau setara pertumbuhan ekonomi makro jangka panjang (PDB sekitar 2-3%), jika tidak model mengasumsikan perusahaan akan menguasai seluruh dunia.'
+        },
+        {
+          id: 'q-macro-3-2-b',
+          question: 'Apa yang dimaksud dengan Margin of Safety dalam valuasi intrinsik?',
+          options: [
+            'Selisih antara nilai intrinsik hasil DCF dan harga beli yang lebih rendah, sebagai bantalan terhadap kesalahan estimasi.',
+            'Selisih antara laba kotor dan laba bersih perusahaan.',
+            'Tingkat diskonto tambahan yang dikenakan oleh bursa efek.',
+            'Jumlah kas minimum yang wajib disimpan oleh perusahaan.'
+          ],
+          correctAnswerIndex: 0,
+          explanation: 'Margin of Safety adalah diskon harga beli terhadap nilai intrinsik, yang melindungi investor bila proyeksi ternyata terlalu optimistis.'
         }
       ]
     },
@@ -824,6 +920,18 @@ export const ADVANCED_MACRO_FINANCE_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Pertumbuhan laba bersih yang membutuhkan suntikan modal sangat besar dengan pengembalian di bawah biaya modal justru menghancurkan nilai; ROIC mengukur efisiensi alokasi modal yang sebenarnya.'
+        },
+        {
+          id: 'q-macro-3-3-b',
+          question: 'Mengapa EV/EBITDA sering dianggap lebih adil daripada P/E untuk membandingkan perusahaan dengan struktur utang yang berbeda?',
+          options: [
+            'Karena EV/EBITDA hanya berlaku untuk perusahaan tanpa utang.',
+            'Karena EV/EBITDA menetralkan perbedaan struktur modal dan tarif pajak, sedangkan P/E dipengaruhi beban bunga.',
+            'Karena EV/EBITDA selalu menghasilkan angka lebih rendah daripada P/E.',
+            'Karena EV/EBITDA dihitung dari harga saham harian tanpa memakai data laporan keuangan.'
+          ],
+          correctAnswerIndex: 1,
+          explanation: 'EV/EBITDA tidak terdistorsi oleh beban bunga dan pajak, sehingga lebih sebanding antarperusahaan dengan struktur modal berbeda.'
         }
       ]
     },
@@ -915,6 +1023,18 @@ export const ADVANCED_MACRO_FINANCE_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'CCC negatif berarti kas dari penjualan telah dikumpulkan sebelum uang harus dibayarkan ke pemasok barang, menghasilkan sumber pendanaan modal kerja gratis dari rantai pasok.'
+        },
+        {
+          id: 'q-macro-4-1-b',
+          question: 'Apa perbedaan antara perusahaan yang solven namun tidak likuid?',
+          options: [
+            'Asetnya lebih kecil daripada liabilitasnya, tetapi kasnya melimpah.',
+            'Perusahaan tidak memiliki aset sama sekali.',
+            'Total asetnya melampaui liabilitas, tetapi kas tidak cukup untuk membayar kewajiban jangka pendek yang jatuh tempo.',
+            'Perusahaan selalu membukukan rugi akuntansi.'
+          ],
+          correctAnswerIndex: 2,
+          explanation: 'Solvabilitas membandingkan aset dengan liabilitas, sedangkan likuiditas soal ketersediaan kas; perusahaan bisa solven namun gagal bayar karena kehabisan kas.'
         }
       ]
     },
@@ -1006,6 +1126,18 @@ export const ADVANCED_MACRO_FINANCE_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Hedging mentransfer risiko yang sudah ada pada operasi riil agar arus kas stabil, sedangkan spekulasi adalah tindakan sukarela menanggung risiko pasar demi memburu imbal hasil keuntungan.'
+        },
+        {
+          id: 'q-macro-4-2-b',
+          question: 'Apa ciri utama kontrak Opsi dibandingkan kontrak Forward/Futures?',
+          options: [
+            'Opsi mewajibkan kedua pihak bertransaksi tanpa pilihan.',
+            'Opsi tidak memiliki aset acuan sama sekali.',
+            'Opsi hanya dapat digunakan untuk spekulasi, bukan lindung nilai.',
+            'Opsi memberi hak, bukan kewajiban, untuk bertransaksi pada harga kesepakatan dengan membayar premi di muka.'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'Pembeli opsi memiliki hak tetapi tidak wajib bertransaksi dan membayar premi di muka, sedangkan forward/futures bersifat kewajiban mengikat.'
         }
       ]
     },
@@ -1097,6 +1229,18 @@ export const ADVANCED_MACRO_FINANCE_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Dalam lingkungan inflasi tinggi, komoditas riil dan emas mempertahankan daya beli intrinsiknya, sementara nilai obligasi kupon tetap dan uang tunai terdevaluasi oleh inflasi.'
+        },
+        {
+          id: 'q-macro-4-3-b',
+          question: 'Apa inti dari strategi Risk Parity dalam portofolio All-Weather?',
+          options: [
+            'Membagi dana secara merata 50:50 antara saham dan obligasi.',
+            'Menyeimbangkan bobot risiko volatilitas dari tiap kuadran ekonomi sehingga tidak ada satu musim makro yang menghancurkan portofolio.',
+            'Menaruh seluruh dana pada aset yang diprediksi paling untung musim depan.',
+            'Menghindari semua aset berisiko dan hanya memegang kas.'
+          ],
+          correctAnswerIndex: 1,
+          explanation: 'Risk Parity menyeimbangkan kontribusi risiko, bukan jumlah uang, antar kuadran ekonomi agar portofolio tahan berbagai kondisi.'
         }
       ]
     }

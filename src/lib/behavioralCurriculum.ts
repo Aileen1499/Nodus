@@ -96,6 +96,18 @@ export const ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Kelelahan kognitif (Ego Depletion) menguras energi Sistem 2 setelah memproses banyak keputusan di lorong belanja, membuat Sistem 1 yang impulsif mendominasi keputusan di meja kasir.'
+        },
+        {
+          id: 'q-beh-1-1-b',
+          question: 'Mengapa supermarket sengaja menaruh kebutuhan pokok seperti susu dan telur di sudut paling belakang gedung?',
+          options: [
+            'Agar produk pokok lebih awet karena jauh dari pintu masuk yang berdebu.',
+            'Agar kasir lebih mudah menghitung stok barang pokok setiap hari.',
+            'Agar konsumen menyusuri lorong penuh aroma, musik, dan diskon visual yang memanjakan Sistem 1 sebelum sampai ke barang yang dicari.',
+            'Agar konsumen terpaksa berpikir keras memakai Sistem 2 untuk membandingkan harga.'
+          ],
+          correctAnswerIndex: 2,
+          explanation: 'Rute panjang melewati rangsangan yang menarik Sistem 1 memperbesar peluang pembelian impulsif sebelum konsumen mencapai barang kebutuhan utamanya.'
         }
       ]
     },
@@ -187,6 +199,18 @@ export const ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Loss Aversion membuat manusia membenci pengakuan kerugian pasti, mendorong mereka mengambil risiko spekulatif (risk-seeking in the loss domain) demi menghindari rasa sakit merealisasikan cut-loss.'
+        },
+        {
+          id: 'q-beh-1-2-b',
+          question: 'Apa prinsip psikologis di balik garansi retur 365 hari gratis ala Zappos sehingga mampu meningkatkan konversi pembelian sepatu online?',
+          options: [
+            'Garansi tersebut membuat harga sepatu terlihat jauh lebih murah dibanding pesaing.',
+            'Garansi memindahkan risiko kerugian dari pundak pembeli ke perusahaan, sehingga rasa takut rugi (Loss Aversion) calon pembeli menurun.',
+            'Garansi memaksa pembeli memakai Sistem 2 untuk menghitung ukuran sepatu dengan teliti.',
+            'Garansi membuat pembeli merasa sepatu itu langka dan harus segera dibeli.'
+          ],
+          correctAnswerIndex: 1,
+          explanation: 'Dengan menanggung ongkos kirim retur, Zappos menurunkan risiko kerugian pembeli mendekati nol sehingga hambatan psikologis terbesar untuk membeli sepatu secara online hilang.'
         }
       ]
     },
@@ -278,6 +302,18 @@ export const ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Dengan menancapkan ekspektasi di angka $999 terlebih dahulu, harga $499 secara psikologis diproses oleh Sistem 1 sebagai diskon fantastis sebesar $500.'
+        },
+        {
+          id: 'q-beh-1-3-b',
+          question: 'Dalam riset medis klasik Amos Tversky, pasien lebih memilih operasi saat dokter berkata "tingkat kelangsungan hidup 90%" dibanding "tingkat kematian 10%". Apa pelajaran utama dari temuan ini?',
+          options: [
+            'Pasien selalu menolak operasi apa pun yang melibatkan risiko kematian.',
+            'Dokter sebaiknya menyembunyikan seluruh data statistik dari pasien.',
+            'Angka 90% secara matematis lebih baik daripada angka 10%.',
+            'Dua pernyataan yang identik secara matematis dapat menghasilkan keputusan berbeda karena cara penyajiannya (Framing Effect).'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'Kedua pernyataan menggambarkan fakta yang sama persis, tetapi framing positif memicu rasa aman Sistem 1 sedangkan framing negatif memicu alarm bahaya.'
         }
       ]
     },
@@ -369,6 +405,18 @@ export const ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Opsi Decoy didominasi secara asimetris oleh opsi target; keberadaannya bukan untuk dibeli, melainkan untuk menjadi tolok ukur perbandingan yang memenangkan opsi target.'
+        },
+        {
+          id: 'q-beh-2-1-b',
+          question: 'Pada penjualan popcorn bioskop dengan ukuran Small, Medium, dan Large, mengapa ukuran Medium sengaja dibuat dengan harga hanya sedikit di bawah Large?',
+          options: [
+            'Agar Medium menjadi ukuran terlaris dan memberi margin terbesar.',
+            'Agar Medium berperan sebagai Decoy sehingga Large terlihat sebagai kesepakatan murah karena selisih harganya kecil.',
+            'Agar konsumen membandingkan harga popcorn bioskop dengan harga di luar bioskop.',
+            'Agar Small terlihat mahal dan konsumen berhenti membeli popcorn.'
+          ],
+          correctAnswerIndex: 1,
+          explanation: 'Medium hampir tidak dibeli; fungsinya sebagai pembanding asimetris yang membuat tambahan biaya kecil untuk Large terasa sangat menguntungkan.'
         }
       ]
     },
@@ -460,6 +508,18 @@ export const ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Prinsip kelangkaan memicu rasa takut kehilangan kesempatan (FOMO) dan reaktansi psikologis, mendorong konsumen bertindak cepat sebelum opsi tersebut hilang.'
+        },
+        {
+          id: 'q-beh-2-2-b',
+          question: 'Manakah contoh penerapan Scarcity yang jujur dan autentik menurut simpul ini?',
+          options: [
+            'Memasang countdown timer palsu yang selalu diulang setiap kali halaman dibuka.',
+            'Menulis "stok tinggal 1" pada semua produk tanpa memeriksa stok sebenarnya.',
+            'Menaikkan harga secara diam-diam lalu menyebutnya sebagai diskon terbatas.',
+            'Membatasi kapasitas kelas hanya 25 orang demi efektivitas mentoring pribadi dan menyampaikannya secara terbuka.'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'Kelangkaan yang berasal dari batasan nyata dan dikomunikasikan jujur tetap efektif memicu tindakan tanpa merusak kepercayaan konsumen.'
         }
       ]
     },
@@ -551,6 +611,18 @@ export const ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Pembayaran non-tunai memutus hubungan visual dan fisik kehilangan uang, mereduksi rasa sakit membayar (Pain of Paying) dan membuat Sistem 1 meremehkan total biaya riil.'
+        },
+        {
+          id: 'q-beh-2-3-b',
+          question: 'Uang lembur dianggap "sakral" dan dihemat, sedangkan uang hadiah undian cepat dihabiskan, padahal nilainya sama. Pelanggaran prinsip ekonomi apa yang ditunjukkan fenomena ini menurut Richard Thaler?',
+          options: [
+            'Hukum permintaan, karena harga barang naik saat uang melimpah.',
+            'Hukum penawaran, karena jumlah uang beredar selalu tetap.',
+            'Fungibility, yaitu prinsip bahwa uang bersifat netral dan dapat saling menggantikan tanpa melihat sumbernya.',
+            'Efek jangkar, karena angka pertama selalu menentukan pengeluaran.'
+          ],
+          correctAnswerIndex: 2,
+          explanation: 'Mental Accounting membuat otak memasukkan uang ke laci mental berbeda sesuai asalnya, sehingga melanggar asumsi bahwa semua uang bernilai sama.'
         }
       ]
     },
@@ -642,6 +714,18 @@ export const ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Nash Equilibrium pada Prisoner\'s Dilemma terjadi saat kedua pihak saling memotong harga demi mengamankan diri, yang justru menghasilkan hasil kolektif terburuk bagi margin kedua perusahaan.'
+        },
+        {
+          id: 'q-beh-3-1-b',
+          question: 'Menurut Robert Axelrod, bagaimana strategi Tit-for-Tat dijalankan dalam interaksi berulang (Iterated Prisoner\'s Dilemma)?',
+          options: [
+            'Mulai dengan bekerja sama, membalas kecurangan lawan sekali saja, lalu segera memaafkan dan kembali bekerja sama.',
+            'Selalu berkhianat sejak putaran pertama agar lawan tidak sempat mengambil keuntungan.',
+            'Menghukum lawan secara permanen setelah satu kali kecurangan.',
+            'Menghindari interaksi dengan lawan agar tidak terjebak dalam permainan.'
+          ],
+          correctAnswerIndex: 0,
+          explanation: 'Tit-for-Tat bersifat ramah di awal, tegas terhadap kecurangan, dan pemaaf, sehingga dalam interaksi berulang mendorong kerja sama yang saling menguntungkan.'
         }
       ]
     },
@@ -733,6 +817,18 @@ export const ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Kekuatan Opsi Default (Nudge Theory): Manusia secara alami mengikuti jalur resistensi terkecil (Status Quo Bias), sehingga opsi default menentukan hasil akhir mayoritas populasi.'
+        },
+        {
+          id: 'q-beh-3-2-b',
+          question: 'Mengapa karyawan enggan memotong gaji saat ini untuk tabungan pensiun, dan bagaimana program Save More Tomorrow (SMarT) Richard Thaler mengatasinya?',
+          options: [
+            'Karena karyawan tidak mengerti bunga majemuk; SMarT mewajibkan kursus keuangan.',
+            'Karena Loss Aversion membuat pemotongan gaji terasa menyakitkan; SMarT menaikkan porsi tabungan otomatis hanya saat gaji naik di masa depan.',
+            'Karena tabungan pensiun selalu dilarang oleh perusahaan; SMarT membebaskan larangan tersebut.',
+            'Karena karyawan menyukai risiko; SMarT melarang karyawan memilih sendiri jumlah tabungan.'
+          ],
+          correctAnswerIndex: 1,
+          explanation: 'Kenaikan porsi tabungan yang diambil dari kenaikan gaji mendatang tidak terasa sebagai kehilangan penghasilan, sehingga resistensi akibat Loss Aversion berkurang.'
         }
       ]
     },
@@ -824,6 +920,18 @@ export const ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'BATNA adalah kekuatan penawar sejati (walk-away power); negosiator dengan BATNA yang kuat tidak dapat dipaksa menerima kesepakatan buruk karena memiliki alternatif yang lebih baik di luar.'
+        },
+        {
+          id: 'q-beh-3-3-b',
+          question: 'Jika harga terendah yang bersedia diterima penjual lebih tinggi daripada harga tertinggi yang bersedia dibayar pembeli, apa kondisi negosiasi tersebut?',
+          options: [
+            'ZOPA yang sangat luas sehingga kesepakatan sangat mudah dicapai.',
+            'BATNA pembeli otomatis lebih lemah daripada BATNA penjual.',
+            'Mirroring yang gagal sehingga harus diulang dengan intonasi bertanya.',
+            'Negative ZOPA, yaitu tidak ada irisan rentang sehingga kesepakatan tidak akan tercapai secara rasional.'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'ZOPA adalah irisan antara reservation price penjual dan pembeli; jika tidak beririsan (Negative ZOPA), tidak ada harga yang dapat disetujui kedua pihak.'
         }
       ]
     },
@@ -915,6 +1023,18 @@ export const ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Dopamin adalah pendorong motivasi dan pencarian; ketidakpastian hasil (Variable Rewards) memicu antisipasi intensif di sirkuit otak, membangun kebiasaan yang melekat kuat.'
+        },
+        {
+          id: 'q-beh-4-1-b',
+          question: 'Menurut Hook Model Nir Eyal, bagaimana urutan siklus pembentukan kebiasaan yang benar?',
+          options: [
+            'Investment, Cue, Action, lalu Variable Reward.',
+            'Action, Investment, Cue, lalu Variable Reward.',
+            'Cue, Action, Variable Reward, lalu Investment.',
+            'Variable Reward, Cue, Investment, lalu Action.'
+          ],
+          correctAnswerIndex: 2,
+          explanation: 'Hook Model berjalan dari pemicu (Cue), tindakan (Action), imbalan variabel (Variable Reward), hingga investasi pengguna (Investment) yang memperkuat siklus berikutnya.'
         }
       ]
     },
@@ -1006,6 +1126,18 @@ export const ADVANCED_BEHAVIORAL_ECONOMICS_CURRICULUM: MindmapData = {
           ],
           correctAnswerIndex: 0,
           explanation: 'Pre-Mortem membalikkan dinamika optimisme buta: daripada bertanya "apakah rencana ini akan berhasil?", tim ditugaskan mencari "mengapa rencana ini gagal?", melegalkan nalar kritis Sistem 2.'
+        },
+        {
+          id: 'q-beh-4-2-b',
+          question: 'Seorang pengemudi menyalip dengan mulus lalu bangga akan bakatnya, tetapi saat tergelincir menyalahkan aspal yang licin. Bias apa yang digambarkan analogi ini?',
+          options: [
+            'Anchoring Effect, karena angka pertama menentukan penilaian.',
+            'Decoy Effect, karena opsi ketiga mengarahkan pilihan.',
+            'Endowment Effect, karena merasa memiliki kendaraan sendiri.',
+            'Fundamental Attribution Error, yaitu mengaitkan keberhasilan pada diri sendiri dan kegagalan pada faktor luar.'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'Orang cenderung menjelaskan sukses lewat kemampuan internal tetapi menjelaskan kegagalan lewat nasib buruk atau kesalahan pihak lain.'
         }
       ]
     }

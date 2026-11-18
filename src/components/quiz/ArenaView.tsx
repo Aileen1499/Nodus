@@ -6,6 +6,7 @@ import { allNodes } from '../../lib/nodeIndex';
 import { getLockReason, getNodeState, plain } from '../../lib/pathLogic';
 import { buildPracticeSet, isDueForReview, PracticeItem } from '../../lib/review';
 import { PracticeSession } from './PracticeSession';
+import { CertificateView } from './CertificateView';
 
 interface ArenaViewProps {
   data: MindmapData;
@@ -18,6 +19,7 @@ type Filter = 'all' | 'todo' | 'done' | 'due';
 export const ArenaView: React.FC<ArenaViewProps> = ({ data, onClose, onSelectNode }) => {
   const { isNodeMastered, progress } = useUser();
   const [filter, setFilter] = useState<Filter>('all');
+  const [showCertificate, setShowCertificate] = useState(false);
   const [session, setSession] = useState<{ items: PracticeItem[]; title: string } | null>(null);
 
   const nodes = data.nodes;
@@ -109,7 +111,10 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ data, onClose, onSelectNod
                 <div className="h-full rounded-full bg-emerald-500 transition-all" style={{ width: `${pct}%` }} />
               </div>
               {masteredCount === nodes.length && nodes.length > 0 && (
-                <p className="mt-3 rounded-xl bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-200">Jalur ini tuntas. Buka tab Kurikulum untuk jalur berikutnya.</p>
+                <div className="mt-3 flex flex-wrap items-center gap-3 rounded-xl bg-emerald-50 px-3 py-2.5 dark:bg-emerald-500/10">
+                  <p className="min-w-0 flex-1 text-sm font-semibold text-emerald-800 dark:text-emerald-200">Jalur ini tuntas. Ambil sertifikat atau buka Kurikulum untuk jalur berikutnya.</p>
+                  <button onClick={() => setShowCertificate(true)} className="btn-gold !px-4 !py-2 text-xs"><Award className="h-3.5 w-3.5" />Sertifikat</button>
+                </div>
               )}
             </div>
 
@@ -170,6 +175,7 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ data, onClose, onSelectNod
         </div>
       </div>
 
+      {showCertificate && <CertificateView data={data} onClose={() => setShowCertificate(false)} />}
       {session && <PracticeSession items={session.items} title={session.title} onClose={() => setSession(null)} />}
     </>
   );
