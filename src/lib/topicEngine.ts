@@ -81,6 +81,18 @@ const BUSINESS_STRATEGY_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Pricing Power membuktikan pelanggan tidak menemukan substitusi yang sepadan, mencerminkan adanya parit pertahanan ekonomi.'
+        },
+        {
+          id: 'biz-q-1-b',
+          question: 'Dalam analogi simpul ini, apa fungsi parit pertahanan (Economic Moat) bagi sebuah bisnis?',
+          options: [
+            'Menjamin bisnis kebal dari semua jenis pajak',
+            'Membuat produk selalu terjual habis pada hari peluncuran',
+            'Membuat modal menghasilkan laba di atas rata-rata industri secara konsisten',
+            'Menggantikan kebutuhan akan modal kerja'
+          ],
+          correctAnswerIndex: 2,
+          explanation: 'Parit pertahanan ibarat dinding kastil yang melindungi laba di atas rata-rata industri dari serangan pesaing.'
         }
       ]
     },
@@ -147,6 +159,18 @@ const BUSINESS_STRATEGY_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Jika per unit rugi, memperbesar volume transaksi hanya memperbesar total kerugian kas operasional.'
+        },
+        {
+          id: 'biz-q-2-b',
+          question: 'Apa pelajaran utama unit economics dari model bisnis Costco?',
+          options: [
+            'Memisahkan sumber likuiditas barang dengan sumber laba bersih yang konsisten, yaitu iuran keanggotaan',
+            'Margin kotor setinggi mungkin pada setiap produk adalah satu-satunya jalan menuju laba',
+            'Laba harus berasal dari kenaikan harga barang setiap kuartal',
+            'Iuran keanggotaan sebaiknya dihapus agar volume penjualan naik'
+          ],
+          correctAnswerIndex: 0,
+          explanation: 'Costco menjaga margin barang tetap tipis dan mengandalkan iuran keanggotaan sebagai sumber laba bersih yang stabil.'
         }
       ]
     },
@@ -213,6 +237,18 @@ const BUSINESS_STRATEGY_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Rasio 3:1 memberikan margin penyangga untuk biaya overhead, riset, dan fluktuasi pasar.'
+        },
+        {
+          id: 'biz-q-3-b',
+          question: 'Mengapa Netflix berani mengeluarkan CAC besar di pasar baru?',
+          options: [
+            'Karena Netflix tidak menghitung biaya akuisisi pelanggan',
+            'Karena iklan di pasar baru selalu gratis',
+            'Karena Netflix menghindari pelanggan yang berlangganan lama',
+            'Karena churn rate rendah membuat nilai seumur hidup pelanggan (LTV) melampaui biaya akuisisinya'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'Churn yang rendah memperpanjang umur pelanggan sehingga LTV jauh melampaui CAC yang dikeluarkan.'
         }
       ]
     },
@@ -279,6 +315,18 @@ const BUSINESS_STRATEGY_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Flywheel menyimpan energi kinetik pelanggan untuk mendatangkan pelanggan baru secara eksponensial.'
+        },
+        {
+          id: 'biz-q-4-b',
+          question: 'Dalam flywheel Amazon yang digambarkan Bezos, apa yang dihasilkan setelah Skala Ekonomi tercapai?',
+          options: [
+            'Harga yang dinaikkan agar margin membesar',
+            'Berkurangnya jumlah penjual di platform',
+            'Struktur biaya yang lebih rendah, yang memungkinkan harga lebih murah lagi',
+            'Berhentinya siklus karena pelanggan sudah cukup'
+          ],
+          correctAnswerIndex: 2,
+          explanation: 'Rantainya: skala ekonomi menurunkan struktur biaya, lalu harga bisa ditekan lagi sehingga roda terus berputar.'
         }
       ]
     },
@@ -345,6 +393,18 @@ const BUSINESS_STRATEGY_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Value-Based Pricing mengonversi kelebihan nilai (consumer surplus) menjadi laba bersih operasional.'
+        },
+        {
+          id: 'biz-q-5-b',
+          question: 'Apa pelajaran dari Apple yang meraup sebagian besar laba industri smartphone dengan pangsa unit yang jauh lebih kecil?',
+          options: [
+            'Pangsa pasar unit terbesar selalu menjamin laba terbesar',
+            'Tidak perlu bersaing pada harga terendah jika bisa mendominasi persepsi nilai tertinggi',
+            'Harga harus selalu mengikuti biaya produksi ditambah margin tetap',
+            'Ekosistem tertutup membuat produk tidak perlu diferensiasi'
+          ],
+          correctAnswerIndex: 1,
+          explanation: 'Apple membuktikan bahwa persepsi nilai dan tiered pricing dapat menghasilkan laba besar tanpa menjadi yang termurah.'
         }
       ]
     }
@@ -430,6 +490,18 @@ const BEHAVIORAL_PSYCHOLOGY_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Sistem 1 bertindak sebagai penghemat energi evolusioner yang mengambil 95% keputusan harian.'
+        },
+        {
+          id: 'psy-q-1-b',
+          question: 'Apa yang dimaksud model ekonomi klasik dengan Homo Economicus, dan bagaimana psikologi modern menyikapinya?',
+          options: [
+            'Asumsi bahwa manusia selalu rasional, sedangkan psikologi modern menunjukkan manusia irasional namun dengan pola yang dapat diprediksi',
+            'Asumsi bahwa manusia hanya mengambil keputusan lewat emosi, dan ini telah dibuktikan benar',
+            'Teori bahwa pasar tidak dipengaruhi perilaku manusia sama sekali',
+            'Istilah untuk konsumen yang tidak pernah membeli barang'
+          ],
+          correctAnswerIndex: 0,
+          explanation: 'Psikologi modern membantah asumsi rasionalitas penuh, tetapi pola irasionalitas manusia ternyata konsisten dan bisa diprediksi.'
         }
       ]
     },
@@ -496,6 +568,18 @@ const BEHAVIORAL_PSYCHOLOGY_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Rasio rasa sakit kehilangan vs nikmat keuntungan terbukti secara konsisten berada di kisaran 2.0x hingga 2.5x.'
+        },
+        {
+          id: 'psy-q-2-b',
+          question: 'Mengapa trial gratis efektif mendorong pengguna berlangganan menurut contoh Dropbox?',
+          options: [
+            'Setelah menyimpan file pribadi, pengguna merasa akan kehilangan aset miliknya jika langganan dihentikan',
+            'Karena pengguna tidak sadar bahwa trial akan berakhir',
+            'Karena trial gratis menghilangkan kebutuhan akan produk berbayar',
+            'Karena file di cloud otomatis dihapus setelah satu hari'
+          ],
+          correctAnswerIndex: 0,
+          explanation: 'Rasa kepemilikan semu (endowment effect) membuat pengguna takut kehilangan sehingga lebih bersedia membayar.'
         }
       ]
     },
@@ -562,6 +646,18 @@ const BEHAVIORAL_PSYCHOLOGY_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Jangkar $999 membuat audiens merasa harga $499 adalah diskon fantastis senilai 50%.'
+        },
+        {
+          id: 'psy-q-3-b',
+          question: 'Dalam negosiasi gaji atau akuisisi, siapa yang cenderung diuntungkan oleh efek jangkar (Anchoring)?',
+          options: [
+            'Pihak yang menunggu paling lama tanpa menyebut angka apa pun',
+            'Pihak yang selalu menolak setiap tawaran',
+            'Pihak yang menyebut angka paling rendah tanpa dasar',
+            'Pihak yang melempar jangkar pertama secara beralasan'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'Angka pertama yang beralasan menjadi acuan tidak sadar bagi seluruh penawaran berikutnya.'
         }
       ]
     },
@@ -628,6 +724,18 @@ const BEHAVIORAL_PSYCHOLOGY_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Mengikuti tindakan mayoritas adalah mekanisme survival purba untuk menghindari kerugian.'
+        },
+        {
+          id: 'psy-q-4-b',
+          question: 'Jenis testimoni manakah yang paling efektif menurunkan rasa takut bertransaksi?',
+          options: [
+            'Daftar fitur produk yang ditulis dengan huruf besar',
+            'Testimoni spesifik dengan foto wajah dan nama perusahaan',
+            'Klaim umum tanpa identitas bahwa produk ini terbaik',
+            'Testimoni anonim yang dipersingkat jadi satu kata'
+          ],
+          correctAnswerIndex: 1,
+          explanation: 'Testimoni yang spesifik dan dapat diverifikasi mengeliminasi keraguan jauh lebih kuat daripada klaim fitur.'
         }
       ]
     },
@@ -694,6 +802,18 @@ const BEHAVIORAL_PSYCHOLOGY_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Variable Ratio schedule memicu pelepasan dopamin antisipatif konstan seperti pada mesin slot kasino dan media sosial.'
+        },
+        {
+          id: 'psy-q-5-b',
+          question: 'Bagaimana simpul ini menggambarkan peran dopamin dalam perilaku manusia?',
+          options: [
+            'Sebagai hormon pengejaran (desire dan anticipation), bukan semata hormon kenikmatan',
+            'Sebagai hormon yang hanya muncul saat seseorang beristirahat',
+            'Sebagai hormon yang membuat orang berhenti mencari imbalan',
+            'Sebagai hormon yang menurun saat hasil tidak pasti'
+          ],
+          correctAnswerIndex: 0,
+          explanation: 'Dopamin mendorong orang mengejar imbalan, sehingga ketidakpastian justru menjadi pemicu keterikatan yang kuat.'
         }
       ]
     }
@@ -779,6 +899,18 @@ const ECONOMICS_FINANCE_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Kemudahan meminjam kredit mendorong belanja lebih cepat dari produksi barang, memicu inflasi dan pengetatan suku bunga.'
+        },
+        {
+          id: 'eco-q-1-b',
+          question: 'Menurut ringkasan kerangka Ray Dalio di simpul ini, prinsip apa yang perlu dijaga terkait utang dan pendapatan?',
+          options: [
+            'Utang sebaiknya selalu dinaikkan saat suku bunga rendah tanpa batas',
+            'Pendapatan harus dibiarkan tumbuh lebih cepat dari produktivitas',
+            'Produktivitas tidak berhubungan dengan siklus kredit',
+            'Utang jangan tumbuh lebih cepat dari pendapatan, dan pendapatan jangan tumbuh lebih cepat dari produktivitas'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'Dalio menekankan keseimbangan: utang mengikuti pendapatan, dan pendapatan mengikuti produktivitas riil.'
         }
       ]
     },
@@ -845,6 +977,18 @@ const ECONOMICS_FINANCE_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Real Return = Bunga Nominal (4%) - Inflasi (7%) = -3% pengikisan daya beli setiap tahun.'
+        },
+        {
+          id: 'eco-q-2-b',
+          question: 'Menurut Milton Friedman, kapan inflasi terjadi?',
+          options: [
+            'Ketika output barang dan jasa tumbuh lebih cepat dari uang beredar',
+            'Ketika bank sentral berhenti menerbitkan laporan',
+            'Ketika pasokan uang beredar tumbuh jauh melampaui pertumbuhan output barang dan jasa riil',
+            'Ketika seluruh harga barang turun bersamaan'
+          ],
+          correctAnswerIndex: 2,
+          explanation: 'Friedman menyebut inflasi sebagai fenomena moneter yang muncul saat uang beredar melampaui output riil.'
         }
       ]
     },
@@ -911,6 +1055,18 @@ const ECONOMICS_FINANCE_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Discount rate yang lebih tinggi menurunkan nilai sekarang dari proyeksi arus kas masa depan secara matematis.'
+        },
+        {
+          id: 'eco-q-3-b',
+          question: 'Dalam analogi Warren Buffett pada simpul ini, apa dampak suku bunga yang lebih tinggi terhadap harga aset?',
+          options: [
+            'Harga semua aset otomatis naik karena uang makin mahal',
+            'Tarikan ke bawah terhadap harga aset menjadi lebih kuat, seperti gravitasi',
+            'Harga aset tidak terpengaruh sama sekali',
+            'Hanya harga properti yang terpengaruh, saham tidak'
+          ],
+          correctAnswerIndex: 1,
+          explanation: 'Semakin tinggi suku bunga, semakin kuat tekanan ke bawah pada valuasi saham, obligasi, properti, dan startup.'
         }
       ]
     },
@@ -977,6 +1133,18 @@ const ECONOMICS_FINANCE_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Rumus Money Multiplier adalah 1 / Persentase Cadangan. 1 / 0.10 = 10x, sehingga Rp 10 juta bisa melipat jadi Rp 100 juta kredit.'
+        },
+        {
+          id: 'eco-q-4-b',
+          question: 'Apa penyebab SVB bangkrut seketika dalam studi kasus ini?',
+          options: [
+            'Penarikan dana nasabah dalam jumlah sangat besar, sementara dana tersebut terkunci di obligasi jangka panjang',
+            'Seluruh nasabah serentak menyetor dana dalam jumlah besar',
+            'Bank terlalu banyak menyimpan uang tunai di brankas',
+            'Regulator melarang penarikan lewat mobile banking'
+          ],
+          correctAnswerIndex: 0,
+          explanation: 'Bank tidak menyimpan seluruh uang nasabah secara tunai, sehingga penarikan massal mematikan likuiditas.'
         }
       ]
     },
@@ -1043,6 +1211,18 @@ const ECONOMICS_FINANCE_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Margin of Safety melindungi modal investor dari proyeksi masa depan yang tidak sesuai ekspektasi.'
+        },
+        {
+          id: 'eco-q-5-b',
+          question: 'Apa pesan Aswath Damodaran tentang hubungan narasi dan angka dalam valuasi?',
+          options: [
+            'Narasi lebih penting sehingga angka boleh diabaikan',
+            'Angka saja sudah cukup tanpa narasi bisnis',
+            'Keduanya tidak relevan bagi valuasi perusahaan',
+            'Narasi tanpa angka adalah dongeng, dan angka tanpa narasi adalah fatamorgana'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'Valuasi yang baik memadukan cerita bisnis yang masuk akal dengan angka yang mendukungnya.'
         }
       ]
     }
@@ -1128,6 +1308,18 @@ const MARKETING_SALES_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Semakin instan hasil didapat dengan usaha paling minim, semakin bernilai penawaran tersebut di mata manusia.'
+        },
+        {
+          id: 'mkt-q-1-b',
+          question: 'Apa yang dimaksud Alex Hormozi dengan "Grand Slam Offer"?',
+          options: [
+            'Penawaran dengan diskon terbesar yang pernah ada di industri',
+            'Penawaran yang hanya diberikan kepada pelanggan lama',
+            'Penawaran yang begitu bernilai tinggi dan minim risiko sehingga calon pembeli merasa bodoh jika menolaknya',
+            'Penawaran tanpa jaminan agar pembeli segera memutuskan'
+          ],
+          correctAnswerIndex: 2,
+          explanation: 'Grand Slam Offer memaksimalkan nilai yang dirasakan sekaligus meminimalkan risiko bagi pembeli.'
         }
       ]
     },
@@ -1194,6 +1386,18 @@ const MARKETING_SALES_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Audiens yang baru sadar masalah butuh empati dan edukasi solusi sebelum mereka siap mendengar nama brand Anda.'
+        },
+        {
+          id: 'mkt-q-2-b',
+          question: 'Dalam rumus PAS pada copywriting, apa tujuan langkah "Agitation"?',
+          options: [
+            'Menyebutkan harga produk secepat mungkin',
+            'Memperdalam rasa sakit dari masalah yang dialami audiens',
+            'Mengalihkan perhatian audiens dari masalah',
+            'Menjelaskan sejarah perusahaan secara lengkap'
+          ],
+          correctAnswerIndex: 1,
+          explanation: 'PAS berurutan: Problem disenggol, Agitation memperdalam rasa sakitnya, lalu Solution ditawarkan sebagai jalan keluar.'
         }
       ]
     },
@@ -1260,6 +1464,18 @@ const MARKETING_SALES_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Jika K > 1, setiap 100 pengguna rata-rata menghasilkan lebih dari 100 pengguna baru berikutnya secara swasembada.'
+        },
+        {
+          id: 'mkt-q-3-b',
+          question: 'Bagaimana rumus K-Factor dihitung menurut simpul ini?',
+          options: [
+            'Jumlah undangan terkirim per pengguna dikalikan persentase konversi undangan menjadi pengguna baru',
+            'Jumlah pengguna dibagi total anggaran iklan',
+            'Jumlah pengguna aktif dikurangi jumlah pengguna yang berhenti',
+            'Biaya akuisisi dikalikan lama berlangganan'
+          ],
+          correctAnswerIndex: 0,
+          explanation: 'K = undangan per pengguna x tingkat konversi undangan; jika K melebihi 1, pertumbuhan menjadi eksponensial.'
         }
       ]
     },
@@ -1326,6 +1542,18 @@ const MARKETING_SALES_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Pelanggan barang mewah membeli kelangkaan dan status; diskon merusak ilusi prestise tersebut seketika.'
+        },
+        {
+          id: 'mkt-q-4-b',
+          question: 'Dalam analogi kopi, selisih harga antara kopi warung dan kopi gerai bermerek disebut apa?',
+          options: [
+            'Biaya bahan baku tambahan',
+            'Margin pajak penjualan',
+            'Subsidi distributor biji kopi',
+            'Ekuitas Merek (Brand Equity)'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'Selisih harga yang rela dibayar pelanggan karena merek, bukan karena kopinya, adalah ekuitas merek.'
         }
       ]
     },
@@ -1392,6 +1620,18 @@ const MARKETING_SALES_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Email pertama bertujuan membangun kontak dan rujukan internal, bukan langsung menutup transaksi kompleks.'
+        },
+        {
+          id: 'mkt-q-5-b',
+          question: 'Apa makna analogi "tembakan penembak jitu (sniper)" dalam cold outreach?',
+          options: [
+            'Satu email hiper-personal yang membuktikan Anda memahami masalah terdalam prospek',
+            'Mengirim template yang sama ke ribuan CEO sekaligus',
+            'Menelepon prospek berkali-kali dalam sehari',
+            'Mengirim brosur panjang ke semua karyawan perusahaan'
+          ],
+          correctAnswerIndex: 0,
+          explanation: 'Outreach berkelas menarget satu prospek dengan pesan yang dipersonalisasi, bukan pesan massal yang tidak mengenai sasaran.'
         }
       ]
     }
@@ -1477,6 +1717,18 @@ const GEOPOLITICS_SYSTEMS_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Kewajiban membeli minyak dengan Dolar menciptakan permintaan global buatan yang menopang nilai mata uang Dolar AS.'
+        },
+        {
+          id: 'geo-q-1-b',
+          question: 'Dalam analogi papan catur pada simpul ini, apa yang berperan sebagai bidak penentu perdagangan dunia?',
+          options: [
+            'Iklan di media sosial dan influencer',
+            'Selat laut sempit dan pipa energi',
+            'Gedung perkantoran di kota besar',
+            'Jumlah merek dagang yang terdaftar'
+          ],
+          correctAnswerIndex: 1,
+          explanation: 'Chokepoint maritim dan jalur energi menentukan arus perdagangan dunia seperti bidak dalam permainan catur.'
         }
       ]
     },
@@ -1543,6 +1795,18 @@ const GEOPOLITICS_SYSTEMS_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Selat Malaka menghubungkan Samudra Hindia dan Pasifik; penutupan jalur ini akan memicu krisis energi instan di Asia Timur.'
+        },
+        {
+          id: 'geo-q-2-b',
+          question: 'Mengapa model logistik Just-In-Time dianggap rapuh terhadap gangguan chokepoint laut?',
+          options: [
+            'Karena persediaannya terlalu ramping sehingga satu gangguan jalur dapat menghentikan produksi, dan kini sering digantikan strategi Just-In-Case',
+            'Karena model ini tidak memakai kapal sama sekali',
+            'Karena model ini memerlukan stok berlebih di setiap gudang',
+            'Karena chokepoint hanya memengaruhi pengiriman udara'
+          ],
+          correctAnswerIndex: 0,
+          explanation: 'Stok yang terlalu tipis membuat rantai pasok tidak punya penyangga saat jalur laut tersumbat.'
         }
       ]
     },
@@ -1609,6 +1873,18 @@ const GEOPOLITICS_SYSTEMS_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'Friendshoring memprioritaskan keamanan politik dan keselarasan ideologis di atas efisiensi biaya terendah semata.'
+        },
+        {
+          id: 'geo-q-3-b',
+          question: 'Pergeseran prioritas apa yang digambarkan simpul ini dalam strategi manufaktur global?',
+          options: [
+            'Dari ketahanan menuju upah buruh termurah di mana saja',
+            'Dari produksi massal menuju penutupan seluruh pabrik',
+            'Dari mengejar efisiensi upah termurah menuju ketahanan (resilience) rantai pasok',
+            'Dari perdagangan internasional menuju perdagangan barter'
+          ],
+          correctAnswerIndex: 2,
+          explanation: 'Dunia kini lebih memilih membayar sedikit lebih mahal demi pabrik di negara sahabat yang lebih aman secara politik.'
         }
       ]
     },
@@ -1675,6 +1951,18 @@ const GEOPOLITICS_SYSTEMS_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'CIF mewajibkan penjual membiayai pengangkutan utama dan polis asuransi pelayaran laut hingga pelabuhan tujuan.'
+        },
+        {
+          id: 'geo-q-4-b',
+          question: 'Apa risiko salah mencantumkan HS Code pada dokumen Pemberitahuan Ekspor Barang (PEB)?',
+          options: [
+            'Barang otomatis dibebaskan dari semua bea',
+            'Pembeli wajib membayar seluruh biaya pengiriman',
+            'Tidak ada konsekuensi selama barang tiba di tujuan',
+            'Kontainer dapat disita di pelabuhan, didenda, atau bahkan dilelang paksa'
+          ],
+          correctAnswerIndex: 3,
+          explanation: 'Kesalahan kode HS adalah pelanggaran kepabeanan yang dapat berujung penyitaan dan denda.'
         }
       ]
     },
@@ -1741,6 +2029,18 @@ const GEOPOLITICS_SYSTEMS_MAP: MindmapData = {
           ],
           correctAnswerIndex: 1,
           explanation: 'LCT memangkas ketergantungan pada Dolar AS dan meniadakan biaya konversi ganda dalam perdagangan bilateral.'
+        },
+        {
+          id: 'geo-q-5-b',
+          question: 'Apa dampak pembekuan cadangan devisa Rusia terhadap perilaku bank sentral dunia menurut simpul ini?',
+          options: [
+            'Bank sentral berhenti memegang aset apa pun',
+            'Banyak bank sentral memborong cadangan emas fisik sebagai lindung nilai kedaulatan',
+            'Bank sentral menjual seluruh emasnya untuk membeli Dolar AS',
+            'Bank sentral menutup seluruh sistem pembayaran lintas negara'
+          ],
+          correctAnswerIndex: 1,
+          explanation: 'Penyitaan cadangan devisa mendorong negara-negara menaikkan kepemilikan emas fisik dan mengurangi ketergantungan pada satu sistem.'
         }
       ]
     }

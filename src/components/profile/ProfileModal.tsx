@@ -3,7 +3,7 @@ import { useUser } from '../../context/UserContext';
 import { MindmapData, MindmapNode } from '../../types';
 import { allNodes, findNode } from '../../lib/nodeIndex';
 import { plain } from '../../lib/pathLogic';
-import { X, Search, Bookmark, Highlighter, Trash2, Copy, Check, ArrowRight, Flame, Clock, CheckCircle2 } from 'lucide-react';
+import { X, Download, Search, Bookmark, Highlighter, Trash2, Copy, Check, ArrowRight, Flame, Clock, CheckCircle2 } from 'lucide-react';
 
 interface ProfileModalProps {
   onClose: () => void;
@@ -88,6 +88,39 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose, onOpenNode 
     }
   };
 
+
+  const exportMarkdown = () => {
+    const lines: string[] = ['# Brankas NODUS', '', `Diekspor ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`, ''];
+    lines.push(`- Rank Points: ${progress.rankPoints}`, `- Pelajaran dikuasai: ${progress.masteredNodeIds.length}`, `- Streak: ${progress.streak} hari`, '');
+    if (savedEntries.length > 0) {
+      lines.push('## Konsep tersimpan', '');
+      savedEntries.forEach(({ node, map }) => {
+        lines.push(`### ${node.label}`, `_${map.topic} · ${node.domain}_`, '', plain(node.summary), '');
+        if (node.microContent.mentalModel) lines.push(`**Kerangka:** ${plain(node.microContent.mentalModel)}`, '');
+      });
+    }
+    if (highlights.length > 0) {
+      lines.push('## Stabilo & catatan', '');
+      highlights.forEach((h) => {
+        lines.push(`> ${plain(h.text)}`, `> — ${h.nodeTitle}`);
+        if (h.note) lines.push('', `Catatanku: ${h.note}`);
+        lines.push('');
+      });
+    }
+    const text = lines.join('\n');
+    try {
+      const blob = new Blob([text], { type: 'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'brankas-nodus.md';
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch {
+      /* unduhan tidak tersedia */
+    }
+  };
+
   const tabs: { id: VaultTab; label: string; count?: number }[] = [
     { id: 'overview', label: 'Ringkasan' },
     { id: 'saved', label: 'Tersimpan', count: savedEntries.length },
@@ -95,17 +128,23 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose, onOpenNode 
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-stretch justify-center bg-black/50 sm:items-center sm:p-5" role="dialog" aria-modal="true" aria-label="Brankas pengetahuan">
-      <div className="flex h-full w-full max-w-2xl animate-sheet-up flex-col overflow-hidden bg-[#FBF9F5] shadow-float dark:bg-[#151517] sm:h-[90vh] sm:rounded-[28px]">
+    <div className="fixed inset-0 z-50 animate-fade-in bg-[#FBF9F5] dark:bg-[#151517]" role="dialog" aria-modal="true" aria-label="Brankas pengetahuan">
+      <div className="flex h-full w-full flex-col overflow-hidden">
         <header className="shrink-0 border-b border-slate-200/70 px-5 pb-3 pt-4 dark:border-white/10 sm:px-7">
+         <div className="mx-auto w-full max-w-3xl">
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="eyebrow">Pengetahuan pribadi</p>
               <h2 className="font-serif text-[1.75rem] font-medium leading-tight tracking-tight text-slate-900 dark:text-white">Brankas</h2>
             </div>
-            <button onClick={onClose} aria-label="Tutup" className="flex h-10 w-10 items-center justify-center rounded-full text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10">
-              <X className="h-5 w-5" />
-            </button>
+            <div className="flex items-center gap-2">
+              <button onClick={exportMarkdown} aria-label="Ekspor Brankas sebagai Markdown" className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3.5 py-2 text-xs font-bold text-slate-700 transition-colors hover:bg-slate-100 dark:border-white/15 dark:text-slate-200 dark:hover:bg-white/10">
+                <Download className="h-4 w-4" />Ekspor
+              </button>
+              <button onClick={onClose} aria-label="Tutup" className="flex h-10 w-10 items-center justify-center rounded-full text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
           </div>
 
           <div className="mt-3 flex items-center gap-1 overflow-x-auto scrollbar-none" role="tablist">
@@ -122,9 +161,11 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose, onOpenNode 
               </button>
             ))}
           </div>
+         </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto px-5 pb-32 pt-5 sm:px-7">
+        <div className="flex-1 overflow-y-auto">
+         <div className="mx-auto w-full max-w-3xl px-5 pb-32 pt-5 sm:px-7">
           {tab !== 'overview' && (
             <label className="mb-4 flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 focus-within:border-[#CF8E1F] dark:border-white/10 dark:bg-white/5">
               <Search className="h-4 w-4 text-slate-400" />
@@ -268,6 +309,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose, onOpenNode 
               </ul>
             )
           )}
+         </div>
         </div>
       </div>
     </div>
