@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { LogoMark } from '../brand/Logo';
 import { useAuth } from '../../context/AuthContext';
 import { 
   X, 
@@ -8,7 +9,6 @@ import {
   ArrowRight, 
   LogOut, 
   AlertCircle, 
-  Sparkles,
   ShieldCheck,
   Eye,
   EyeOff
@@ -76,11 +76,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-6 py-5 bg-white/95 dark:bg-[#1F1F23]/95">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#151517] p-[1.5px]">
-              <div className="flex h-full w-full items-center justify-center rounded-[10px] bg-slate-900 text-emerald-400">
-                <Sparkles className="h-4 w-4" />
-              </div>
-            </div>
+            <LogoMark size={36} />
             <div>
               <h3 className="text-sm font-bold text-slate-900 dark:text-white">
                 {user ? 'Akun NODUS Anda' : 'Autentikasi Pengguna'}

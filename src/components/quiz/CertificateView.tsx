@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { LogoMark } from '../brand/Logo';
 import { ArrowLeft, Printer } from 'lucide-react';
 import { MindmapData } from '../../types';
 import { useAuth } from '../../context/AuthContext';
@@ -53,7 +54,8 @@ export const CertificateView: React.FC<CertificateViewProps> = ({ data, onClose 
           </label>
 
           <div id="nodus-certificate" className="rounded-[28px] border-[6px] border-double border-[#CF8E1F] bg-white p-8 text-center shadow-float sm:p-12">
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#9A6410]">NODUS · Sertifikat Penyelesaian</p>
+            <LogoMark size={52} className="mx-auto" />
+            <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#9A6410]">NODUS · Sertifikat Penyelesaian</p>
             <p className="mt-8 text-sm text-slate-500">Diberikan kepada</p>
             <p className="mt-2 font-serif text-3xl font-semibold text-slate-900 sm:text-5xl">{name.trim() || 'Nama Anda'}</p>
             <p className="mx-auto mt-8 max-w-md text-sm leading-relaxed text-slate-600">

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Logo } from '../brand/Logo';
 import { useUser } from '../../context/UserContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
@@ -47,8 +48,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSettings, onOpenHelp, onOp
     <header className="sticky top-0 z-30 w-full border-b border-slate-200/70 bg-[#FBF9F5]/90 backdrop-blur-md dark:border-white/10 dark:bg-[#151517]/90">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4 sm:px-6">
         <div className="flex items-center gap-2">
-          <span className="text-[19px] font-extrabold tracking-tight text-slate-900 dark:text-white">NODUS</span>
-          <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#E3A63A]" />
+          <Logo size={30} />
           {isPro && (
             <span className="ml-1 inline-flex items-center gap-1 rounded-full bg-[#151517] px-2 py-0.5 text-[10px] font-bold tracking-wide text-[#E3A63A] dark:bg-[#E3A63A] dark:text-[#151517]">
               <Crown className="h-2.5 w-2.5" />
