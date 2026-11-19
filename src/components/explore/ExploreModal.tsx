@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { ArrowLeft, ArrowRight, CheckCircle2, Search, Layers, Clock, Wrench, Play } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Search, Layers, Clock, Wrench, Play } from 'lucide-react';
 import { MindmapData } from '../../types';
 import { useUser } from '../../context/UserContext';
 import { allMaps, findNode } from '../../lib/nodeIndex';
@@ -34,7 +34,7 @@ const dominantDomain = (map: MindmapData): string => {
   return Array.from(counts.entries()).sort((a, b) => b[1] - a[1])[0]?.[0] || 'Bisnis';
 };
 
-export const ExploreModal: React.FC<ExploreModalProps> = ({ onClose, onSelectMap }) => {
+export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap }) => {
   const { isNodeMastered, progress } = useUser();
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>('Semua');
@@ -68,9 +68,6 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onClose, onSelectMap
     <div className="fixed inset-0 z-50 flex flex-col bg-[#FBF9F5] dark:bg-[#151517] animate-fade-in" role="dialog" aria-label="Kurikulum">
       {/* Top bar */}
       <div className="flex items-center gap-3 border-b border-slate-200/80 bg-[#FBF9F5]/95 px-4 py-3 backdrop-blur dark:border-slate-800 dark:bg-[#151517]/95 sm:px-8">
-        <button onClick={onClose} aria-label="Kembali ke peta" className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">
-          <ArrowLeft className="h-5 w-5" />
-        </button>
         <div className="min-w-0">
           <p className="eyebrow">Kurikulum</p>
           <h2 className="truncate font-serif text-xl font-semibold leading-tight text-slate-900 dark:text-white sm:text-2xl">Semua jalur belajar</h2>

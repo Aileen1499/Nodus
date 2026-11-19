@@ -1,14 +1,17 @@
 import React, { useMemo, useState } from 'react';
 import { useUser } from '../../context/UserContext';
+import { useAuth } from '../../context/AuthContext';
 import { MindmapData, MindmapNode } from '../../types';
 import { allNodes, findNode } from '../../lib/nodeIndex';
 import { plain } from '../../lib/pathLogic';
-import { X, Download, Search, Bookmark, Highlighter, Trash2, Copy, Check, ArrowRight, Flame, Clock, CheckCircle2 } from 'lucide-react';
+import { Cloud, CheckCircle, Search, Bookmark, Highlighter, Trash2, Copy, Check, ArrowRight, Flame, Clock, CheckCircle2 } from 'lucide-react';
 
 interface ProfileModalProps {
   onClose: () => void;
   /** Open a lesson (and the curriculum it belongs to) from the vault. */
   onOpenNode?: (node: MindmapNode, map: MindmapData) => void;
+  /** Open the sign-in sheet so progress can sync across devices. */
+  onOpenAuth?: () => void;
 }
 
 type VaultTab = 'overview' | 'saved' | 'notes';
@@ -43,7 +46,8 @@ const formatDate = (iso: string) => {
   }
 };
 
-export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose, onOpenNode }) => {
+export const ProfileModal: React.FC<ProfileModalProps> = ({ onOpenNode, onOpenAuth }) => {
+  const { user } = useAuth();
   const { progress, highlights, removeHighlight, bookmarkedNodeIds, toggleBookmark, isNodeMastered } = useUser();
   const [tab, setTab] = useState<VaultTab>('overview');
   const [query, setQuery] = useState('');
@@ -89,42 +93,10 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose, onOpenNode 
   };
 
 
-  const exportMarkdown = () => {
-    const lines: string[] = ['# Brankas NODUS', '', `Diekspor ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`, ''];
-    lines.push(`- Rank Points: ${progress.rankPoints}`, `- Pelajaran dikuasai: ${progress.masteredNodeIds.length}`, `- Streak: ${progress.streak} hari`, '');
-    if (savedEntries.length > 0) {
-      lines.push('## Konsep tersimpan', '');
-      savedEntries.forEach(({ node, map }) => {
-        lines.push(`### ${node.label}`, `_${map.topic} · ${node.domain}_`, '', plain(node.summary), '');
-        if (node.microContent.mentalModel) lines.push(`**Kerangka:** ${plain(node.microContent.mentalModel)}`, '');
-      });
-    }
-    if (highlights.length > 0) {
-      lines.push('## Stabilo & catatan', '');
-      highlights.forEach((h) => {
-        lines.push(`> ${plain(h.text)}`, `> — ${h.nodeTitle}`);
-        if (h.note) lines.push('', `Catatanku: ${h.note}`);
-        lines.push('');
-      });
-    }
-    const text = lines.join('\n');
-    try {
-      const blob = new Blob([text], { type: 'text/markdown;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'brankas-nodus.md';
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-    } catch {
-      /* unduhan tidak tersedia */
-    }
-  };
-
   const tabs: { id: VaultTab; label: string; count?: number }[] = [
     { id: 'overview', label: 'Ringkasan' },
     { id: 'saved', label: 'Tersimpan', count: savedEntries.length },
-    { id: 'notes', label: 'Stabilo & Catatan', count: highlights.length },
+    { id: 'notes', label: 'Catatan', count: highlights.length },
   ];
 
   return (
@@ -137,24 +109,25 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose, onOpenNode 
               <p className="eyebrow">Pengetahuan pribadi</p>
               <h2 className="font-serif text-[1.75rem] font-medium leading-tight tracking-tight text-slate-900 dark:text-white">Brankas</h2>
             </div>
-            <div className="flex items-center gap-2">
-              <button onClick={exportMarkdown} aria-label="Ekspor Brankas sebagai Markdown" className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3.5 py-2 text-xs font-bold text-slate-700 transition-colors hover:bg-slate-100 dark:border-white/15 dark:text-slate-200 dark:hover:bg-white/10">
-                <Download className="h-4 w-4" />Ekspor
+            {user ? (
+              <span className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+                <CheckCircle className="h-3.5 w-3.5" />Tersinkron ke akunmu
+              </span>
+            ) : (
+              <button onClick={onOpenAuth} className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-[#FDF0D5] px-3 py-1.5 text-[11px] font-bold text-[#7A4D0A] transition-colors hover:bg-[#FBE5B8] dark:bg-[#E3A63A]/15 dark:text-[#E9C06B]">
+                <Cloud className="h-3.5 w-3.5" />Masuk untuk sinkron
               </button>
-              <button onClick={onClose} aria-label="Tutup" className="flex h-10 w-10 items-center justify-center rounded-full text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10">
-                <X className="h-5 w-5" />
-              </button>
-            </div>
+            )}
           </div>
 
-          <div className="mt-3 flex items-center gap-1 overflow-x-auto scrollbar-none" role="tablist">
+          <div className="mt-4 grid grid-cols-3 gap-1 rounded-2xl bg-slate-100 p-1 dark:bg-white/5" role="tablist">
             {tabs.map((t) => (
               <button
                 key={t.id}
                 role="tab"
                 aria-selected={tab === t.id}
                 onClick={() => setTab(t.id)}
-                className={`chip ${tab === t.id ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#151517]' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-white/10'}`}
+                className={`flex min-w-0 items-center justify-center gap-1.5 rounded-xl px-2 py-2.5 text-[13px] font-bold transition-colors ${tab === t.id ? 'bg-white text-slate-900 shadow-sm dark:bg-[#FBF9F5] dark:text-[#151517]' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
               >
                 {t.label}
                 {t.count !== undefined && t.count > 0 && <span className="rounded-full bg-[#E3A63A] px-1.5 text-[10px] font-extrabold tabular-nums text-[#151517]">{t.count}</span>}

@@ -244,6 +244,7 @@ const AppContent: React.FC = () => {
       {/* Profile & Achievements Modal */}
       {isProfileOpen && (
         <ProfileModal
+          onOpenAuth={() => setIsAuthOpen(true)}
           onClose={() => {
             setIsProfileOpen(false);
             setActiveTab('map');
@@ -273,11 +274,7 @@ const AppContent: React.FC = () => {
       )}
 
       {isWelcomeOpen && (
-        <WelcomeScreen
-          onStart={closeWelcome}
-          onExplore={() => { closeWelcome(); handleTabChange('explore'); }}
-          onClose={closeWelcome}
-        />
+        <WelcomeScreen onStart={closeWelcome} onLogin={() => setIsAuthOpen(true)} />
       )}
 
       {/* Help Modal */}
