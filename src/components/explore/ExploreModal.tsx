@@ -65,9 +65,9 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap }) => {
   const totalLessons = maps.reduce((sum, m) => sum + m.nodes.length, 0);
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-[#FBF9F5] dark:bg-[#151517] animate-fade-in" role="dialog" aria-label="Kurikulum">
+    <div className="fixed inset-0 z-50 flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520] animate-fade-in" role="dialog" aria-label="Kurikulum">
       {/* Top bar */}
-      <div className="flex items-center gap-3 border-b border-slate-200/80 bg-[#FBF9F5]/95 px-4 py-3 backdrop-blur dark:border-slate-800 dark:bg-[#151517]/95 sm:px-8">
+      <div className="flex items-center gap-3 border-b border-slate-200/80 bg-[#FBF9F5]/95 px-4 py-3 backdrop-blur dark:border-slate-800 dark:bg-[#0F1520]/95 sm:px-8">
         <div className="min-w-0">
           <p className="eyebrow">Kurikulum</p>
           <h2 className="truncate font-serif text-xl font-semibold leading-tight text-slate-900 dark:text-white sm:text-2xl">Semua jalur belajar</h2>
@@ -83,7 +83,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap }) => {
           {resume && (
             <button
               onClick={() => onSelectMap(resume.map)}
-              className="group flex w-full items-center gap-4 rounded-3xl bg-[#151517] p-4 text-left text-[#FBF9F5] shadow-float transition-transform hover:-translate-y-0.5 dark:bg-[#1F1F23] sm:p-5"
+              className="group flex w-full items-center gap-4 rounded-3xl bg-[#151517] p-4 text-left text-[#FBF9F5] shadow-float transition-transform hover:-translate-y-0.5 dark:bg-[#18202D] sm:p-5"
             >
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#E3A63A] text-[#151517]"><Play className="h-5 w-5" /></span>
               <span className="min-w-0 flex-1">
@@ -104,7 +104,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap }) => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Cari jalur atau pelajaran, misalnya: arus kas, saham, PT, negosiasi"
-                className="w-full rounded-2xl border border-slate-200 bg-white py-3.5 pl-11 pr-4 text-sm text-slate-900 placeholder-slate-400 focus:border-[#CF8E1F] focus:outline-none focus:ring-2 focus:ring-[#E3A63A]/30 dark:border-slate-700 dark:bg-[#1F1F23] dark:text-white"
+                className="w-full rounded-2xl border border-slate-200 bg-white py-3.5 pl-11 pr-4 text-sm text-slate-900 placeholder-slate-400 focus:border-[#CF8E1F] focus:outline-none focus:ring-2 focus:ring-[#E3A63A]/30 dark:border-slate-700 dark:bg-[#18202D] dark:text-white"
               />
             </div>
             <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 scrollbar-none sm:mx-0 sm:px-0" role="group" aria-label="Filter kategori">
@@ -115,7 +115,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap }) => {
                     key={f}
                     aria-pressed={active}
                     onClick={() => setFilter(f)}
-                    className={`chip ${active ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#E3A63A] dark:text-[#151517]' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'}`}
+                    className={`chip ${active ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#E3A63A] dark:text-[#0F1520]' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'}`}
                   >
                     {f}
                   </button>

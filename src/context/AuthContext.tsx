@@ -6,10 +6,11 @@ import {
   createUserWithEmailAndPassword, 
   updateProfile, 
   signOut, 
+  deleteUser,
   onAuthStateChanged 
 } from 'firebase/auth';
 import { auth, googleProvider, isFirebaseConfigured } from '../lib/firebase';
-import { getUserProfile, createUserProfile, UserProfile } from '../lib/db';
+import { getUserProfile, createUserProfile, deleteUserData, UserProfile } from '../lib/db';
 
 interface AuthContextType {
   user: User | null;
@@ -20,6 +21,7 @@ interface AuthContextType {
   signInWithEmail: (email: string, pass: string) => Promise<void>;
   signUpWithEmail: (email: string, pass: string, name: string) => Promise<void>;
   logout: () => Promise<void>;
+  deleteAccount: () => Promise<void>;
   clearError: () => void;
   refreshUserProfile: () => Promise<void>;
   isFirebaseActive: boolean;
@@ -214,6 +216,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUserProfile(null);
   };
 
+  /** Hapus akun dan semua data di server. Wajib ada untuk App Store dan Play Store. */
+  const deleteAccount = async () => {
+    if (!user) return;
+    if (auth && isFirebaseConfigured && auth.currentUser) {
+      try {
+        await deleteUserData(user.uid);
+        await deleteUser(auth.currentUser);
+      } catch (error: any) {
+        if (error?.code === 'auth/requires-recent-login') {
+          throw new Error('Demi keamanan, keluar lalu masuk lagi, kemudian ulangi hapus akun.');
+        }
+        throw new Error('Akun belum bisa dihapus. Periksa koneksi lalu coba lagi.');
+      }
+    }
+    setUser(null);
+    setUserProfile(null);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -225,6 +245,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         signInWithEmail,
         signUpWithEmail,
         logout,
+        deleteAccount,
         clearError,
         refreshUserProfile,
         isFirebaseActive: isFirebaseConfigured,

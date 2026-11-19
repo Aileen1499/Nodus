@@ -24,7 +24,6 @@ interface UserContextType {
   useCredit: () => boolean;
   resetProgress: () => void;
   saveApiKey: (key: string, model?: string) => void;
-  activatePro: () => void;
 }
 
 const STORAGE_KEY = 'nodus_user_progress_v1';
@@ -292,14 +291,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return true;
   };
 
-  const activatePro = () => {
-    setIsPro(true);
-    setProgress((prev) => ({
-      ...prev,
-      credits: 999,
-    }));
-  };
-
   const resetProgress = () => {
     const fresh = {
       ...defaultProgress,
@@ -341,7 +332,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         useCredit,
         resetProgress,
         saveApiKey,
-        activatePro,
       }}
     >
       {children}

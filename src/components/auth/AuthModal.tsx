@@ -71,10 +71,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/80 p-3 sm:p-5 backdrop-blur-xl animate-in fade-in duration-200">
-      <div className="flex flex-col w-full max-w-md rounded-[32px] border border-slate-200/90 dark:border-slate-800/90 bg-[#F4F1EA] dark:bg-[#151517] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden transition-colors duration-300">
+      <div className="flex flex-col w-full max-w-md rounded-[32px] border border-slate-200/90 dark:border-slate-800/90 bg-[#F4F1EA] dark:bg-[#0F1520] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden transition-colors duration-300">
         
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-6 py-5 bg-white/95 dark:bg-[#1F1F23]/95">
+        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 px-6 py-5 bg-white/95 dark:bg-[#18202D]/95">
           <div className="flex items-center gap-2.5">
             <LogoMark size={36} />
             <div>
@@ -194,7 +194,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
             {/* Divider */}
             <div className="relative flex items-center justify-center">
               <div className="w-full border-t border-slate-200 dark:border-slate-800" />
-              <span className="absolute bg-white dark:bg-[#151517] px-3 text-[11px] text-slate-400">
+              <span className="absolute bg-white dark:bg-[#0F1520] px-3 text-[11px] text-slate-400">
                 atau gunakan email
               </span>
             </div>

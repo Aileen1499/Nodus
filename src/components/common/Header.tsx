@@ -46,14 +46,14 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSettings, onOpenHelp, onOp
   const menuItem = 'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/5';
 
   return (
-    <header className="sticky top-0 z-30 w-full border-b border-slate-200/70 bg-[#FBF9F5]/90 backdrop-blur-md dark:border-white/10 dark:bg-[#151517]/90">
+    <header className="sticky top-0 z-30 w-full border-b border-slate-200/70 bg-[#FBF9F5]/90 backdrop-blur-md dark:border-white/10 dark:bg-[#0F1520]/90">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4 sm:px-6">
         <div className="flex items-center gap-2">
           <button onClick={onOpenWelcome} aria-label="Tentang NODUS" className="rounded-xl transition-opacity hover:opacity-80 active:scale-[0.98]">
             <Logo size={34} />
           </button>
           {isPro && (
-            <span className="ml-1 inline-flex items-center gap-1 rounded-full bg-[#151517] px-2 py-0.5 text-[10px] font-bold tracking-wide text-[#E3A63A] dark:bg-[#E3A63A] dark:text-[#151517]">
+            <span className="ml-1 inline-flex items-center gap-1 rounded-full bg-[#151517] px-2 py-0.5 text-[10px] font-bold tracking-wide text-[#E3A63A] dark:bg-[#E3A63A] dark:text-[#0F1520]">
               <Crown className="h-2.5 w-2.5" />
               PRO
             </span>
@@ -78,13 +78,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSettings, onOpenHelp, onOp
               aria-haspopup="menu"
               aria-expanded={menuOpen}
               aria-label="Menu akun"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-[#151517] text-sm font-extrabold text-[#FBF9F5] transition-transform active:scale-95 dark:bg-[#FBF9F5] dark:text-[#151517]"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-[#151517] text-sm font-extrabold text-[#FBF9F5] transition-transform active:scale-95 dark:bg-[#FBF9F5] dark:text-[#0F1520]"
             >
               {user ? initial : <UserIcon className="h-4 w-4" />}
             </button>
 
             {menuOpen && (
-              <div role="menu" className="absolute right-0 top-12 z-40 w-64 animate-fade-in rounded-2xl border border-slate-200/80 bg-white p-2 shadow-float dark:border-white/10 dark:bg-[#1F1F23]">
+              <div role="menu" className="absolute right-0 top-12 z-40 w-64 animate-fade-in rounded-2xl border border-slate-200/80 bg-white p-2 shadow-float dark:border-white/10 dark:bg-[#18202D]">
                 <button role="menuitem" onClick={run(onOpenAuth)} className={menuItem}>
                   <UserIcon className="h-4 w-4 text-slate-500" />
                   <span className="min-w-0 flex-1 truncate">{user ? user.displayName || user.email || 'Akun saya' : 'Masuk / Daftar'}</span>

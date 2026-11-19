@@ -35,7 +35,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart, onLogin }
       role="dialog"
       aria-modal="true"
       aria-label="Selamat datang di NODUS"
-      className="fixed inset-0 z-[80] overflow-x-hidden overflow-y-auto overscroll-x-none bg-[#151517] text-[#FBF9F5] animate-fade-in [touch-action:pan-y]"
+      className="fixed inset-0 z-[80] overflow-x-hidden overflow-y-auto overscroll-x-none bg-[#0F1520] text-[#FBF9F5] animate-fade-in [touch-action:pan-y]"
     >
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_0%,rgba(227,166,58,0.20),transparent_55%),radial-gradient(ellipse_at_0%_100%,rgba(227,166,58,0.10),transparent_50%)]" />
@@ -121,7 +121,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart, onLogin }
             ))}
           </ul>
 
-          <div className="fixed inset-x-0 bottom-0 bg-gradient-to-t from-[#151517] via-[#151517]/95 to-transparent px-6 pb-6 pt-10">
+          <div className="fixed inset-x-0 bottom-0 bg-gradient-to-t from-[#0F1520] via-[#0F1520]/95 to-transparent px-6 pb-6 pt-10">
             <div className="mx-auto max-w-3xl">
               <button onClick={onStart} className="btn-gold flex w-full items-center justify-center gap-2 px-6 py-3.5 text-base">
                 Mulai belajar sekarang <ArrowRight className="h-4 w-4" />

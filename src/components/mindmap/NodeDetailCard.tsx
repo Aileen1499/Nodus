@@ -35,7 +35,7 @@ export const NodeDetailCard: React.FC<NodeDetailCardProps> = ({ node, data, isRe
 
   return (
     <div className="space-y-3">
-      <section aria-label="Detail simpul terpilih" className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-card dark:border-white/10 dark:bg-[#1F1F23] dark:shadow-none">
+      <section aria-label="Detail simpul terpilih" className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-card dark:border-white/10 dark:bg-[#18202D] dark:shadow-none">
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 flex-wrap items-center gap-2">
             <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.08em] ${eyebrowTone}`}>

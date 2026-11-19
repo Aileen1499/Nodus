@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from './firebase';
 
 export interface UserProfile {
@@ -161,3 +161,12 @@ export async function getUserProgress(uid: string): Promise<string[]> {
   return [];
 }
 
+
+/**
+ * Hapus semua data pengguna di Firestore (profil dan progres). Dipakai saat hapus akun.
+ */
+export async function deleteUserData(uid: string): Promise<void> {
+  if (!db || !isFirebaseConfigured) return;
+  await deleteDoc(doc(db, 'user_progress', uid));
+  await deleteDoc(doc(db, 'users', uid));
+}

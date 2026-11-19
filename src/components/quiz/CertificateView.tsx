@@ -34,7 +34,7 @@ export const CertificateView: React.FC<CertificateViewProps> = ({ data, onClose 
   };
 
   return (
-    <div className="fixed inset-0 z-[65] flex flex-col bg-[#FBF9F5] dark:bg-[#151517]" role="dialog" aria-label="Sertifikat penyelesaian">
+    <div className="fixed inset-0 z-[65] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520]" role="dialog" aria-label="Sertifikat penyelesaian">
       <div className="flex items-center gap-3 border-b border-slate-200/80 px-4 py-3 dark:border-slate-800 sm:px-8 print:hidden">
         <button onClick={onClose} aria-label="Kembali" className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">
           <ArrowLeft className="h-5 w-5" />
@@ -50,7 +50,7 @@ export const CertificateView: React.FC<CertificateViewProps> = ({ data, onClose 
         <div className="mx-auto w-full max-w-3xl space-y-5 px-4 py-6 sm:px-8">
           <label className="block print:hidden">
             <span className="mb-1 block text-xs font-bold text-slate-700 dark:text-slate-300">Nama pada sertifikat</span>
-            <input value={name} onChange={(e) => updateName(e.target.value)} placeholder="Tulis nama Anda" maxLength={60} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 focus:border-[#CF8E1F] focus:outline-none focus:ring-2 focus:ring-[#E3A63A]/30 dark:border-slate-700 dark:bg-[#1F1F23] dark:text-white" />
+            <input value={name} onChange={(e) => updateName(e.target.value)} placeholder="Tulis nama Anda" maxLength={60} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 focus:border-[#CF8E1F] focus:outline-none focus:ring-2 focus:ring-[#E3A63A]/30 dark:border-slate-700 dark:bg-[#18202D] dark:text-white" />
           </label>
 
           <div id="nodus-certificate" className="rounded-[28px] border-[6px] border-double border-[#CF8E1F] bg-white p-8 text-center shadow-float sm:p-12">

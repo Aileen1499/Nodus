@@ -151,7 +151,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
   })();
 
   return (
-    <div className="fixed inset-0 z-[70] flex flex-col bg-[#FBF9F5] dark:bg-[#151517]" role="dialog" aria-modal="true" aria-label={`Evaluasi: ${node.label}`}>
+    <div className="fixed inset-0 z-[70] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520]" role="dialog" aria-modal="true" aria-label={`Evaluasi: ${node.label}`}>
       {/* Bar atas */}
       <div className="border-b border-slate-200/80 dark:border-slate-800">
         <div className="mx-auto flex w-full max-w-2xl items-center gap-3 px-4 py-3 sm:px-6">
@@ -232,7 +232,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
                         aria-checked={isSel}
                         disabled={decisionConfirmed}
                         onClick={() => setSelectedChoice(c)}
-                        className={`flex w-full items-start gap-3.5 rounded-2xl border-2 p-4 text-left transition-all ${isSel ? 'border-[#CF8E1F] bg-[#FDF0D5]/60 dark:bg-[#E3A63A]/10' : 'border-slate-200 bg-white hover:border-slate-300 dark:border-slate-700 dark:bg-[#1F1F23] dark:hover:border-slate-500'} ${decisionConfirmed && !isSel ? 'opacity-50' : ''}`}
+                        className={`flex w-full items-start gap-3.5 rounded-2xl border-2 p-4 text-left transition-all ${isSel ? 'border-[#CF8E1F] bg-[#FDF0D5]/60 dark:bg-[#E3A63A]/10' : 'border-slate-200 bg-white hover:border-slate-300 dark:border-slate-700 dark:bg-[#18202D] dark:hover:border-slate-500'} ${decisionConfirmed && !isSel ? 'opacity-50' : ''}`}
                       >
                         <span className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-extrabold ${isSel ? 'bg-[#E3A63A] text-[#151517]' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'}`}>{String.fromCharCode(65 + i)}</span>
                         <span className="text-base leading-relaxed text-slate-900 dark:text-slate-100">{plain(c.text)}</span>
@@ -273,11 +273,11 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
                 {q.options.map((opt, idx) => {
                   const isPicked = picked === idx;
                   const isRight = idx === q.correctAnswerIndex;
-                  let cls = 'border-slate-200 bg-white hover:border-slate-300 dark:border-slate-700 dark:bg-[#1F1F23] dark:hover:border-slate-500';
+                  let cls = 'border-slate-200 bg-white hover:border-slate-300 dark:border-slate-700 dark:bg-[#18202D] dark:hover:border-slate-500';
                   if (submitted) {
                     if (isRight) cls = 'border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10';
                     else if (isPicked) cls = 'border-rose-500 bg-rose-50 dark:bg-rose-500/10';
-                    else cls = 'border-slate-200 bg-white opacity-55 dark:border-slate-700 dark:bg-[#1F1F23]';
+                    else cls = 'border-slate-200 bg-white opacity-55 dark:border-slate-700 dark:bg-[#18202D]';
                   }
                   return (
                     <button key={idx} disabled={submitted} onClick={() => answer(idx)} className={`flex w-full items-start gap-3.5 rounded-2xl border-2 p-4 text-left transition-all ${cls}`}>
@@ -289,7 +289,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
               </div>
 
               {submitted && (
-                <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-200/70 dark:bg-[#1F1F23] dark:ring-white/10" aria-live="polite">
+                <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-200/70 dark:bg-[#18202D] dark:ring-white/10" aria-live="polite">
                   <p className={`flex items-center gap-2 text-base font-extrabold ${picked === q.correctAnswerIndex ? 'text-emerald-700 dark:text-emerald-300' : 'text-rose-700 dark:text-rose-300'}`}>
                     {picked === q.correctAnswerIndex ? <><CheckCircle2 className="h-5 w-5" />Tepat</> : picked === -1 ? <><Clock className="h-5 w-5" />Waktu habis</> : <><XCircle className="h-5 w-5" />Belum tepat</>}
                   </p>
@@ -342,7 +342,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
       </div>
 
       {/* Aksi bawah (selalu terlihat, tidak tertutup dock) */}
-      <div className="border-t border-slate-200/80 bg-[#FBF9F5]/95 backdrop-blur dark:border-slate-800 dark:bg-[#151517]/95" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+      <div className="border-t border-slate-200/80 bg-[#FBF9F5]/95 backdrop-blur dark:border-slate-800 dark:bg-[#0F1520]/95" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
         <div className="mx-auto w-full max-w-2xl px-4 py-3 sm:px-6">
           {phase === 'completed' ? (
             passed ? (
