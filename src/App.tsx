@@ -18,6 +18,7 @@ import { allNodes, getMapById } from './lib/nodeIndex';
 import { isDueForReview } from './lib/review';
 import { ProfileModal } from './components/profile/ProfileModal';
 import { AuthModal } from './components/auth/AuthModal';
+import { WelcomeScreen } from './components/brand/WelcomeScreen';
 import { PaywallModal } from './components/paywall/PaywallModal';
 import { MindmapData, MindmapNode } from './types';
 import { PRESET_QUERIES } from './data/mockMindmaps';
@@ -53,6 +54,13 @@ const AppContent: React.FC = () => {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
   const [isLoadingMindmap, setIsLoadingMindmap] = useState(false);
+  const [isWelcomeOpen, setIsWelcomeOpen] = useState(() => {
+    try { return localStorage.getItem('nodus_welcome_seen_v1') !== '1'; } catch { return false; }
+  });
+  const closeWelcome = () => {
+    setIsWelcomeOpen(false);
+    try { localStorage.setItem('nodus_welcome_seen_v1', '1'); } catch { /* storage unavailable */ }
+  };
 
   // Search Handler with Instant Predefined Routing & Fallback to Gemini AI
   const handleSearch = async (query: string) => {
@@ -136,6 +144,7 @@ const AppContent: React.FC = () => {
         onOpenProfile={() => setIsProfileOpen(true)}
         onOpenAuth={() => setIsAuthOpen(true)}
         onOpenPaywall={() => setIsPaywallOpen(true)}
+        onOpenWelcome={() => setIsWelcomeOpen(true)}
       />
 
       {/* Main Interactive Canvas */}
@@ -261,6 +270,14 @@ const AppContent: React.FC = () => {
       {/* Settings Modal */}
       {isSettingsOpen && (
         <SettingsModal onClose={() => setIsSettingsOpen(false)} />
+      )}
+
+      {isWelcomeOpen && (
+        <WelcomeScreen
+          onStart={closeWelcome}
+          onExplore={() => { closeWelcome(); handleTabChange('explore'); }}
+          onClose={closeWelcome}
+        />
       )}
 
       {/* Help Modal */}

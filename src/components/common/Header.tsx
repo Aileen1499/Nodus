@@ -11,10 +11,11 @@ interface HeaderProps {
   onOpenProfile?: () => void;
   onOpenAuth?: () => void;
   onOpenPaywall?: () => void;
+  onOpenWelcome?: () => void;
 }
 
 /** Brand, streak, RP and one account menu. Everything secondary lives in the menu. */
-export const Header: React.FC<HeaderProps> = ({ onOpenSettings, onOpenHelp, onOpenProfile, onOpenAuth, onOpenPaywall }) => {
+export const Header: React.FC<HeaderProps> = ({ onOpenSettings, onOpenHelp, onOpenProfile, onOpenAuth, onOpenPaywall, onOpenWelcome }) => {
   const { progress, isPro } = useUser();
   const { theme, toggleTheme } = useTheme();
   const { user } = useAuth();
@@ -48,7 +49,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSettings, onOpenHelp, onOp
     <header className="sticky top-0 z-30 w-full border-b border-slate-200/70 bg-[#FBF9F5]/90 backdrop-blur-md dark:border-white/10 dark:bg-[#151517]/90">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4 sm:px-6">
         <div className="flex items-center gap-2">
-          <Logo size={30} />
+          <button onClick={onOpenWelcome} aria-label="Tentang NODUS" className="rounded-xl transition-opacity hover:opacity-80 active:scale-[0.98]">
+            <Logo size={34} />
+          </button>
           {isPro && (
             <span className="ml-1 inline-flex items-center gap-1 rounded-full bg-[#151517] px-2 py-0.5 text-[10px] font-bold tracking-wide text-[#E3A63A] dark:bg-[#E3A63A] dark:text-[#151517]">
               <Crown className="h-2.5 w-2.5" />

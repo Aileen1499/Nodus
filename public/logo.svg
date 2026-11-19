@@ -1,11 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
   <title>NODUS</title>
+  <defs>
+    <radialGradient id="g" cx=".82" cy=".12" r=".9"><stop offset="0" stop-color="#E3A63A" stop-opacity=".34"/><stop offset="1" stop-color="#E3A63A" stop-opacity="0"/></radialGradient>
+    <linearGradient id="d" x1="17" y1="15" x2="47" y2="49" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#F3C766"/><stop offset="1" stop-color="#CF8E1F"/></linearGradient>
+  </defs>
   <rect width="64" height="64" rx="16" fill="#151517"/>
-  <rect x="1" y="1" width="62" height="62" rx="15" stroke="#E3A63A" stroke-opacity=".28" stroke-width="2"/>
-  <path d="M17 50V14M47 50V14" stroke="#FBF9F5" stroke-width="6" stroke-linecap="round"/>
-  <path d="M17 14L47 50" stroke="#E3A63A" stroke-width="6" stroke-linecap="round"/>
-  <circle cx="17" cy="14" r="5.6" fill="#E3A63A" stroke="#151517" stroke-width="2.4"/>
-  <circle cx="47" cy="50" r="5.6" fill="#E3A63A" stroke="#151517" stroke-width="2.4"/>
-  <circle cx="47" cy="14" r="2.8" fill="#FBF9F5"/>
-  <circle cx="17" cy="50" r="2.8" fill="#FBF9F5"/>
+  <rect width="64" height="64" rx="16" fill="url(#g)"/>
+  <rect x="1" y="1" width="62" height="62" rx="15" stroke="#E3A63A" stroke-opacity=".32" stroke-width="2"/>
+  <path d="M17 49V15M47 49V15" stroke="#FBF9F5" stroke-width="6" stroke-linecap="round"/>
+  <path d="M17 15L47 49" stroke="url(#d)" stroke-width="6.5" stroke-linecap="round"/>
+  <circle cx="17" cy="15" r="8" fill="#E3A63A" fill-opacity=".16"/>
+  <circle cx="47" cy="49" r="8" fill="#E3A63A" fill-opacity=".16"/>
+  <circle cx="17" cy="15" r="5.6" fill="#E3A63A" stroke="#151517" stroke-width="2.4"/>
+  <circle cx="47" cy="49" r="5.6" fill="#E3A63A" stroke="#151517" stroke-width="2.4"/>
+  <circle cx="47" cy="15" r="2.8" fill="#FBF9F5"/>
+  <circle cx="17" cy="49" r="2.8" fill="#FBF9F5"/>
 </svg>
