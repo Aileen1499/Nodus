@@ -14,6 +14,21 @@ import type { ToolId } from './curriculumBuilder';
 
 export const BILLING_LIVE = (import.meta.env?.VITE_BILLING_LIVE as string | undefined) === 'true';
 
+/**
+ * Mode pratinjau pembatasan: buka aplikasi dengan `?proPreview=1` untuk merasakan alur kunci
+ * dan penawaran Pro tanpa menyalakan penagihan. Tersimpan di sesi tab saja.
+ */
+const previewGating = (): boolean => {
+  try {
+    if (typeof window === 'undefined') return false;
+    if (new URLSearchParams(window.location.search).get('proPreview') === '1') sessionStorage.setItem('nodus_pro_preview', '1');
+    return sessionStorage.getItem('nodus_pro_preview') === '1';
+  } catch {
+    return false;
+  }
+};
+export const GATING_ACTIVE = BILLING_LIVE || previewGating();
+
 export const SUPPORT_EMAIL = ((import.meta.env?.VITE_SUPPORT_EMAIL as string | undefined) || '').trim();
 
 export const PRICING = {
@@ -22,6 +37,10 @@ export const PRICING = {
 } as const;
 
 export const yearlyPerMonth = Math.round(PRICING.yearly.price / 12);
+/** Harga jika 12 bulan dibayar bulanan: patokan pembanding untuk paket tahunan. */
+export const yearlyAtMonthlyRate = PRICING.monthly.price * 12;
+export const yearlySaving = yearlyAtMonthlyRate - PRICING.yearly.price;
+export const yearlyPerDay = Math.round(PRICING.yearly.price / 365);
 export const yearlySavingPercent = Math.round((1 - PRICING.yearly.price / (PRICING.monthly.price * 12)) * 100);
 
 export const idr = (n: number): string => `Rp ${n.toLocaleString('id-ID')}`;
@@ -39,22 +58,20 @@ const isCuratedPath = (map: MindmapData): boolean => map.id.startsWith('curricul
 
 /** Apakah pelajaran ini terkunci karena paket (bukan karena prasyarat). */
 export const isLessonPlanLocked = (map: MindmapData, node: MindmapNode, isPro: boolean): boolean => {
-  if (!BILLING_LIVE || isPro) return false;
+  if (!GATING_ACTIVE || isPro) return false;
   if (!isCuratedPath(map) || FREE_PATH_IDS.includes(map.id)) return false;
-  if (node.level === 0 || node.id === map.rootId) return false;
-  const order = getPathOrder(map).filter((n) => n.level !== 0 && n.id !== map.rootId);
-  const index = order.findIndex((n) => n.id === node.id);
+  // Simpul akar adalah pelajaran pertama; "pratinjau gratis" menghitung dari pelajaran pertama itu.
+  const index = getPathOrder(map).findIndex((n) => n.id === node.id);
   return index >= FREE_PREVIEW_LESSONS;
 };
 
 export const isToolPlanLocked = (tool: ToolId, isPro: boolean): boolean =>
-  BILLING_LIVE && !isPro && !FREE_TOOL_IDS.includes(tool);
+  GATING_ACTIVE && !isPro && !FREE_TOOL_IDS.includes(tool);
 
 export const countProLessons = (maps: MindmapData[]): number =>
   maps.reduce((sum, m) => {
     if (!isCuratedPath(m) || FREE_PATH_IDS.includes(m.id)) return sum;
-    const lessons = m.nodes.filter((n) => n.level !== 0 && n.id !== m.rootId).length;
-    return sum + Math.max(0, lessons - FREE_PREVIEW_LESSONS);
+    return sum + Math.max(0, m.nodes.length - FREE_PREVIEW_LESSONS);
   }, 0);
 
 export type PaywallReason = 'lesson' | 'tool' | 'ai' | 'manual';

@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight, Bookmark, Check, Clock, Lock, Play } from 'lucide-react';
 import { MindmapData, MindmapNode } from '../../types';
 import { useUser } from '../../context/UserContext';
+import { isLessonPlanLocked } from '../../lib/plans';
 import { getLockReason, getNeighbours, getNodeState, getPrerequisiteNode, plain } from '../../lib/pathLogic';
 
 interface NodeDetailCardProps {
@@ -15,7 +16,7 @@ interface NodeDetailCardProps {
 
 /** Selected node: where it sits, what it is worth, how far the learner is, one primary action. */
 export const NodeDetailCard: React.FC<NodeDetailCardProps> = ({ node, data, isRecommended, onOpen, onSelectNode, onStartQuiz }) => {
-  const { isNodeMastered, isActionChecked, isBookmarked, toggleBookmark } = useUser();
+  const { isNodeMastered, isActionChecked, isBookmarked, toggleBookmark, isPro } = useUser();
   const state = getNodeState(node, data, isNodeMastered);
   const steps = node.microContent.actionableSteps || [];
   const doneSteps = steps.filter((_, i) => isActionChecked(node.id, i)).length;
@@ -88,8 +89,8 @@ export const NodeDetailCard: React.FC<NodeDetailCardProps> = ({ node, data, isRe
 
         <div className="mt-5 flex flex-col gap-2 sm:flex-row">
           {state === 'locked' ? (
-            <button onClick={() => prerequisite && onSelectNode(prerequisite)} disabled={!prerequisite} className="btn-gold w-full">
-              <span>Lihat {prerequisite?.stepNumber || 'prasyarat'}</span>
+            <button onClick={() => (isLessonPlanLocked(data, node, isPro) ? onOpen(node) : prerequisite && onSelectNode(prerequisite))} disabled={!prerequisite && !isLessonPlanLocked(data, node, isPro)} className="btn-gold w-full">
+              <span>{isLessonPlanLocked(data, node, isPro) ? 'Buka dengan NODUS Pro' : `Lihat ${prerequisite?.stepNumber || 'prasyarat'}`}</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           ) : state === 'mastered' ? (

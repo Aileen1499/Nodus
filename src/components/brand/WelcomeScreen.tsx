@@ -4,6 +4,7 @@ import { LogoMark, NodeConstellation } from './Logo';
 import { allMaps } from '../../lib/nodeIndex';
 import { TOOLS } from '../tools/ToolkitView';
 import { getPathOrder } from '../../lib/pathLogic';
+import { isMainPath } from '../../lib/retiredPaths';
 import type { MindmapData } from '../../types';
 
 interface WelcomeScreenProps {
@@ -120,19 +121,27 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart: onFinish,
             ))}
           </ol>
 
-          <h3 className="mt-10 text-sm font-bold uppercase tracking-[0.14em] text-[#FBF9F5]/60">Jalur yang tersedia <span className="font-medium normal-case tracking-normal text-[#FBF9F5]/40">· ketuk untuk pratinjau</span></h3>
-          <ul className="mt-3 divide-y divide-white/10 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]">
-            {maps.map((m) => (
-              <li key={m.id}>
-                <button onClick={() => setDetail(m)} className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-white/[0.06] active:bg-white/10">
-                  <span className="h-2 w-2 shrink-0 rounded-full bg-[#E3A63A]" />
-                  <span className="min-w-0 flex-1 text-sm font-semibold leading-snug">{m.topic}</span>
-                  <span className="shrink-0 text-xs tabular-nums text-[#FBF9F5]/50">{m.nodes.filter((n) => n.level !== 0 && n.id !== m.rootId).length} pelajaran</span>
-                  <ChevronRight className="h-4 w-4 shrink-0 text-[#FBF9F5]/40" />
-                </button>
-              </li>
-            ))}
-          </ul>
+          {[
+            { title: 'Jalur utama', hint: 'Berurutan, mendalam, ada tahap dan alat', list: maps.filter((m) => isMainPath(m.id)) },
+            { title: 'Pendalaman topik', hint: 'Topik singkat untuk memperluas wawasan', list: maps.filter((m) => !isMainPath(m.id)) },
+          ].map((g) => g.list.length > 0 && (
+            <section key={g.title}>
+              <h3 className="mt-10 text-sm font-bold uppercase tracking-[0.14em] text-[#FBF9F5]/60">{g.title} <span className="font-medium normal-case tracking-normal text-[#FBF9F5]/40">· {g.list.length} jalur</span></h3>
+              <p className="mt-1 text-xs text-[#FBF9F5]/45">{g.hint}. Ketuk untuk pratinjau.</p>
+              <ul className="mt-3 divide-y divide-white/10 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]">
+                {g.list.map((m) => (
+                  <li key={m.id}>
+                    <button onClick={() => setDetail(m)} className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-white/[0.06] active:bg-white/10">
+                      <span className="h-2 w-2 shrink-0 rounded-full bg-[#E3A63A]" />
+                      <span className="min-w-0 flex-1 text-sm font-semibold leading-snug">{m.topic}</span>
+                      <span className="shrink-0 text-xs tabular-nums text-[#FBF9F5]/50">{m.nodes.length} pelajaran</span>
+                      <ChevronRight className="h-4 w-4 shrink-0 text-[#FBF9F5]/40" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
 
           <div className="fixed inset-x-0 bottom-0 bg-gradient-to-t from-[#0F1520] via-[#0F1520]/95 to-transparent px-6 pb-6 pt-10">
             <div className="mx-auto max-w-3xl">
@@ -150,7 +159,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart: onFinish,
 };
 
 const PathPreviewSheet: React.FC<{ map: MindmapData; onClose: () => void; onStart: () => void }> = ({ map, onClose, onStart }) => {
-  const lessons = useMemo(() => getPathOrder(map).filter((n) => n.level !== 0 && n.id !== map.rootId), [map]);
+  const lessons = useMemo(() => getPathOrder(map), [map]);
   const toolNames = useMemo(() => {
     const ids = Array.from(new Set(lessons.map((n) => n.toolId).filter(Boolean)));
     return ids.map((id) => TOOLS.find((t) => t.id === id)?.title).filter(Boolean) as string[];

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArrowRight, Check, Lock, Play } from 'lucide-react';
 import { MindmapData, MindmapNode } from '../../types';
 import { useUser } from '../../context/UserContext';
+import { isLessonPlanLocked } from '../../lib/plans';
 import { getLockReason, getNodeState, getPathOrder, getPrerequisiteNode, getRecommendedNode, plain } from '../../lib/pathLogic';
 
 interface LearningPathProps {
@@ -11,7 +12,7 @@ interface LearningPathProps {
 
 /** Vertical learning path: done, current, and locked (with the reason). */
 export const LearningPath: React.FC<LearningPathProps> = ({ data, onOpenNode }) => {
-  const { isNodeMastered, isActionChecked } = useUser();
+  const { isNodeMastered, isActionChecked, isPro } = useUser();
   const [expandedLockedId, setExpandedLockedId] = useState<string | null>(null);
   const ordered = getPathOrder(data);
   const current = getRecommendedNode(data, isNodeMastered);
@@ -79,7 +80,7 @@ export const LearningPath: React.FC<LearningPathProps> = ({ data, onOpenNode }) 
                   </div>
                 ) : state === 'locked' ? (
                   <div className="min-w-0 flex-1 rounded-2xl bg-slate-50 dark:bg-white/5">
-                    <button onClick={() => setExpandedLockedId(isExpanded ? null : node.id)} aria-expanded={isExpanded} className="block w-full rounded-2xl p-4 text-left transition-colors hover:bg-slate-100 dark:hover:bg-white/10">
+                    <button onClick={() => (isLessonPlanLocked(data, node, isPro) ? onOpenNode(node) : setExpandedLockedId(isExpanded ? null : node.id))} aria-expanded={isExpanded} className="block w-full rounded-2xl p-4 text-left transition-colors hover:bg-slate-100 dark:hover:bg-white/10">
                       <p className="eyebrow">Terkunci{prereq?.stepNumber ? ` • prasyarat ${prereq.stepNumber.replace('Langkah ', '')}` : ''}</p>
                       <h3 className="mt-0.5 text-[15px] font-bold leading-snug text-slate-500 dark:text-slate-400">{node.stepNumber ? `${node.stepNumber}: ` : ''}{node.label}</h3>
                     </button>

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { UserProvider, useUser } from './context/UserContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
@@ -20,6 +20,7 @@ import { ProfileModal } from './components/profile/ProfileModal';
 import { AuthModal } from './components/auth/AuthModal';
 import { WelcomeScreen } from './components/brand/WelcomeScreen';
 import { PlansView } from './components/paywall/PlansView';
+import { ProOfferSheet } from './components/paywall/ProOfferSheet';
 import { LegalView, LegalKind } from './components/legal/LegalView';
 import { isLessonPlanLocked, isToolPlanLocked, PaywallReason } from './lib/plans';
 import { MindmapData, MindmapNode } from './types';
@@ -66,6 +67,23 @@ const AppContent: React.FC = () => {
     setIsWelcomeOpen(false);
     try { localStorage.setItem('nodus_welcome_seen_v1', '1'); } catch { /* storage unavailable */ }
   };
+
+  // Penawaran Pro saat masuk: setelah layar sambutan, paling sering sekali per 24 jam, tidak untuk pengguna Pro.
+  const [isOfferOpen, setIsOfferOpen] = useState(false);
+  useEffect(() => {
+    if (isWelcomeOpen || isPro) return;
+    let due = true;
+    try {
+      const last = Number(localStorage.getItem('nodus_pro_offer_at_v1') || 0);
+      due = Date.now() - last > 24 * 60 * 60 * 1000;
+    } catch { /* storage unavailable */ }
+    if (!due) return;
+    const t = window.setTimeout(() => {
+      setIsOfferOpen(true);
+      try { localStorage.setItem('nodus_pro_offer_at_v1', String(Date.now())); } catch { /* storage unavailable */ }
+    }, 1800);
+    return () => window.clearTimeout(t);
+  }, [isWelcomeOpen, isPro]);
 
   // Satu pintu untuk membuka pelajaran: pelajaran Pro membuka halaman paket.
   const guardNode = (node: MindmapNode, go: () => void) => {
@@ -276,7 +294,11 @@ const AppContent: React.FC = () => {
 
       {/* User Auth Modal */}
       {isAuthOpen && (
-        <AuthModal onClose={() => setIsAuthOpen(false)} />
+        <AuthModal onClose={() => setIsAuthOpen(false)} onOpenLegal={setLegal} />
+      )}
+
+      {isOfferOpen && !paywall.open && !isAuthOpen && (
+        <ProOfferSheet onDismiss={() => setIsOfferOpen(false)} onSeePlans={() => { setIsOfferOpen(false); openPaywall('manual'); }} />
       )}
 
       {paywall.open && (

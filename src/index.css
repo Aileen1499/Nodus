@@ -7,6 +7,17 @@
   :root { color-scheme: light; }
   html.dark { color-scheme: dark; }
 
+  /* Kunci seperti aplikasi: halaman tidak bisa digeser ke samping atau dizoom. Kanvas peta dan baris chip mengatur gesturnya sendiri. */
+  html, body, #root {
+    max-width: 100%;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
+    touch-action: pan-y;
+    -webkit-text-size-adjust: 100%;
+  }
+  .overflow-x-auto { touch-action: pan-x pan-y; overscroll-behavior-x: contain; }
+  input, select, textarea { font-size: max(16px, 1em); } /* cegah zoom otomatis iOS saat fokus */
+
   body {
     font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;

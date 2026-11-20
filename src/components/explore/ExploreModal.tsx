@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle2, Search, Layers, Clock, Wrench, Play } from 'l
 import { MindmapData } from '../../types';
 import { useUser } from '../../context/UserContext';
 import { allMaps, findNode } from '../../lib/nodeIndex';
+import { isMainPath } from '../../lib/retiredPaths';
 import { getRecommendedNode } from '../../lib/pathLogic';
 
 interface ExploreModalProps {
@@ -133,8 +134,19 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap }) => {
               <button onClick={() => { setQuery(''); setFilter('Semua'); }} className="btn-ink mt-5 !py-2 text-xs">Reset pencarian</button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {filtered.map((map) => {
+            <div className="space-y-8">
+              {[
+                { key: 'main', title: 'Jalur utama', hint: 'Berurutan dan mendalam, lengkap dengan tahap, kuis, dan alat.', list: filtered.filter((m) => isMainPath(m.id)) },
+                { key: 'deep', title: 'Pendalaman topik', hint: 'Topik singkat untuk memperluas wawasan setelah dasar kuat.', list: filtered.filter((m) => !isMainPath(m.id)) },
+              ].map((group) => group.list.length > 0 && (
+              <section key={group.key}>
+                <div className="mb-3 flex items-baseline gap-2">
+                  <h2 className="font-serif text-xl font-semibold text-slate-900 dark:text-white">{group.title}</h2>
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">{group.list.length} jalur</span>
+                </div>
+                <p className="-mt-2 mb-4 text-sm text-slate-500 dark:text-slate-400">{group.hint}</p>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {group.list.map((map) => {
                 const mastered = map.nodes.filter((n) => isNodeMastered(n.id)).length;
                 const total = map.nodes.length;
                 const pct = Math.round((mastered / total) * 100);
@@ -185,6 +197,9 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap }) => {
                   </button>
                 );
               })}
+                </div>
+              </section>
+              ))}
             </div>
           )}
         </div>
