@@ -66,7 +66,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart: onFinish,
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <button onClick={onStart} className="btn-gold inline-flex items-center justify-center gap-2 px-6 py-3.5 text-base">
+              <button onClick={() => onStart()} className="btn-gold inline-flex items-center justify-center gap-2 px-6 py-3.5 text-base">
                 Mulai belajar <ArrowRight className="h-4 w-4" />
               </button>
               <button onClick={() => setView('preview')} className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-6 py-3.5 text-base font-semibold text-[#FBF9F5] transition-colors hover:bg-white/10">
@@ -136,7 +136,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart: onFinish,
 
           <div className="fixed inset-x-0 bottom-0 bg-gradient-to-t from-[#0F1520] via-[#0F1520]/95 to-transparent px-6 pb-6 pt-10">
             <div className="mx-auto max-w-3xl">
-              <button onClick={onStart} className="btn-gold flex w-full items-center justify-center gap-2 px-6 py-3.5 text-base">
+              <button onClick={() => onStart()} className="btn-gold flex w-full items-center justify-center gap-2 px-6 py-3.5 text-base">
                 Mulai belajar sekarang <ArrowRight className="h-4 w-4" />
               </button>
             </div>
@@ -220,7 +220,7 @@ const PathPreviewSheet: React.FC<{ map: MindmapData; onClose: () => void; onStar
         </div>
 
         <div className="border-t border-white/10 bg-[#18202D] px-5 pb-5 pt-4">
-          <button onClick={onStart} className="btn-gold flex w-full items-center justify-center gap-2 px-6 py-3.5 text-base">Mulai jalur ini <ArrowRight className="h-4 w-4" /></button>
+          <button onClick={() => onStart()} className="btn-gold flex w-full items-center justify-center gap-2 px-6 py-3.5 text-base">Mulai jalur ini <ArrowRight className="h-4 w-4" /></button>
         </div>
       </div>
     </div>
