@@ -22,7 +22,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } catch {
       // ignore
     }
-    return 'light'; // Default to the NODUS warm paper theme
+    // Tanpa pilihan tersimpan: ikuti tema perangkat, supaya layar sambutan gelap tidak berpindah mendadak ke beranda terang.
+    try {
+      if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) return 'dark';
+    } catch {
+      // ignore
+    }
+    return 'light';
   });
 
   useEffect(() => {

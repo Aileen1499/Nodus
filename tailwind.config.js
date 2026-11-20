@@ -46,11 +46,13 @@ export default {
         dashFlow: { to: { strokeDashoffset: '-24' } },
         sheetUp: { from: { transform: 'translateY(24px)', opacity: '0' }, to: { transform: 'translateY(0)', opacity: '1' } },
         fadeIn: { from: { opacity: '0' }, to: { opacity: '1' } },
+        fadeOut: { from: { opacity: '1' }, to: { opacity: '0' } },
       },
       animation: {
         'dash-flow': 'dashFlow 1.2s linear infinite',
         'sheet-up': 'sheetUp 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both',
         'fade-in': 'fadeIn 0.2s ease-out both',
+        'fade-out': 'fadeOut 0.32s ease-in both',
       },
     },
   },

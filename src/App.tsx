@@ -300,7 +300,7 @@ const AppContent: React.FC = () => {
       )}
 
       {isWelcomeOpen && (
-        <WelcomeScreen onStart={closeWelcome} onLogin={() => setIsAuthOpen(true)} />
+        <WelcomeScreen onStart={(mapId) => { closeWelcome(); const m = mapId ? getMapById(mapId) : undefined; if (m) openMap(m); }} onLogin={() => setIsAuthOpen(true)} />
       )}
 
       {legal && <LegalView kind={legal} onClose={() => setLegal(null)} />}
