@@ -145,9 +145,9 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
               <p className="mt-2 text-sm text-[#FBF9F5]/60">per {PRICING[plan].per}</p>
               {plan === 'yearly' ? (
                 <div className="mt-5 grid grid-cols-3 gap-2 text-center">
-                  <div className="rounded-xl bg-white/5 px-2 py-2.5"><p className="text-[10px] font-bold uppercase tracking-wider text-[#FBF9F5]/45">Hemat</p><p className="mt-0.5 text-sm font-extrabold text-[#E9C06B]">{idr(yearlySavingAmount)}</p></div>
-                  <div className="rounded-xl bg-white/5 px-2 py-2.5"><p className="text-[10px] font-bold uppercase tracking-wider text-[#FBF9F5]/45">Per bulan</p><p className="mt-0.5 text-sm font-extrabold">{idr(yearlyPerMonth)}</p></div>
-                  <div className="rounded-xl bg-white/5 px-2 py-2.5"><p className="text-[10px] font-bold uppercase tracking-wider text-[#FBF9F5]/45">Per hari</p><p className="mt-0.5 text-sm font-extrabold">{idr(yearlyPerDay)}</p></div>
+                  <div className="rounded-xl bg-white/5 px-2 py-2.5"><p className="text-[10px] font-bold uppercase tracking-wider text-[#FBF9F5]/45">Hemat</p><p className="mt-0.5 whitespace-nowrap text-[13px] font-extrabold text-[#E9C06B]">{idr(yearlySavingAmount)}</p></div>
+                  <div className="rounded-xl bg-white/5 px-2 py-2.5"><p className="text-[10px] font-bold uppercase tracking-wider text-[#FBF9F5]/45">Per bulan</p><p className="mt-0.5 whitespace-nowrap text-[13px] font-extrabold">{idr(yearlyPerMonth)}</p></div>
+                  <div className="rounded-xl bg-white/5 px-2 py-2.5"><p className="text-[10px] font-bold uppercase tracking-wider text-[#FBF9F5]/45">Per hari</p><p className="mt-0.5 whitespace-nowrap text-[13px] font-extrabold">{idr(yearlyPerDay)}</p></div>
                 </div>
               ) : (
                 <p className="mt-4 text-sm text-[#FBF9F5]/60">Fleksibel, berhenti kapan saja. Paket tahunan jauh lebih hemat.</p>
