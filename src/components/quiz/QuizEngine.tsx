@@ -191,7 +191,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
               </div>
 
               <ol className="space-y-3">
-                <li className="surface flex gap-4 p-4"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FDF0D5] text-sm font-extrabold text-[#7A4D0A]">1</span><span><strong className="block text-slate-900 dark:text-white">Kasus keputusan</strong><span className="text-sm text-slate-600 dark:text-slate-300">Pilih tindakan, lalu lihat konsekuensi dan alternatif yang lebih kuat.</span></span></li>
+                <li className="surface flex gap-4 p-4"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FDF0D5] text-sm font-extrabold text-[#7A4D0A]">1</span><span><strong className="block text-slate-900 dark:text-white">Kasus keputusan</strong><span className="text-sm text-slate-600 dark:text-slate-300">Pilih tindakan, lalu lihat pilihan terkuat, konsekuensinya, dan teori di baliknya.</span></span></li>
                 <li className="surface flex gap-4 p-4"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FDF0D5] text-sm font-extrabold text-[#7A4D0A]">2</span><span><strong className="block text-slate-900 dark:text-white">{total} soal penalaran</strong><span className="text-sm text-slate-600 dark:text-slate-300">Setiap jawaban langsung dibahas, jadi Anda belajar walau salah.</span></span></li>
               </ol>
 
@@ -218,47 +218,73 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
                 <p className="eyebrow">Bagian 1 · Kasus keputusan</p>
                 <h2 className="mt-2 font-serif text-2xl font-semibold leading-snug text-slate-900 dark:text-white sm:text-3xl">{node.decisionScenario.title}</h2>
                 <p className="mt-3 text-base leading-relaxed text-slate-700 dark:text-slate-300">{plain(node.decisionScenario.context)}</p>
-                <p className="mt-4 rounded-2xl bg-[#FDF0D5] p-4 text-base font-semibold leading-relaxed text-[#5E3A08] dark:bg-[#E3A63A]/10 dark:text-[#F1D8A0]">{plain(node.decisionScenario.dilemma)}</p>
+                <p className="mt-4 rounded-2xl bg-[#FDF0D5] p-4 font-serif text-xl font-medium leading-snug text-[#5E3A08] dark:bg-[#E3A63A]/10 dark:text-[#F1D8A0]">{plain(node.decisionScenario.dilemma)}</p>
               </div>
 
               <div className="space-y-3" role="radiogroup" aria-label="Pilihan keputusan">
                 {node.decisionScenario.choices.map((c, i) => {
                   const isSel = selectedChoice?.id === c.id;
-                  const showResult = decisionConfirmed && isSel;
+                  let cls = isSel
+                    ? 'border-[#CF8E1F] bg-[#FDF0D5]/60 dark:bg-[#E3A63A]/10'
+                    : 'border-slate-200 bg-white hover:border-slate-300 dark:border-slate-700 dark:bg-[#18202D] dark:hover:border-slate-500';
+                  let badge = isSel ? 'bg-[#E3A63A] text-[#151517]' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300';
+                  if (decisionConfirmed) {
+                    if (c.isOptimal) { cls = 'border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10'; badge = 'bg-emerald-600 text-white'; }
+                    else if (isSel) { cls = 'border-rose-500 bg-rose-50 dark:bg-rose-500/10'; badge = 'bg-rose-600 text-white'; }
+                    else { cls = 'border-slate-200 bg-white opacity-55 dark:border-slate-700 dark:bg-[#18202D]'; }
+                  }
                   return (
-                    <div key={c.id}>
-                      <button
-                        role="radio"
-                        aria-checked={isSel}
-                        disabled={decisionConfirmed}
-                        onClick={() => setSelectedChoice(c)}
-                        className={`flex w-full items-start gap-3.5 rounded-2xl border-2 p-4 text-left transition-all ${isSel ? 'border-[#CF8E1F] bg-[#FDF0D5]/60 dark:bg-[#E3A63A]/10' : 'border-slate-200 bg-white hover:border-slate-300 dark:border-slate-700 dark:bg-[#18202D] dark:hover:border-slate-500'} ${decisionConfirmed && !isSel ? 'opacity-50' : ''}`}
-                      >
-                        <span className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-extrabold ${isSel ? 'bg-[#E3A63A] text-[#151517]' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'}`}>{String.fromCharCode(65 + i)}</span>
-                        <span className="text-base leading-relaxed text-slate-900 dark:text-slate-100">{plain(c.text)}</span>
-                      </button>
-                      {showResult && (
-                        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className={`mt-2 rounded-2xl p-4 text-[15px] leading-relaxed ${c.isOptimal ? 'bg-emerald-50 text-emerald-900 dark:bg-emerald-500/10 dark:text-emerald-100' : 'bg-rose-50 text-rose-900 dark:bg-rose-500/10 dark:text-rose-100'}`}>
-                          <p className="mb-1.5 flex items-center gap-2 font-bold">
-                            {c.isOptimal ? <CheckCircle2 className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
-                            {c.isOptimal ? 'Keputusan yang kuat' : 'Bukan pilihan ideal'}
-                          </p>
-                          <p><strong>Konsekuensi: </strong>{plain(c.consequence)}</p>
-                          <p className="mt-2"><strong>Alasan: </strong>{plain(c.explanation)}</p>
-                        </motion.div>
-                      )}
-                    </div>
+                    <button
+                      key={c.id}
+                      role="radio"
+                      aria-checked={isSel}
+                      disabled={decisionConfirmed}
+                      onClick={() => setSelectedChoice(c)}
+                      className={`flex w-full items-start gap-3.5 rounded-2xl border-2 p-4 text-left transition-all ${cls}`}
+                    >
+                      <span className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-extrabold ${badge}`}>{String.fromCharCode(65 + i)}</span>
+                      <span className="text-base leading-relaxed text-slate-900 dark:text-slate-100">
+                        {plain(c.text)}
+                        {decisionConfirmed && c.isOptimal && <span className="mt-1 block text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">Pilihan terkuat</span>}
+                        {decisionConfirmed && isSel && !c.isOptimal && <span className="mt-1 block text-xs font-bold uppercase tracking-wide text-rose-700 dark:text-rose-300">Pilihan Anda</span>}
+                      </span>
+                    </button>
                   );
                 })}
               </div>
 
-              {decisionConfirmed && selectedChoice && !selectedChoice.isOptimal && best && (
-                <div className="rounded-2xl border border-[#E3A63A]/50 bg-[#FDF0D5] p-4 text-[15px] leading-relaxed text-[#5E3A08] dark:bg-[#E3A63A]/10 dark:text-[#F1D8A0]">
-                  <p className="eyebrow !text-[#7A4D0A] dark:!text-[#E9C06B]">Alternatif yang lebih kuat</p>
-                  <p className="mt-1 font-semibold">{plain(best.text)}</p>
-                  <p className="mt-1.5">{plain(best.explanation)}</p>
-                </div>
-              )}
+              {decisionConfirmed && selectedChoice && (() => {
+                const right = selectedChoice.isOptimal;
+                const bestLetter = best ? String.fromCharCode(65 + node.decisionScenario.choices.findIndex((c) => c.id === best.id)) : '';
+                const theory = node.microContent?.mentalModel;
+                return (
+                  <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="space-y-4 rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-200/70 dark:bg-[#18202D] dark:ring-white/10" aria-live="polite">
+                    <p className={`flex items-center gap-2 text-base font-extrabold ${right ? 'text-emerald-700 dark:text-emerald-300' : 'text-rose-700 dark:text-rose-300'}`}>
+                      {right ? <><CheckCircle2 className="h-5 w-5" />Keputusan tepat</> : <><XCircle className="h-5 w-5" />Belum tepat{best ? `: pilihan terkuat adalah ${bestLetter}` : ''}</>}
+                    </p>
+                    <div>
+                      <p className="eyebrow">Konsekuensi pilihan Anda</p>
+                      <p className="mt-1 text-[15px] leading-relaxed text-slate-700 dark:text-slate-200">{plain(selectedChoice.consequence)}</p>
+                    </div>
+                    <div>
+                      <p className="eyebrow">{right ? 'Mengapa ini kuat' : `Mengapa ${bestLetter || 'pilihan lain'} lebih kuat`}</p>
+                      <p className="mt-1 text-[15px] leading-relaxed text-slate-700 dark:text-slate-200">{plain((right ? selectedChoice : best ?? selectedChoice).explanation)}</p>
+                    </div>
+                    {!right && (
+                      <div>
+                        <p className="eyebrow">Mengapa pilihan Anda kurang tepat</p>
+                        <p className="mt-1 text-[15px] leading-relaxed text-slate-700 dark:text-slate-200">{plain(selectedChoice.explanation)}</p>
+                      </div>
+                    )}
+                    {theory && (
+                      <div className="rounded-xl bg-[#FDF0D5] p-4 dark:bg-[#E3A63A]/10">
+                        <p className="eyebrow !text-[#7A4D0A] dark:!text-[#E9C06B]">Teori di baliknya</p>
+                        <p className="mt-1 font-serif text-lg font-medium leading-snug text-[#5E3A08] dark:text-[#F1D8A0]">{plain(theory)}</p>
+                      </div>
+                    )}
+                  </motion.div>
+                );
+              })()}
             </div>
           )}
 

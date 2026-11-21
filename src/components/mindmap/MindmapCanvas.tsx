@@ -382,7 +382,7 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, 
       ) : view === 'path' ? (
         <div className="mt-4"><LearningPath data={data} onOpenNode={onSelectNode} /></div>
       ) : (
-        <div className="mt-4 grid min-w-0 gap-4 lg:grid-cols-[1fr_380px] lg:items-start">
+        <div className="mt-4 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
           <div className="min-w-0">
             <div className="relative h-[52vh] min-h-[320px] max-h-[560px] overflow-hidden rounded-3xl border border-slate-200/70 bg-white shadow-card dark:border-white/10 dark:bg-[#131A26] dark:shadow-none lg:h-[600px] lg:max-h-none">
               <div className="absolute left-3 top-3 z-10 flex items-center gap-0.5 rounded-full bg-white/95 p-1 shadow-card ring-1 ring-slate-200/70 dark:bg-[#212B3B]/95 dark:ring-white/10">

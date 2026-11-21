@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { UserProvider, useUser } from './context/UserContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
@@ -14,7 +14,7 @@ import { HelpModal } from './components/common/HelpModal';
 import { ExploreModal } from './components/explore/ExploreModal';
 import { ToolkitView, TOOLS } from './components/tools/ToolkitView';
 import type { ToolId } from './lib/curriculumBuilder';
-import { allNodes, findNode, getMapById } from './lib/nodeIndex';
+import { allNodes, findNode, getMapById, resolveRetired } from './lib/nodeIndex';
 import { isDueForReview } from './lib/review';
 import { ProfileModal } from './components/profile/ProfileModal';
 import { AuthModal } from './components/auth/AuthModal';
@@ -67,6 +67,20 @@ const AppContent: React.FC = () => {
     try { localStorage.setItem('nodus_welcome_seen_v1', '1'); } catch { /* storage unavailable */ }
   };
 
+  // Tawarkan Pro saat masuk aplikasi: sekali per hari, setelah sambutan, tidak menimpa layar lain.
+  useEffect(() => {
+    if (isPro || isWelcomeOpen) return;
+    const today = new Date().toDateString();
+    let last: string | null = null;
+    try { last = localStorage.getItem('nodus_offer_day_v1'); } catch { /* storage unavailable */ }
+    if (last === today) return;
+    const id = setTimeout(() => {
+      try { localStorage.setItem('nodus_offer_day_v1', today); } catch { /* storage unavailable */ }
+      setPaywall((p) => (p.open ? p : { open: true, reason: 'welcome' }));
+    }, 2200);
+    return () => clearTimeout(id);
+  }, [isPro, isWelcomeOpen]);
+
   // Satu pintu untuk membuka pelajaran: pelajaran Pro membuka halaman paket.
   const guardNode = (node: MindmapNode, go: () => void) => {
     const map = findNode(node.id)?.map ?? currentMindmap;
@@ -84,7 +98,7 @@ const AppContent: React.FC = () => {
     setIsQuizHubOpen(false);
 
     // 1. Check for structured masterclass curricula or pre-mapped domains
-    const predefinedCurriculum = getCurriculumForQuery(query) || getMindmapForTopic(query);
+    const predefinedCurriculum = getCurriculumForQuery(query) || (() => { const t = getMindmapForTopic(query); return t ? resolveRetired(t) : null; })();
     if (predefinedCurriculum) {
       setCurrentMindmap(predefinedCurriculum);
       return;

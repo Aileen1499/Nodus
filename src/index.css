@@ -7,6 +7,21 @@
   :root { color-scheme: light; }
   html.dark { color-scheme: dark; }
 
+  /* Kunci shell aplikasi: tidak bisa di-zoom cubit atau digeser ke samping. Hanya area di dalamnya yang menggulir. */
+  html, body, #root {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overscroll-behavior: none;
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html { position: relative; }
+  body { position: fixed; inset: 0; overflow: hidden; }
+  input, textarea, select { font-size: max(16px, 1em); }
+
   body {
     font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -45,6 +60,7 @@ html.light ::-webkit-scrollbar-thumb { background: #D6D1C5; border-radius: 9999p
 }
 
 @media print {
+  html, body, #root { position: static !important; overflow: visible !important; height: auto !important; }
   body * { visibility: hidden !important; }
   #nodus-certificate, #nodus-certificate * { visibility: visible !important; }
   #nodus-certificate { position: fixed; inset: 8mm; box-shadow: none !important; display: flex; flex-direction: column; justify-content: center; }

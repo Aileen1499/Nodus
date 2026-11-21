@@ -1,6 +1,7 @@
 import { MindmapData, MindmapNode, MindmapEdge, DomainType, QuizQuestion } from '../types';
 import { MOCK_MINDMAPS } from '../data/mockMindmaps';
 import { getMindmapForTopic } from './topicEngine';
+import { resolveRetired } from './nodeIndex';
 import { getCurriculumForQuery } from './curriculumData';
 
 export interface PromptNodeSchema {
@@ -73,7 +74,7 @@ export async function generateMindmapWithGemini(
   // 0b. Dynamic Domain & Core Topic Engine (Bisnis, Psikologi, Ekonomi, Pemasaran, Geopolitik)
   const topicEngineMatch = getMindmapForTopic(trimmed);
   if (topicEngineMatch) {
-    return topicEngineMatch;
+    return resolveRetired(topicEngineMatch);
   }
 
   // 1. Direct match with preset mock knowledge graphs

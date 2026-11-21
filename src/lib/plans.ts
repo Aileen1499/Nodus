@@ -24,6 +24,11 @@ export const PRICING = {
 export const yearlyPerMonth = Math.round(PRICING.yearly.price / 12);
 export const yearlySavingPercent = Math.round((1 - PRICING.yearly.price / (PRICING.monthly.price * 12)) * 100);
 
+/** Harga bila dibayar bulanan selama setahun: jangkar perbandingan yang jujur untuk paket tahunan. */
+export const yearlyAsMonthly = PRICING.monthly.price * 12;
+export const yearlySavingAmount = yearlyAsMonthly - PRICING.yearly.price;
+export const yearlyPerDay = Math.round(PRICING.yearly.price / 365);
+
 export const idr = (n: number): string => `Rp ${n.toLocaleString('id-ID')}`;
 
 /** Jalur yang selalu gratis penuh: pintu masuk yang mengajarkan kebiasaan belajar. */
@@ -57,4 +62,4 @@ export const countProLessons = (maps: MindmapData[]): number =>
     return sum + Math.max(0, lessons - FREE_PREVIEW_LESSONS);
   }, 0);
 
-export type PaywallReason = 'lesson' | 'tool' | 'ai' | 'manual';
+export type PaywallReason = 'lesson' | 'tool' | 'ai' | 'manual' | 'welcome';
