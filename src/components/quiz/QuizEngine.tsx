@@ -78,6 +78,13 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
     return () => window.removeEventListener('keydown', onKey);
   }, [requestClose]);
 
+  // Setelah keputusan dikunci, gulir ke pembahasan supaya langsung terbaca.
+  useEffect(() => {
+    if (!decisionConfirmed) return;
+    const id = setTimeout(() => document.getElementById('decision-result')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+    return () => clearTimeout(id);
+  }, [decisionConfirmed]);
+
   const confirmDecision = () => {
     if (!selectedChoice) return;
     setDecisionConfirmed(true);
@@ -258,7 +265,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
                 const bestLetter = best ? String.fromCharCode(65 + node.decisionScenario.choices.findIndex((c) => c.id === best.id)) : '';
                 const theory = node.microContent?.mentalModel;
                 return (
-                  <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="space-y-4 rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-200/70 dark:bg-[#18202D] dark:ring-white/10" aria-live="polite">
+                  <motion.div id="decision-result" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="scroll-mt-4 space-y-4 rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-200/70 dark:bg-[#18202D] dark:ring-white/10" aria-live="polite">
                     <p className={`flex items-center gap-2 text-base font-extrabold ${right ? 'text-emerald-700 dark:text-emerald-300' : 'text-rose-700 dark:text-rose-300'}`}>
                       {right ? <><CheckCircle2 className="h-5 w-5" />Keputusan tepat</> : <><XCircle className="h-5 w-5" />Belum tepat{best ? `: pilihan terkuat adalah ${bestLetter}` : ''}</>}
                     </p>
