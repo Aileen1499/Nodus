@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { MindmapNode, DecisionChoice } from '../../types';
+import { ConfirmSheet } from '../common/ConfirmSheet';
 import { useUser } from '../../context/UserContext';
 import { plain } from '../../lib/pathLogic';
 import { WrittenReview } from './WrittenReview';
@@ -70,16 +71,17 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
     return () => clearTimeout(id);
   }, [phase, timed, submitted, timeLeft, q]);
 
+  const [confirmExit, setConfirmExit] = useState(false);
   const requestClose = useCallback(() => {
-    if (inProgress && !window.confirm('Keluar dari evaluasi? Progres sesi ini tidak disimpan.')) return;
+    if (inProgress) { setConfirmExit(true); return; }
     onClose();
   }, [inProgress, onClose]);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && requestClose();
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && !confirmExit && requestClose();
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [requestClose]);
+  }, [requestClose, confirmExit]);
 
   // Setelah keputusan dikunci, gulir ke pembahasan supaya langsung terbaca.
   useEffect(() => {
@@ -399,6 +401,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
           )}
         </div>
       </div>
+      {confirmExit && <ConfirmSheet title="Keluar dari evaluasi?" message="Progres evaluasi ini tidak akan disimpan. Kamu bisa mengulanginya kapan saja." cancelLabel="Lanjut belajar" confirmLabel="Ya, keluar" onCancel={() => setConfirmExit(false)} onConfirm={onClose} />}
     </div>
   );
 };

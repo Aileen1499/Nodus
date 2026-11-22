@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { ArrowRight, CheckCircle2, Search, Layers, Clock, Wrench, Play } from 'lucide-react';
-import { MindmapData } from '../../types';
+import { MindmapData, MindmapNode } from '../../types';
+import { PathSheet } from './PathSheet';
 import { useUser } from '../../context/UserContext';
 import { allMaps, findNode } from '../../lib/nodeIndex';
 import { getRecommendedNode } from '../../lib/pathLogic';
@@ -8,6 +9,7 @@ import { getRecommendedNode } from '../../lib/pathLogic';
 interface ExploreModalProps {
   onClose: () => void;
   onSelectMap: (map: MindmapData) => void;
+  onOpenLesson: (map: MindmapData, node: MindmapNode) => void;
 }
 
 const FILTERS = ['Semua', 'Bisnis', 'Keuangan', 'Ekonomi', 'Psikologi', 'Hukum', 'Pajak', 'Pemasaran'] as const;
@@ -34,7 +36,8 @@ const dominantDomain = (map: MindmapData): string => {
   return Array.from(counts.entries()).sort((a, b) => b[1] - a[1])[0]?.[0] || 'Bisnis';
 };
 
-export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap }) => {
+export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap, onOpenLesson }) => {
+  const [preview, setPreview] = useState<MindmapData | null>(null);
   const { isNodeMastered, progress } = useUser();
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>('Semua');
@@ -82,7 +85,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap }) => {
           {/* Resume */}
           {resume && (
             <button
-              onClick={() => onSelectMap(resume.map)}
+              onClick={() => onOpenLesson(resume.map, resume.node)}
               className="group flex w-full items-center gap-4 rounded-3xl bg-[#151517] p-4 text-left text-[#FBF9F5] shadow-float transition-transform hover:-translate-y-0.5 dark:bg-[#18202D] sm:p-5"
             >
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#E3A63A] text-[#151517]"><Play className="h-5 w-5" /></span>
@@ -144,7 +147,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap }) => {
                 return (
                   <button
                     key={map.id}
-                    onClick={() => onSelectMap(map)}
+                    onClick={() => setPreview(map)}
                     className="surface group flex flex-col p-5 text-left transition-all hover:-translate-y-0.5 hover:shadow-float"
                   >
                     <div className="mb-3 flex items-center gap-2">
@@ -179,7 +182,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap }) => {
                         {done ? 'Ulangi kapan saja' : next ? `Berikutnya: ${next.label}` : ''}
                       </span>
                       <span className="inline-flex shrink-0 items-center gap-1 pl-3 font-bold text-[#9A6410] transition-transform group-hover:translate-x-1 dark:text-[#E9C06B]">
-                        {mastered > 0 && !done ? 'Lanjut' : 'Buka peta'} <ArrowRight className="h-3.5 w-3.5" />
+                        {mastered > 0 && !done ? 'Lanjut' : 'Lihat isi'} <ArrowRight className="h-3.5 w-3.5" />
                       </span>
                     </div>
                   </button>
@@ -189,6 +192,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap }) => {
           )}
         </div>
       </div>
+      {preview && <PathSheet map={preview} onClose={() => setPreview(null)} onOpenLesson={onOpenLesson} onOpenMap={onSelectMap} />}
     </div>
   );
 };

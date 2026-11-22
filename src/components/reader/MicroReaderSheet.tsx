@@ -492,26 +492,30 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, 
               </section>
 
               {(previous || next) && (
-                <div className="mt-6 grid grid-cols-2 gap-3">
-                  {previous ? (
-                    <button onClick={() => onNavigate?.(previous)} className="rounded-2xl border border-slate-200 p-3.5 text-left transition-colors hover:border-[#E3A63A] dark:border-white/10">
-                      <span className="eyebrow flex items-center gap-1"><ArrowLeft className="h-3 w-3" />Sebelumnya</span>
-                      <span className="mt-1 block line-clamp-2 text-sm font-bold text-slate-900 dark:text-white">{previous.label}</span>
-                    </button>
-                  ) : <span />}
+                <div className="mt-6 space-y-2.5">
                   {next ? (
                     <button
                       onClick={() => onNavigate?.(next)}
                       disabled={nextLocked}
-                      className="rounded-2xl border border-slate-200 p-3.5 text-right transition-colors enabled:hover:border-[#E3A63A] disabled:opacity-60 dark:border-white/10"
+                      className="flex w-full items-center gap-3 rounded-2xl bg-[#151517] p-4 text-left text-[#FBF9F5] shadow-float transition-transform enabled:active:scale-[0.99] disabled:opacity-60 dark:bg-[#E3A63A] dark:text-[#0F1520]"
                     >
-                      <span className="eyebrow flex items-center justify-end gap-1">
-                        {nextLocked ? <Lock className="h-3 w-3" /> : null}Berikutnya{nextLocked ? '' : <ArrowRight className="h-3 w-3" />}
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#E9C06B] dark:text-[#0F1520]/70">{nextLocked ? 'Terkunci' : 'Berikutnya'}</span>
+                        <span className="mt-0.5 block text-base font-bold leading-snug">{next.label}</span>
+                        {nextLocked && <span className="mt-0.5 block text-xs font-medium opacity-70">Lulus Cek Paham untuk membuka</span>}
                       </span>
-                      <span className="mt-1 block line-clamp-2 text-sm font-bold text-slate-900 dark:text-white">{next.label}</span>
-                      {nextLocked && <span className="mt-0.5 block text-[11px] font-medium text-slate-500">Lulus Cek Paham untuk membuka</span>}
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E3A63A] text-[#151517] dark:bg-[#0F1520] dark:text-[#E3A63A]">{nextLocked ? <Lock className="h-4 w-4" /> : <ArrowRight className="h-5 w-5" />}</span>
                     </button>
-                  ) : <span />}
+                  ) : null}
+                  {previous ? (
+                    <button onClick={() => onNavigate?.(previous)} className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 px-4 py-3 text-left transition-colors hover:border-[#E3A63A] dark:border-white/10">
+                      <ArrowLeft className="h-4 w-4 shrink-0 text-slate-500" />
+                      <span className="min-w-0 flex-1">
+                        <span className="eyebrow block">Sebelumnya</span>
+                        <span className="block truncate text-sm font-bold text-slate-900 dark:text-white">{previous.label}</span>
+                      </span>
+                    </button>
+                  ) : null}
                 </div>
               )}
             </article>

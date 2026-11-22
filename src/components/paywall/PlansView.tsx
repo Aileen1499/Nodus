@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Check, ChevronDown, Crown, Minus, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, BellRing, Building2, Check, ChevronDown, Crown, GraduationCap, Lock, ShieldCheck, Users, X } from 'lucide-react';
+import { InviteCard } from '../growth/InviteCard';
+import { allMaps } from '../../lib/nodeIndex';
+import { TOOLS } from '../tools/ToolkitView';
 import { useUser } from '../../context/UserContext';
 import { useAuth } from '../../context/AuthContext';
-import { BILLING_LIVE, OTHER_PLANS, OtherPlanId, SUPPORT_EMAIL, PRICING, idr, yearlyPerMonth, yearlySavingPercent, yearlyAsMonthly, yearlySavingAmount, yearlyPerDay, PaywallReason } from '../../lib/plans';
+import { BILLING_LIVE, OTHER_PLANS, OtherPlanId, SUPPORT_EMAIL, PRICING, idr, yearlyPerMonth, yearlySavingPercent, yearlyAsMonthly, yearlySavingAmount, yearlyPerDay, PaywallReason, FREE_TOOL_IDS, FREE_PREVIEW_LESSONS } from '../../lib/plans';
 import { PlanId, startCheckout, restorePurchases } from '../../lib/billing';
 
 interface PlansViewProps {
@@ -20,17 +23,6 @@ const HEADLINE: Record<PaywallReason, { title: string; text: string }> = {
   manual: { title: 'Belajar bisnis sampai bisa menerapkan', text: 'Semua jalur, semua alat, dan latihan yang membuat ilmu benar-benar menempel.' },
 };
 
-const ROWS: { label: string; free: string | boolean; pro: string | boolean }[] = [
-  { label: 'Jalur Mulai dari Nol', free: 'Lengkap', pro: 'Lengkap' },
-  { label: 'Jalur belajar lainnya', free: '2 pelajaran pertama', pro: 'Semua jalur' },
-  { label: 'Alat bisnis', free: '3 alat dasar', pro: 'Semua 7 alat' },
-  { label: 'Kuis, simulasi, latihan harian', free: true, pro: true },
-  { label: 'Brankas, stabilo, catatan', free: true, pro: true },
-  { label: 'Sertifikat penyelesaian jalur', free: 'Jalur gratis', pro: 'Semua jalur' },
-  { label: 'Mentor AI', free: '3 per hari', pro: 'Kuota diperluas' },
-  { label: 'Jalur dan fitur baru', free: false, pro: true },
-];
-
 const FAQ: { q: string; a: string }[] = [
   { q: 'Bisa batal kapan saja?', a: 'Bisa. Langganan dikelola lewat akun toko aplikasi atau penyedia pembayaranmu, dan tetap aktif sampai akhir periode yang sudah dibayar.' },
   { q: 'Bagaimana uji coba gratis 7 hari?', a: 'Paket tahunan diawali 7 hari uji coba. Kamu baru ditagih setelah uji coba berakhir, dan bisa membatalkannya sebelum itu.' },
@@ -38,10 +30,15 @@ const FAQ: { q: string; a: string }[] = [
   { q: 'Apakah ini nasihat investasi atau keuangan?', a: 'Bukan. NODUS adalah materi belajar. Angka kasus bersifat ilustrasi, dan keputusan keuanganmu tetap tanggung jawabmu.' },
 ];
 
-const Cell: React.FC<{ v: string | boolean; accent?: boolean }> = ({ v, accent }) =>
-  v === true ? <Check className={`mx-auto h-4 w-4 ${accent ? 'text-[#9A6410] dark:text-[#E9C06B]' : 'text-emerald-600 dark:text-emerald-400'}`} aria-label="Ya" />
-  : v === false ? <Minus className="mx-auto h-4 w-4 text-slate-300 dark:text-slate-600" aria-label="Tidak" />
-  : <span className={`text-[12px] font-semibold leading-tight ${accent ? 'text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-300'}`}>{v}</span>;
+const PLAN_ICON = { student: GraduationCap, family: Users, team: Building2 } as const;
+
+const UNLOCKS = [
+  'Semua jalur belajar sampai tuntas, bukan hanya pelajaran pembuka',
+  'Semua alat bisnis: arus kas, stok, unit economics, investasi',
+  'Sertifikat penyelesaian untuk setiap jalur',
+  'Mentor AI dengan kuota lebih besar',
+  'Jalur dan fitur baru tiap bulan tanpa biaya tambahan',
+];
 
 export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual', onOpenLegal, onOpenAuth }) => {
   const { isPro } = useUser();
@@ -57,12 +54,26 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
     try { return JSON.parse(localStorage.getItem('nodus_plan_interest_v2') || '[]') as string[]; } catch { return []; }
   });
   const want = (id: OtherPlanId, title: string) => {
-    const next = wanted.includes(id) ? wanted : [...wanted, id];
+    if (wanted.includes(id)) {
+      const rest = wanted.filter((w) => w !== id);
+      setWanted(rest);
+      try { localStorage.setItem('nodus_plan_interest_v2', JSON.stringify(rest)); } catch { /* penyimpanan tidak tersedia */ }
+      return;
+    }
+    const next = [...wanted, id];
     setWanted(next);
     try { localStorage.setItem('nodus_plan_interest_v2', JSON.stringify(next)); } catch { /* penyimpanan tidak tersedia */ }
     if (SUPPORT_EMAIL) window.location.href = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(`Minat paket ${title} NODUS`)}`;
   };
   const head = HEADLINE[reason];
+  const stats = React.useMemo(() => {
+    const maps = allMaps().filter((m) => m.nodes.length > 0);
+    return { paths: maps.length, lessons: maps.reduce((n, m) => n + m.nodes.length, 0), tools: TOOLS.length };
+  }, []);
+  const leaveInterest = () => {
+    try { localStorage.removeItem('nodus_pro_interest_v1'); } catch { /* abaikan */ }
+    setInterested(false);
+  };
   const price = plan === 'yearly' ? PRICING.yearly.price : PRICING.monthly.price;
 
   const act = async () => {
@@ -96,7 +107,7 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
     }
   };
 
-  const cta = isPro ? 'Pro sudah aktif' : !BILLING_LIVE ? (interested ? 'Tercatat. Terima kasih!' : 'Kabari saya saat Pro dibuka') : plan === 'yearly' ? `Mulai ${PRICING.yearly.trialDays} hari gratis` : 'Berlangganan bulanan';
+  const cta = isPro ? 'Pro sudah aktif' : !BILLING_LIVE ? (interested ? 'Masuk daftar tunggu' : 'Masuk daftar tunggu Pro') : plan === 'yearly' ? `Mulai ${PRICING.yearly.trialDays} hari gratis` : 'Berlangganan bulanan';
 
   return (
     <div className="fixed inset-0 z-[75] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520] animate-fade-in" role="dialog" aria-modal="true" aria-label="Paket NODUS">
@@ -165,45 +176,83 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
             </div>
           </div>
 
-          <h2 className="mt-9 font-serif text-2xl font-medium text-slate-900 dark:text-white">Paket lain</h2>
-          <p className="mt-1 text-[13px] text-slate-500 dark:text-slate-400">Belum dibuka untuk dibeli. Catat minatmu, kami kabari saat siap.</p>
-          <ul className="mt-3 space-y-3">
-            {OTHER_PLANS.map((o) => (
-              <li key={o.id} className="rounded-2xl border border-slate-200/80 bg-white p-4 dark:border-white/10 dark:bg-[#18202D]">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="text-[15px] font-bold text-slate-900 dark:text-white">{o.title}</p>
-                    <p className="text-[12px] text-slate-500 dark:text-slate-400">{o.note}</p>
-                  </div>
-                  <p className="shrink-0 text-right font-serif text-xl font-medium text-slate-900 dark:text-white" style={{ fontVariantNumeric: 'lining-nums' }}>
-                    {o.price ? <>{idr(o.price)}<span className="block text-[11px] font-sans font-semibold text-slate-500 dark:text-slate-400">per {o.per}</span></> : <span className="text-base">Hubungi kami</span>}
-                  </p>
-                </div>
-                <ul className="mt-2 space-y-1">
-                  {o.perks.map((k) => <li key={k} className="flex items-start gap-2 text-[13px] text-slate-600 dark:text-slate-300"><Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" />{k}</li>)}
-                </ul>
-                <button onClick={() => want(o.id, o.title)} disabled={wanted.includes(o.id) && !SUPPORT_EMAIL} className="mt-3 w-full rounded-full border border-[#CF8E1F]/60 px-4 py-2.5 text-sm font-bold text-[#7A4D0A] transition-colors hover:bg-[#FDF0D5] disabled:opacity-60 dark:text-[#E9C06B] dark:hover:bg-[#E3A63A]/10">
-                  {wanted.includes(o.id) ? 'Minat tercatat' : o.price ? 'Saya berminat' : 'Tanya paket tim'}
-                </button>
+          <h2 className="mt-9 font-serif text-2xl font-medium text-slate-900 dark:text-white">Gratis untuk mulai, Pro untuk mahir</h2>
+          <p className="mt-1 text-[13px] text-slate-500 dark:text-slate-400">Yang berhenti di tengah jalan jarang sampai bisa menerapkan. Pro menghapus batas itu.</p>
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className="rounded-3xl border border-slate-200/80 bg-white p-4 dark:border-white/10 dark:bg-[#18202D]">
+              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Gratis</p>
+              <p className="mt-3 font-serif text-4xl font-medium leading-none text-slate-900 dark:text-white">1</p>
+              <p className="mt-1 text-[12px] font-semibold text-slate-600 dark:text-slate-300">jalur penuh</p>
+              <p className="mt-3 font-serif text-2xl font-medium leading-none text-slate-900 dark:text-white">{FREE_TOOL_IDS.length}</p>
+              <p className="mt-1 text-[12px] font-semibold text-slate-600 dark:text-slate-300">alat dasar</p>
+              <p className="mt-3 flex items-start gap-1.5 text-[12px] leading-snug text-slate-500 dark:text-slate-400"><Lock className="mt-0.5 h-3.5 w-3.5 shrink-0" />Jalur lain berhenti setelah {FREE_PREVIEW_LESSONS} pelajaran</p>
+            </div>
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#E9C06B] via-[#E3A63A] to-[#9A6410] p-[1.5px] shadow-float">
+              <div className="h-full rounded-[22px] bg-[#151517] p-4 text-[#FBF9F5]">
+                <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#E9C06B]"><Crown className="h-3.5 w-3.5" />Pro</p>
+                <p className="mt-3 font-serif text-4xl font-medium leading-none text-[#E9C06B]">{stats.paths}</p>
+                <p className="mt-1 text-[12px] font-semibold text-[#FBF9F5]/80">jalur sampai tuntas</p>
+                <p className="mt-3 font-serif text-2xl font-medium leading-none text-[#E9C06B]">{stats.tools}</p>
+                <p className="mt-1 text-[12px] font-semibold text-[#FBF9F5]/80">alat bisnis</p>
+                <p className="mt-3 flex items-start gap-1.5 text-[12px] leading-snug text-[#FBF9F5]/65"><Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#E9C06B]" />{stats.lessons} pelajaran, tanpa batas</p>
+              </div>
+            </div>
+          </div>
+          <ul className="mt-4 space-y-2.5 rounded-3xl border border-slate-200/80 bg-white p-4 dark:border-white/10 dark:bg-[#18202D]">
+            {UNLOCKS.map((u) => (
+              <li key={u} className="flex items-start gap-2.5 text-[14px] font-medium leading-snug text-slate-800 dark:text-slate-100">
+                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#E3A63A] text-[#151517]"><Check className="h-3 w-3" strokeWidth={3} /></span>{u}
               </li>
             ))}
           </ul>
+          <p className="mt-3 rounded-2xl bg-[#FDF0D5] px-4 py-3 text-[13px] font-semibold leading-snug text-[#7A4D0A] dark:bg-[#E3A63A]/10 dark:text-[#E9C06B]">
+            Paket tahunan setara {idr(yearlyPerDay)} per hari, kurang dari segelas es teh.
+          </p>
 
-          <h2 className="mt-9 font-serif text-2xl font-medium text-slate-900 dark:text-white">Gratis dan Pro</h2>
-          <div className="mt-3 overflow-hidden rounded-2xl border border-slate-200/80 bg-white dark:border-white/10 dark:bg-[#18202D]">
-            <div className="grid grid-cols-[1.4fr_1fr_1fr] items-center gap-2 border-b border-slate-200/80 bg-slate-50 px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:border-white/10 dark:bg-white/5 dark:text-slate-400">
-              <span />
-              <span className="text-center">Gratis</span>
-              <span className="text-center text-[#9A6410] dark:text-[#E9C06B]">Pro</span>
-            </div>
-            {ROWS.map((r) => (
-              <div key={r.label} className="grid grid-cols-[1.4fr_1fr_1fr] items-center gap-2 border-b border-slate-100 px-4 py-3 last:border-0 dark:border-white/5">
-                <span className="text-[13px] font-semibold text-slate-800 dark:text-slate-100">{r.label}</span>
-                <div className="text-center"><Cell v={r.free} /></div>
-                <div className="text-center"><Cell v={r.pro} accent /></div>
-              </div>
-            ))}
-          </div>
+          <h2 className="mt-9 font-serif text-2xl font-medium text-slate-900 dark:text-white">Paket lain</h2>
+          <p className="mt-1 text-[13px] text-slate-500 dark:text-slate-400">Belum dibuka untuk dibeli. Masuk daftar tunggu, dan kamu dikabari lebih dulu saat siap.</p>
+          <ul className="mt-3 space-y-3">
+            {OTHER_PLANS.map((o) => {
+              const Icon = PLAN_ICON[o.id];
+              const joined = wanted.includes(o.id);
+              return (
+                <li key={o.id} className={`rounded-3xl border bg-white p-4 transition-colors dark:bg-[#18202D] ${joined ? 'border-emerald-500/50' : 'border-slate-200/80 dark:border-white/10'}`}>
+                  <div className="flex items-start gap-3">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#FDF0D5] text-[#9A6410] dark:bg-[#E3A63A]/15 dark:text-[#E9C06B]"><Icon className="h-5 w-5" /></span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[15px] font-bold text-slate-900 dark:text-white">{o.title}</p>
+                      <p className="text-[12px] text-slate-500 dark:text-slate-400">{o.note}</p>
+                    </div>
+                    <p className="shrink-0 text-right font-serif text-xl font-medium text-slate-900 dark:text-white" style={{ fontVariantNumeric: 'lining-nums' }}>
+                      {o.price ? <>{idr(o.price)}<span className="block font-sans text-[11px] font-semibold text-slate-500 dark:text-slate-400">per {o.per}</span></> : <span className="text-base">Hubungi kami</span>}
+                    </p>
+                  </div>
+                  <ul className="mt-3 space-y-1">
+                    {o.perks.map((k) => <li key={k} className="flex items-start gap-2 text-[13px] text-slate-600 dark:text-slate-300"><Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#9A6410] dark:text-[#E9C06B]" />{k}</li>)}
+                  </ul>
+                  {joined ? (
+                    <div className="mt-3 rounded-2xl bg-emerald-50 px-3.5 py-3 dark:bg-emerald-500/10">
+                      <p className="flex items-center gap-2 text-sm font-bold text-emerald-800 dark:text-emerald-300"><Check className="h-4 w-4" />Kamu masuk daftar tunggu</p>
+                      <p className="mt-1 text-[12px] leading-snug text-emerald-900/80 dark:text-emerald-200/80">
+                        Tersimpan di perangkat ini. {user?.email ? <>Kami akan mengabari <span className="font-semibold">{user.email}</span>.</> : <>Masuk dengan Google agar kami tahu ke mana mengabarimu.</>}
+                      </p>
+                      <div className="mt-2 flex gap-4 text-[12px] font-bold">
+                        {!user && onOpenAuth && <button onClick={onOpenAuth} className="text-emerald-800 underline underline-offset-4 dark:text-emerald-300">Masuk</button>}
+                        <button onClick={() => want(o.id, o.title)} className="text-slate-500 underline underline-offset-4 dark:text-slate-400">Batalkan</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <button onClick={() => want(o.id, o.title)} className="btn-ink mt-3 flex w-full items-center justify-center gap-2 !py-3 text-sm">
+                      <BellRing className="h-4 w-4" />{o.price ? 'Masuk daftar tunggu' : 'Tanya paket tim'}
+                    </button>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+
+          <h2 className="mt-9 font-serif text-2xl font-medium text-slate-900 dark:text-white">Dapat Pro lebih cepat</h2>
+          <div className="mt-3 overflow-hidden rounded-3xl border border-slate-200/80 bg-white dark:border-white/10 dark:bg-[#18202D]"><InviteCard /></div>
 
           <div className="mt-6 flex items-start gap-3 rounded-2xl bg-emerald-50 p-4 text-[13px] leading-relaxed text-emerald-900 dark:bg-emerald-500/10 dark:text-emerald-200">
             <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0" />
@@ -235,9 +284,17 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
       <div className="absolute inset-x-0 bottom-0 border-t border-slate-200/80 bg-[#FBF9F5]/95 px-5 pb-6 pt-4 backdrop-blur dark:border-white/10 dark:bg-[#0F1520]/95">
         <div className="mx-auto max-w-2xl">
           {message && <p role="status" className="mb-2 text-center text-[13px] font-semibold text-rose-600 dark:text-rose-300">{message}</p>}
-          <button onClick={act} disabled={busy || isPro || (!BILLING_LIVE && interested)} className="btn-gold w-full py-3.5 text-base">
-            {busy ? 'Memproses…' : cta}
-          </button>
+          {!BILLING_LIVE && interested && !isPro ? (
+            <div className="flex items-center gap-3 rounded-2xl bg-emerald-50 px-4 py-3 dark:bg-emerald-500/10">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white"><Check className="h-4 w-4" /></span>
+              <p className="min-w-0 flex-1 text-[13px] leading-snug text-emerald-900 dark:text-emerald-200"><span className="block font-bold">Kamu di daftar tunggu Pro</span>Tersimpan di perangkat ini{user?.email ? `, kabar ke ${user.email}` : ''}.</p>
+              <button onClick={leaveInterest} aria-label="Batalkan daftar tunggu" className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-emerald-800 hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-white/10"><X className="h-4 w-4" /></button>
+            </div>
+          ) : (
+            <button onClick={act} disabled={busy || isPro} className="btn-gold w-full py-3.5 text-base">
+              {busy ? 'Memproses…' : cta}
+            </button>
+          )}
           {BILLING_LIVE && <p className="mt-2 text-center text-[11px] text-slate-500 dark:text-slate-400">Diperpanjang otomatis. Batalkan kapan saja di akun toko aplikasimu.</p>}
         </div>
       </div>

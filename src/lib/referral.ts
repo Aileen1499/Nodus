@@ -36,3 +36,8 @@ export const captureIncomingReferral = (): void => {
     window.history.replaceState({}, '', url.pathname + (url.search || '') + url.hash);
   } catch { /* abaikan */ }
 };
+
+/** Kode undangan teman yang membawa pengguna ini (bila ada). */
+export const getIncomingReferral = (): string | null => {
+  try { return localStorage.getItem(INCOMING_KEY); } catch { return null; }
+};

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { X, CheckCircle2, XCircle, ArrowRight, RotateCcw } from 'lucide-react';
+import { ConfirmSheet } from '../common/ConfirmSheet';
 import { useUser } from '../../context/UserContext';
 import { plain } from '../../lib/pathLogic';
 import { PracticeItem } from '../../lib/review';
@@ -22,16 +23,17 @@ export const PracticeSession: React.FC<PracticeSessionProps> = ({ items, title, 
   const correct = results.filter((r) => r.picked === r.item.question.correctAnswerIndex).length;
   const inProgress = !done && results.length > 0;
 
+  const [confirmExit, setConfirmExit] = useState(false);
   const requestClose = useCallback(() => {
-    if (inProgress && !window.confirm('Keluar dari latihan? Hasil sesi ini tidak disimpan.')) return;
+    if (inProgress) { setConfirmExit(true); return; }
     onClose();
   }, [inProgress, onClose]);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && requestClose();
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && !confirmExit && requestClose();
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [requestClose]);
+  }, [requestClose, confirmExit]);
 
   const choose = (idx: number) => {
     if (picked !== null) return;
@@ -156,6 +158,7 @@ export const PracticeSession: React.FC<PracticeSessionProps> = ({ items, title, 
           )}
         </div>
       </div>
+      {confirmExit && <ConfirmSheet title="Keluar dari latihan?" message="Hasil sesi latihan ini tidak akan disimpan." cancelLabel="Lanjut belajar" confirmLabel="Ya, keluar" onCancel={() => setConfirmExit(false)} onConfirm={onClose} />}
     </div>
   );
 };

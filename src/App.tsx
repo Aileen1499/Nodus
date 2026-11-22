@@ -274,6 +274,13 @@ const AppContent: React.FC = () => {
             setActiveTab('map');
           }}
           onSelectMap={openMap}
+          onOpenLesson={(map, node) => {
+            setCurrentMindmap(map);
+            setActiveQuizNode(null);
+            setIsExploreOpen(false);
+            setActiveTab('map');
+            openReader(node);
+          }}
         />
       )}
 

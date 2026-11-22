@@ -500,9 +500,9 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, 
                         >
                           {isSelected && <rect x={-NODE_W / 2 - 5} y={-NODE_H / 2 - 5} width={NODE_W + 10} height={NODE_H + 10} rx={26} fill="none" stroke={c.gold} strokeWidth={3} />}
                           <rect x={-NODE_W / 2} y={-NODE_H / 2} width={NODE_W} height={NODE_H} rx={22} fill={fill} stroke={stroke} strokeWidth={vs === 'current' ? 2 : 1.5} />
-                          <circle cx={iconX} cy={0} r={16} fill={vs === 'mastered' ? c.green : vs === 'current' ? c.gold : vs === 'locked' ? (isDark ? '#2E2E32' : '#E8E4DB') : 'none'} stroke={vs === 'available' ? c.gold : 'none'} strokeWidth={2} />
+                          <circle cx={iconX} cy={0} r={16} onClick={(e) => { if (dragMoved.current || vs === 'locked') return; e.stopPropagation(); setSelectedId(node.id); onSelectNode(node); }} fill={vs === 'mastered' ? c.green : vs === 'current' ? c.gold : vs === 'locked' ? (isDark ? '#2E2E32' : '#E8E4DB') : 'none'} stroke={vs === 'available' ? c.gold : 'none'} strokeWidth={2} />
                           {vs === 'mastered' && <path d={`M ${iconX - 6} 0 L ${iconX - 1.5} 4.5 L ${iconX + 6} -4.5`} fill="none" stroke="#FFFFFF" strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round" />}
-                          {vs === 'current' && <path d={`M ${iconX - 3.5} -6 L ${iconX + 6} 0 L ${iconX - 3.5} 6 Z`} fill="#151517" />}
+                          {vs === 'current' && <path d={`M ${iconX - 3.5} -6 L ${iconX + 6} 0 L ${iconX - 3.5} 6 Z`} fill="#151517" className="pointer-events-none" />}
                           {vs === 'available' && <circle cx={iconX} cy={0} r={3.5} fill={c.gold} />}
                           {vs === 'locked' && (
                             <g stroke={c.muted} fill="none" strokeWidth={1.6} strokeLinecap="round">
