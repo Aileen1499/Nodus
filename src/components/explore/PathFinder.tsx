@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Compass, X } from 'lucide-react';
+import { ArrowRight, X } from 'lucide-react';
 import { getMapById } from '../../lib/nodeIndex';
 import type { MindmapData } from '../../types';
 
