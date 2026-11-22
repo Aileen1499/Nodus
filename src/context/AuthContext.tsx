@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { localDay } from '../lib/date';
 import { 
   User, 
   signInWithPopup, 
@@ -93,7 +94,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         streak: 3,
         credits: 3,
         isPro: false,
-        lastActiveDate: new Date().toISOString().split('T')[0],
+        lastActiveDate: localDay(),
         createdAt: new Date().toISOString(),
       });
       return;
@@ -133,7 +134,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         streak: 2,
         credits: 3,
         isPro: false,
-        lastActiveDate: new Date().toISOString().split('T')[0],
+        lastActiveDate: localDay(),
         createdAt: new Date().toISOString(),
       });
       return;
@@ -175,7 +176,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         streak: 1,
         credits: 3,
         isPro: false,
-        lastActiveDate: new Date().toISOString().split('T')[0],
+        lastActiveDate: localDay(),
         createdAt: new Date().toISOString(),
       });
       return;

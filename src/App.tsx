@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { localDay } from './lib/date';
 import { UserProvider, useUser } from './context/UserContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
@@ -27,10 +28,12 @@ import { MindmapData, MindmapNode } from './types';
 import { PRESET_QUERIES } from './data/mockMindmaps';
 import { generateMindmapWithGemini } from './lib/gemini';
 import { getMindmapForTopic } from './lib/topicEngine';
+import { StreakCard } from './components/growth/StreakCard';
+import { getRecommendedNode } from './lib/pathLogic';
 import { getCurriculumForQuery, ZERO_TO_HERO_OWNER_CURRICULUM } from './lib/curriculumData';
 
 const AppContent: React.FC = () => {
-  const { progress, isPro, useCredit } = useUser();
+  const { progress, isPro, useCredit, isNodeMastered } = useUser();
 
   // Active Mindmap State (Default: Zero-to-Hero: Dari Nol Menjadi Business Owner)
   const [currentMindmap, setCurrentMindmap] = useState<MindmapData>(() => {
@@ -76,7 +79,7 @@ const AppContent: React.FC = () => {
       const r = readReminder();
       if (!r.enabled) return;
       timer = setTimeout(() => {
-        const today = new Date().toISOString().split('T')[0];
+        const today = localDay();
         if (progress.lastStudyDate !== today) showReminder(progress.streak);
         arm();
       }, msUntil(r.time));
@@ -196,6 +199,11 @@ const AppContent: React.FC = () => {
 
       {/* Main Interactive Canvas */}
       <main className="relative flex-1 overflow-y-auto">
+        {activeTab === 'map' && (
+          <div className="mx-auto w-full max-w-6xl px-4 pt-3 sm:px-8">
+            <StreakCard onContinue={() => { const n = getRecommendedNode(currentMindmap, isNodeMastered); if (n) openReader(n); }} />
+          </div>
+        )}
         <MindmapCanvas
           data={currentMindmap}
           activeNode={activeReaderNode}

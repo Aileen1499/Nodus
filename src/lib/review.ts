@@ -7,7 +7,7 @@ import { IndexedNode } from './nodeIndex';
 export const REVIEW_AFTER_DAYS = 3;
 
 const daysSince = (isoDate: string, now: Date): number =>
-  Math.floor((now.getTime() - new Date(isoDate).getTime()) / (1000 * 3600 * 24));
+  Math.round((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - new Date(isoDate).getTime()) / (1000 * 3600 * 24));
 
 export const isDueForReview = (nodeId: string, lastReviewed: Record<string, string> | undefined, now = new Date()): boolean => {
   const last = lastReviewed?.[nodeId];

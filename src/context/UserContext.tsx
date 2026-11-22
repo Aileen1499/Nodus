@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { localDay } from '../lib/date';
 import { UserProgress, UserHighlight, DomainType, HighlightColor } from '../types';
 import { useAuth } from './AuthContext';
 import { syncUserRP, syncUserCredits, syncUserMasteredNodes, getUserProgress, DEFAULT_FREE_CREDITS } from '../lib/db';
@@ -29,7 +30,7 @@ interface UserContextType {
 const STORAGE_KEY = 'nodus_user_progress_v1';
 
 const getTodayString = (): string => {
-  return new Date().toISOString().split('T')[0];
+  return localDay();
 };
 
 /** Streak berjalan hanya jika ada aktivitas belajar di hari baru. */

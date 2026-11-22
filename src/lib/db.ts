@@ -1,4 +1,5 @@
 import { doc, getDoc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { localDay } from './date';
 import { db, isFirebaseConfigured } from './firebase';
 
 export interface UserProfile {
@@ -15,7 +16,7 @@ export interface UserProfile {
 }
 
 export const getTodayDateString = (): string => {
-  return new Date().toISOString().split('T')[0];
+  return localDay();
 };
 
 export const DEFAULT_FREE_CREDITS = 3;
