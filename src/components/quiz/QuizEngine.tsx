@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { MindmapNode, DecisionChoice } from '../../types';
 import { useUser } from '../../context/UserContext';
 import { plain } from '../../lib/pathLogic';
+import { WrittenReview } from './WrittenReview';
 import confetti from 'canvas-confetti';
 import { X, Clock, CheckCircle2, XCircle, ArrowRight, Award, RotateCcw, BookOpen, Sparkles } from 'lucide-react';
 
@@ -15,6 +16,8 @@ interface QuizEngineProps {
   nextLabel?: string;
   /** Buka kembali materi bacaan (dipakai saat belum lulus). */
   onReadLesson?: () => void;
+  /** Buka penawaran Pro (latihan tulis). */
+  onUpgrade?: () => void;
 }
 
 type Phase = 'intro' | 'decision' | 'quiz' | 'completed';
@@ -31,7 +34,7 @@ interface AnswerRecord {
   explanation: string;
 }
 
-export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplete, onNext, nextLabel, onReadLesson }) => {
+export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplete, onNext, nextLabel, onReadLesson, onUpgrade }) => {
   const { markNodeMastered, addRankPoints, recordReview, isNodeMastered } = useUser();
   const alreadyMastered = useMemo(() => isNodeMastered(node.id), []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -350,6 +353,8 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
                 <div className="surface p-4 text-center"><p className="eyebrow">Akurasi</p><p className="mt-1 text-2xl font-extrabold text-slate-900 dark:text-white">{correctCount}/{total}</p></div>
                 <div className="surface p-4 text-center"><p className="eyebrow">RP didapat</p><p className="mt-1 text-2xl font-extrabold text-[#9A6410] dark:text-[#E9C06B]">{passed && !alreadyMastered ? `+${earned + MASTERY_BONUS}` : '0'}</p></div>
               </div>
+
+              {passed && <WrittenReview node={node} onUpgrade={onUpgrade} />}
 
               <div>
                 <p className="eyebrow mb-3">Tinjau jawaban</p>

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { ArrowLeft, ChevronRight, Crown, FileText, HelpCircle, LogOut, Moon, ShieldCheck, Sun, Trash2, User as UserIcon } from 'lucide-react';
+import { ArrowLeft, Bell, ChevronRight, Crown, FileText, HelpCircle, LogOut, Moon, ShieldCheck, Sun, Trash2, User as UserIcon } from 'lucide-react';
 import { useUser } from '../../context/UserContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
 import { BILLING_LIVE, SUPPORT_EMAIL } from '../../lib/plans';
+import { InviteCard } from '../growth/InviteCard';
+import { notificationPermission, readReminder, requestNotificationPermission, writeReminder, ReminderSettings } from '../../lib/reminder';
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -47,6 +49,16 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, onOpenAut
   const [confirm, setConfirm] = useState<null | 'reset' | 'delete'>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [reminder, setReminder] = useState<ReminderSettings>(readReminder);
+  const [perm, setPerm] = useState(notificationPermission());
+
+  const updateReminder = (next: ReminderSettings) => { setReminder(next); writeReminder(next); window.dispatchEvent(new Event('nodus-reminder')); };
+  const toggleReminder = async () => {
+    if (reminder.enabled) { updateReminder({ ...reminder, enabled: false }); return; }
+    const res = await requestNotificationPermission();
+    setPerm(res);
+    updateReminder({ ...reminder, enabled: true });
+  };
 
   const doReset = () => { resetProgress(); setConfirm(null); onClose(); };
   const doDelete = async () => {
@@ -90,6 +102,23 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, onOpenAut
 
           <Group title="Paket">
             <Row icon={<Crown className="h-4 w-4" />} label={isPro ? 'NODUS Pro aktif' : BILLING_LIVE ? 'Upgrade ke Pro' : 'Lihat paket NODUS Pro'} hint={isPro ? 'Terima kasih sudah mendukung NODUS.' : 'Semua jalur dan semua alat bisnis.'} onClick={onOpenPlans} />
+          </Group>
+
+          <Group title="Kebiasaan belajar">
+            <Row
+              icon={<Bell className="h-4 w-4" />}
+              label="Pengingat harian"
+              hint={reminder.enabled ? (perm === 'denied' ? 'Izin notifikasi ditolak di browser. Pengingat dalam aplikasi tetap tampil.' : 'Muncul saat NODUS terbuka. Pengingat di latar belakang aktif di aplikasi Android dan iPhone.') : 'Jaga streak dengan satu pelajaran singkat per hari.'}
+              onClick={toggleReminder}
+              right={<span role="switch" aria-checked={reminder.enabled} className={`relative h-7 w-12 shrink-0 rounded-full transition-colors ${reminder.enabled ? 'bg-[#E3A63A]' : 'bg-slate-300 dark:bg-slate-700'}`}><span className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-all ${reminder.enabled ? 'left-6' : 'left-1'}`} /></span>}
+            />
+            {reminder.enabled && (
+              <label className="flex items-center justify-between gap-3 px-4 py-3.5">
+                <span className="text-[15px] font-semibold text-slate-900 dark:text-white">Jam pengingat</span>
+                <input type="time" value={reminder.time} onChange={(e) => e.target.value && updateReminder({ ...reminder, time: e.target.value })} className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-base font-bold text-slate-900 focus:border-[#CF8E1F] focus:outline-none dark:border-slate-700 dark:bg-[#0F1520] dark:text-white" />
+              </label>
+            )}
+            <InviteCard />
           </Group>
 
           <Group title="Tampilan">

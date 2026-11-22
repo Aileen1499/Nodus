@@ -21,6 +21,7 @@ import { AuthModal } from './components/auth/AuthModal';
 import { WelcomeScreen } from './components/brand/WelcomeScreen';
 import { PlansView } from './components/paywall/PlansView';
 import { LegalView, LegalKind } from './components/legal/LegalView';
+import { readReminder, msUntil, showReminder } from './lib/reminder';
 import { isLessonPlanLocked, isToolPlanLocked, PaywallReason } from './lib/plans';
 import { MindmapData, MindmapNode } from './types';
 import { PRESET_QUERIES } from './data/mockMindmaps';
@@ -66,6 +67,24 @@ const AppContent: React.FC = () => {
     setIsWelcomeOpen(false);
     try { localStorage.setItem('nodus_welcome_seen_v1', '1'); } catch { /* storage unavailable */ }
   };
+
+  // Pengingat harian: aktif selama NODUS terbuka dan belum belajar hari ini.
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const arm = () => {
+      if (timer) clearTimeout(timer);
+      const r = readReminder();
+      if (!r.enabled) return;
+      timer = setTimeout(() => {
+        const today = new Date().toISOString().split('T')[0];
+        if (progress.lastStudyDate !== today) showReminder(progress.streak);
+        arm();
+      }, msUntil(r.time));
+    };
+    arm();
+    window.addEventListener('nodus-reminder', arm);
+    return () => { if (timer) clearTimeout(timer); window.removeEventListener('nodus-reminder', arm); };
+  }, [progress.lastStudyDate, progress.streak]);
 
   // Tawarkan Pro saat masuk aplikasi: sekali per hari, setelah sambutan, tidak menimpa layar lain.
   useEffect(() => {
@@ -242,6 +261,7 @@ const AppContent: React.FC = () => {
             onNext={nextNode ? () => openReader(nextNode) : undefined}
             nextLabel={nextNode ? `Lanjut: ${nextNode.label}` : undefined}
             onReadLesson={() => openReader(quizNode)}
+            onUpgrade={() => setPaywall({ open: true, reason: 'manual' })}
           />
         );
       })()}

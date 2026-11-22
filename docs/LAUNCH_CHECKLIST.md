@@ -36,3 +36,18 @@ Status kode: web/PWA siap uji. Yang di bawah ini harus dilakukan pemilik produk;
 - Rumus kalkulator diuji otomatis (58 pemeriksaan) terhadap hitungan manual.
 - Sertifikat adalah catatan belajar internal, bukan sertifikasi profesi (sudah tertulis di aplikasi).
 - Studi kasus berangka ditandai "ilustrasi".
+
+## Fitur pertumbuhan yang sudah ada dan yang masih menunggu infrastruktur
+
+Sudah berfungsi penuh di klien:
+- Sertifikat dapat dibagikan (Web Share) atau diunduh sebagai PNG.
+- Template Excel (.xlsx, rumus hidup) untuk ketujuh alat, dari layar alat.
+- Jalur "Kasus Bisnis Indonesia" (6 pelajaran: warung, F&B, marketplace, piutang, impor, ekspor).
+- Latihan tulis dengan umpan balik Socrates (AI bila kunci Gemini/serverless ada; pemeriksaan lokal sederhana bila tidak). Dibatasi Pro saat `VITE_BILLING_LIVE=true`.
+- Streak harian dan pengingat belajar (di web hanya saat aplikasi terbuka).
+
+Menunggu server / aplikasi native:
+- Pengingat latar belakang: pasang Capacitor Local Notifications (`@capacitor/local-notifications`), jadwalkan dari `src/lib/reminder.ts`.
+- Hadiah undangan: server harus mencatat `?ref=` (disimpan lokal di `nodus_ref_in_v1`), memvalidasi, lalu memberi bulan Pro ke kedua pihak setelah pembayaran/aktivasi pertama. Cegah penyalahgunaan (satu hadiah per perangkat/akun).
+- Paket Pelajar: verifikasi status pelajar (mis. email kampus atau penyedia verifikasi) sebelum diskon diberikan.
+- Paket Keluarga/Tim: model akun anggota, kuota kursi, faktur. Harga di `OTHER_PLANS` (src/lib/plans.ts) adalah usulan; tetapkan sendiri.

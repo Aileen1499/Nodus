@@ -21,6 +21,18 @@ export const PRICING = {
   yearly: { price: 399000, label: 'Tahunan', per: 'tahun', trialDays: 7 },
 } as const;
 
+/**
+ * Paket tambahan. Harga adalah rencana pemilik produk dan bisa diubah di sini.
+ * Belum bisa dibeli: verifikasi pelajar, kuota keluarga, dan faktur tim butuh server.
+ * Sampai itu siap, kartunya hanya mencatat peminat.
+ */
+export const OTHER_PLANS = [
+  { id: 'student', title: 'Pelajar & Mahasiswa', price: 249000, per: 'tahun', note: 'Dengan verifikasi status pelajar', perks: ['Semua fitur Pro', 'Hemat lebih dari 40% dari paket bulanan'] },
+  { id: 'family', title: 'Keluarga', price: 599000, per: 'tahun', note: 'Sampai 5 akun', perks: ['Semua fitur Pro untuk 5 orang', 'Progres tiap anggota terpisah'] },
+  { id: 'team', title: 'Tim & Kampus', price: null, per: '', note: 'Harga per kursi, faktur resmi', perks: ['Pantau progres tim', 'Jalur belajar yang disusun untuk komunitasmu'] },
+] as const;
+export type OtherPlanId = (typeof OTHER_PLANS)[number]['id'];
+
 export const yearlyPerMonth = Math.round(PRICING.yearly.price / 12);
 export const yearlySavingPercent = Math.round((1 - PRICING.yearly.price / (PRICING.monthly.price * 12)) * 100);
 

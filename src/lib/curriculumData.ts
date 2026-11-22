@@ -14,6 +14,7 @@ import { MARKETING_CURRICULUM } from './curricula/marketing';
 import { INVESTING_CURRICULUM } from './curricula/investing';
 import { OPERATIONS_CURRICULUM } from './curricula/operations';
 import { NEGOTIATION_CURRICULUM } from './curricula/negotiation';
+import { LOKAL_CURRICULUM } from './curricula/lokal';
 export { 
   CORPORATE_STRATEGY_WEALTH_CURRICULUM, 
   ADVANCED_MACRO_FINANCE_CURRICULUM, 
@@ -944,6 +945,13 @@ export const ALL_CURRICULA: Record<string, MindmapData> = {
   'negosiasi, penjualan b2b & kepemimpinan tim': NEGOTIATION_CURRICULUM,
   'penjualan b2b': NEGOTIATION_CURRICULUM,
   'kepemimpinan tim': NEGOTIATION_CURRICULUM,
+  'kasus bisnis indonesia': LOKAL_CURRICULUM,
+  'kasus bisnis indonesia: warung, f&b, marketplace & ekspor-impor': LOKAL_CURRICULUM,
+  'warung': LOKAL_CURRICULUM,
+  'umkm': LOKAL_CURRICULUM,
+  'marketplace': LOKAL_CURRICULUM,
+  'ekspor': LOKAL_CURRICULUM,
+  'impor': LOKAL_CURRICULUM,
 };
 
 

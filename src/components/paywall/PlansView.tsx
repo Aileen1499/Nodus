@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ArrowLeft, Check, ChevronDown, Crown, Minus, ShieldCheck } from 'lucide-react';
 import { useUser } from '../../context/UserContext';
 import { useAuth } from '../../context/AuthContext';
-import { BILLING_LIVE, PRICING, idr, yearlyPerMonth, yearlySavingPercent, yearlyAsMonthly, yearlySavingAmount, yearlyPerDay, PaywallReason } from '../../lib/plans';
+import { BILLING_LIVE, OTHER_PLANS, OtherPlanId, SUPPORT_EMAIL, PRICING, idr, yearlyPerMonth, yearlySavingPercent, yearlyAsMonthly, yearlySavingAmount, yearlyPerDay, PaywallReason } from '../../lib/plans';
 import { PlanId, startCheckout, restorePurchases } from '../../lib/billing';
 
 interface PlansViewProps {
@@ -53,6 +53,15 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
   const [interested, setInterested] = useState<boolean>(() => {
     try { return localStorage.getItem('nodus_pro_interest_v1') === '1'; } catch { return false; }
   });
+  const [wanted, setWanted] = useState<string[]>(() => {
+    try { return JSON.parse(localStorage.getItem('nodus_plan_interest_v2') || '[]') as string[]; } catch { return []; }
+  });
+  const want = (id: OtherPlanId, title: string) => {
+    const next = wanted.includes(id) ? wanted : [...wanted, id];
+    setWanted(next);
+    try { localStorage.setItem('nodus_plan_interest_v2', JSON.stringify(next)); } catch { /* penyimpanan tidak tersedia */ }
+    if (SUPPORT_EMAIL) window.location.href = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(`Minat paket ${title} NODUS`)}`;
+  };
   const head = HEADLINE[reason];
   const price = plan === 'yearly' ? PRICING.yearly.price : PRICING.monthly.price;
 
@@ -90,7 +99,7 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
   const cta = isPro ? 'Pro sudah aktif' : !BILLING_LIVE ? (interested ? 'Tercatat. Terima kasih!' : 'Kabari saya saat Pro dibuka') : plan === 'yearly' ? `Mulai ${PRICING.yearly.trialDays} hari gratis` : 'Berlangganan bulanan';
 
   return (
-    <div className="fixed inset-0 z-[70] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520] animate-fade-in" role="dialog" aria-modal="true" aria-label="Paket NODUS">
+    <div className="fixed inset-0 z-[75] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520] animate-fade-in" role="dialog" aria-modal="true" aria-label="Paket NODUS">
       <div className="flex items-center gap-3 border-b border-slate-200/80 px-4 py-3 dark:border-white/10 sm:px-8">
         <button onClick={onClose} aria-label="Kembali" className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition-colors hover:bg-slate-100 dark:border-white/15 dark:text-slate-200 dark:hover:bg-white/10">
           <ArrowLeft className="h-5 w-5" />
@@ -155,6 +164,30 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
               {plan === 'yearly' && <p className="mt-4 text-[13px] font-semibold text-[#E9C06B]">Mulai dengan uji coba gratis {PRICING.yearly.trialDays} hari. Batal kapan saja sebelum ditagih.</p>}
             </div>
           </div>
+
+          <h2 className="mt-9 font-serif text-2xl font-medium text-slate-900 dark:text-white">Paket lain</h2>
+          <p className="mt-1 text-[13px] text-slate-500 dark:text-slate-400">Belum dibuka untuk dibeli. Catat minatmu, kami kabari saat siap.</p>
+          <ul className="mt-3 space-y-3">
+            {OTHER_PLANS.map((o) => (
+              <li key={o.id} className="rounded-2xl border border-slate-200/80 bg-white p-4 dark:border-white/10 dark:bg-[#18202D]">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-[15px] font-bold text-slate-900 dark:text-white">{o.title}</p>
+                    <p className="text-[12px] text-slate-500 dark:text-slate-400">{o.note}</p>
+                  </div>
+                  <p className="shrink-0 text-right font-serif text-xl font-medium text-slate-900 dark:text-white" style={{ fontVariantNumeric: 'lining-nums' }}>
+                    {o.price ? <>{idr(o.price)}<span className="block text-[11px] font-sans font-semibold text-slate-500 dark:text-slate-400">per {o.per}</span></> : <span className="text-base">Hubungi kami</span>}
+                  </p>
+                </div>
+                <ul className="mt-2 space-y-1">
+                  {o.perks.map((k) => <li key={k} className="flex items-start gap-2 text-[13px] text-slate-600 dark:text-slate-300"><Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" />{k}</li>)}
+                </ul>
+                <button onClick={() => want(o.id, o.title)} disabled={wanted.includes(o.id) && !SUPPORT_EMAIL} className="mt-3 w-full rounded-full border border-[#CF8E1F]/60 px-4 py-2.5 text-sm font-bold text-[#7A4D0A] transition-colors hover:bg-[#FDF0D5] disabled:opacity-60 dark:text-[#E9C06B] dark:hover:bg-[#E3A63A]/10">
+                  {wanted.includes(o.id) ? 'Minat tercatat' : o.price ? 'Saya berminat' : 'Tanya paket tim'}
+                </button>
+              </li>
+            ))}
+          </ul>
 
           <h2 className="mt-9 font-serif text-2xl font-medium text-slate-900 dark:text-white">Gratis dan Pro</h2>
           <div className="mt-3 overflow-hidden rounded-2xl border border-slate-200/80 bg-white dark:border-white/10 dark:bg-[#18202D]">
