@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react';
-import { ArrowRight, CheckCircle2, Search, Layers, Clock, Wrench, Play } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Search, Layers, Clock, Wrench, Play, Compass } from 'lucide-react';
 import { MindmapData, MindmapNode } from '../../types';
 import { PathSheet } from './PathSheet';
+import { PathFinder } from './PathFinder';
 import { useUser } from '../../context/UserContext';
 import { allMaps, findNode } from '../../lib/nodeIndex';
 import { getRecommendedNode } from '../../lib/pathLogic';
@@ -38,6 +39,7 @@ const dominantDomain = (map: MindmapData): string => {
 
 export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap, onOpenLesson }) => {
   const [preview, setPreview] = useState<MindmapData | null>(null);
+  const [finderOpen, setFinderOpen] = useState(false);
   const { isNodeMastered, progress } = useUser();
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>('Semua');
@@ -97,6 +99,13 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap, onOpenL
               <ArrowRight className="h-5 w-5 shrink-0 transition-transform group-hover:translate-x-1" />
             </button>
           )}
+
+          {/* Pencari jalur */}
+          <button onClick={() => setFinderOpen(true)} className="flex w-full items-center gap-3 rounded-3xl border border-[#E3A63A]/40 bg-[#FDF0D5] p-4 text-left dark:bg-[#E3A63A]/10">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#E3A63A] text-[#151517]"><Compass className="h-5 w-5" /></span>
+            <span className="min-w-0 flex-1"><span className="block text-[15px] font-bold text-slate-900 dark:text-white">Bingung mulai dari mana?</span><span className="block text-[12px] text-slate-600 dark:text-slate-300">Jawab satu pertanyaan, dapat jalur yang cocok.</span></span>
+            <ArrowRight className="h-4 w-4 shrink-0 text-[#9A6410] dark:text-[#E9C06B]" />
+          </button>
 
           {/* Search + filters */}
           <div className="space-y-3">
@@ -192,6 +201,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap, onOpenL
           )}
         </div>
       </div>
+      {finderOpen && <PathFinder onClose={() => setFinderOpen(false)} onPick={(m) => { setFinderOpen(false); setPreview(m); }} />}
       {preview && <PathSheet map={preview} onClose={() => setPreview(null)} onOpenLesson={onOpenLesson} onOpenMap={onSelectMap} />}
     </div>
   );
