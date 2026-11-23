@@ -3,6 +3,7 @@ import { LogoMark } from '../brand/Logo';
 import { ArrowLeft, Download, Printer, Share2 } from 'lucide-react';
 import { MindmapData } from '../../types';
 import { useAuth } from '../../context/AuthContext';
+import { useModal } from '../../lib/useModal';
 
 interface CertificateViewProps {
   data: MindmapData;
@@ -20,6 +21,7 @@ const readName = (): string => {
 
 /** Sertifikat penyelesaian jalur. Dicetak/disimpan sebagai PDF lewat dialog cetak browser. */
 export const CertificateView: React.FC<CertificateViewProps> = ({ data, onClose }) => {
+  useModal(onClose);
   const { user } = useAuth();
   const [name, setName] = useState<string>(() => readName() || user?.displayName || '');
   const date = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });

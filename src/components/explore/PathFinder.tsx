@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArrowRight, X } from 'lucide-react';
 import { getMapById } from '../../lib/nodeIndex';
 import type { MindmapData } from '../../types';
+import { useModal } from '../../lib/useModal';
 
 interface Goal { label: string; hint: string; paths: string[] }
 
@@ -25,6 +26,7 @@ interface Props { onClose: () => void; onPick: (map: MindmapData) => void }
 
 /** Pencari jalur: satu pertanyaan, dua rekomendasi. Menghilangkan kebingungan "mulai dari mana". */
 export const PathFinder: React.FC<Props> = ({ onClose, onPick }) => {
+  useModal(onClose);
   const [goal, setGoal] = useState<Goal | null>(null);
   const maps = goal ? goal.paths.map((id) => getMapById(id)).filter(Boolean) as MindmapData[] : [];
 

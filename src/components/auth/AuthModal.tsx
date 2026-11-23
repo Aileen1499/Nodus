@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { LogoMark } from '../brand/Logo';
 import { useAuth } from '../../context/AuthContext';
 import { ArrowLeft, ArrowRight, Cloud, Eye, EyeOff, Lock, LogOut, Mail, ShieldCheck, Sparkles, User, AlertCircle, Repeat } from 'lucide-react';
+import { useModal } from '../../lib/useModal';
 
 interface AuthModalProps {
   onClose: () => void;
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
+  useModal(onClose);
   const { 
     user, 
     userProfile, 

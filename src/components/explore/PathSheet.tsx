@@ -4,6 +4,7 @@ import type { MindmapData, MindmapNode } from '../../types';
 import { TOOLS } from '../tools/ToolkitView';
 import { getNodeState, getPathOrder, getRecommendedNode } from '../../lib/pathLogic';
 import { useUser } from '../../context/UserContext';
+import { useModal } from '../../lib/useModal';
 
 interface PathSheetProps {
   map: MindmapData;
@@ -16,6 +17,7 @@ interface PathSheetProps {
 
 /** Pratinjau jalur: daftar pelajaran yang bisa diketuk untuk melihat ringkasan sebelum membukanya. */
 export const PathSheet: React.FC<PathSheetProps> = ({ map, onClose, onOpenLesson, onOpenMap }) => {
+  useModal(onClose);
   const { isNodeMastered } = useUser();
   const lessons = useMemo(() => getPathOrder(map).filter((n) => n.level !== 0 && n.id !== map.rootId), [map]);
   const next = getRecommendedNode(map, isNodeMastered);

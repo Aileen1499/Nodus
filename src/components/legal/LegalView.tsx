@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { SUPPORT_EMAIL } from '../../lib/plans';
+import { useModal } from '../../lib/useModal';
 
 export type LegalKind = 'privacy' | 'terms';
 
@@ -65,6 +66,7 @@ const TERMS: Section[] = [
 ];
 
 export const LegalView: React.FC<LegalViewProps> = ({ kind, onClose }) => {
+  useModal(onClose);
   const sections = kind === 'privacy' ? PRIVACY : TERMS;
   const title = kind === 'privacy' ? 'Kebijakan Privasi' : 'Ketentuan Layanan';
   return (

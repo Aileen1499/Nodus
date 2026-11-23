@@ -8,6 +8,7 @@ import { useUser } from '../../context/UserContext';
 import { useAuth } from '../../context/AuthContext';
 import { BILLING_LIVE, OTHER_PLANS, OtherPlanId, SUPPORT_EMAIL, PRICING, idr, yearlyPerMonth, yearlySavingPercent, yearlyAsMonthly, yearlySavingAmount, yearlyPerDay, PaywallReason, FREE_TOOL_IDS, FREE_PREVIEW_LESSONS } from '../../lib/plans';
 import { PlanId, startCheckout, restorePurchases } from '../../lib/billing';
+import { useModal } from '../../lib/useModal';
 
 interface PlansViewProps {
   onClose: () => void;
@@ -42,6 +43,7 @@ const UNLOCKS = [
 ];
 
 export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual', onOpenLegal, onOpenAuth }) => {
+  useModal(onClose);
   const { isPro } = useUser();
   const { user } = useAuth();
   const [plan, setPlan] = useState<PlanId>('yearly');

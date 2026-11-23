@@ -1,11 +1,13 @@
 import React from 'react';
 import { X, Network, Sparkles } from 'lucide-react';
+import { useModal } from '../../lib/useModal';
 
 interface HelpModalProps {
   onClose: () => void;
 }
 
 export const HelpModal: React.FC<HelpModalProps> = ({ onClose }) => {
+  useModal(onClose);
   return (
     <div className="fixed inset-0 z-[96] flex items-center justify-center bg-black/75 p-4 backdrop-blur-md">
       <div className="w-full max-w-xl rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-[#0F1520] shadow-2xl overflow-hidden max-h-[90vh] flex flex-col transition-colors duration-300">

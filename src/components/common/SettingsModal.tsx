@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { BILLING_LIVE, SUPPORT_EMAIL } from '../../lib/plans';
 import { InviteCard } from '../growth/InviteCard';
 import { notificationPermission, readReminder, requestNotificationPermission, writeReminder, ReminderSettings } from '../../lib/reminder';
+import { useModal } from '../../lib/useModal';
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -43,6 +44,7 @@ const Row: React.FC<{ icon: React.ReactNode; label: string; hint?: string; onCli
 };
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, onOpenAuth, onOpenPlans, onOpenHelp, onOpenLegal }) => {
+  useModal(onClose);
   const { theme, toggleTheme } = useTheme();
   const { resetProgress, isPro } = useUser();
   const { user, logout, deleteAccount } = useAuth();
