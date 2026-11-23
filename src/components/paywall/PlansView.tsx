@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft, BellRing, Building2, Check, ChevronDown, Crown, GraduationCap, Lock, ShieldCheck, Users, X } from 'lucide-react';
+import { syncWaitlist, getWaitlistEmail, isValidEmail, WaitlistResult } from '../../lib/waitlist';
 import { InviteCard } from '../growth/InviteCard';
 import { allMaps } from '../../lib/nodeIndex';
 import { TOOLS } from '../tools/ToolkitView';
@@ -58,12 +59,27 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
       const rest = wanted.filter((w) => w !== id);
       setWanted(rest);
       try { localStorage.setItem('nodus_plan_interest_v2', JSON.stringify(rest)); } catch { /* penyimpanan tidak tersedia */ }
+      void push(rest, interested);
       return;
     }
     const next = [...wanted, id];
     setWanted(next);
     try { localStorage.setItem('nodus_plan_interest_v2', JSON.stringify(next)); } catch { /* penyimpanan tidak tersedia */ }
+    void push(next, interested);
     if (SUPPORT_EMAIL) window.location.href = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(`Minat paket ${title} NODUS`)}`;
+  };
+  const [synced, setSynced] = useState<WaitlistResult>('local');
+  const [emailDraft, setEmailDraft] = useState<string>(() => getWaitlistEmail());
+  const [emailMsg, setEmailMsg] = useState<string | null>(null);
+  const allInterests = (list: string[], pro: boolean) => (pro ? ['pro', ...list] : list);
+  const push = async (list: string[], pro: boolean, extraEmail?: string) => {
+    setSynced(await syncWaitlist(allInterests(list, pro), user?.uid ?? null, user?.email ?? null, extraEmail));
+  };
+  const saveEmail = async () => {
+    if (!isValidEmail(emailDraft)) { setEmailMsg('Alamat email belum valid.'); return; }
+    setEmailMsg(null);
+    await push(wanted, interested, emailDraft);
+    setEmailMsg('Email tersimpan.');
   };
   const head = HEADLINE[reason];
   const stats = React.useMemo(() => {
@@ -73,6 +89,7 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
   const leaveInterest = () => {
     try { localStorage.removeItem('nodus_pro_interest_v1'); } catch { /* abaikan */ }
     setInterested(false);
+    void push(wanted, false);
   };
   const price = plan === 'yearly' ? PRICING.yearly.price : PRICING.monthly.price;
 
@@ -81,6 +98,7 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
     if (!BILLING_LIVE) {
       try { localStorage.setItem('nodus_pro_interest_v1', '1'); } catch { /* storage unavailable */ }
       setInterested(true);
+      void push(wanted, true);
       return;
     }
     setBusy(true);
@@ -234,7 +252,7 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
                     <div className="mt-3 rounded-2xl bg-emerald-50 px-3.5 py-3 dark:bg-emerald-500/10">
                       <p className="flex items-center gap-2 text-sm font-bold text-emerald-800 dark:text-emerald-300"><Check className="h-4 w-4" />Kamu masuk daftar tunggu</p>
                       <p className="mt-1 text-[12px] leading-snug text-emerald-900/80 dark:text-emerald-200/80">
-                        Tersimpan di perangkat ini. {user?.email ? <>Kami akan mengabari <span className="font-semibold">{user.email}</span>.</> : <>Masuk dengan Google agar kami tahu ke mana mengabarimu.</>}
+                        {synced === 'synced' ? 'Tercatat di daftar tunggu NODUS. ' : 'Tersimpan di perangkat ini. '}{user?.email ? <>Kami akan mengabari <span className="font-semibold">{user.email}</span>.</> : <>Isi email di bawah agar kami bisa mengabarimu.</>}
                       </p>
                       <div className="mt-2 flex gap-4 text-[12px] font-bold">
                         {!user && onOpenAuth && <button onClick={onOpenAuth} className="text-emerald-800 underline underline-offset-4 dark:text-emerald-300">Masuk</button>}
@@ -250,6 +268,19 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
               );
             })}
           </ul>
+
+          {(wanted.length > 0 || (interested && !BILLING_LIVE)) && !user?.email && (
+            <div className="mt-4 rounded-3xl border border-slate-200/80 bg-white p-4 dark:border-white/10 dark:bg-[#18202D]">
+              <p className="text-sm font-bold text-slate-900 dark:text-white">Ke mana kami mengabarimu?</p>
+              <p className="mt-0.5 text-[12px] text-slate-500 dark:text-slate-400">Opsional. Email hanya dipakai untuk kabar pembukaan paket.</p>
+              <div className="mt-3 flex gap-2">
+                <input type="email" inputMode="email" autoComplete="email" value={emailDraft} onChange={(e) => { setEmailDraft(e.target.value); setEmailMsg(null); }} placeholder="nama@email.com"
+                  className="min-w-0 flex-1 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 placeholder-slate-400 focus:border-[#CF8E1F] focus:outline-none focus:ring-2 focus:ring-[#E3A63A]/30 dark:border-white/15 dark:bg-[#0F1520] dark:text-white" />
+                <button onClick={saveEmail} className="btn-ink shrink-0 !px-5 text-sm">Simpan</button>
+              </div>
+              {emailMsg && <p role="status" className="mt-2 text-[12px] font-semibold text-slate-600 dark:text-slate-300">{emailMsg}</p>}
+            </div>
+          )}
 
           <h2 className="mt-9 font-serif text-2xl font-medium text-slate-900 dark:text-white">Dapat Pro lebih cepat</h2>
           <div className="mt-3 overflow-hidden rounded-3xl border border-slate-200/80 bg-white dark:border-white/10 dark:bg-[#18202D]"><InviteCard /></div>
@@ -287,7 +318,7 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
           {!BILLING_LIVE && interested && !isPro ? (
             <div className="flex items-center gap-3 rounded-2xl bg-emerald-50 px-4 py-3 dark:bg-emerald-500/10">
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white"><Check className="h-4 w-4" /></span>
-              <p className="min-w-0 flex-1 text-[13px] leading-snug text-emerald-900 dark:text-emerald-200"><span className="block font-bold">Kamu di daftar tunggu Pro</span>Tersimpan di perangkat ini{user?.email ? `, kabar ke ${user.email}` : ''}.</p>
+              <p className="min-w-0 flex-1 text-[13px] leading-snug text-emerald-900 dark:text-emerald-200"><span className="block font-bold">Kamu di daftar tunggu Pro</span>{synced === 'synced' ? 'Tercatat di daftar tunggu NODUS' : 'Tersimpan di perangkat ini'}{user?.email ? `, kabar ke ${user.email}` : ''}.</p>
               <button onClick={leaveInterest} aria-label="Batalkan daftar tunggu" className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-emerald-800 hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-white/10"><X className="h-4 w-4" /></button>
             </div>
           ) : (

@@ -299,7 +299,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       aiModel: progress.aiModel,
     };
     setProgress(fresh);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh));
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh)); } catch { /* penyimpanan tidak tersedia */ }
   };
 
   const saveApiKey = (key: string, model: string = 'gemini-1.5-flash') => {

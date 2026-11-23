@@ -51,3 +51,7 @@ Menunggu server / aplikasi native:
 - Hadiah undangan: server harus mencatat `?ref=` (disimpan lokal di `nodus_ref_in_v1`), memvalidasi, lalu memberi bulan Pro ke kedua pihak setelah pembayaran/aktivasi pertama. Cegah penyalahgunaan (satu hadiah per perangkat/akun).
 - Paket Pelajar: verifikasi status pelajar (mis. email kampus atau penyedia verifikasi) sebelum diskon diberikan.
 - Paket Keluarga/Tim: model akun anggota, kuota kursi, faktur. Harga di `OTHER_PLANS` (src/lib/plans.ts) adalah usulan; tetapkan sendiri.
+
+## Daftar tunggu (Firebase)
+- [ ] Salin `firestore.rules` ke Firebase Console > Firestore > Rules, lalu Publish. Tanpa ini, penulisan daftar tunggu ditolak dan aplikasi diam-diam menyimpan lokal saja.
+- Peminat terkumpul di koleksi `waitlist` (field: plans, email, uid, updatedAt). Baca lewat Firebase Console; klien tidak bisa membacanya.
