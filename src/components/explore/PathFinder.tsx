@@ -11,6 +11,8 @@ const GOALS: Goal[] = [
   { label: 'Mengatur stok dan operasional', hint: 'Barang, pemasok, dan arus kas harian', paths: ['curriculum-operasi-stok-rantai-pasok', 'curriculum-akuntansi-pemilik-usaha'] },
   { label: 'Menjual dan bernegosiasi lebih baik', hint: 'Klien, mitra, dan penawaran B2B', paths: ['curriculum-negosiasi-penjualan-b2b', 'curriculum-psikologi-perilaku-keputusan'] },
   { label: 'Mulai berinvestasi dan paham ekonomi', hint: 'Uang pribadi, inflasi, bunga, dan pasar', paths: ['curriculum-investasi-dasar', 'curriculum-ekonomi-makro-keuangan'] },
+  { label: 'Menambah penghasilan dari keahlian bisnis', hint: 'Konsultan, freelance, atau jasa profesional', paths: ['curriculum-monetisasi-keahlian', 'curriculum-unit-economics-harga'] },
+  { label: 'Kuliah MBA, ekonomi, atau keuangan', hint: 'Valuasi, mikroekonomi, dan keputusan korporasi', paths: ['curriculum-valuasi-keuangan-korporasi', 'curriculum-mikroekonomi-manajer'] },
   { label: 'Berpikir strategis seperti pemimpin bisnis', hint: 'Keunggulan bersaing dan keputusan besar', paths: ['curriculum-bisnis-strategi-moat', 'curriculum-kasus-bisnis-indonesia'] },
 ];
 

@@ -38,6 +38,9 @@ const TRACK_CHIPS = [
   { id: 'curriculum-negosiasi-penjualan-b2b', label: 'Negosiasi & Sales' },
   { id: 'curriculum-investasi-dasar', label: 'Investasi' },
   { id: 'curriculum-kasus-bisnis-indonesia', label: 'Kasus Lokal' },
+  { id: 'curriculum-valuasi-keuangan-korporasi', label: 'Valuasi' },
+  { id: 'curriculum-mikroekonomi-manajer', label: 'Mikroekonomi' },
+  { id: 'curriculum-monetisasi-keahlian', label: 'Freelance & Konsultan' },
 ];
 
 type Point = { x: number; y: number };

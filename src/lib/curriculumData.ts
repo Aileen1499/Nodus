@@ -15,6 +15,9 @@ import { INVESTING_CURRICULUM } from './curricula/investing';
 import { OPERATIONS_CURRICULUM } from './curricula/operations';
 import { NEGOTIATION_CURRICULUM } from './curricula/negotiation';
 import { LOKAL_CURRICULUM } from './curricula/lokal';
+import { VALUATION_CURRICULUM } from './curricula/valuation';
+import { MICRO_MANAGER_CURRICULUM } from './curricula/microManager';
+import { MONETIZE_CURRICULUM } from './curricula/monetize';
 export { 
   CORPORATE_STRATEGY_WEALTH_CURRICULUM, 
   ADVANCED_MACRO_FINANCE_CURRICULUM, 
@@ -952,6 +955,19 @@ export const ALL_CURRICULA: Record<string, MindmapData> = {
   'marketplace': LOKAL_CURRICULUM,
   'ekspor': LOKAL_CURRICULUM,
   'impor': LOKAL_CURRICULUM,
+  'valuasi & keuangan korporasi (level mahasiswa mba)': VALUATION_CURRICULUM,
+  'valuasi': VALUATION_CURRICULUM,
+  'dcf': VALUATION_CURRICULUM,
+  'wacc': VALUATION_CURRICULUM,
+  'keuangan korporasi': VALUATION_CURRICULUM,
+  'mikroekonomi untuk manajer & pebisnis': MICRO_MANAGER_CURRICULUM,
+  'mikroekonomi': MICRO_MANAGER_CURRICULUM,
+  'elastisitas': MICRO_MANAGER_CURRICULUM,
+  'teori permainan': MICRO_MANAGER_CURRICULUM,
+  'monetisasi keahlian: konsultan, freelance & jasa profesional': MONETIZE_CURRICULUM,
+  'freelance': MONETIZE_CURRICULUM,
+  'konsultan': MONETIZE_CURRICULUM,
+  'jasa profesional': MONETIZE_CURRICULUM,
 };
 
 
