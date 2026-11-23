@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Crown, TrendingUp } from 'lucide-react';
+import { Crown, Share2, TrendingUp } from 'lucide-react';
 import { useUser } from '../../context/UserContext';
 import { allNodes } from '../../lib/nodeIndex';
 
@@ -16,7 +16,7 @@ export const CapabilityCard: React.FC<{ isPro: boolean; onUpgrade?: () => void }
     const all = allNodes();
     const mastered = new Set(progress.masteredNodeIds);
     const per = AXES.map((axis) => {
-      const items = all.filter((p) => p.node.domain === axis && p.node.level !== 0 && p.node.id !== p.map.rootId);
+      const items = all.filter((p) => (p.node.domain === axis || (axis === 'Keuangan' && p.node.domain === 'Pajak')) && p.node.level !== 0 && p.node.id !== p.map.rootId);
       const done = items.filter((p) => mastered.has(p.node.id)).length;
       return { axis, total: items.length, done, pct: items.length ? done / items.length : 0 };
     });
@@ -28,6 +28,15 @@ export const CapabilityCard: React.FC<{ isPro: boolean; onUpgrade?: () => void }
     const weakest = [...per].filter((a) => a.total > 0).sort((a, b) => a.pct - b.pct)[0];
     return { per, score, done, total, level, nextLevel, weakest };
   }, [progress.masteredNodeIds]);
+
+  const share = async () => {
+    const text = `Level ${stats.level.name} di NODUS, skor kemampuan bisnisku ${stats.score}/100 (${stats.done} pelajaran dikuasai). Coba juga:`;
+    const url = window.location.origin;
+    try {
+      if (navigator.share) { await navigator.share({ title: 'NODUS', text, url }); return; }
+      await navigator.clipboard.writeText(`${text} ${url}`);
+    } catch { /* dibatalkan atau tidak didukung */ }
+  };
 
   const size = 220, cx = size / 2, cy = size / 2, R = 78;
   const pt = (i: number, r: number) => {
@@ -70,6 +79,7 @@ export const CapabilityCard: React.FC<{ isPro: boolean; onUpgrade?: () => void }
           </p>
         </div>
       )}
+      <button onClick={share} className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-white/15 py-3 text-sm font-bold text-[#FBF9F5] hover:bg-white/10"><Share2 className="h-4 w-4" />Bagikan skorku</button>
       {!isPro && onUpgrade && (
         <button onClick={onUpgrade} className="btn-gold mt-3 flex w-full items-center justify-center gap-2 !py-3 text-sm"><Crown className="h-4 w-4" />Lihat paket Pro</button>
       )}
