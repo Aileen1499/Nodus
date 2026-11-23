@@ -76,7 +76,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, onOpenAut
   };
 
   return (
-    <div className="fixed inset-0 z-[60] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520] animate-fade-in" role="dialog" aria-modal="true" aria-label="Pengaturan">
+    <div className="fixed inset-0 z-[60] pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520] animate-fade-in" role="dialog" aria-modal="true" aria-label="Pengaturan">
       <div className="flex items-center gap-3 border-b border-slate-200/80 px-4 py-3 dark:border-white/10 sm:px-8">
         <button onClick={onClose} aria-label="Kembali" className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition-colors hover:bg-slate-100 dark:border-white/15 dark:text-slate-200 dark:hover:bg-white/10">
           <ArrowLeft className="h-5 w-5" />

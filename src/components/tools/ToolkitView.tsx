@@ -402,7 +402,7 @@ export const ToolkitView: React.FC<ToolkitViewProps> = ({ initialTool, lockedToo
   const Active = active ? RENDER[active] : null;
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520] animate-fade-in" role="dialog" aria-label="Alat bisnis">
+    <div className="fixed inset-0 z-50 pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520] animate-fade-in" role="dialog" aria-label="Alat bisnis">
       <div className="flex items-center gap-3 border-b border-slate-200/80 bg-[#FBF9F5]/95 px-4 py-3 backdrop-blur dark:border-slate-800 dark:bg-[#0F1520]/95 sm:px-8">
         {active && <button onClick={() => setActive(null)} aria-label="Kembali ke daftar alat" className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">
           <ArrowLeft className="h-5 w-5" />

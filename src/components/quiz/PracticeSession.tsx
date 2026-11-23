@@ -61,7 +61,7 @@ export const PracticeSession: React.FC<PracticeSessionProps> = ({ items, title, 
   };
 
   return (
-    <div className="fixed inset-0 z-[70] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520]" role="dialog" aria-modal="true" aria-label={title}>
+    <div className="fixed inset-0 z-[70] pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520]" role="dialog" aria-modal="true" aria-label={title}>
       <div className="border-b border-slate-200/80 dark:border-slate-800">
         <div className="mx-auto flex w-full max-w-2xl items-center gap-3 px-4 py-3 sm:px-6">
           <button onClick={requestClose} aria-label="Tutup latihan" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">

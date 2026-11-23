@@ -206,7 +206,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onOpenNode, onOpenAu
   };
 
   return (
-    <div className="fixed inset-0 z-50 animate-fade-in bg-[#FBF9F5] dark:bg-[#0F1520]" role="dialog" aria-modal="true" aria-label="Brankas pengetahuan">
+    <div className="fixed inset-0 z-50 pt-[env(safe-area-inset-top)] animate-fade-in bg-[#FBF9F5] dark:bg-[#0F1520]" role="dialog" aria-modal="true" aria-label="Brankas pengetahuan">
       <div className="flex h-full w-full flex-col overflow-hidden">
         <header className="shrink-0 border-b border-slate-200/70 px-5 pb-3 pt-4 dark:border-white/10 sm:px-7">
          <div className="mx-auto w-full max-w-3xl">

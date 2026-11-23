@@ -70,7 +70,7 @@ export const ExploreModal: React.FC<ExploreModalProps> = ({ onSelectMap, onOpenL
   const totalLessons = maps.reduce((sum, m) => sum + m.nodes.length, 0);
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520] animate-fade-in" role="dialog" aria-label="Kurikulum">
+    <div className="fixed inset-0 z-50 pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520] animate-fade-in" role="dialog" aria-label="Kurikulum">
       {/* Top bar */}
       <div className="flex items-center gap-3 border-b border-slate-200/80 bg-[#FBF9F5]/95 px-4 py-3 backdrop-blur dark:border-slate-800 dark:bg-[#0F1520]/95 sm:px-8">
         <div className="min-w-0">

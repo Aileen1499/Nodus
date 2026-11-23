@@ -185,7 +185,7 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen w-full flex-col overflow-hidden bg-[#FBF9F5] dark:bg-[#0F1520] font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300">
+    <div className="flex h-[100dvh] w-full flex-col overflow-hidden bg-[#FBF9F5] dark:bg-[#0F1520] font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300">
       
       {/* Header with Logo, Theme Toggle, Auth, and Live Stats */}
       <Header

@@ -41,6 +41,12 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       root.classList.add('light');
     }
     try {
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', theme === 'dark' ? '#0F1520' : '#FBF9F5');
+    } catch {
+      // ignore
+    }
+    try {
       localStorage.setItem(THEME_STORAGE_KEY, theme);
     } catch {
       // ignore
