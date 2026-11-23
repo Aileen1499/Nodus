@@ -41,6 +41,9 @@ const TRACK_CHIPS = [
   { id: 'curriculum-valuasi-keuangan-korporasi', label: 'Valuasi' },
   { id: 'curriculum-mikroekonomi-manajer', label: 'Mikroekonomi' },
   { id: 'curriculum-monetisasi-keahlian', label: 'Freelance & Konsultan' },
+  { id: 'curriculum-analisis-data-keputusan', label: 'Analisis Data' },
+  { id: 'curriculum-akuntansi-manajemen', label: 'Akuntansi Manajemen' },
+  { id: 'curriculum-karier-keuangan-konsultasi', label: 'Karier & Wawancara' },
 ];
 
 type Point = { x: number; y: number };

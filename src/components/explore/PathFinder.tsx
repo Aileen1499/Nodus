@@ -12,6 +12,8 @@ const GOALS: Goal[] = [
   { label: 'Menjual dan bernegosiasi lebih baik', hint: 'Klien, mitra, dan penawaran B2B', paths: ['curriculum-negosiasi-penjualan-b2b', 'curriculum-psikologi-perilaku-keputusan'] },
   { label: 'Mulai berinvestasi dan paham ekonomi', hint: 'Uang pribadi, inflasi, bunga, dan pasar', paths: ['curriculum-investasi-dasar', 'curriculum-ekonomi-makro-keuangan'] },
   { label: 'Menambah penghasilan dari keahlian bisnis', hint: 'Konsultan, freelance, atau jasa profesional', paths: ['curriculum-monetisasi-keahlian', 'curriculum-unit-economics-harga'] },
+  { label: 'Melamar kerja di keuangan atau konsultasi', hint: 'CV, case interview, dan negosiasi gaji', paths: ['curriculum-karier-keuangan-konsultasi', 'curriculum-valuasi-keuangan-korporasi'] },
+  { label: 'Mengambil keputusan dari data dan angka biaya', hint: 'Statistik bisnis, A/B test, anggaran, dan varians', paths: ['curriculum-analisis-data-keputusan', 'curriculum-akuntansi-manajemen'] },
   { label: 'Kuliah MBA, ekonomi, atau keuangan', hint: 'Valuasi, mikroekonomi, dan keputusan korporasi', paths: ['curriculum-valuasi-keuangan-korporasi', 'curriculum-mikroekonomi-manajer'] },
   { label: 'Berpikir strategis seperti pemimpin bisnis', hint: 'Keunggulan bersaing dan keputusan besar', paths: ['curriculum-bisnis-strategi-moat', 'curriculum-kasus-bisnis-indonesia'] },
 ];

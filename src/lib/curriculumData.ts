@@ -18,6 +18,9 @@ import { LOKAL_CURRICULUM } from './curricula/lokal';
 import { VALUATION_CURRICULUM } from './curricula/valuation';
 import { MICRO_MANAGER_CURRICULUM } from './curricula/microManager';
 import { MONETIZE_CURRICULUM } from './curricula/monetize';
+import { DATA_ANALYTICS_CURRICULUM } from './curricula/dataAnalytics';
+import { MGMT_ACCOUNTING_CURRICULUM } from './curricula/mgmtAccounting';
+import { CAREER_CURRICULUM } from './curricula/career';
 export { 
   CORPORATE_STRATEGY_WEALTH_CURRICULUM, 
   ADVANCED_MACRO_FINANCE_CURRICULUM, 
@@ -968,6 +971,17 @@ export const ALL_CURRICULA: Record<string, MindmapData> = {
   'freelance': MONETIZE_CURRICULUM,
   'konsultan': MONETIZE_CURRICULUM,
   'jasa profesional': MONETIZE_CURRICULUM,
+  'analisis data untuk keputusan bisnis': DATA_ANALYTICS_CURRICULUM,
+  'analisis data': DATA_ANALYTICS_CURRICULUM,
+  'a/b test': DATA_ANALYTICS_CURRICULUM,
+  'statistik bisnis': DATA_ANALYTICS_CURRICULUM,
+  'akuntansi manajemen & anggaran': MGMT_ACCOUNTING_CURRICULUM,
+  'akuntansi manajemen': MGMT_ACCOUNTING_CURRICULUM,
+  'anggaran': MGMT_ACCOUNTING_CURRICULUM,
+  'karier keuangan & konsultasi: persiapan wawancara': CAREER_CURRICULUM,
+  'karier': CAREER_CURRICULUM,
+  'case interview': CAREER_CURRICULUM,
+  'wawancara kerja': CAREER_CURRICULUM,
 };
 
 
