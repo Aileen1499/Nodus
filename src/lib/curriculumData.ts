@@ -21,6 +21,9 @@ import { MONETIZE_CURRICULUM } from './curricula/monetize';
 import { DATA_ANALYTICS_CURRICULUM } from './curricula/dataAnalytics';
 import { MGMT_ACCOUNTING_CURRICULUM } from './curricula/mgmtAccounting';
 import { CAREER_CURRICULUM } from './curricula/career';
+import { PERSONAL_FINANCE_CURRICULUM } from './curricula/personalFinance';
+import { LEADERSHIP_CURRICULUM } from './curricula/leadership';
+import { ECOMMERCE_CURRICULUM } from './curricula/ecommerce';
 export { 
   CORPORATE_STRATEGY_WEALTH_CURRICULUM, 
   ADVANCED_MACRO_FINANCE_CURRICULUM, 
@@ -982,6 +985,18 @@ export const ALL_CURRICULA: Record<string, MindmapData> = {
   'karier': CAREER_CURRICULUM,
   'case interview': CAREER_CURRICULUM,
   'wawancara kerja': CAREER_CURRICULUM,
+  'keuangan pribadi & perencanaan kemapanan': PERSONAL_FINANCE_CURRICULUM,
+  'keuangan pribadi': PERSONAL_FINANCE_CURRICULUM,
+  'dana darurat': PERSONAL_FINANCE_CURRICULUM,
+  'dana pensiun': PERSONAL_FINANCE_CURRICULUM,
+  'kepemimpinan & manajemen sdm': LEADERSHIP_CURRICULUM,
+  'kepemimpinan': LEADERSHIP_CURRICULUM,
+  'manajemen sdm': LEADERSHIP_CURRICULUM,
+  'okr': LEADERSHIP_CURRICULUM,
+  'bisnis digital & e-commerce': ECOMMERCE_CURRICULUM,
+  'e-commerce': ECOMMERCE_CURRICULUM,
+  'roas': ECOMMERCE_CURRICULUM,
+  'toko online': ECOMMERCE_CURRICULUM,
 };
 
 

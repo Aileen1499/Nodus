@@ -15,6 +15,9 @@ const GOALS: Goal[] = [
   { label: 'Melamar kerja di keuangan atau konsultasi', hint: 'CV, case interview, dan negosiasi gaji', paths: ['curriculum-karier-keuangan-konsultasi', 'curriculum-valuasi-keuangan-korporasi'] },
   { label: 'Mengambil keputusan dari data dan angka biaya', hint: 'Statistik bisnis, A/B test, anggaran, dan varians', paths: ['curriculum-analisis-data-keputusan', 'curriculum-akuntansi-manajemen'] },
   { label: 'Kuliah MBA, ekonomi, atau keuangan', hint: 'Valuasi, mikroekonomi, dan keputusan korporasi', paths: ['curriculum-valuasi-keuangan-korporasi', 'curriculum-mikroekonomi-manajer'] },
+  { label: 'Merapikan keuangan pribadi dan dana pensiun', hint: 'Dana darurat, utang, proteksi, dan tujuan jangka panjang', paths: ['curriculum-keuangan-pribadi', 'curriculum-investasi-dasar'] },
+  { label: 'Memimpin tim dan mengelola karyawan', hint: 'Delegasi, umpan balik, OKR, dan budaya', paths: ['curriculum-kepemimpinan-sdm', 'curriculum-negosiasi-penjualan-b2b'] },
+  { label: 'Berjualan online dengan untung', hint: 'Margin marketplace, ROAS, dan retensi', paths: ['curriculum-bisnis-digital-ecommerce', 'curriculum-unit-economics-harga'] },
   { label: 'Berpikir strategis seperti pemimpin bisnis', hint: 'Keunggulan bersaing dan keputusan besar', paths: ['curriculum-bisnis-strategi-moat', 'curriculum-kasus-bisnis-indonesia'] },
 ];
 
