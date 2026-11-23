@@ -7,17 +7,19 @@ import { getLockReason, getNodeState, plain } from '../../lib/pathLogic';
 import { buildPracticeSet, isDueForReview, PracticeItem } from '../../lib/review';
 import { PracticeSession } from './PracticeSession';
 import { CertificateView } from './CertificateView';
+import { CapabilityCard } from './CapabilityCard';
 
 interface ArenaViewProps {
   data: MindmapData;
   onClose: () => void;
   onSelectNode: (node: MindmapNode) => void;
+  onUpgrade?: () => void;
 }
 
 type Filter = 'all' | 'todo' | 'done' | 'due';
 
-export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode }) => {
-  const { isNodeMastered, progress } = useUser();
+export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode, onUpgrade }) => {
+  const { isNodeMastered, progress, isPro } = useUser();
   const [filter, setFilter] = useState<Filter>('all');
   const [showCertificate, setShowCertificate] = useState(false);
   const [session, setSession] = useState<{ items: PracticeItem[]; title: string } | null>(null);
@@ -81,6 +83,8 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode }) => {
 
         <div className="flex-1 overflow-y-auto pb-32">
           <div className="mx-auto w-full max-w-5xl space-y-6 px-4 py-6 sm:px-8 sm:py-8">
+            <CapabilityCard isPro={isPro} onUpgrade={onUpgrade} />
+
             {/* Latihan harian */}
             <div className="rounded-3xl bg-[#151517] p-5 text-[#FBF9F5] shadow-float dark:bg-[#18202D] sm:p-6">
               <div className="flex items-start gap-4">

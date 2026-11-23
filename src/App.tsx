@@ -247,6 +247,7 @@ const AppContent: React.FC = () => {
             setActiveTab('map');
           }}
           onSelectNode={openQuiz}
+          onUpgrade={() => openPaywall('manual')}
         />
       )}
 
