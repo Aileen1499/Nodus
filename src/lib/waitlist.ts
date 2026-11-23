@@ -1,11 +1,11 @@
 // ==============================================================================
 // NODUS — DAFTAR TUNGGU
-// Minat paket disimpan di perangkat dan, bila Firebase aktif, dikirim ke
-// koleksi Firestore `waitlist` supaya pemilik produk bisa melihat dan mengabari.
-// Klien hanya boleh membuat/memperbarui dokumennya sendiri (lihat firestore.rules).
+// Minat paket disimpan di perangkat dan dikirim ke Supabase lewat fungsi
+// `join_waitlist` (tabel `waitlist` tertutup untuk klien; hanya fungsi tervalidasi
+// yang boleh menulis). Kunci "publishable" memang aman berada di sisi klien.
 // ==============================================================================
-import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
-import { db, isFirebaseConfigured } from './firebase';
+const SUPABASE_URL = (import.meta.env.VITE_SUPABASE_URL as string | undefined) || 'https://ujpuagdlqqckejhswqew.supabase.co';
+const SUPABASE_KEY = (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefined) || 'sb_publishable_-3Ce8m7Dx1-pe-tInHTt7w_ri4GzTRf';
 
 const DEVICE_KEY = 'nodus_waitlist_device_v1';
 const EMAIL_KEY = 'nodus_waitlist_email_v1';
@@ -37,15 +37,19 @@ export const syncWaitlist = async (plans: string[], uid?: string | null, account
   if (extraEmail !== undefined) {
     try { localStorage.setItem(EMAIL_KEY, extraEmail.trim()); } catch { /* abaikan */ }
   }
-  if (!db || !isFirebaseConfigured) return 'local';
   const email = (accountEmail || extraEmail || getWaitlistEmail() || '').trim().slice(0, 254);
   try {
-    await setDoc(doc(db, 'waitlist', uid || deviceId()), {
-      plans: plans.slice(0, 8),
-      email: email || null,
-      uid: uid || null,
-      updatedAt: serverTimestamp(),
-    }, { merge: true });
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/join_waitlist`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
+      body: JSON.stringify({
+        p_id: uid || deviceId(),
+        p_plans: plans.slice(0, 8),
+        p_email: isValidEmail(email) ? email : null,
+        p_uid: uid || null,
+      }),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return 'synced';
   } catch (e) {
     console.warn('Gagal menyimpan daftar tunggu:', e);

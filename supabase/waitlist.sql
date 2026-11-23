@@ -1,0 +1,4 @@
+-- Skema daftar tunggu NODUS (sudah diterapkan ke proyek Supabase "NODUS").
+-- Tabel tertutup untuk klien (RLS tanpa policy); tulis hanya lewat public.join_waitlist().
+-- Lihat peminat: Supabase Dashboard → Table Editor → waitlist.
+-- (isi lengkap ada di migrasi `create_waitlist` pada proyek)
