@@ -145,7 +145,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
                 Lanjutkan dengan Google
               </button>
 
-              <div className="flex items-center gap-3 text-xs font-semibold text-slate-400">
+              <div className="flex items-center gap-3 text-xs font-semibold text-slate-500 dark:text-slate-400">
                 <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />atau dengan email<span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
               </div>
 

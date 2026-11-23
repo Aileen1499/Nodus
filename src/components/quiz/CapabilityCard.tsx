@@ -58,7 +58,7 @@ export const CapabilityCard: React.FC<{ isPro: boolean; onUpgrade?: () => void }
         </div>
         <div className="text-right">
           <p className="bg-gradient-to-b from-[#FFF3D6] to-[#E9C06B] bg-clip-text font-serif text-5xl font-medium leading-none text-transparent">{stats.score}</p>
-          <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-[#FBF9F5]/50">Skor</p>
+          <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-[#FBF9F5]/70">Skor</p>
         </div>
       </div>
 

@@ -141,7 +141,7 @@ export const CertificateView: React.FC<CertificateViewProps> = ({ data, onClose 
             </p>
             <p className="mx-auto mt-3 max-w-lg font-serif text-2xl font-semibold leading-snug text-slate-900 sm:text-3xl">{data.topic}</p>
             <p className="mt-8 text-sm font-semibold text-slate-700">{date}</p>
-            <p className="mx-auto mt-8 max-w-md border-t border-slate-200 pt-4 text-[11px] leading-relaxed text-slate-400">
+            <p className="mx-auto mt-8 max-w-md border-t border-slate-200 pt-4 text-[11px] leading-relaxed text-slate-500">
               Sertifikat penyelesaian internal NODUS sebagai catatan belajar pribadi. Bukan sertifikasi profesi atau gelar akademik.
             </p>
           </div>
