@@ -74,12 +74,17 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         );
 
         let streak = parsed.streak || 1;
+        // Streak putus bila sudah lewat satu hari penuh sejak terakhir BELAJAR (bukan sekadar membuka aplikasi).
+        if (parsed.lastStudyDate) {
+          const sinceStudy = Math.round((new Date(today).getTime() - new Date(parsed.lastStudyDate).getTime()) / (1000 * 3600 * 24));
+          if (sinceStudy > 1) streak = 0;
+        }
         let credits = parsed.credits ?? DEFAULT_FREE_CREDITS;
 
         if (diffDays === 1) {
           credits = DEFAULT_FREE_CREDITS;
         } else if (diffDays > 1) {
-          streak = 1;
+          streak = parsed.lastStudyDate ? streak : 1;
           credits = DEFAULT_FREE_CREDITS;
         }
 
@@ -104,7 +109,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setProgress((prev) => ({
         ...prev,
         rankPoints: Math.max(prev.rankPoints, userProfile.rp || 0),
-        streak: Math.max(prev.streak, userProfile.streak || 1),
+        streak: prev.streak === 0 && prev.lastStudyDate ? 0 : Math.max(prev.streak, userProfile.streak || 1),
         credits: userProfile.isPro ? 999 : (userProfile.credits ?? prev.credits),
       }));
 
