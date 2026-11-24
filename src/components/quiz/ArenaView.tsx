@@ -8,17 +8,19 @@ import { buildPracticeSet, isDueForReview, PracticeItem } from '../../lib/review
 import { PracticeSession } from './PracticeSession';
 import { CertificateView } from './CertificateView';
 import { CapabilityCard } from './CapabilityCard';
+import { CaseList } from './CaseList';
 
 interface ArenaViewProps {
   data: MindmapData;
   onClose: () => void;
   onSelectNode: (node: MindmapNode) => void;
   onUpgrade?: () => void;
+  onOpenLesson?: (nodeId: string) => void;
 }
 
 type Filter = 'all' | 'todo' | 'done' | 'due';
 
-export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode, onUpgrade }) => {
+export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode, onUpgrade, onOpenLesson }) => {
   const { isNodeMastered, progress, isPro } = useUser();
   const [filter, setFilter] = useState<Filter>('all');
   const [showCertificate, setShowCertificate] = useState(false);
@@ -84,6 +86,8 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode, onUpgr
         <div className="flex-1 overflow-y-auto pb-32">
           <div className="mx-auto w-full max-w-5xl space-y-6 px-4 py-6 sm:px-8 sm:py-8">
             <CapabilityCard isPro={isPro} onUpgrade={onUpgrade} />
+
+            <CaseList isPro={isPro} onUpgrade={onUpgrade} onOpenLesson={onOpenLesson} />
 
             {/* Latihan harian */}
             <div className="rounded-3xl bg-[#151517] p-5 text-[#FBF9F5] shadow-float dark:bg-[#18202D] sm:p-6">

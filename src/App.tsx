@@ -250,6 +250,15 @@ const AppContent: React.FC = () => {
           }}
           onSelectNode={openQuiz}
           onUpgrade={() => openPaywall('manual')}
+          onOpenLesson={(id) => {
+            const hit = findNode(id);
+            if (!hit) return;
+            setCurrentMindmap(hit.map);
+            setActiveQuizNode(null);
+            setIsQuizHubOpen(false);
+            setActiveTab('map');
+            openReader(hit.node);
+          }}
         />
       )}
 
