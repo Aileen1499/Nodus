@@ -120,6 +120,7 @@ export interface UserProgress {
   lastReviewed?: Record<string, string>; // nodeId -> YYYY-MM-DD terakhir diuji/diulas (untuk pengulangan berjarak)
   totalStudyMinutes?: number; // Total minutes spent learning
   lastStudyDate?: string; // YYYY-MM-DD when study activity was completed
+  activityLog?: Record<string, { m: number; l: number }>; // YYYY-MM-DD -> menit belajar & pelajaran dikuasai (56 hari terakhir)
   lastActiveDate: string; // YYYY-MM-DD for streak calculation
   apiKey?: string;
   aiModel?: string;

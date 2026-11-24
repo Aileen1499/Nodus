@@ -33,6 +33,16 @@ const getTodayString = (): string => {
   return localDay();
 };
 
+/** Catat aktivitas harian (maks. 56 hari terakhir) untuk ringkasan mingguan. */
+const withActivity = (prev: UserProgress, today: string, minutes: number, lessons: number): UserProgress['activityLog'] => {
+  const log = { ...(prev.activityLog || {}) };
+  const cur = log[today] || { m: 0, l: 0 };
+  log[today] = { m: cur.m + minutes, l: cur.l + lessons };
+  const keys = Object.keys(log).sort();
+  keys.slice(0, Math.max(0, keys.length - 56)).forEach((k) => { delete log[k]; });
+  return log;
+};
+
 /** Streak berjalan hanya jika ada aktivitas belajar di hari baru. */
 const nextStreak = (prev: UserProgress, today: string): number => {
   if (!prev.lastStudyDate) return 1;
@@ -166,6 +176,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         rankPoints: newPoints,
         streak: updatedStreak,
         lastStudyDate: today,
+        activityLog: withActivity(prev, today, 0, alreadyMastered ? 0 : 1),
         masteredNodeIds: newMastered,
       };
     });
@@ -178,7 +189,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       nodeIds.forEach((id) => { reviewed[id] = today; });
       const newRP = Math.max(0, prev.rankPoints + rp);
       if (user && rp !== 0) syncUserRP(user.uid, newRP);
-      return { ...prev, lastReviewed: reviewed, rankPoints: newRP, streak: nextStreak(prev, today), lastStudyDate: today };
+      return { ...prev, lastReviewed: reviewed, rankPoints: newRP, streak: nextStreak(prev, today), lastStudyDate: today, activityLog: withActivity(prev, today, 0, 0) };
     });
   };
 
@@ -191,6 +202,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setProgress((prev) => ({
       ...prev,
       totalStudyMinutes: (prev.totalStudyMinutes || 0) + minutes,
+      activityLog: withActivity(prev, getTodayString(), minutes, 0),
     }));
   };
 

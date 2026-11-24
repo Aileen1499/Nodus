@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { DomainType, MindmapData, MindmapNode } from '../../types';
 import { allNodes, findNode } from '../../lib/nodeIndex';
 import { plain } from '../../lib/pathLogic';
+import { WeeklyRecap } from '../growth/WeeklyRecap';
 import { Cloud, CheckCircle, Search, Bookmark, Highlighter, Trash2, Copy, Check, ArrowRight, Flame, Clock, CheckCircle2, Play, Trophy, Sparkles, ChevronRight } from 'lucide-react';
 
 interface ProfileModalProps {
@@ -270,6 +271,8 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onOpenNode, onOpenAu
                   </p>
                 </div>
               </section>
+
+              <WeeklyRecap />
 
               <section className="grid grid-cols-3 gap-2.5">
                 {[
