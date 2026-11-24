@@ -47,6 +47,7 @@ const TRACK_CHIPS = [
   { id: 'curriculum-keuangan-pribadi', label: 'Keuangan Pribadi' },
   { id: 'curriculum-kepemimpinan-sdm', label: 'Kepemimpinan' },
   { id: 'curriculum-bisnis-digital-ecommerce', label: 'E-commerce' },
+  { id: 'curriculum-pajak-praktis', label: 'Pajak Usaha' },
 ];
 
 type Point = { x: number; y: number };

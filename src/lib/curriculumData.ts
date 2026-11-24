@@ -24,6 +24,7 @@ import { CAREER_CURRICULUM } from './curricula/career';
 import { PERSONAL_FINANCE_CURRICULUM } from './curricula/personalFinance';
 import { LEADERSHIP_CURRICULUM } from './curricula/leadership';
 import { ECOMMERCE_CURRICULUM } from './curricula/ecommerce';
+import { TAX_CURRICULUM } from './curricula/tax';
 export { 
   CORPORATE_STRATEGY_WEALTH_CURRICULUM, 
   ADVANCED_MACRO_FINANCE_CURRICULUM, 
@@ -997,6 +998,11 @@ export const ALL_CURRICULA: Record<string, MindmapData> = {
   'e-commerce': ECOMMERCE_CURRICULUM,
   'roas': ECOMMERCE_CURRICULUM,
   'toko online': ECOMMERCE_CURRICULUM,
+  'pajak praktis untuk pemilik usaha': TAX_CURRICULUM,
+  'pajak umkm': TAX_CURRICULUM,
+  'pajak usaha': TAX_CURRICULUM,
+  'pph final': TAX_CURRICULUM,
+  'ppn': TAX_CURRICULUM,
 };
 
 

@@ -19,6 +19,7 @@ const GOALS: Goal[] = [
   { label: 'Merapikan keuangan pribadi dan dana pensiun', hint: 'Dana darurat, utang, proteksi, dan tujuan jangka panjang', paths: ['curriculum-keuangan-pribadi', 'curriculum-investasi-dasar'] },
   { label: 'Memimpin tim dan mengelola karyawan', hint: 'Delegasi, umpan balik, OKR, dan budaya', paths: ['curriculum-kepemimpinan-sdm', 'curriculum-negosiasi-penjualan-b2b'] },
   { label: 'Berjualan online dengan untung', hint: 'Margin marketplace, ROAS, dan retensi', paths: ['curriculum-bisnis-digital-ecommerce', 'curriculum-unit-economics-harga'] },
+  { label: 'Paham pajak usaha dan tidak kena denda', hint: 'PPh Final, PPN, pembukuan, dan SPT', paths: ['curriculum-pajak-praktis', 'curriculum-akuntansi-pemilik-usaha'] },
   { label: 'Berpikir strategis seperti pemimpin bisnis', hint: 'Keunggulan bersaing dan keputusan besar', paths: ['curriculum-bisnis-strategi-moat', 'curriculum-kasus-bisnis-indonesia'] },
 ];
 
