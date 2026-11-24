@@ -100,6 +100,7 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, 
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const secondsRef = useRef(0);
+  const chatEpochRef = useRef(0);
   const saveFlashRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Socrates chat
@@ -118,6 +119,7 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, 
     secondsRef.current = 0;
     setReadingSeconds(0);
     const timer = setInterval(() => {
+      if (document.visibilityState === 'hidden') return; // jangan hitung waktu saat aplikasi di latar belakang
       secondsRef.current += 1;
       setReadingSeconds(secondsRef.current);
     }, 1000);
@@ -135,6 +137,7 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, 
     setTooltip(null);
     setNoteMode(false);
     setScrollProgress(0);
+    chatEpochRef.current += 1;
     setChatMessages([welcome(node?.label || 'materi ini')]);
     if (scrollRef.current) scrollRef.current.scrollTop = 0;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -247,10 +250,13 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, 
     setChatMessages((prev) => [...prev, { id: `u-${Date.now()}`, sender: 'user', text: question, timestamp: 'Baru saja' }]);
     setInputQuestion('');
     setIsAsking(true);
+    const epoch = chatEpochRef.current;
     try {
       const reply = await askSocratesAI(node.label, node.domain, question, progress.apiKey);
+      if (epoch !== chatEpochRef.current) return; // pelajaran sudah berganti
       setChatMessages((prev) => [...prev, { id: `s-${Date.now()}`, sender: 'socrates', text: reply, timestamp: 'Baru saja' }]);
     } catch {
+      if (epoch !== chatEpochRef.current) return;
       setChatMessages((prev) => [
         ...prev,
         { id: `e-${Date.now()}`, sender: 'socrates', text: 'Koneksi mentor sedang terganggu. Coba tanyakan lagi sebentar lagi.', timestamp: 'Baru saja' },
