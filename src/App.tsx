@@ -29,6 +29,7 @@ import { PRESET_QUERIES } from './data/mockMindmaps';
 import { generateMindmapWithGemini } from './lib/gemini';
 import { getMindmapForTopic } from './lib/topicEngine';
 import { StreakCard } from './components/growth/StreakCard';
+import { ReviewDueCard } from './components/growth/ReviewDueCard';
 import { getRecommendedNode } from './lib/pathLogic';
 import { getCurriculumForQuery, ZERO_TO_HERO_OWNER_CURRICULUM } from './lib/curriculumData';
 
@@ -202,6 +203,7 @@ const AppContent: React.FC = () => {
         {activeTab === 'map' && (
           <div className="mx-auto w-full max-w-6xl px-4 pt-3 sm:px-8">
             <StreakCard onContinue={() => { const n = getRecommendedNode(currentMindmap, isNodeMastered); if (n) openReader(n); }} />
+            <ReviewDueCard count={dueReviews} onReview={() => setActiveTab('quiz')} />
           </div>
         )}
         <MindmapCanvas
