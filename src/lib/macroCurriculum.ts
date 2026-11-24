@@ -568,7 +568,7 @@ export const ADVANCED_MACRO_FINANCE_CURRICULUM: MindmapData = {
           {
             id: 'c1',
             text: 'Alihkan modal dari saham-saham teknologi bertumbuh tinggi tanpa laba (unprofitable growth) ke obligasi negara bertenor pendek dan saham bernilai (value stocks) berarus kas positif kuat.',
-            consequence: 'Portofolio terlindungi dari guncangan kontraksi likuiditas, menghasilkan pendapatan bunga tinggi bebas risiko, dan siap menampung aset murah saat dasar pasar terbentuk.',
+            consequence: 'Portofolio terlindungi dari guncangan kontraksi likuiditas, menghasilkan pendapatan bunga dengan risiko relatif rendah, dan siap menampung aset murah saat dasar pasar terbentuk.',
             scoreBonus: 30,
             isOptimal: true,
             explanation: 'Saat likuiditas ditarik (QT), aset spekulatif bervaluasi tinggi tanpa arus kas riil adalah yang paling menderita; kas berimbal hasil dan saham bernilai menjadi pemenang.'
@@ -761,7 +761,7 @@ export const ADVANCED_MACRO_FINANCE_CURRICULUM: MindmapData = {
         actionableSteps: [
           'Bangun model 3-statement financial model untuk memproyeksikan Free Cash Flow to Firm (FCFF) 5 tahun ke depan.',
           'Lakukan analisis sensitivitas (Sensitivity Table) terhadap variabel WACC dan Terminal Growth Rate ($g$).',
-          'Terapkan Margin of Safety minimal 25-30% di bawah nilai intrinsik DCF sebelum melakukan aksi beli saham atau akuisisi bisnis.'
+          'Terapkan Margin of Safety minimal 25-30% di bawah nilai intrinsik DCF sebelum mempertimbangkan pembelian saham atau akuisisi bisnis (contoh pendekatan untuk belajar, bukan rekomendasi).'
         ],
         difficulty: 'Mahir',
         readTime: '5 min'

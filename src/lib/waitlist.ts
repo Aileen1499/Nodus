@@ -4,15 +4,15 @@
 // `join_waitlist` (tabel `waitlist` tertutup untuk klien; hanya fungsi tervalidasi
 // yang boleh menulis). Kunci "publishable" memang aman berada di sisi klien.
 // ==============================================================================
-const SUPABASE_URL = (import.meta.env.VITE_SUPABASE_URL as string | undefined) || 'https://ujpuagdlqqckejhswqew.supabase.co';
-const SUPABASE_KEY = (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefined) || 'sb_publishable_-3Ce8m7Dx1-pe-tInHTt7w_ri4GzTRf';
+export const SUPABASE_URL = (import.meta.env.VITE_SUPABASE_URL as string | undefined) || 'https://ujpuagdlqqckejhswqew.supabase.co';
+export const SUPABASE_KEY = (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefined) || 'sb_publishable_-3Ce8m7Dx1-pe-tInHTt7w_ri4GzTRf';
 
 const DEVICE_KEY = 'nodus_waitlist_device_v1';
 const EMAIL_KEY = 'nodus_waitlist_email_v1';
 
 export type WaitlistResult = 'synced' | 'local';
 
-const deviceId = (): string => {
+export const deviceId = (): string => {
   try {
     const saved = localStorage.getItem(DEVICE_KEY);
     if (saved) return saved;

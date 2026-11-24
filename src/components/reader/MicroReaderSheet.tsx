@@ -4,6 +4,7 @@ import { useUser } from '../../context/UserContext';
 import { askSocratesAI, ChatMessage } from '../../lib/socrates';
 import { getNeighbours, getNodeState, plain } from '../../lib/pathLogic';
 import { toolTitle } from '../tools/ToolkitView';
+import { ContentNotice } from './ContentNotice';
 import {
   X,
   CheckSquare,
@@ -497,6 +498,8 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, 
                 </button>
               </section>
 
+              <ContentNotice nodeId={node.id} label={node.label} domain={node.domain} />
+
               {(previous || next) && (
                 <div className="mt-6 space-y-2.5">
                   {next ? (
@@ -564,6 +567,7 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, 
                   <Send className="h-4 w-4" />
                 </button>
               </form>
+              <p className="px-2 text-center text-[11px] leading-snug text-slate-500 dark:text-slate-400">Jawaban AI bisa keliru dan bukan nasihat profesional. Periksa kembali hal penting. Jangan tulis data pribadi.</p>
             </div>
           )}
         </div>

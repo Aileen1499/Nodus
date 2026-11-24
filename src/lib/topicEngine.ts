@@ -961,7 +961,7 @@ const ECONOMICS_FINANCE_MAP: MindmapData = {
             consequence: 'Kas terlindungi, imbal hasil mengimbangi inflasi, dan likuiditas tetap bisa ditarik dalam T+1 hari kerja.',
             scoreBonus: 50,
             isOptimal: true,
-            explanation: 'Treasury manajemen modern memutar kelebihan kas pada instrumen likuid bebas risiko suku bunga tinggi.'
+            explanation: 'Treasury manajemen modern memutar kelebihan kas pada instrumen likuid berisiko rendah dengan imbal hasil mengikuti suku bunga.'
           }
         ]
       },

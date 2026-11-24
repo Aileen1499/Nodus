@@ -13,7 +13,7 @@ interface LegalViewProps {
 // CATATAN RILIS: teks ini draf yang menggambarkan perilaku aplikasi saat ini.
 // Tinjau dengan konsultan hukum (UU PDP No. 27/2022) dan lengkapi nama badan usaha,
 // alamat, dan email kontak sebelum diajukan ke App Store / Play Store.
-const UPDATED = '19 November 2026';
+const UPDATED = '25 November 2026';
 
 type Section = { h: string; p: string[] };
 
@@ -21,13 +21,14 @@ const PRIVACY: Section[] = [
   { h: 'Data yang kami proses', p: [
     'Tanpa akun, kemajuan belajarmu (pelajaran yang dikuasai, poin, stabilo, catatan, dan konsep tersimpan) disimpan di perangkatmu saja.',
     'Jika kamu membuat akun (email atau Google), kami menyimpan nama, email, foto profil, poin, rentetan hari belajar, kuota AI, dan daftar pelajaran yang dikuasai di server agar bisa dipulihkan di perangkat lain. Stabilo dan catatan tidak dikirim ke server.',
+    'Jika kamu masuk daftar tunggu paket, kami menyimpan paket yang kamu minati, email (bila kamu isi atau akunmu punya), dan pengenal perangkat acak di server agar bisa menghubungimu saat paket dibuka. Jika kamu melaporkan kesalahan materi, kami menyimpan pelajaran yang dilaporkan, jenis dan catatan laporan, serta pengenal perangkat acak. Jangan menulis data pribadi di catatan laporan.',
     'Saat kamu memakai fitur AI (membedah topik atau bertanya ke mentor), teks yang kamu tulis dikirim ke penyedia model AI (Google Gemini) melalui server kami untuk menghasilkan jawaban. Jangan memasukkan data pribadi atau rahasia ke kolom tersebut.',
   ] },
   { h: 'Untuk apa data dipakai', p: [
     'Hanya untuk menjalankan aplikasi: menyimpan kemajuan, sinkron antar perangkat, mengelola paket, dan menjawab pertanyaanmu. Kami tidak menjual data pribadimu dan tidak menampilkan iklan pihak ketiga.',
   ] },
   { h: 'Pihak yang memproses data', p: [
-    'Google Firebase (autentikasi dan basis data), Vercel (hosting dan fungsi server), Google Gemini (pemrosesan AI), dan penyedia pembayaran yang kamu pilih saat berlangganan (data kartu atau pembayaran diproses oleh mereka, bukan oleh kami).',
+    'Google Firebase (autentikasi dan basis data), Supabase (daftar tunggu dan laporan materi), Vercel (hosting dan fungsi server), Google Gemini (pemrosesan AI), dan penyedia pembayaran yang kamu pilih saat berlangganan (data kartu atau pembayaran diproses oleh mereka, bukan oleh kami).',
   ] },
   { h: 'Hakmu', p: [
     'Kamu dapat menghapus akun dan seluruh data di server kapan saja lewat Pengaturan, Hapus akun. Kamu juga dapat mengatur ulang data di perangkat lewat Pengaturan, Reset progres.',
@@ -46,6 +47,17 @@ const TERMS: Section[] = [
   { h: 'Sifat layanan', p: [
     'NODUS adalah platform belajar bisnis, ekonomi, dan keuangan. Seluruh materi, kalkulator, studi kasus, dan jawaban AI bersifat edukasi umum, bukan nasihat investasi, pajak, hukum, atau keuangan. Angka pada studi kasus bersifat ilustrasi. Keputusan dan risikonya menjadi tanggung jawabmu.',
     'Sertifikat penyelesaian adalah catatan belajar internal, bukan sertifikasi profesi atau lembaga resmi.',
+    'Materi disusun dari rujukan publik dan belum ditinjau oleh profesional berlisensi. NODUS bukan konsultan pajak, penasihat hukum, penasihat investasi, atau perencana keuangan, dan penggunaan aplikasi tidak menimbulkan hubungan profesional apa pun.',
+  ] },
+  { h: 'Keakuratan dan pembaruan', p: [
+    'Aturan, tarif, dan angka (misalnya di bidang pajak, hukum, dan keuangan) dapat berubah dan dapat berbeda menurut keadaan masing-masing. Materi dapat mengandung kekeliruan atau menjadi usang. Periksa sumber resmi (misalnya DJP, OJK, atau peraturan yang berlaku) atau tanya ahli berlisensi sebelum bertindak.',
+    'Jika menemukan kekeliruan, laporkan lewat tombol Laporkan kesalahan di tiap pelajaran. Kami berusaha memperbaikinya, tetapi tidak menjamin materi selalu lengkap, terbaru, atau bebas kesalahan.',
+  ] },
+  { h: 'Tanpa jaminan hasil', p: [
+    'NODUS tidak menjanjikan kenaikan penghasilan, keuntungan usaha, kelulusan, pekerjaan, atau hasil keuangan apa pun. Contoh, simulasi, dan kalkulator bersifat ilustrasi dan hasil nyata bergantung pada keadaanmu. Jangan menggunakan aplikasi ini sebagai satu-satunya dasar keputusan keuangan, pajak, atau hukum.',
+  ] },
+  { h: 'Jawaban AI', p: [
+    'Jawaban AI dihasilkan otomatis, dapat keliru atau tidak lengkap, dan bukan nasihat profesional. Kamu bertanggung jawab memeriksa kembali hal penting sebelum memakainya.',
   ] },
   { h: 'Akun', p: [
     'Kamu bertanggung jawab atas keamanan akunmu dan kebenaran data yang kamu berikan. Kami dapat menangguhkan akun yang menyalahgunakan layanan, misalnya mengambil konten secara massal atau membebani sistem AI.',
@@ -58,7 +70,7 @@ const TERMS: Section[] = [
     'Konten NODUS dilindungi hak cipta. Kamu boleh memakainya untuk belajar pribadi. Menyalin, menjual ulang, atau mendistribusikannya tanpa izin tertulis tidak diperbolehkan.',
   ] },
   { h: 'Batas tanggung jawab', p: [
-    'Layanan disediakan apa adanya. Sejauh diizinkan hukum, kami tidak bertanggung jawab atas kerugian yang timbul dari keputusan yang kamu ambil berdasarkan isi aplikasi.',
+    'Layanan disediakan apa adanya. Sejauh diizinkan hukum, kami tidak bertanggung jawab atas kerugian yang timbul dari keputusan yang kamu ambil berdasarkan isi aplikasi atau jawaban AI, termasuk akibat aturan atau angka yang sudah berubah. Ketentuan ini tidak menghapus hak yang tidak dapat dikesampingkan menurut hukum yang berlaku.',
   ] },
   { h: 'Hukum dan kontak', p: [
     'Ketentuan ini tunduk pada hukum Republik Indonesia.' + (SUPPORT_EMAIL ? ` Hubungi kami di ${SUPPORT_EMAIL}.` : ''),
