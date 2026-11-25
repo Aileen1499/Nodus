@@ -13,7 +13,7 @@ interface ExploreModalProps {
   onOpenLesson: (map: MindmapData, node: MindmapNode) => void;
 }
 
-const FILTERS = ['Semua', 'Bisnis', 'Keuangan', 'Ekonomi', 'Psikologi', 'Hukum', 'Pajak', 'Pemasaran'] as const;
+const FILTERS = ['Semua', 'Bisnis', 'Keuangan', 'Ekonomi', 'Psikologi', 'Komunikasi', 'Data & Analitik', 'Hukum', 'Pajak', 'Pemasaran', 'Geopolitik'] as const;
 
 // Kategori jalur ditentukan dari domain dominan simpulnya, bukan dari pencocokan teks kasar.
 const trackCategories = (map: MindmapData): Set<string> => {
