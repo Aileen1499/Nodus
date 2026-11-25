@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { Portal } from '../common/Portal';
 import { ArrowRight, Check, ChevronDown, Layers, Lock, Map as MapIcon, Target, Wrench, X } from 'lucide-react';
 import type { MindmapData, MindmapNode } from '../../types';
 import { TOOLS } from '../tools/ToolkitView';
@@ -44,8 +45,9 @@ export const PathSheet: React.FC<PathSheetProps> = ({ map, onClose, onOpenLesson
   let counter = 0;
 
   return (
+    <Portal>
     <div className="fixed inset-0 z-[85] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true" aria-label={map.topic}>
-      <button aria-label="Tutup pratinjau" onClick={onClose} className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in" />
+      <button aria-label="Tutup pratinjau" onClick={onClose} className="absolute inset-0 touch-none bg-black/60 backdrop-blur-sm animate-fade-in" />
       <div className="relative flex max-h-[90dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-[28px] border border-white/10 bg-[#18202D] text-[#FBF9F5] shadow-2xl animate-sheet-up sm:rounded-[28px]">
         <div className="flex items-start gap-3 px-5 pb-3 pt-5">
           <div className="min-w-0 flex-1">
@@ -115,5 +117,6 @@ export const PathSheet: React.FC<PathSheetProps> = ({ map, onClose, onOpenLesson
         </div>
       </div>
     </div>
+    </Portal>
   );
 };

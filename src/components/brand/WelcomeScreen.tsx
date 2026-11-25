@@ -1,4 +1,6 @@
 import React, { useMemo, useState } from 'react';
+import { useModal } from '../../lib/useModal';
+import { Portal } from '../common/Portal';
 import { ArrowLeft, ArrowRight, BookOpen, ChevronRight, Layers, X, Compass, Network, Repeat, ShieldCheck, Target, Wrench } from 'lucide-react';
 import { LogoMark, NodeConstellation } from './Logo';
 import { allMaps } from '../../lib/nodeIndex';
@@ -150,6 +152,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart: onFinish,
 };
 
 const PathPreviewSheet: React.FC<{ map: MindmapData; onClose: () => void; onStart: () => void }> = ({ map, onClose, onStart }) => {
+  useModal(onClose);
   const lessons = useMemo(() => getPathOrder(map).filter((n) => n.level !== 0 && n.id !== map.rootId), [map]);
   const toolNames = useMemo(() => {
     const ids = Array.from(new Set(lessons.map((n) => n.toolId).filter(Boolean)));
@@ -169,9 +172,10 @@ const PathPreviewSheet: React.FC<{ map: MindmapData; onClose: () => void; onStar
   let counter = 0;
 
   return (
+    <Portal>
     <div className="fixed inset-0 z-[85] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true" aria-label={map.topic}>
-      <button aria-label="Tutup pratinjau" onClick={onClose} className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in" />
-      <div className="relative flex max-h-[88vh] w-full max-w-lg flex-col overflow-hidden rounded-t-[28px] border border-white/10 bg-[#18202D] text-[#FBF9F5] shadow-2xl animate-sheet-up sm:rounded-[28px]">
+      <button aria-label="Tutup pratinjau" onClick={onClose} className="absolute inset-0 touch-none bg-black/60 backdrop-blur-sm animate-fade-in" />
+      <div className="relative flex max-h-[88dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-[28px] border border-white/10 bg-[#18202D] text-[#FBF9F5] shadow-2xl animate-sheet-up sm:rounded-[28px]">
         <div className="flex items-start gap-3 px-5 pb-3 pt-5">
           <div className="min-w-0 flex-1">
             <p className="eyebrow !text-[#E3A63A]">Pratinjau jalur</p>
@@ -219,10 +223,11 @@ const PathPreviewSheet: React.FC<{ map: MindmapData; onClose: () => void; onStar
           </div>
         </div>
 
-        <div className="border-t border-white/10 bg-[#18202D] px-5 pb-5 pt-4">
+        <div className="border-t border-white/10 bg-[#18202D] px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-4">
           <button onClick={() => onStart()} className="btn-gold flex w-full items-center justify-center gap-2 px-6 py-3.5 text-base">Mulai jalur ini <ArrowRight className="h-4 w-4" /></button>
         </div>
       </div>
     </div>
+    </Portal>
   );
 };

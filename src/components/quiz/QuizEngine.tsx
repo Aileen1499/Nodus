@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { MindmapNode, DecisionChoice } from '../../types';
+import { shuffleQuestion, shuffled } from '../../lib/shuffle';
+import { Portal } from '../common/Portal';
 import { ConfirmSheet } from '../common/ConfirmSheet';
 import { useUser } from '../../context/UserContext';
 import { plain } from '../../lib/pathLogic';
@@ -50,7 +52,9 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
   const [timeLeft, setTimeLeft] = useState(SECONDS_PER_QUESTION);
   const [attempt, setAttempt] = useState(0);
 
-  const questions = node.quiz;
+  // Urutan opsi diacak setiap sesi/percobaan agar jawaban benar tidak selalu di posisi yang sama.
+  const questions = useMemo(() => node.quiz.map(shuffleQuestion), [node, attempt]); // eslint-disable-line react-hooks/exhaustive-deps
+  const scenario = useMemo(() => ({ ...node.decisionScenario, choices: shuffled(node.decisionScenario.choices) }), [node, attempt]); // eslint-disable-line react-hooks/exhaustive-deps
   const q = questions[qIndex];
   const submitted = picked !== null;
   const total = questions.length;
@@ -140,7 +144,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
     setAttempt((a) => a + 1);
   };
 
-  const best = node.decisionScenario.choices.find((c) => c.isOptimal);
+  const best = scenario.choices.find((c) => c.isOptimal);
   const stepsTotal = 1 + total;
   const stepsDone = phase === 'intro' ? 0 : phase === 'decision' ? (decisionConfirmed ? 1 : 0) : phase === 'quiz' ? 1 + qIndex + (submitted ? 1 : 0) : stepsTotal;
 
@@ -163,6 +167,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
   })();
 
   return (
+    <Portal>
     <div className="fixed inset-0 z-[70] pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520]" role="dialog" aria-modal="true" aria-label={`Evaluasi: ${node.label}`}>
       {/* Bar atas */}
       <div className="border-b border-slate-200/80 dark:border-slate-800">
@@ -228,13 +233,13 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
             <div className="space-y-6">
               <div>
                 <p className="eyebrow">Bagian 1 · Kasus keputusan</p>
-                <h2 className="mt-2 font-serif text-2xl font-semibold leading-snug text-slate-900 dark:text-white sm:text-3xl">{node.decisionScenario.title}</h2>
-                <p className="mt-3 text-base leading-relaxed text-slate-700 dark:text-slate-300">{plain(node.decisionScenario.context)}</p>
-                <p className="mt-4 rounded-2xl bg-[#FDF0D5] p-4 font-serif text-xl font-medium leading-snug text-[#5E3A08] dark:bg-[#E3A63A]/10 dark:text-[#F1D8A0]">{plain(node.decisionScenario.dilemma)}</p>
+                <h2 className="mt-2 font-serif text-2xl font-semibold leading-snug text-slate-900 dark:text-white sm:text-3xl">{scenario.title}</h2>
+                <p className="mt-3 text-base leading-relaxed text-slate-700 dark:text-slate-300">{plain(scenario.context)}</p>
+                <p className="mt-4 rounded-2xl bg-[#FDF0D5] p-4 font-serif text-xl font-medium leading-snug text-[#5E3A08] dark:bg-[#E3A63A]/10 dark:text-[#F1D8A0]">{plain(scenario.dilemma)}</p>
               </div>
 
               <div className="space-y-3" role="radiogroup" aria-label="Pilihan keputusan">
-                {node.decisionScenario.choices.map((c, i) => {
+                {scenario.choices.map((c, i) => {
                   const isSel = selectedChoice?.id === c.id;
                   let cls = isSel
                     ? 'border-[#CF8E1F] bg-[#FDF0D5]/60 dark:bg-[#E3A63A]/10'
@@ -267,7 +272,7 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
 
               {decisionConfirmed && selectedChoice && (() => {
                 const right = selectedChoice.isOptimal;
-                const bestLetter = best ? String.fromCharCode(65 + node.decisionScenario.choices.findIndex((c) => c.id === best.id)) : '';
+                const bestLetter = best ? String.fromCharCode(65 + scenario.choices.findIndex((c) => c.id === best.id)) : '';
                 const theory = node.microContent?.mentalModel;
                 return (
                   <motion.div id="decision-result" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="scroll-mt-4 space-y-4 rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-200/70 dark:bg-[#18202D] dark:ring-white/10" aria-live="polite">
@@ -403,5 +408,6 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ node, onClose, onComplet
       </div>
       {confirmExit && <ConfirmSheet title="Keluar dari evaluasi?" message="Progres evaluasi ini tidak akan disimpan. Kamu bisa mengulanginya kapan saja." cancelLabel="Lanjut belajar" confirmLabel="Ya, keluar" onCancel={() => setConfirmExit(false)} onConfirm={onClose} />}
     </div>
+    </Portal>
   );
 };

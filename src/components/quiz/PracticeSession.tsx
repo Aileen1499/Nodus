@@ -1,8 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { X, CheckCircle2, XCircle, ArrowRight, RotateCcw } from 'lucide-react';
 import { ConfirmSheet } from '../common/ConfirmSheet';
 import { useUser } from '../../context/UserContext';
 import { plain } from '../../lib/pathLogic';
+import { shuffleQuestion } from '../../lib/shuffle';
+import { Portal } from '../common/Portal';
 import { PracticeItem } from '../../lib/review';
 
 interface PracticeSessionProps {
@@ -12,7 +14,8 @@ interface PracticeSessionProps {
 }
 
 /** Latihan campuran: satu soal per pelajaran, tanpa timer. Mencatat ulasan (pengulangan berjarak) dan streak. */
-export const PracticeSession: React.FC<PracticeSessionProps> = ({ items, title, onClose }) => {
+export const PracticeSession: React.FC<PracticeSessionProps> = ({ items: rawItems, title, onClose }) => {
+  const items = useMemo(() => rawItems.map((it) => ({ ...it, question: shuffleQuestion(it.question) })), [rawItems]);
   const { recordReview, progress } = useUser();
   const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
@@ -61,6 +64,7 @@ export const PracticeSession: React.FC<PracticeSessionProps> = ({ items, title, 
   };
 
   return (
+    <Portal>
     <div className="fixed inset-0 z-[70] pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520]" role="dialog" aria-modal="true" aria-label={title}>
       <div className="border-b border-slate-200/80 dark:border-slate-800">
         <div className="mx-auto flex w-full max-w-2xl items-center gap-3 px-4 py-3 sm:px-6">
@@ -160,5 +164,6 @@ export const PracticeSession: React.FC<PracticeSessionProps> = ({ items, title, 
       </div>
       {confirmExit && <ConfirmSheet title="Keluar dari latihan?" message="Hasil sesi latihan ini tidak akan disimpan." cancelLabel="Lanjut belajar" confirmLabel="Ya, keluar" onCancel={() => setConfirmExit(false)} onConfirm={onClose} />}
     </div>
+    </Portal>
   );
 };

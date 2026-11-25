@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, BellRing, Building2, Check, ChevronDown, Crown, GraduationCap, Lock, ShieldCheck, Users, X } from 'lucide-react';
+import { ArrowLeft, BellRing, Building2, Check, ChevronDown, Crown, GraduationCap, ShieldCheck, Users, X } from 'lucide-react';
 import { syncWaitlist, getWaitlistEmail, isValidEmail, WaitlistResult } from '../../lib/waitlist';
 import { InviteCard } from '../growth/InviteCard';
 import { allMaps } from '../../lib/nodeIndex';
@@ -34,13 +34,23 @@ const FAQ: { q: string; a: string }[] = [
 
 const PLAN_ICON = { student: GraduationCap, family: Users, team: Building2 } as const;
 
-const UNLOCKS = [
-  'Semua jalur belajar sampai tuntas, bukan hanya pelajaran pembuka',
-  'Semua alat bisnis: arus kas, stok, unit economics, investasi',
-  'Sertifikat penyelesaian untuk setiap jalur',
-  'Mentor AI dengan kuota lebih besar',
-  'Jalur dan fitur baru tiap bulan tanpa biaya tambahan',
+type Stats = { paths: number; lessons: number; tools: number };
+type Val = true | false | string;
+const COMPARE: { label: string; free: (s: Stats) => Val; pro: (s: Stats) => Val }[] = [
+  { label: 'Jalur belajar', free: () => `1 penuh + ${FREE_PREVIEW_LESSONS} pelajaran pertama tiap jalur lain`, pro: (s) => `${s.paths} jalur sampai tuntas` },
+  { label: 'Pelajaran', free: () => 'Pelajaran pembuka', pro: (s) => `${s.lessons} pelajaran` },
+  { label: 'Alat bisnis', free: () => `${FREE_TOOL_IDS.length} alat dasar`, pro: (s) => `${s.tools} alat lengkap` },
+  { label: 'Simulasi studi kasus', free: () => '2 kasus', pro: () => 'Semua kasus' },
+  { label: 'Latihan pengulangan & streak', free: () => true, pro: () => true },
+  { label: 'Sertifikat jalur', free: () => false, pro: () => true },
+  { label: 'Mentor AI', free: () => 'Kuota harian dasar', pro: () => 'Kuota lebih besar' },
+  { label: 'Jalur & fitur baru', free: () => false, pro: () => 'Tiap bulan, tanpa biaya tambahan' },
 ];
+const Cell: React.FC<{ v: Val; pro?: boolean }> = ({ v, pro }) => {
+  if (v === true) return <span className="flex justify-center"><span className={`flex h-5 w-5 items-center justify-center rounded-full ${pro ? 'bg-[#E3A63A] text-[#151517]' : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300'}`}><Check className="h-3 w-3" strokeWidth={3} /></span></span>;
+  if (v === false) return <span className="flex justify-center text-slate-300 dark:text-slate-600"><X className="h-4 w-4" /></span>;
+  return <span className={`text-center text-[11.5px] font-semibold leading-snug ${pro ? 'text-[#7A4D0A] dark:text-[#E9C06B]' : 'text-slate-500 dark:text-slate-400'}`}>{v}</span>;
+};
 
 export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual', onOpenLegal, onOpenAuth }) => {
   useModal(onClose);
@@ -75,13 +85,15 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
   const [emailMsg, setEmailMsg] = useState<string | null>(null);
   const allInterests = (list: string[], pro: boolean) => (pro ? ['pro', ...list] : list);
   const push = async (list: string[], pro: boolean, extraEmail?: string) => {
-    setSynced(await syncWaitlist(allInterests(list, pro), user?.uid ?? null, user?.email ?? null, extraEmail));
+    const r = await syncWaitlist(allInterests(list, pro), user?.uid ?? null, user?.email ?? null, extraEmail);
+    setSynced(r);
+    return r;
   };
   const saveEmail = async () => {
     if (!isValidEmail(emailDraft)) { setEmailMsg('Alamat email belum valid.'); return; }
     setEmailMsg(null);
-    await push(wanted, interested, emailDraft);
-    setEmailMsg('Email tersimpan.');
+    const r = await push(wanted, interested, emailDraft);
+    setEmailMsg(r === 'synced' ? 'Email tersimpan di daftar tunggu. Tidak ada email konfirmasi sekarang; kabar dikirim saat paket dibuka.' : 'Koneksi bermasalah, email baru tersimpan di perangkat ini. Coba simpan lagi nanti.');
   };
   const head = HEADLINE[reason];
   const stats = React.useMemo(() => {
@@ -198,33 +210,25 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
 
           <h2 className="mt-9 font-serif text-2xl font-medium text-slate-900 dark:text-white">Gratis untuk mulai, Pro untuk mahir</h2>
           <p className="mt-1 text-[13px] text-slate-500 dark:text-slate-400">Yang berhenti di tengah jalan jarang sampai bisa menerapkan. Pro menghapus batas itu.</p>
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <div className="rounded-3xl border border-slate-200/80 bg-white p-4 dark:border-white/10 dark:bg-[#18202D]">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Gratis</p>
-              <p className="mt-3 font-serif text-4xl font-medium leading-none text-slate-900 dark:text-white">1</p>
-              <p className="mt-1 text-[12px] font-semibold text-slate-600 dark:text-slate-300">jalur penuh</p>
-              <p className="mt-3 font-serif text-2xl font-medium leading-none text-slate-900 dark:text-white">{FREE_TOOL_IDS.length}</p>
-              <p className="mt-1 text-[12px] font-semibold text-slate-600 dark:text-slate-300">alat dasar</p>
-              <p className="mt-3 flex items-start gap-1.5 text-[12px] leading-snug text-slate-500 dark:text-slate-400"><Lock className="mt-0.5 h-3.5 w-3.5 shrink-0" />Jalur lain berhenti setelah {FREE_PREVIEW_LESSONS} pelajaran</p>
+          <div className="mt-4 overflow-hidden rounded-3xl border border-slate-200/80 bg-white dark:border-white/10 dark:bg-[#18202D]">
+            <div className="grid grid-cols-[1.3fr_1fr_1fr] items-end gap-2 border-b border-slate-200/80 px-4 py-3 text-[11px] font-bold uppercase tracking-wider dark:border-white/10">
+              <span className="text-slate-400">Fitur</span>
+              <span className="text-center text-slate-500 dark:text-slate-400">Gratis</span>
+              <span className="flex items-center justify-center gap-1 text-center text-[#9A6410] dark:text-[#E9C06B]"><Crown className="h-3.5 w-3.5" />Pro</span>
             </div>
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#E9C06B] via-[#E3A63A] to-[#9A6410] p-[1.5px] shadow-float">
-              <div className="h-full rounded-[22px] bg-[#151517] p-4 text-[#FBF9F5]">
-                <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#E9C06B]"><Crown className="h-3.5 w-3.5" />Pro</p>
-                <p className="mt-3 font-serif text-4xl font-medium leading-none text-[#E9C06B]">{stats.paths}</p>
-                <p className="mt-1 text-[12px] font-semibold text-[#FBF9F5]/80">jalur sampai tuntas</p>
-                <p className="mt-3 font-serif text-2xl font-medium leading-none text-[#E9C06B]">{stats.tools}</p>
-                <p className="mt-1 text-[12px] font-semibold text-[#FBF9F5]/80">alat bisnis</p>
-                <p className="mt-3 flex items-start gap-1.5 text-[12px] leading-snug text-[#FBF9F5]/65"><Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#E9C06B]" />{stats.lessons} pelajaran, tanpa batas</p>
-              </div>
-            </div>
+            <ul className="divide-y divide-slate-100 dark:divide-white/5">
+              {COMPARE.map((r) => (
+                <li key={r.label} className="grid grid-cols-[1.3fr_1fr_1fr] items-center gap-2 px-4 py-3">
+                  <span className="text-[13px] font-semibold leading-snug text-slate-800 dark:text-slate-100">{r.label}</span>
+                  <Cell v={r.free(stats)} />
+                  <Cell v={r.pro(stats)} pro />
+                </li>
+              ))}
+            </ul>
+            <button onClick={onClose} className="w-full border-t border-slate-200/80 px-4 py-3.5 text-[13px] font-bold text-slate-700 hover:bg-slate-50 dark:border-white/10 dark:text-slate-200 dark:hover:bg-white/5">
+              Lanjut belajar dengan paket Gratis
+            </button>
           </div>
-          <ul className="mt-4 space-y-2.5 rounded-3xl border border-slate-200/80 bg-white p-4 dark:border-white/10 dark:bg-[#18202D]">
-            {UNLOCKS.map((u) => (
-              <li key={u} className="flex items-start gap-2.5 text-[14px] font-medium leading-snug text-slate-800 dark:text-slate-100">
-                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#E3A63A] text-[#151517]"><Check className="h-3 w-3" strokeWidth={3} /></span>{u}
-              </li>
-            ))}
-          </ul>
           <p className="mt-3 rounded-2xl bg-[#FDF0D5] px-4 py-3 text-[13px] font-semibold leading-snug text-[#7A4D0A] dark:bg-[#E3A63A]/10 dark:text-[#E9C06B]">
             Paket tahunan setara {idr(yearlyPerDay)} per hari, kurang dari segelas es teh.
           </p>
@@ -274,7 +278,7 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
           {(wanted.length > 0 || (interested && !BILLING_LIVE)) && !user?.email && (
             <div className="mt-4 rounded-3xl border border-slate-200/80 bg-white p-4 dark:border-white/10 dark:bg-[#18202D]">
               <p className="text-sm font-bold text-slate-900 dark:text-white">Ke mana kami mengabarimu?</p>
-              <p className="mt-0.5 text-[12px] text-slate-500 dark:text-slate-400">Opsional. Email hanya dipakai untuk kabar pembukaan paket.</p>
+              <p className="mt-0.5 text-[12px] text-slate-500 dark:text-slate-400">Opsional. Kami belum mengirim email otomatis. Alamat ini disimpan, dan kamu dikabari sekali saat paket dibuka. Email hanya untuk itu.</p>
               <div className="mt-3 flex gap-2">
                 <input type="email" inputMode="email" autoComplete="email" value={emailDraft} onChange={(e) => { setEmailDraft(e.target.value); setEmailMsg(null); }} placeholder="nama@email.com"
                   className="min-w-0 flex-1 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 placeholder-slate-400 focus:border-[#CF8E1F] focus:outline-none focus:ring-2 focus:ring-[#E3A63A]/30 dark:border-white/15 dark:bg-[#0F1520] dark:text-white" />

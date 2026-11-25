@@ -97,3 +97,6 @@ html.dark .dark\:bg-slate-900\/60 { background-color: rgb(24 32 45 / 0.6); }
 html.dark .dark\:bg-slate-900\/40 { background-color: rgb(24 32 45 / 0.4); }
 html.dark .dark\:bg-slate-900\/30 { background-color: rgb(24 32 45 / 0.3); }
 html.dark .dark\:bg-slate-800\/60 { background-color: rgb(33 43 59 / 0.6); }
+
+/* Gulir di dalam sheet/layar penuh tidak boleh "bocor" ke layar di belakangnya. */
+.overflow-y-auto, .overflow-auto { overscroll-behavior-y: contain; }

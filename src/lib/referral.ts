@@ -5,6 +5,8 @@
 // ?ref= dicatat supaya bisa diklaim saat server siap.
 // ==============================================================================
 
+import { SITE_URL } from './site';
+
 const CODE_KEY = 'nodus_ref_code_v1';
 const INCOMING_KEY = 'nodus_ref_in_v1';
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -23,7 +25,7 @@ export const getMyReferralCode = (seed?: string | null): string => {
   return code;
 };
 
-export const shareUrl = (code: string): string => `${window.location.origin}/?ref=${encodeURIComponent(code)}`;
+export const shareUrl = (code: string): string => `${SITE_URL}/?ref=${encodeURIComponent(code)}`;
 
 /** Catat kode undangan yang datang lewat tautan, lalu bersihkan dari URL. */
 export const captureIncomingReferral = (): void => {

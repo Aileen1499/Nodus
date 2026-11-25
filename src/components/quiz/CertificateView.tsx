@@ -1,4 +1,6 @@
+import { SITE_URL } from '../../lib/site';
 import React, { useState } from 'react';
+import { Portal } from '../common/Portal';
 import { LogoMark } from '../brand/Logo';
 import { ArrowLeft, Download, Printer, Share2 } from 'lucide-react';
 import { MindmapData } from '../../types';
@@ -75,7 +77,7 @@ export const CertificateView: React.FC<CertificateViewProps> = ({ data, onClose 
   };
 
   const fileName = `sertifikat-nodus-${data.id}.png`;
-  const shareText = `Saya baru menyelesaikan jalur "${data.topic}" di NODUS.`;
+  const shareText = `Saya baru menyelesaikan jalur "${data.topic}" di NODUS. Coba: ${SITE_URL}`;
 
   const share = async () => {
     setShareMsg(null);
@@ -87,7 +89,7 @@ export const CertificateView: React.FC<CertificateViewProps> = ({ data, onClose 
         await navigator.share({ files: [file], text: shareText, title: 'Sertifikat NODUS' });
         return;
       }
-      if (navigator.share) { await navigator.share({ text: shareText, url: window.location.origin }); return; }
+      if (navigator.share) { await navigator.share({ text: shareText, url: SITE_URL }); return; }
     } catch (e) {
       if (e instanceof DOMException && e.name === 'AbortError') return;
     }
@@ -105,6 +107,7 @@ export const CertificateView: React.FC<CertificateViewProps> = ({ data, onClose 
   const save = async () => { const b = await renderPng(); if (b) download(b); else setShareMsg('Gambar sertifikat gagal dibuat.'); };
 
   return (
+    <Portal>
     <div className="fixed inset-0 z-[65] pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520]" role="dialog" aria-label="Sertifikat penyelesaian">
       <div className="flex items-center gap-3 border-b border-slate-200/80 px-4 py-3 dark:border-slate-800 sm:px-8 print:hidden">
         <button onClick={onClose} aria-label="Kembali" className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">
@@ -148,5 +151,6 @@ export const CertificateView: React.FC<CertificateViewProps> = ({ data, onClose 
         </div>
       </div>
     </div>
+    </Portal>
   );
 };

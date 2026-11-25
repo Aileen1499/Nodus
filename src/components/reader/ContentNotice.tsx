@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Portal } from '../common/Portal';
 import { Flag, Info, X } from 'lucide-react';
 import { ReportKind, reportContent } from '../../lib/report';
 import { useModal } from '../../lib/useModal';
@@ -73,7 +74,7 @@ export const ContentNotice: React.FC<{ nodeId: string; label: string; domain: st
           <button onClick={() => setOpen(true)} className="inline-flex items-center gap-1 font-bold text-[#9A6410] underline-offset-2 hover:underline dark:text-[#E9C06B]"><Flag className="h-3 w-3" />Laporkan kesalahan</button>
         </p>
       </div>
-      {open && <ReportSheet nodeId={nodeId} label={label} onClose={() => setOpen(false)} />}
+      {open && <Portal><ReportSheet nodeId={nodeId} label={label} onClose={() => setOpen(false)} /></Portal>}
     </aside>
   );
 };

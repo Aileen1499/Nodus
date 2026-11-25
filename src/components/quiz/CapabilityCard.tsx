@@ -1,3 +1,5 @@
+import { SITE_URL } from '../../lib/site';
+import { renderScoreCard } from '../../lib/shareCard';
 import React, { useMemo } from 'react';
 import { Crown, Share2, TrendingUp } from 'lucide-react';
 import { useUser } from '../../context/UserContext';
@@ -30,11 +32,20 @@ export const CapabilityCard: React.FC<{ isPro: boolean; onUpgrade?: () => void }
   }, [progress.masteredNodeIds]);
 
   const share = async () => {
-    const text = `Level ${stats.level.name} di NODUS, skor kemampuan bisnisku ${stats.score}/100 (${stats.done} pelajaran dikuasai). Coba juga:`;
-    const url = window.location.origin;
+    const text = `Level ${stats.level.name} di NODUS, skor kemampuan bisnisku ${stats.score}/100 (${stats.done} pelajaran dikuasai). Coba juga: ${SITE_URL}`;
+    const blob = await renderScoreCard({ level: stats.level.name, score: stats.score, done: stats.done, total: stats.total, axes: stats.per.map((a) => ({ name: a.axis, pct: a.pct })) });
     try {
-      if (navigator.share) { await navigator.share({ title: 'NODUS', text, url }); return; }
-      await navigator.clipboard.writeText(`${text} ${url}`);
+      if (blob) {
+        const file = new File([blob], 'skor-nodus.png', { type: 'image/png' });
+        if (navigator.canShare?.({ files: [file] })) { await navigator.share({ files: [file], text, title: 'NODUS' }); return; }
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = 'skor-nodus.png';
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+        return;
+      }
+      if (navigator.share) { await navigator.share({ title: 'NODUS', text }); return; }
+      await navigator.clipboard.writeText(text);
     } catch { /* dibatalkan atau tidak didukung */ }
   };
 
