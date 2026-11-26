@@ -22,6 +22,7 @@ const HEADLINE: Record<PaywallReason, { title: string; text: string }> = {
   tool: { title: 'Buka semua alat bisnis', text: 'Hitung arus kas, stok, unit economics, dan investasi dengan alat yang siap pakai.' },
   ai: { title: 'Tanya mentor lebih banyak', text: 'Kuota harian gratis habis. Pro memperluas kuota AI untuk bedah topik dan tanya jawab.' },
   welcome: { title: 'Belajar bisnis yang benar-benar terpakai', text: 'Satu langganan untuk semua jalur, semua alat, dan latihan yang menjaga ilmumu tetap ingat.' },
+  case: { title: 'Buka semua simulasi bisnis', text: 'Jalankan lebih banyak bisnis ilustrasi dan lihat faktor yang menentukan hidup atau matinya.' },
   manual: { title: 'Belajar bisnis sampai bisa menerapkan', text: 'Semua jalur, semua alat, dan latihan yang membuat ilmu benar-benar menempel.' },
 };
 
