@@ -286,14 +286,14 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, 
   const controlChip = (active: boolean) =>
     `chip border ${
       active
-        ? 'border-[#151517] bg-[#151517] text-[#FBF9F5] dark:border-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#0F1520]'
+        ? 'border-[#151517] bg-[#151517] text-[#FBF9F5] dark:border-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#121214]'
         : 'border-slate-200 bg-white text-slate-600 hover:text-slate-900 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:text-white'
     }`;
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 pb-36 pt-4 sm:px-6">
       <div className="space-y-3">
-        <form onSubmit={handleSearchSubmit} role="search" className="flex items-center gap-2 rounded-full border border-slate-200/80 bg-white p-1.5 pl-4 shadow-card focus-within:border-[#CF8E1F] dark:border-white/10 dark:bg-[#18202D] dark:shadow-none">
+        <form onSubmit={handleSearchSubmit} role="search" className="flex items-center gap-2 rounded-full border border-slate-200/80 bg-white p-1.5 pl-4 shadow-card focus-within:border-[#CF8E1F] dark:border-white/10 dark:bg-[#1C1C1F] dark:shadow-none">
           <Search className="h-4 w-4 shrink-0 text-slate-400" />
           <input
             type="text"
@@ -346,7 +346,7 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, 
                       onClick={() => { setSearchInput(''); setShowPresets(false); onSearch(query); }}
                       disabled={isLoading}
                       className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-semibold transition-colors ${
-                        isActive ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#0F1520]' : 'text-slate-700 hover:bg-white dark:text-slate-200 dark:hover:bg-white/10'
+                        isActive ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#121214]' : 'text-slate-700 hover:bg-white dark:text-slate-200 dark:hover:bg-white/10'
                       }`}
                     >
                       <span className="min-w-0 flex-1 truncate">{query}</span>
@@ -373,7 +373,7 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, 
                   aria-selected={view === tab.id}
                   onClick={() => setView(tab.id)}
                   className={`rounded-full px-3.5 py-1 text-xs font-bold transition-colors ${
-                    view === tab.id ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#0F1520]' : 'text-[#5E3A08] dark:text-[#E9C06B]'
+                    view === tab.id ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#121214]' : 'text-[#5E3A08] dark:text-[#E9C06B]'
                   }`}
                 >
                   {tab.label}
@@ -395,25 +395,25 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, 
       ) : (
         <div className="mt-4 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
           <div className="min-w-0">
-            <div className="relative h-[52vh] min-h-[320px] max-h-[560px] overflow-hidden rounded-3xl border border-slate-200/70 bg-white shadow-card dark:border-white/10 dark:bg-[#131A26] dark:shadow-none lg:h-[600px] lg:max-h-none">
-              <div className="absolute left-3 top-3 z-10 flex items-center gap-0.5 rounded-full bg-white/95 p-1 shadow-card ring-1 ring-slate-200/70 dark:bg-[#212B3B]/95 dark:ring-white/10">
+            <div className="relative h-[52vh] min-h-[320px] max-h-[560px] overflow-hidden rounded-3xl border border-slate-200/70 bg-white shadow-card dark:border-white/10 dark:bg-[#17171A] dark:shadow-none lg:h-[600px] lg:max-h-none">
+              <div className="absolute left-3 top-3 z-10 flex items-center gap-0.5 rounded-full bg-white/95 p-1 shadow-card ring-1 ring-slate-200/70 dark:bg-[#27272B]/95 dark:ring-white/10">
                 <button onClick={() => zoomBy(1 / 1.2)} aria-label="Perkecil" className="flex h-8 w-8 items-center justify-center rounded-full text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10"><Minus className="h-4 w-4" /></button>
                 <button onClick={() => { const fit = fitTo(nodePositions); if (fit) setTransform(fit); }} title="Tampilkan seluruh peta" className="rounded-full px-2.5 py-1.5 text-xs font-bold text-slate-800 transition-colors hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-white/10">Pas</button>
                 <button onClick={() => zoomBy(1.2)} aria-label="Perbesar" className="flex h-8 w-8 items-center justify-center rounded-full text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10"><Plus className="h-4 w-4" /></button>
               </div>
 
-              <div className="absolute right-3 top-3 z-10 flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold tabular-nums text-slate-800 shadow-card ring-1 ring-slate-200/70 dark:bg-[#212B3B]/95 dark:text-slate-100 dark:ring-white/10">
+              <div className="absolute right-3 top-3 z-10 flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold tabular-nums text-slate-800 shadow-card ring-1 ring-slate-200/70 dark:bg-[#27272B]/95 dark:text-slate-100 dark:ring-white/10">
                 <span className="h-2 w-2 rounded-full bg-emerald-500" />{masteredCount} / {data.nodes.length} Selesai
               </div>
 
-              <div className="absolute bottom-3 right-3 z-10 flex items-center gap-3 rounded-full bg-white/95 px-3 py-1.5 text-[11px] font-bold text-slate-700 shadow-card ring-1 ring-slate-200/70 dark:bg-[#212B3B]/95 dark:text-slate-200 dark:ring-white/10">
+              <div className="absolute bottom-3 right-3 z-10 flex items-center gap-3 rounded-full bg-white/95 px-3 py-1.5 text-[11px] font-bold text-slate-700 shadow-card ring-1 ring-slate-200/70 dark:bg-[#27272B]/95 dark:text-slate-200 dark:ring-white/10">
                 <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-emerald-500" />Dikuasai</span>
                 <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-[#E3A63A]" />Aktif</span>
                 <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-slate-400" />Terkunci</span>
               </div>
 
               {isLoading && (
-                <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-white/80 backdrop-blur-sm dark:bg-[#131A26]/80" role="status">
+                <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-white/80 backdrop-blur-sm dark:bg-[#17171A]/80" role="status">
                   <Sparkles className="h-7 w-7 animate-spin text-[#CF8E1F]" />
                   <p className="text-sm font-bold text-slate-800 dark:text-slate-100">Menyusun peta pengetahuan…</p>
                 </div>

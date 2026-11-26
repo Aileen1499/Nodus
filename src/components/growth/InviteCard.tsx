@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Check, Copy, Gift, Link2, MessageCircle, Share2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { getIncomingReferral, getMyReferralCode, shareUrl } from '../../lib/referral';
+import { ClaimResult, REFERRAL_MAX_MONTHS, claimReferral, fetchReferralCount, getIncomingReferral, getMyReferralCode, registerMyCode, shareUrl } from '../../lib/referral';
 
 const STEPS = [
   'Bagikan tautan atau kode milikmu ke teman.',
   'Teman membuka tautan dan mulai belajar di NODUS.',
-  'Kalian berdua dapat 1 bulan Pro gratis saat Pro dibuka.',
+  `Kalian berdua dapat 1 bulan Pro gratis saat Pro dibuka (maksimal ${REFERRAL_MAX_MONTHS} bulan dari undangan).`,
 ];
 
 /** Kartu "Undang teman": kode pribadi, salin tautan, bagikan, dan penjelasan hadiah. */
@@ -16,6 +16,29 @@ export const InviteCard: React.FC = () => {
   const code = getMyReferralCode(user?.uid);
   const url = shareUrl(code);
   const incoming = getIncomingReferral();
+  const [count, setCount] = useState<number | null>(null);
+  const [entry, setEntry] = useState('');
+  const [entryMsg, setEntryMsg] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    registerMyCode(code);
+    void fetchReferralCount(code).then(setCount);
+  }, [code]);
+  const MSG: Record<ClaimResult, string> = {
+    ok: 'Kode dipakai. Bonus 1 bulan Pro menunggumu saat Pro dibuka.',
+    invalid: 'Format kode belum benar. Contoh: N-ABC123.',
+    own: 'Itu kodemu sendiri. Bagikan ke teman, ya.',
+    already: 'Perangkat ini sudah memakai kode undangan.',
+    unknown: 'Kode tidak ditemukan. Cek lagi dengan temanmu.',
+    error: 'Koneksi bermasalah. Coba lagi sebentar lagi.',
+  };
+  const redeem = async () => {
+    if (!entry.trim()) return;
+    setBusy(true);
+    const r = await claimReferral(entry);
+    setEntryMsg(MSG[r]);
+    setBusy(false);
+  };
   const text = `Aku belajar bisnis, ekonomi, dan keuangan di NODUS: jalur terarah, kalkulator, dan latihan keputusan. Pakai kodeku ${code} supaya kita sama-sama dapat 1 bulan Pro gratis:`;
 
   const flash = (k: 'code' | 'link') => { setCopied(k); setTimeout(() => setCopied(null), 2000); };
@@ -53,7 +76,7 @@ export const InviteCard: React.FC = () => {
       <ol className="mt-3 space-y-2">
         {STEPS.map((s, i) => (
           <li key={s} className="flex items-start gap-2.5 text-[13px] leading-snug text-slate-700 dark:text-slate-200">
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#151517] text-[11px] font-bold text-[#FBF9F5] dark:bg-[#E3A63A] dark:text-[#0F1520]">{i + 1}</span>{s}
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#151517] text-[11px] font-bold text-[#FBF9F5] dark:bg-[#E3A63A] dark:text-[#121214]">{i + 1}</span>{s}
           </li>
         ))}
       </ol>
@@ -74,8 +97,22 @@ export const InviteCard: React.FC = () => {
       </div>
       <button onClick={share} className="btn-gold mt-2 w-full"><Share2 className="h-4 w-4" />Bagikan ke teman</button>
 
+      {count !== null && (
+        <p className="mt-3 rounded-xl bg-[#FDF0D5]/70 px-3 py-2 text-[13px] font-semibold text-[#7A4D0A] dark:bg-[#E3A63A]/10 dark:text-[#E9C06B]">
+          {count === 0 ? 'Belum ada teman yang memakai kodemu.' : `${count} teman sudah bergabung lewat kodemu.`}
+        </p>
+      )}
+
+      <p className="mt-4 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Punya kode dari teman?</p>
+      <div className="mt-1.5 flex gap-2">
+        <input value={entry} onChange={(e) => { setEntry(e.target.value); setEntryMsg(null); }} placeholder="N-ABC123" autoCapitalize="characters" autoComplete="off"
+          className="min-w-0 flex-1 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 font-mono text-base uppercase text-slate-900 placeholder-slate-400 focus:border-[#CF8E1F] focus:outline-none dark:border-white/15 dark:bg-[#121214] dark:text-white" />
+        <button onClick={redeem} disabled={busy || !entry.trim()} className="btn-ink shrink-0 !px-5 text-sm">{busy ? '…' : 'Pakai'}</button>
+      </div>
+      {entryMsg && <p role="status" className="mt-2 text-[12px] font-semibold text-slate-600 dark:text-slate-300">{entryMsg}</p>}
+
       <p className="mt-3 text-[12px] leading-snug text-slate-500 dark:text-slate-400">
-        Hadiah masuk otomatis setelah Pro dibuka; kodemu sudah tercatat sejak sekarang.
+        Hadiahnya 1 bulan Pro gratis (bukan potongan persen), untuk kamu dan setiap teman, maksimal {REFERRAL_MAX_MONTHS} bulan. Hadiah masuk otomatis setelah Pro dibuka; kodemu sudah tercatat sejak sekarang.
         {incoming && <> Kamu diundang lewat kode <span className="font-mono font-bold">{incoming}</span>, jadi bonusmu ikut menunggu.</>}
       </p>
     </div>

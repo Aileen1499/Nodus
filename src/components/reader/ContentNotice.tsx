@@ -30,7 +30,7 @@ const ReportSheet: React.FC<{ nodeId: string; label: string; onClose: () => void
 
   return (
     <div className="fixed inset-0 z-[130] flex items-end justify-center bg-black/50 animate-fade-in sm:items-center" onClick={onClose} role="dialog" aria-modal="true" aria-label="Laporkan kesalahan">
-      <div onClick={(e) => e.stopPropagation()} className="w-full max-w-md animate-sheet-up rounded-t-3xl bg-[#FBF9F5] p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] dark:bg-[#18202D] sm:rounded-3xl">
+      <div onClick={(e) => e.stopPropagation()} className="w-full max-w-md animate-sheet-up rounded-t-3xl bg-[#FBF9F5] p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] dark:bg-[#1C1C1F] sm:rounded-3xl">
         <div className="flex items-start justify-between gap-3">
           <div>
             <p className="eyebrow">Laporkan</p>

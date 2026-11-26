@@ -41,8 +41,14 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       root.classList.add('light');
     }
     try {
-      const meta = document.querySelector('meta[name="theme-color"]');
-      if (meta) meta.setAttribute('content', theme === 'dark' ? '#0F1520' : '#FBF9F5');
+      const color = theme === 'dark' ? '#121214' : '#FBF9F5';
+      root.style.backgroundColor = color;
+      // iOS hanya membaca ulang warna bilah atas bila elemen meta diganti, bukan sekadar diubah isinya.
+      document.querySelectorAll('meta[name="theme-color"]').forEach((m) => m.remove());
+      const meta = document.createElement('meta');
+      meta.name = 'theme-color';
+      meta.content = color;
+      document.head.appendChild(meta);
     } catch {
       // ignore
     }

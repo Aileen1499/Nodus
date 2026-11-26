@@ -23,7 +23,7 @@ export const ConfirmSheet: React.FC<ConfirmSheetProps> = ({ title, message, conf
     <Portal>
     <div className="fixed inset-0 z-[120] flex items-end justify-center sm:items-center" role="alertdialog" aria-modal="true" aria-label={title}>
       <button aria-label={cancelLabel} onClick={onCancel} className="absolute inset-0 touch-none bg-black/55 backdrop-blur-sm animate-fade-in" />
-      <div className="relative w-full max-w-sm rounded-t-[28px] border border-slate-200/70 bg-[#FBF9F5] p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-center shadow-2xl animate-sheet-up dark:border-white/10 dark:bg-[#18202D] sm:rounded-[28px]">
+      <div className="relative w-full max-w-sm rounded-t-[28px] border border-slate-200/70 bg-[#FBF9F5] p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-center shadow-2xl animate-sheet-up dark:border-white/10 dark:bg-[#1C1C1F] sm:rounded-[28px]">
         <span className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FDF0D5] text-[#9A6410] dark:bg-[#E3A63A]/15 dark:text-[#E9C06B]"><LogOut className="h-5 w-5" /></span>
         <h3 className="font-serif text-xl font-semibold text-slate-900 dark:text-white">{title}</h3>
         <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{message}</p>

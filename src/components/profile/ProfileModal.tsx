@@ -61,7 +61,7 @@ const formatDate = (iso: string) => {
   }
 };
 
-const CARD = 'rounded-2xl bg-white shadow-card ring-1 ring-slate-200/70 dark:bg-[#18202D] dark:shadow-none dark:ring-white/10';
+const CARD = 'rounded-2xl bg-white shadow-card ring-1 ring-slate-200/70 dark:bg-[#1C1C1F] dark:shadow-none dark:ring-white/10';
 const SUB = 'text-slate-600 dark:text-slate-300';
 
 const ProgressRing: React.FC<{ percent: number; label: string }> = ({ percent, label }) => {
@@ -197,7 +197,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onOpenNode, onOpenAu
             <button onClick={() => toggleBookmark(node.id)} aria-label="Lepas simpan" className="flex h-11 w-11 items-center justify-center rounded-full text-[#CF8E1F] transition-colors hover:bg-[#FDF0D5] dark:text-[#E9C06B] dark:hover:bg-[#E3A63A]/15">
               <Bookmark className="h-[18px] w-[18px]" fill="currentColor" />
             </button>
-            <button onClick={() => open(node.id)} className="inline-flex h-11 items-center gap-1 rounded-full bg-[#151517] px-4 text-[13px] font-bold text-[#FBF9F5] transition-transform active:scale-95 dark:bg-[#FBF9F5] dark:text-[#0F1520]">
+            <button onClick={() => open(node.id)} className="inline-flex h-11 items-center gap-1 rounded-full bg-[#151517] px-4 text-[13px] font-bold text-[#FBF9F5] transition-transform active:scale-95 dark:bg-[#FBF9F5] dark:text-[#121214]">
               Buka<ArrowRight className="h-3.5 w-3.5" />
             </button>
           </span>
@@ -207,7 +207,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onOpenNode, onOpenAu
   };
 
   return (
-    <div className="fixed inset-0 z-50 pt-[env(safe-area-inset-top)] animate-fade-in bg-[#FBF9F5] dark:bg-[#0F1520]" role="dialog" aria-modal="true" aria-label="Brankas pengetahuan">
+    <div className="fixed inset-0 z-50 pt-[env(safe-area-inset-top)] animate-fade-in bg-[#FBF9F5] dark:bg-[#121214]" role="dialog" aria-modal="true" aria-label="Brankas pengetahuan">
       <div className="flex h-full w-full flex-col overflow-hidden">
         <header className="shrink-0 border-b border-slate-200/70 px-5 pb-3 pt-4 dark:border-white/10 sm:px-7">
          <div className="mx-auto w-full max-w-3xl">
@@ -234,7 +234,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onOpenNode, onOpenAu
                 role="tab"
                 aria-selected={tab === t.id}
                 onClick={() => setTab(t.id)}
-                className={`flex min-h-[44px] min-w-0 items-center justify-center gap-1.5 rounded-xl px-2 text-[13px] font-bold transition-all ${tab === t.id ? 'bg-white text-slate-900 shadow-sm dark:bg-[#FBF9F5] dark:text-[#0F1520]' : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'}`}
+                className={`flex min-h-[44px] min-w-0 items-center justify-center gap-1.5 rounded-xl px-2 text-[13px] font-bold transition-all ${tab === t.id ? 'bg-white text-slate-900 shadow-sm dark:bg-[#FBF9F5] dark:text-[#121214]' : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'}`}
               >
                 {t.label}
                 {t.count !== undefined && t.count > 0 && <span className="rounded-full bg-[#E3A63A] px-1.5 text-[10px] font-extrabold tabular-nums text-[#151517]">{t.count}</span>}
@@ -247,7 +247,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onOpenNode, onOpenAu
         <div className="flex-1 overflow-y-auto">
          <div className="mx-auto w-full max-w-3xl px-5 pb-32 pt-5 sm:px-7">
           {tab !== 'overview' && (savedEntries.length > 0 || highlights.length > 0) && (
-            <label className="mb-4 flex min-h-[48px] items-center gap-2.5 rounded-2xl border border-slate-200 bg-white px-4 focus-within:border-[#CF8E1F] focus-within:ring-2 focus-within:ring-[#E3A63A]/30 dark:border-white/10 dark:bg-[#18202D]">
+            <label className="mb-4 flex min-h-[48px] items-center gap-2.5 rounded-2xl border border-slate-200 bg-white px-4 focus-within:border-[#CF8E1F] focus-within:ring-2 focus-within:ring-[#E3A63A]/30 dark:border-white/10 dark:bg-[#1C1C1F]">
               <Search className="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-300" />
               <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={tab === 'saved' ? 'Cari konsep tersimpan…' : 'Cari stabilo atau catatan…'} aria-label="Cari di Brankas" className="min-w-0 flex-1 bg-transparent text-[15px] text-slate-900 placeholder-slate-500 focus:outline-none dark:text-white dark:placeholder-slate-400" />
             </label>
@@ -255,7 +255,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onOpenNode, onOpenAu
 
           {tab === 'overview' && (
             <div className="space-y-7">
-              <section className="relative overflow-hidden rounded-3xl bg-[#151517] p-5 text-white ring-1 ring-white/10 dark:bg-[#18202D]">
+              <section className="relative overflow-hidden rounded-3xl bg-[#151517] p-5 text-white ring-1 ring-white/10 dark:bg-[#1C1C1F]">
                 <div aria-hidden className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[#E3A63A]/20 blur-3xl" />
                 <div className="relative flex items-center gap-4">
                   <ProgressRing percent={rank.percent} label="Progres tingkat" />

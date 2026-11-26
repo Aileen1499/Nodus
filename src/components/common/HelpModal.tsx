@@ -28,7 +28,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ onClose }) => {
     <Portal>
       <div className="fixed inset-0 z-[96] flex items-end justify-center bg-black/60 backdrop-blur-sm sm:items-center sm:p-4" role="dialog" aria-modal="true" aria-label="Cara pakai NODUS">
         <button aria-label="Tutup" onClick={onClose} className="absolute inset-0 cursor-default" tabIndex={-1} />
-        <div className="relative flex max-h-[92dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-[28px] bg-[#FBF9F5] shadow-2xl dark:bg-[#18202D] sm:rounded-[28px]">
+        <div className="relative flex max-h-[92dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-[28px] bg-[#FBF9F5] shadow-2xl dark:bg-[#1C1C1F] sm:rounded-[28px]">
           <div className="flex items-start justify-between gap-3 px-5 pb-3 pt-5">
             <div>
               <p className="eyebrow">Panduan singkat</p>
@@ -43,7 +43,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ onClose }) => {
               {STEPS.map((s, i) => {
                 const Icon = s.icon;
                 return (
-                  <li key={s.title} className="flex gap-3 rounded-2xl border border-slate-200/80 bg-white p-3.5 dark:border-white/10 dark:bg-[#0F1520]/60">
+                  <li key={s.title} className="flex gap-3 rounded-2xl border border-slate-200/80 bg-white p-3.5 dark:border-white/10 dark:bg-[#121214]/60">
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#FDF0D5] font-serif text-lg font-semibold text-[#7A4D0A] dark:bg-[#E3A63A]/15 dark:text-[#E9C06B]">{i + 1}</span>
                     <div className="min-w-0">
                       <p className="flex items-center gap-1.5 text-[15px] font-bold text-slate-900 dark:text-white"><Icon className="h-4 w-4 text-[#9A6410] dark:text-[#E9C06B]" />{s.title}</p>
@@ -60,7 +60,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ onClose }) => {
             </div>
 
             <h3 className="mt-5 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Istilah yang sering muncul</h3>
-            <dl className="mt-2 divide-y divide-slate-200/70 rounded-2xl border border-slate-200/80 bg-white dark:divide-white/10 dark:border-white/10 dark:bg-[#0F1520]/60">
+            <dl className="mt-2 divide-y divide-slate-200/70 rounded-2xl border border-slate-200/80 bg-white dark:divide-white/10 dark:border-white/10 dark:bg-[#121214]/60">
               {WORDS.map(([w, d]) => (
                 <div key={w} className="flex gap-3 px-4 py-2.5 text-[13px]">
                   <dt className="w-20 shrink-0 font-bold text-slate-900 dark:text-white">{w}</dt>

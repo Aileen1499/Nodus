@@ -65,7 +65,7 @@ export const PracticeSession: React.FC<PracticeSessionProps> = ({ items: rawItem
 
   return (
     <Portal>
-    <div className="fixed inset-0 z-[70] pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520]" role="dialog" aria-modal="true" aria-label={title}>
+    <div className="fixed inset-0 z-[70] pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#121214]" role="dialog" aria-modal="true" aria-label={title}>
       <div className="border-b border-slate-200/80 dark:border-slate-800">
         <div className="mx-auto flex w-full max-w-2xl items-center gap-3 px-4 py-3 sm:px-6">
           <button onClick={requestClose} aria-label="Tutup latihan" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
@@ -98,8 +98,8 @@ export const PracticeSession: React.FC<PracticeSessionProps> = ({ items: rawItem
                 {item.question.options.map((opt, idx) => {
                   const right = idx === item.question.correctAnswerIndex;
                   const isPicked = picked === idx;
-                  let cls = 'border-slate-200 bg-white hover:border-slate-300 dark:border-slate-700 dark:bg-[#18202D] dark:hover:border-slate-500';
-                  if (picked !== null) cls = right ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10' : isPicked ? 'border-rose-500 bg-rose-50 dark:bg-rose-500/10' : 'border-slate-200 bg-white opacity-55 dark:border-slate-700 dark:bg-[#18202D]';
+                  let cls = 'border-slate-200 bg-white hover:border-slate-300 dark:border-slate-700 dark:bg-[#1C1C1F] dark:hover:border-slate-500';
+                  if (picked !== null) cls = right ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10' : isPicked ? 'border-rose-500 bg-rose-50 dark:bg-rose-500/10' : 'border-slate-200 bg-white opacity-55 dark:border-slate-700 dark:bg-[#1C1C1F]';
                   return (
                     <button key={idx} disabled={picked !== null} onClick={() => choose(idx)} className={`flex w-full items-start gap-3.5 rounded-2xl border-2 p-4 text-left transition-all ${cls}`}>
                       <span className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-extrabold ${picked !== null && right ? 'bg-emerald-600 text-white' : picked !== null && isPicked ? 'bg-rose-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'}`}>{String.fromCharCode(65 + idx)}</span>
@@ -109,7 +109,7 @@ export const PracticeSession: React.FC<PracticeSessionProps> = ({ items: rawItem
                 })}
               </div>
               {picked !== null && (
-                <div className="rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-200/70 dark:bg-[#18202D] dark:ring-white/10" aria-live="polite">
+                <div className="rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-200/70 dark:bg-[#1C1C1F] dark:ring-white/10" aria-live="polite">
                   <p className={`flex items-center gap-2 text-base font-extrabold ${picked === item.question.correctAnswerIndex ? 'text-emerald-700 dark:text-emerald-300' : 'text-rose-700 dark:text-rose-300'}`}>
                     {picked === item.question.correctAnswerIndex ? <><CheckCircle2 className="h-5 w-5" />Tepat</> : <><XCircle className="h-5 w-5" />Belum tepat</>}
                   </p>
@@ -148,7 +148,7 @@ export const PracticeSession: React.FC<PracticeSessionProps> = ({ items: rawItem
         </div>
       </div>
 
-      <div className="border-t border-slate-200/80 bg-[#FBF9F5]/95 backdrop-blur dark:border-slate-800 dark:bg-[#0F1520]/95" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+      <div className="border-t border-slate-200/80 bg-[#FBF9F5]/95 backdrop-blur dark:border-slate-800 dark:bg-[#121214]/95" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
         <div className="mx-auto w-full max-w-2xl px-4 py-3 sm:px-6">
           {done ? (
             <div className="flex flex-col gap-2 sm:flex-row">

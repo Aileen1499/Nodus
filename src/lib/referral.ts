@@ -6,6 +6,7 @@
 // ==============================================================================
 
 import { SITE_URL } from './site';
+import { SUPABASE_URL, SUPABASE_KEY, deviceId } from './waitlist';
 
 const CODE_KEY = 'nodus_ref_code_v1';
 const INCOMING_KEY = 'nodus_ref_in_v1';
@@ -42,4 +43,43 @@ export const captureIncomingReferral = (): void => {
 /** Kode undangan teman yang membawa pengguna ini (bila ada). */
 export const getIncomingReferral = (): string | null => {
   try { return localStorage.getItem(INCOMING_KEY); } catch { return null; }
+};
+
+// --- Pencatatan di server (Supabase). Hadiah baru diberikan saat Pro dibuka. ---
+
+/** Hadiah: 1 bulan Pro gratis untuk pengundang dan teman, maksimal 3 bulan dari undangan. */
+export const REFERRAL_MAX_MONTHS = 3;
+
+const rpc = async <T,>(fn: string, body: Record<string, unknown>): Promise<T | null> => {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) return null;
+    return (await res.json()) as T;
+  } catch { return null; }
+};
+
+/** Daftarkan kode milik perangkat ini agar bisa dipakai teman. */
+export const registerMyCode = (code: string): void => { void rpc('register_referral_code', { p_code: code, p_device: deviceId() }); };
+
+export type ClaimResult = 'ok' | 'invalid' | 'own' | 'already' | 'unknown' | 'error';
+export const claimReferral = async (code: string): Promise<ClaimResult> => {
+  const r = await rpc<string>('claim_referral', { p_code: code.trim(), p_device: deviceId() });
+  if (r === null) return 'error';
+  return (['ok', 'invalid', 'own', 'already', 'unknown'].includes(r) ? r : 'error') as ClaimResult;
+};
+
+export const fetchReferralCount = async (code: string): Promise<number | null> => rpc<number>('referral_count', { p_code: code });
+
+/** Kode dari tautan dikirim ke server sekali saja. */
+export const claimIncomingIfAny = async (): Promise<void> => {
+  try {
+    const code = getIncomingReferral();
+    if (!code || localStorage.getItem('nodus_ref_claimed_v1')) return;
+    const r = await claimReferral(code);
+    if (r !== 'error') localStorage.setItem('nodus_ref_claimed_v1', r);
+  } catch { /* abaikan */ }
 };

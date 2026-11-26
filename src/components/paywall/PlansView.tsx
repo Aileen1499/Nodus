@@ -139,10 +139,10 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
     }
   };
 
-  const cta = isPro ? 'Pro sudah aktif' : !BILLING_LIVE ? (interested ? 'Masuk daftar tunggu' : 'Masuk daftar tunggu Pro') : plan === 'yearly' ? `Mulai ${PRICING.yearly.trialDays} hari gratis` : 'Berlangganan bulanan';
+  const cta = isPro ? 'Pro sudah aktif' : !BILLING_LIVE ? (interested ? 'Kabari saya' : 'Kabari saya saat Pro dibuka') : plan === 'yearly' ? `Mulai ${PRICING.yearly.trialDays} hari gratis` : 'Berlangganan bulanan';
 
   return (
-    <div className="fixed inset-0 z-[75] pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520] animate-fade-in" role="dialog" aria-modal="true" aria-label="Paket NODUS">
+    <div className="fixed inset-0 z-[75] pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#121214] animate-fade-in" role="dialog" aria-modal="true" aria-label="Paket NODUS">
       <div className="flex items-center gap-3 border-b border-slate-200/80 px-4 py-3 dark:border-white/10 sm:px-8">
         <button onClick={onClose} aria-label="Kembali" className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition-colors hover:bg-slate-100 dark:border-white/15 dark:text-slate-200 dark:hover:bg-white/10">
           <ArrowLeft className="h-5 w-5" />
@@ -158,21 +158,24 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
             </span>
             <h1 className="mt-3 font-serif text-[26px] font-semibold leading-tight sm:text-4xl">{head.title}</h1>
             <p className="mt-1.5 text-sm leading-relaxed text-[#FBF9F5]/70">{head.text}</p>
-            {!BILLING_LIVE && (
-              <p className="mt-3 rounded-xl bg-white/10 px-3 py-2 text-xs leading-relaxed text-[#FBF9F5]/75">
-                Masa pratinjau: semua konten masih gratis. Harga di bawah adalah rencana.
-              </p>
-            )}
           </section>
 
-          <div className="mt-4 grid grid-cols-2 gap-1 rounded-2xl bg-slate-100 p-1 dark:bg-white/5" role="tablist" aria-label="Pilih periode">
-            {(['yearly', 'monthly'] as PlanId[]).map((p) => (
-              <button key={p} role="tab" aria-selected={plan === p} onClick={() => setPlan(p)}
-                className={`relative rounded-xl px-3 py-2.5 text-sm font-bold transition-colors ${plan === p ? 'bg-white text-slate-900 shadow-sm dark:bg-[#FBF9F5] dark:text-[#0F1520]' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white'}`}>
-                {PRICING[p].label}
-                {p === 'yearly' && <span className="ml-1.5 rounded-full bg-[#E3A63A] px-1.5 py-0.5 text-[10px] font-extrabold text-[#151517]">-{yearlySavingPercent}%</span>}
-              </button>
-            ))}
+          <div className="mt-5 grid grid-cols-2 gap-3" role="radiogroup" aria-label="Pilih periode">
+            {(['yearly', 'monthly'] as PlanId[]).map((p) => {
+              const on = plan === p;
+              return (
+                <button key={p} role="radio" aria-checked={on} onClick={() => setPlan(p)}
+                  className={`relative rounded-2xl border-2 p-4 text-left transition-colors ${on ? 'border-[#E3A63A] bg-[#FDF0D5]/60 dark:bg-[#E3A63A]/10' : 'border-slate-200 bg-white hover:border-slate-300 dark:border-white/10 dark:bg-white/[0.03]'}`}>
+                  {p === 'yearly' && <span className="absolute -top-2.5 left-3 rounded-full bg-[#E3A63A] px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wide text-[#151517]">Hemat {yearlySavingPercent}%</span>}
+                  <span className="flex items-center justify-between">
+                    <span className="text-[13px] font-bold text-slate-600 dark:text-slate-300">{PRICING[p].label}</span>
+                    <span className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${on ? 'border-[#E3A63A] bg-[#E3A63A] text-[#151517]' : 'border-slate-300 dark:border-white/20'}`}>{on && <Check className="h-3 w-3" strokeWidth={3} />}</span>
+                  </span>
+                  <span className="mt-1 block font-serif text-[22px] font-medium leading-tight text-slate-900 dark:text-white" style={{ fontVariantNumeric: 'lining-nums' }}>{idr(PRICING[p].price)}</span>
+                  <span className="block text-[12px] text-slate-500 dark:text-slate-400">{p === 'yearly' ? `${idr(yearlyPerMonth)} per bulan` : 'per bulan'}</span>
+                </button>
+              );
+            })}
           </div>
 
           <div className="relative mt-4 overflow-hidden rounded-3xl bg-gradient-to-br from-[#E9C06B] via-[#E3A63A] to-[#9A6410] p-[1.5px] shadow-float">
@@ -210,7 +213,7 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
 
           <h2 className="mt-9 font-serif text-2xl font-medium text-slate-900 dark:text-white">Gratis untuk mulai, Pro untuk mahir</h2>
           <p className="mt-1 text-[13px] text-slate-500 dark:text-slate-400">Yang berhenti di tengah jalan jarang sampai bisa menerapkan. Pro menghapus batas itu.</p>
-          <div className="mt-4 overflow-hidden rounded-3xl border border-slate-200/80 bg-white dark:border-white/10 dark:bg-[#18202D]">
+          <div className="mt-4 overflow-hidden rounded-3xl border border-slate-200/80 bg-white dark:border-white/10 dark:bg-[#1C1C1F]">
             <div className="grid grid-cols-[1.3fr_1fr_1fr] items-end gap-2 border-b border-slate-200/80 px-4 py-3 text-[11px] font-bold uppercase tracking-wider dark:border-white/10">
               <span className="text-slate-400">Fitur</span>
               <span className="text-center text-slate-500 dark:text-slate-400">Gratis</span>
@@ -240,7 +243,7 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
               const Icon = PLAN_ICON[o.id];
               const joined = wanted.includes(o.id);
               return (
-                <li key={o.id} className={`rounded-3xl border bg-white p-4 transition-colors dark:bg-[#18202D] ${joined ? 'border-emerald-500/50' : 'border-slate-200/80 dark:border-white/10'}`}>
+                <li key={o.id} className={`rounded-3xl border bg-white p-4 transition-colors dark:bg-[#1C1C1F] ${joined ? 'border-emerald-500/50' : 'border-slate-200/80 dark:border-white/10'}`}>
                   <div className="flex items-start gap-3">
                     <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#FDF0D5] text-[#9A6410] dark:bg-[#E3A63A]/15 dark:text-[#E9C06B]"><Icon className="h-5 w-5" /></span>
                     <div className="min-w-0 flex-1">
@@ -255,19 +258,13 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
                     {o.perks.map((k) => <li key={k} className="flex items-start gap-2 text-[13px] text-slate-600 dark:text-slate-300"><Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#9A6410] dark:text-[#E9C06B]" />{k}</li>)}
                   </ul>
                   {joined ? (
-                    <div className="mt-3 rounded-2xl bg-emerald-50 px-3.5 py-3 dark:bg-emerald-500/10">
-                      <p className="flex items-center gap-2 text-sm font-bold text-emerald-800 dark:text-emerald-300"><Check className="h-4 w-4" />Kamu masuk daftar tunggu</p>
-                      <p className="mt-1 text-[12px] leading-snug text-emerald-900/80 dark:text-emerald-200/80">
-                        {synced === 'synced' ? 'Tercatat di daftar tunggu NODUS. ' : 'Tersimpan di perangkat ini. '}{user?.email ? <>Kami akan mengabari <span className="font-semibold">{user.email}</span>.</> : <>Isi email di bawah agar kami bisa mengabarimu.</>}
-                      </p>
-                      <div className="mt-2 flex gap-4 text-[12px] font-bold">
-                        {!user && onOpenAuth && <button onClick={onOpenAuth} className="text-emerald-800 underline underline-offset-4 dark:text-emerald-300">Masuk</button>}
-                        <button onClick={() => want(o.id, o.title)} className="text-slate-500 underline underline-offset-4 dark:text-slate-400">Batalkan</button>
-                      </div>
+                    <div className="mt-3 flex items-center justify-between gap-3 rounded-2xl bg-slate-100 px-4 py-3 dark:bg-white/5">
+                      <p className="flex items-center gap-2 text-sm font-bold text-slate-800 dark:text-slate-100"><span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#E3A63A] text-[#151517]"><Check className="h-3 w-3" strokeWidth={3} /></span>Terdaftar</p>
+                      <button onClick={() => want(o.id, o.title)} className="text-[12px] font-bold text-slate-500 underline underline-offset-4 dark:text-slate-400">Batalkan</button>
                     </div>
                   ) : (
                     <button onClick={() => want(o.id, o.title)} className="btn-ink mt-3 flex w-full items-center justify-center gap-2 !py-3 text-sm">
-                      <BellRing className="h-4 w-4" />{o.price ? 'Masuk daftar tunggu' : 'Tanya paket tim'}
+                      <BellRing className="h-4 w-4" />{o.price ? 'Kabari saya' : 'Tanya paket tim'}
                     </button>
                   )}
                 </li>
@@ -276,12 +273,12 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
           </ul>
 
           {(wanted.length > 0 || (interested && !BILLING_LIVE)) && !user?.email && (
-            <div className="mt-4 rounded-3xl border border-slate-200/80 bg-white p-4 dark:border-white/10 dark:bg-[#18202D]">
+            <div className="mt-4 rounded-3xl border border-slate-200/80 bg-white p-4 dark:border-white/10 dark:bg-[#1C1C1F]">
               <p className="text-sm font-bold text-slate-900 dark:text-white">Ke mana kami mengabarimu?</p>
               <p className="mt-0.5 text-[12px] text-slate-500 dark:text-slate-400">Opsional. Kami belum mengirim email otomatis. Alamat ini disimpan, dan kamu dikabari sekali saat paket dibuka. Email hanya untuk itu.</p>
               <div className="mt-3 flex gap-2">
                 <input type="email" inputMode="email" autoComplete="email" value={emailDraft} onChange={(e) => { setEmailDraft(e.target.value); setEmailMsg(null); }} placeholder="nama@email.com"
-                  className="min-w-0 flex-1 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 placeholder-slate-400 focus:border-[#CF8E1F] focus:outline-none focus:ring-2 focus:ring-[#E3A63A]/30 dark:border-white/15 dark:bg-[#0F1520] dark:text-white" />
+                  className="min-w-0 flex-1 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 placeholder-slate-400 focus:border-[#CF8E1F] focus:outline-none focus:ring-2 focus:ring-[#E3A63A]/30 dark:border-white/15 dark:bg-[#121214] dark:text-white" />
                 <button onClick={saveEmail} className="btn-ink shrink-0 !px-5 text-sm">Simpan</button>
               </div>
               {emailMsg && <p role="status" className="mt-2 text-[12px] font-semibold text-slate-600 dark:text-slate-300">{emailMsg}</p>}
@@ -289,7 +286,7 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
           )}
 
           <h2 className="mt-9 font-serif text-2xl font-medium text-slate-900 dark:text-white">Dapat Pro lebih cepat</h2>
-          <div className="mt-3 overflow-hidden rounded-3xl border border-slate-200/80 bg-white dark:border-white/10 dark:bg-[#18202D]"><InviteCard /></div>
+          <div className="mt-3 overflow-hidden rounded-3xl border border-slate-200/80 bg-white dark:border-white/10 dark:bg-[#1C1C1F]"><InviteCard /></div>
 
           <div className="mt-6 flex items-start gap-3 rounded-2xl bg-emerald-50 p-4 text-[13px] leading-relaxed text-emerald-900 dark:bg-emerald-500/10 dark:text-emerald-200">
             <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0" />
@@ -297,7 +294,7 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
           </div>
 
           <h2 className="mt-9 font-serif text-2xl font-medium text-slate-900 dark:text-white">Pertanyaan umum</h2>
-          <ul className="mt-3 divide-y divide-slate-200/80 overflow-hidden rounded-2xl border border-slate-200/80 bg-white dark:divide-white/10 dark:border-white/10 dark:bg-[#18202D]">
+          <ul className="mt-3 divide-y divide-slate-200/80 overflow-hidden rounded-2xl border border-slate-200/80 bg-white dark:divide-white/10 dark:border-white/10 dark:bg-[#1C1C1F]">
             {FAQ.map((f, i) => (
               <li key={f.q}>
                 <button onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i} className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left">
@@ -318,20 +315,21 @@ export const PlansView: React.FC<PlansViewProps> = ({ onClose, reason = 'manual'
         </div>
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 border-t border-slate-200/80 bg-[#FBF9F5]/95 px-5 pb-6 pt-4 backdrop-blur dark:border-white/10 dark:bg-[#0F1520]/95">
+      <div className="absolute inset-x-0 bottom-0 border-t border-slate-200/80 bg-[#FBF9F5]/95 px-5 pb-6 pt-4 backdrop-blur dark:border-white/10 dark:bg-[#121214]/95">
         <div className="mx-auto max-w-2xl">
           {message && <p role="status" className="mb-2 text-center text-[13px] font-semibold text-rose-600 dark:text-rose-300">{message}</p>}
           {!BILLING_LIVE && interested && !isPro ? (
-            <div className="flex items-center gap-3 rounded-2xl bg-emerald-50 px-4 py-3 dark:bg-emerald-500/10">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white"><Check className="h-4 w-4" /></span>
-              <p className="min-w-0 flex-1 text-[13px] leading-snug text-emerald-900 dark:text-emerald-200"><span className="block font-bold">Kamu di daftar tunggu Pro</span>{synced === 'synced' ? 'Tercatat di daftar tunggu NODUS' : 'Tersimpan di perangkat ini'}{user?.email ? `, kabar ke ${user.email}` : ''}.</p>
-              <button onClick={leaveInterest} aria-label="Batalkan daftar tunggu" className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-emerald-800 hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-white/10"><X className="h-4 w-4" /></button>
+            <div className="flex items-center gap-3 rounded-2xl border border-[#E3A63A]/40 bg-[#FDF0D5]/60 px-4 py-3 dark:bg-[#E3A63A]/10">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E3A63A] text-[#151517]"><Check className="h-4 w-4" strokeWidth={3} /></span>
+              <p className="min-w-0 flex-1 text-[13px] leading-snug text-slate-700 dark:text-slate-200"><span className="block font-bold text-slate-900 dark:text-white">Kamu sudah terdaftar</span>{synced === 'synced' ? 'Kami kabari saat Pro dibuka' : 'Tersimpan di perangkat ini'}{user?.email ? `, lewat ${user.email}` : ''}.</p>
+              <button onClick={leaveInterest} className="shrink-0 text-[12px] font-bold text-slate-500 underline underline-offset-4 dark:text-slate-400">Batalkan</button>
             </div>
           ) : (
             <button onClick={act} disabled={busy || isPro} className="btn-gold w-full py-3.5 text-base">
               {busy ? 'Memproses…' : cta}
             </button>
           )}
+          {!BILLING_LIVE && !interested && <p className="mt-2 text-center text-[11px] text-slate-500 dark:text-slate-400">Pro belum dibuka. Daftar untuk dikabari lebih dulu.</p>}
           {BILLING_LIVE && <p className="mt-2 text-center text-[11px] text-slate-500 dark:text-slate-400">Diperpanjang otomatis. Batalkan kapan saja di akun toko aplikasimu.</p>}
         </div>
       </div>

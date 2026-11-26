@@ -15,12 +15,13 @@ interface ArenaViewProps {
   onClose: () => void;
   onSelectNode: (node: MindmapNode) => void;
   onUpgrade?: () => void;
+  onLocked?: () => void;
   onOpenLesson?: (nodeId: string) => void;
 }
 
 type Filter = 'all' | 'todo' | 'done' | 'due';
 
-export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode, onUpgrade, onOpenLesson }) => {
+export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode, onUpgrade, onLocked, onOpenLesson }) => {
   const { isNodeMastered, progress, isPro } = useUser();
   const [filter, setFilter] = useState<Filter>('all');
   const [showCertificate, setShowCertificate] = useState(false);
@@ -72,8 +73,8 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode, onUpgr
 
   return (
     <>
-      <div className="fixed inset-0 z-50 pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520] animate-fade-in" role="dialog" aria-label="Arena">
-        <div className="flex items-center gap-3 border-b border-slate-200/80 bg-[#FBF9F5]/95 px-4 py-3 backdrop-blur dark:border-slate-800 dark:bg-[#0F1520]/95 sm:px-8">
+      <div className="fixed inset-0 z-50 pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#121214] animate-fade-in" role="dialog" aria-label="Arena">
+        <div className="flex items-center gap-3 border-b border-slate-200/80 bg-[#FBF9F5]/95 px-4 py-3 backdrop-blur dark:border-slate-800 dark:bg-[#121214]/95 sm:px-8">
           <div className="min-w-0">
             <p className="eyebrow">Arena</p>
             <h2 className="truncate font-serif text-xl font-semibold leading-tight text-slate-900 dark:text-white sm:text-2xl">Uji pemahaman</h2>
@@ -87,10 +88,10 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode, onUpgr
           <div className="mx-auto w-full max-w-5xl space-y-6 px-4 py-6 sm:px-8 sm:py-8">
             <CapabilityCard isPro={isPro} onUpgrade={onUpgrade} />
 
-            <CaseList isPro={isPro} onUpgrade={onUpgrade} onOpenLesson={onOpenLesson} />
+            <CaseList isPro={isPro} onUpgrade={onLocked ?? onUpgrade} onOpenLesson={onOpenLesson} />
 
             {/* Latihan harian */}
-            <div className="rounded-3xl bg-[#151517] p-5 text-[#FBF9F5] shadow-float dark:bg-[#18202D] sm:p-6">
+            <div className="rounded-3xl bg-[#151517] p-5 text-[#FBF9F5] shadow-float dark:bg-[#1C1C1F] sm:p-6">
               <div className="flex items-start gap-4">
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#E3A63A] text-[#151517]"><RefreshCw className="h-5 w-5" /></span>
                 <div className="min-w-0 flex-1">
@@ -128,7 +129,7 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode, onUpgr
               {FILTERS.map((f) => {
                 const active = filter === f.id;
                 return (
-                  <button key={f.id} aria-pressed={active} onClick={() => setFilter(f.id)} className={`chip ${active ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#E3A63A] dark:text-[#0F1520]' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'}`}>
+                  <button key={f.id} aria-pressed={active} onClick={() => setFilter(f.id)} className={`chip ${active ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#E3A63A] dark:text-[#121214]' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'}`}>
                     {f.label} ({f.count})
                   </button>
                 );

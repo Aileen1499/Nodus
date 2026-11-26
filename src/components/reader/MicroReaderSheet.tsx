@@ -275,14 +275,14 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, 
 
   const tocTone = (id: string) =>
     activeSection === id
-      ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#0F1520]'
+      ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#121214]'
       : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-white/10';
 
   const m = node.microContent;
 
   return (
     <div className="fixed inset-0 z-[70] flex items-stretch justify-center bg-black/60 sm:items-center sm:p-5" role="dialog" aria-modal="true" aria-label={node.label}>
-      <div className="relative flex h-full w-full max-w-3xl animate-sheet-up flex-col overflow-hidden bg-[#FBF9F5] shadow-float dark:bg-[#0F1520] sm:h-[94vh] sm:rounded-[28px]">
+      <div className="relative flex h-full w-full max-w-3xl animate-sheet-up flex-col overflow-hidden bg-[#FBF9F5] shadow-float dark:bg-[#121214] sm:h-[94vh] sm:rounded-[28px]">
         {/* Reading progress */}
         <div className="h-1 w-full shrink-0 bg-slate-200/70 dark:bg-white/10" role="progressbar" aria-valuenow={scrollProgress} aria-valuemin={0} aria-valuemax={100} aria-label="Progres membaca">
           <div className="h-full bg-[#E3A63A] transition-[width] duration-150" style={{ width: `${activeTab === 'article' ? scrollProgress : 100}%` }} />
@@ -306,7 +306,7 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, 
                   aria-selected={activeTab === tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-bold transition-colors ${
-                    activeTab === tab.id ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#0F1520]' : 'text-slate-600 dark:text-slate-300'
+                    activeTab === tab.id ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#121214]' : 'text-slate-600 dark:text-slate-300'
                   }`}
                 >
                   {tab.icon && <tab.icon className="h-3.5 w-3.5" />}
@@ -347,7 +347,7 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, 
         <div ref={scrollRef} onScroll={handleScroll} onMouseUp={handleSelection} onTouchEnd={handleSelection} className="relative flex-1 select-text overflow-y-auto scroll-smooth">
           {tooltip && activeTab === 'article' && (
             <div style={{ left: tooltip.x, top: tooltip.y }} className="absolute z-40 -translate-x-1/2 animate-fade-in">
-              <div className="rounded-2xl bg-[#151517] p-1.5 text-white shadow-float ring-1 ring-white/10 dark:bg-[#FBF9F5] dark:text-[#0F1520]">
+              <div className="rounded-2xl bg-[#151517] p-1.5 text-white shadow-float ring-1 ring-white/10 dark:bg-[#FBF9F5] dark:text-[#121214]">
                 <div className="flex items-center gap-1.5">
                   {(Object.keys(HIGHLIGHT_COLORS) as HighlightColor[]).map((c) => (
                     <button key={c} onClick={() => saveHighlight(c)} title={`Stabilo ${HIGHLIGHT_COLORS[c].name}`} aria-label={`Stabilo ${HIGHLIGHT_COLORS[c].name}`} className={`h-7 w-7 rounded-full border-2 transition-transform hover:scale-110 active:scale-90 ${HIGHLIGHT_COLORS[c].dot}`} />
@@ -365,7 +365,7 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, 
                     onChange={(e) => setNoteDraft(e.target.value)}
                     placeholder="Tulis catatanmu, lalu pilih warna"
                     aria-label="Catatan untuk stabilo"
-                    className="mt-1.5 w-full rounded-xl bg-white/10 px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none dark:bg-black/5 dark:text-[#0F1520]"
+                    className="mt-1.5 w-full rounded-xl bg-white/10 px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none dark:bg-black/5 dark:text-[#121214]"
                   />
                 )}
               </div>
@@ -506,14 +506,14 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, 
                     <button
                       onClick={() => onNavigate?.(next)}
                       disabled={nextLocked}
-                      className="flex w-full items-center gap-3 rounded-2xl bg-[#151517] p-4 text-left text-[#FBF9F5] shadow-float transition-transform enabled:active:scale-[0.99] disabled:opacity-60 dark:bg-[#E3A63A] dark:text-[#0F1520]"
+                      className="flex w-full items-center gap-3 rounded-2xl bg-[#151517] p-4 text-left text-[#FBF9F5] shadow-float transition-transform enabled:active:scale-[0.99] disabled:opacity-60 dark:bg-[#E3A63A] dark:text-[#121214]"
                     >
                       <span className="min-w-0 flex-1">
-                        <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#E9C06B] dark:text-[#0F1520]/70">{nextLocked ? 'Terkunci' : 'Berikutnya'}</span>
+                        <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#E9C06B] dark:text-[#121214]/70">{nextLocked ? 'Terkunci' : 'Berikutnya'}</span>
                         <span className="mt-0.5 block text-base font-bold leading-snug">{next.label}</span>
                         {nextLocked && <span className="mt-0.5 block text-xs font-medium opacity-70">Lulus Cek Paham untuk membuka</span>}
                       </span>
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E3A63A] text-[#151517] dark:bg-[#0F1520] dark:text-[#E3A63A]">{nextLocked ? <Lock className="h-4 w-4" /> : <ArrowRight className="h-5 w-5" />}</span>
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E3A63A] text-[#151517] dark:bg-[#121214] dark:text-[#E3A63A]">{nextLocked ? <Lock className="h-4 w-4" /> : <ArrowRight className="h-5 w-5" />}</span>
                     </button>
                   ) : null}
                   {previous ? (
@@ -538,7 +538,7 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, 
               <div className="flex-1 space-y-3 overflow-y-auto pb-3" aria-live="polite">
                 {chatMessages.map((msg) => (
                   <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[88%] rounded-3xl px-4 py-3 text-[15px] leading-relaxed ${msg.sender === 'user' ? 'rounded-br-lg bg-[#151517] text-white dark:bg-[#FBF9F5] dark:text-[#0F1520]' : 'rounded-bl-lg bg-white text-slate-800 shadow-card ring-1 ring-slate-200/70 dark:bg-white/5 dark:text-slate-100 dark:ring-white/10'}`}>
+                    <div className={`max-w-[88%] rounded-3xl px-4 py-3 text-[15px] leading-relaxed ${msg.sender === 'user' ? 'rounded-br-lg bg-[#151517] text-white dark:bg-[#FBF9F5] dark:text-[#121214]' : 'rounded-bl-lg bg-white text-slate-800 shadow-card ring-1 ring-slate-200/70 dark:bg-white/5 dark:text-slate-100 dark:ring-white/10'}`}>
                       {msg.text}
                     </div>
                   </div>

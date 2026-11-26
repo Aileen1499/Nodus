@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Bell, ChevronRight, Crown, FileText, HelpCircle, LogOut, Moon, ShieldCheck, Sun, Trash2, User as UserIcon } from 'lucide-react';
+import { ArrowLeft, Bell, Heart, ChevronRight, Crown, FileText, HelpCircle, LogOut, Moon, ShieldCheck, Sun, Trash2, User as UserIcon } from 'lucide-react';
 import { useUser } from '../../context/UserContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
@@ -7,6 +7,7 @@ import { BILLING_LIVE, SUPPORT_EMAIL } from '../../lib/plans';
 import { InviteCard } from '../growth/InviteCard';
 import { notificationPermission, readReminder, requestNotificationPermission, writeReminder, ReminderSettings } from '../../lib/reminder';
 import { useModal } from '../../lib/useModal';
+import { FounderNote } from './FounderNote';
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -21,7 +22,7 @@ const APP_VERSION = '1.0.0';
 const Group: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
   <section className="mt-7">
     <h3 className="eyebrow mb-2 px-1">{title}</h3>
-    <div className="divide-y divide-slate-200/80 overflow-hidden rounded-2xl border border-slate-200/80 bg-white dark:divide-white/10 dark:border-white/10 dark:bg-[#18202D]">{children}</div>
+    <div className="divide-y divide-slate-200/80 overflow-hidden rounded-2xl border border-slate-200/80 bg-white dark:divide-white/10 dark:border-white/10 dark:bg-[#1C1C1F]">{children}</div>
   </section>
 );
 
@@ -51,6 +52,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, onOpenAut
   const [confirm, setConfirm] = useState<null | 'reset' | 'delete'>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [founder, setFounder] = useState(false);
   const [reminder, setReminder] = useState<ReminderSettings>(readReminder);
   const [perm, setPerm] = useState(notificationPermission());
 
@@ -78,7 +80,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, onOpenAut
   };
 
   return (
-    <div className="fixed inset-0 z-[60] pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520] animate-fade-in" role="dialog" aria-modal="true" aria-label="Pengaturan">
+    <>
+    <div className="fixed inset-0 z-[60] pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#121214] animate-fade-in" role="dialog" aria-modal="true" aria-label="Pengaturan">
       <div className="flex items-center gap-3 border-b border-slate-200/80 px-4 py-3 dark:border-white/10 sm:px-8">
         <button onClick={onClose} aria-label="Kembali" className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition-colors hover:bg-slate-100 dark:border-white/15 dark:text-slate-200 dark:hover:bg-white/10">
           <ArrowLeft className="h-5 w-5" />
@@ -117,7 +120,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, onOpenAut
             {reminder.enabled && (
               <label className="flex items-center justify-between gap-3 px-4 py-3.5">
                 <span className="text-[15px] font-semibold text-slate-900 dark:text-white">Jam pengingat</span>
-                <input type="time" value={reminder.time} onChange={(e) => e.target.value && updateReminder({ ...reminder, time: e.target.value })} className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-base font-bold text-slate-900 focus:border-[#CF8E1F] focus:outline-none dark:border-slate-700 dark:bg-[#0F1520] dark:text-white" />
+                <input type="time" value={reminder.time} onChange={(e) => e.target.value && updateReminder({ ...reminder, time: e.target.value })} className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-base font-bold text-slate-900 focus:border-[#CF8E1F] focus:outline-none dark:border-slate-700 dark:bg-[#121214] dark:text-white" />
               </label>
             )}
             <InviteCard />
@@ -128,6 +131,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, onOpenAut
           </Group>
 
           <Group title="Bantuan">
+            <Row icon={<Heart className="h-4 w-4" />} label="Dari pembuat NODUS" hint="Kirim masukan, dibaca langsung." onClick={() => setFounder(true)} />
             <Row icon={<HelpCircle className="h-4 w-4" />} label="Panduan NODUS" onClick={onOpenHelp} />
             <Row icon={<ShieldCheck className="h-4 w-4" />} label="Kebijakan Privasi" onClick={() => onOpenLegal('privacy')} />
             <Row icon={<FileText className="h-4 w-4" />} label="Ketentuan Layanan" onClick={() => onOpenLegal('terms')} />
@@ -166,5 +170,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, onOpenAut
         </div>
       </div>
     </div>
+    {founder && <FounderNote onClose={() => setFounder(false)} />}
+    </>
   );
 };

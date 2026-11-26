@@ -47,7 +47,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart: onFinish,
       role="dialog"
       aria-modal="true"
       aria-label="Selamat datang di NODUS"
-      className={`fixed inset-0 z-[80] overflow-x-hidden overflow-y-auto overscroll-x-none bg-[#0F1520] text-[#FBF9F5] [touch-action:pan-y] ${leaving ? 'animate-fade-out pointer-events-none' : 'animate-fade-in'}`}
+      className={`fixed inset-0 z-[80] overflow-x-hidden overflow-y-auto overscroll-x-none bg-[#121214] text-[#FBF9F5] [touch-action:pan-y] ${leaving ? 'animate-fade-out pointer-events-none' : 'animate-fade-in'}`}
     >
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_0%,rgba(227,166,58,0.20),transparent_55%),radial-gradient(ellipse_at_0%_100%,rgba(227,166,58,0.10),transparent_50%)]" />
@@ -136,7 +136,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart: onFinish,
             ))}
           </ul>
 
-          <div className="fixed inset-x-0 bottom-0 bg-gradient-to-t from-[#0F1520] via-[#0F1520]/95 to-transparent px-6 pb-6 pt-10">
+          <div className="fixed inset-x-0 bottom-0 bg-gradient-to-t from-[#121214] via-[#121214]/95 to-transparent px-6 pb-6 pt-10">
             <div className="mx-auto max-w-3xl">
               <button onClick={() => onStart()} className="btn-gold flex w-full items-center justify-center gap-2 px-6 py-3.5 text-base">
                 Mulai belajar sekarang <ArrowRight className="h-4 w-4" />
@@ -175,7 +175,7 @@ const PathPreviewSheet: React.FC<{ map: MindmapData; onClose: () => void; onStar
     <Portal>
     <div className="fixed inset-0 z-[85] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true" aria-label={map.topic}>
       <button aria-label="Tutup pratinjau" onClick={onClose} className="absolute inset-0 touch-none bg-black/60 backdrop-blur-sm animate-fade-in" />
-      <div className="relative flex max-h-[88dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-[28px] border border-white/10 bg-[#18202D] text-[#FBF9F5] shadow-2xl animate-sheet-up sm:rounded-[28px]">
+      <div className="relative flex max-h-[88dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-[28px] border border-white/10 bg-[#1C1C1F] text-[#FBF9F5] shadow-2xl animate-sheet-up sm:rounded-[28px]">
         <div className="flex items-start gap-3 px-5 pb-3 pt-5">
           <div className="min-w-0 flex-1">
             <p className="eyebrow !text-[#E3A63A]">Pratinjau jalur</p>
@@ -223,7 +223,7 @@ const PathPreviewSheet: React.FC<{ map: MindmapData; onClose: () => void; onStar
           </div>
         </div>
 
-        <div className="border-t border-white/10 bg-[#18202D] px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-4">
+        <div className="border-t border-white/10 bg-[#1C1C1F] px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-4">
           <button onClick={() => onStart()} className="btn-gold flex w-full items-center justify-center gap-2 px-6 py-3.5 text-base">Mulai jalur ini <ArrowRight className="h-4 w-4" /></button>
         </div>
       </div>

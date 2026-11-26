@@ -58,7 +58,7 @@ export const CapabilityCard: React.FC<{ isPro: boolean; onUpgrade?: () => void }
   const shape = stats.per.map((a, i) => pt(i, R * Math.max(0.06, a.pct)).join(',')).join(' ');
 
   return (
-    <div className="rounded-3xl bg-[#151517] p-5 text-[#FBF9F5] shadow-float dark:bg-[#18202D] sm:p-6">
+    <div className="rounded-3xl bg-[#151517] p-5 text-[#FBF9F5] shadow-float dark:bg-[#1C1C1F] sm:p-6">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="eyebrow !text-[#E9C06B]">Profil kemampuan</p>

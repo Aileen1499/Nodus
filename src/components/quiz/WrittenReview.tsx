@@ -51,7 +51,7 @@ export const WrittenReview: React.FC<Props> = ({ node, onUpgrade }) => {
             maxLength={1200}
             placeholder="Contoh: Konsep ini berarti… Saya bisa menerapkannya di usaha saya dengan…"
             aria-label="Penjelasan Anda"
-            className="mt-3 w-full resize-none rounded-2xl border border-slate-200 bg-white p-3.5 text-base leading-relaxed text-slate-900 placeholder-slate-400 focus:border-[#CF8E1F] focus:outline-none dark:border-slate-700 dark:bg-[#0F1520] dark:text-white"
+            className="mt-3 w-full resize-none rounded-2xl border border-slate-200 bg-white p-3.5 text-base leading-relaxed text-slate-900 placeholder-slate-400 focus:border-[#CF8E1F] focus:outline-none dark:border-slate-700 dark:bg-[#121214] dark:text-white"
           />
           <button onClick={submit} disabled={busy || text.trim().length < 8} className="btn-ink mt-3 w-full disabled:opacity-50">
             <Sparkles className="h-4 w-4" />{busy ? 'Socrates membaca…' : 'Minta umpan balik'}

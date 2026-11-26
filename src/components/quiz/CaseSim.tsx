@@ -65,7 +65,7 @@ export const CaseSim: React.FC<Props> = ({ biz, onClose, onOpenLesson }) => {
 
   return (
     <Portal>
-    <div role="dialog" aria-modal="true" aria-label={biz.title} className="fixed inset-0 z-[110] flex flex-col bg-[#FBF9F5] pt-[env(safe-area-inset-top)] dark:bg-[#0F1520]">
+    <div role="dialog" aria-modal="true" aria-label={biz.title} className="fixed inset-0 z-[110] flex flex-col bg-[#FBF9F5] pt-[env(safe-area-inset-top)] dark:bg-[#121214]">
       <div className="flex items-center gap-3 border-b border-slate-200/80 px-4 py-3 dark:border-white/10">
         <div className="min-w-0 flex-1">
           <p className="eyebrow">Studi kasus</p>

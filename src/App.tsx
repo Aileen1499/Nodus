@@ -21,6 +21,7 @@ import { ProfileModal } from './components/profile/ProfileModal';
 import { AuthModal } from './components/auth/AuthModal';
 import { WelcomeScreen } from './components/brand/WelcomeScreen';
 import { PlansView } from './components/paywall/PlansView';
+import { ProLockSheet } from './components/paywall/ProLockSheet';
 import { LegalView, LegalKind } from './components/legal/LegalView';
 import { readReminder, msUntil, showReminder } from './lib/reminder';
 import { isLessonPlanLocked, isToolPlanLocked, PaywallReason } from './lib/plans';
@@ -29,6 +30,7 @@ import { PRESET_QUERIES } from './data/mockMindmaps';
 import { generateMindmapWithGemini } from './lib/gemini';
 import { getMindmapForTopic } from './lib/topicEngine';
 import { StreakCard } from './components/growth/StreakCard';
+import { Greeting } from './components/growth/Greeting';
 import { ReviewDueCard } from './components/growth/ReviewDueCard';
 import { getRecommendedNode } from './lib/pathLogic';
 import { getCurriculumForQuery, ZERO_TO_HERO_OWNER_CURRICULUM } from './lib/curriculumData';
@@ -61,7 +63,10 @@ const AppContent: React.FC = () => {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [paywall, setPaywall] = useState<{ open: boolean; reason: PaywallReason }>({ open: false, reason: 'manual' });
   const [legal, setLegal] = useState<LegalKind | null>(null);
+  const [lock, setLock] = useState<PaywallReason | null>(null);
   const openPaywall = (reason: PaywallReason = 'manual') => setPaywall({ open: true, reason });
+  /** Fitur terkunci: tampilkan pop-up penjelasan dulu, bukan langsung halaman paket. */
+  const openLock = (reason: PaywallReason) => setLock(reason);
   const lockedTools = useMemo(() => TOOLS.filter((t) => isToolPlanLocked(t.id, isPro)).map((t) => t.id), [isPro]);
   const [isLoadingMindmap, setIsLoadingMindmap] = useState(false);
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(() => {
@@ -107,7 +112,7 @@ const AppContent: React.FC = () => {
   // Satu pintu untuk membuka pelajaran: pelajaran Pro membuka halaman paket.
   const guardNode = (node: MindmapNode, go: () => void) => {
     const map = findNode(node.id)?.map ?? currentMindmap;
-    if (isLessonPlanLocked(map, node, isPro)) openPaywall('lesson');
+    if (isLessonPlanLocked(map, node, isPro)) openLock('lesson');
     else go();
   };
   const openReader = (node: MindmapNode) => guardNode(node, () => setActiveReaderNode(node));
@@ -129,7 +134,7 @@ const AppContent: React.FC = () => {
 
     // 2. Custom AI Generation for novel queries
     if (!isPro && progress.credits <= 0) {
-      openPaywall('ai');
+      openLock('ai');
       return;
     }
 
@@ -138,7 +143,7 @@ const AppContent: React.FC = () => {
     if (!isPro) {
       const creditUsed = useCredit();
       if (!creditUsed) {
-        openPaywall('ai');
+        openLock('ai');
         setIsLoadingMindmap(false);
         return;
       }
@@ -186,7 +191,7 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="flex h-[100dvh] w-full flex-col overflow-hidden bg-[#FBF9F5] dark:bg-[#0F1520] font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300">
+    <div className="flex h-[100dvh] w-full flex-col overflow-hidden bg-[#FBF9F5] dark:bg-[#121214] font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300">
       
       {/* Header with Logo, Theme Toggle, Auth, and Live Stats */}
       <Header
@@ -202,6 +207,7 @@ const AppContent: React.FC = () => {
       <main className="relative flex-1 overflow-y-auto">
         {activeTab === 'map' && (
           <div className="mx-auto w-full max-w-6xl px-4 pt-3 sm:px-8">
+            <Greeting />
             <StreakCard onContinue={() => { const n = getRecommendedNode(currentMindmap, isNodeMastered); if (n) openReader(n); }} />
             <ReviewDueCard count={dueReviews} onReview={() => setActiveTab('quiz')} />
           </div>
@@ -231,7 +237,7 @@ const AppContent: React.FC = () => {
           node={activeReaderNode}
           data={currentMindmap}
           onNavigate={openReader}
-          onOpenTool={(tool) => { setActiveReaderNode(null); if (isToolPlanLocked(tool as ToolId, isPro)) { openPaywall('tool'); return; } setToolkit({ open: true, tool: tool as ToolId }); setActiveTab('tools'); }}
+          onOpenTool={(tool) => { setActiveReaderNode(null); if (isToolPlanLocked(tool as ToolId, isPro)) { openLock('tool'); return; } setToolkit({ open: true, tool: tool as ToolId }); setActiveTab('tools'); }}
           onClose={() => setActiveReaderNode(null)}
           onStartQuiz={(node) => {
             setActiveReaderNode(null);
@@ -250,6 +256,7 @@ const AppContent: React.FC = () => {
           }}
           onSelectNode={openQuiz}
           onUpgrade={() => openPaywall('manual')}
+          onLocked={() => openLock('case')}
           onOpenLesson={(id) => {
             const hit = findNode(id);
             if (!hit) return;
@@ -310,7 +317,7 @@ const AppContent: React.FC = () => {
           key={toolkit.tool || 'list'}
           initialTool={toolkit.tool}
           lockedTools={lockedTools}
-          onLockedTool={() => openPaywall('tool')}
+          onLockedTool={() => openLock('tool')}
           onClose={() => {
             setToolkit({ open: false, tool: null });
             setActiveTab('map');
@@ -339,6 +346,8 @@ const AppContent: React.FC = () => {
       {isAuthOpen && (
         <AuthModal onClose={() => setIsAuthOpen(false)} />
       )}
+
+      {lock && <ProLockSheet reason={lock} onClose={() => setLock(null)} onSeePlans={() => { const r = lock; setLock(null); openPaywall(r); }} />}
 
       {paywall.open && (
         <PlansView

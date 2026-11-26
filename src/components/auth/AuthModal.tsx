@@ -60,11 +60,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
     }
   };
 
-  const input = 'w-full rounded-2xl border border-slate-200 bg-white py-3.5 pl-11 pr-4 text-base text-slate-900 placeholder-slate-400 transition-colors focus:border-[#CF8E1F] focus:outline-none dark:border-slate-700 dark:bg-[#18202D] dark:text-white';
+  const input = 'w-full rounded-2xl border border-slate-200 bg-white py-3.5 pl-11 pr-4 text-base text-slate-900 placeholder-slate-400 transition-colors focus:border-[#CF8E1F] focus:outline-none dark:border-slate-700 dark:bg-[#1C1C1F] dark:text-white';
   const icon = 'pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400';
 
   return (
-    <div className="fixed inset-0 z-[95] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520] animate-fade-in" role="dialog" aria-modal="true" aria-label={user ? 'Akun NODUS' : 'Masuk ke NODUS'}>
+    <div className="fixed inset-0 z-[95] flex flex-col bg-[#FBF9F5] dark:bg-[#121214] animate-fade-in" role="dialog" aria-modal="true" aria-label={user ? 'Akun NODUS' : 'Masuk ke NODUS'}>
       <div className="flex items-center justify-between px-4 py-3 sm:px-8" style={{ paddingTop: 'max(env(safe-area-inset-top, 0px), 12px)' }}>
         <button onClick={onClose} aria-label="Kembali" className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition-colors hover:bg-slate-100 dark:border-white/15 dark:text-slate-200 dark:hover:bg-white/10">
           <ArrowLeft className="h-5 w-5" />
@@ -134,7 +134,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
                 type="button"
                 onClick={handleGoogleLogin}
                 disabled={isLoading}
-                className="flex w-full items-center justify-center gap-3 rounded-full border border-slate-300 bg-white py-3.5 text-[15px] font-bold text-slate-900 shadow-sm transition-all hover:bg-slate-50 active:scale-[0.99] disabled:opacity-50 dark:border-slate-600 dark:bg-[#18202D] dark:text-white dark:hover:bg-[#212B3B]"
+                className="flex w-full items-center justify-center gap-3 rounded-full border border-slate-300 bg-white py-3.5 text-[15px] font-bold text-slate-900 shadow-sm transition-all hover:bg-slate-50 active:scale-[0.99] disabled:opacity-50 dark:border-slate-600 dark:bg-[#1C1C1F] dark:text-white dark:hover:bg-[#27272B]"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -152,7 +152,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
               <div className="grid grid-cols-2 gap-1 rounded-2xl bg-slate-100 p-1 dark:bg-white/5" role="tablist" aria-label="Masuk atau daftar">
                 {(['login', 'register'] as const).map((t) => (
                   <button key={t} type="button" role="tab" aria-selected={tab === t} onClick={() => { setTab(t); clearError(); }}
-                    className={`rounded-xl py-2.5 text-sm font-bold transition-colors ${tab === t ? 'bg-white text-slate-900 shadow-sm dark:bg-[#FBF9F5] dark:text-[#0F1520]' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white'}`}>
+                    className={`rounded-xl py-2.5 text-sm font-bold transition-colors ${tab === t ? 'bg-white text-slate-900 shadow-sm dark:bg-[#FBF9F5] dark:text-[#121214]' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white'}`}>
                     {t === 'login' ? 'Masuk' : 'Daftar'}
                   </button>
                 ))}

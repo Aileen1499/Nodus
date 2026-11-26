@@ -18,7 +18,7 @@ export const LearningPath: React.FC<LearningPathProps> = ({ data, onOpenNode }) 
   const masteredCount = ordered.filter((n) => isNodeMastered(n.id)).length;
 
   return (
-    <div className="rounded-3xl border border-slate-200/70 bg-white p-4 shadow-card dark:border-white/10 dark:bg-[#18202D] dark:shadow-none sm:p-6">
+    <div className="rounded-3xl border border-slate-200/70 bg-white p-4 shadow-card dark:border-white/10 dark:bg-[#1C1C1F] dark:shadow-none sm:p-6">
       <div className="mb-5 flex items-end justify-between gap-3">
         <div className="min-w-0">
           <h2 className="font-serif text-2xl font-medium leading-tight tracking-tight text-slate-900 dark:text-white">Jalur Belajar</h2>
@@ -52,10 +52,10 @@ export const LearningPath: React.FC<LearningPathProps> = ({ data, onOpenNode }) 
                     state === 'mastered'
                       ? 'bg-emerald-500 text-white'
                       : isCurrent
-                      ? 'bg-[#151517] text-[#E3A63A] ring-4 ring-[#E3A63A]/30 dark:bg-[#E3A63A] dark:text-[#0F1520]'
+                      ? 'bg-[#151517] text-[#E3A63A] ring-4 ring-[#E3A63A]/30 dark:bg-[#E3A63A] dark:text-[#121214]'
                       : state === 'locked'
                       ? 'bg-slate-100 text-slate-400 dark:bg-white/10'
-                      : 'border-2 border-[#E3A63A] bg-white text-[#CF8E1F] dark:bg-[#18202D]'
+                      : 'border-2 border-[#E3A63A] bg-white text-[#CF8E1F] dark:bg-[#1C1C1F]'
                   }`}
                 >
                   {state === 'mastered' ? <Check className="h-[18px] w-[18px]" strokeWidth={3} /> : isCurrent ? <Play className="h-4 w-4" fill="currentColor" /> : state === 'locked' ? <Lock className="h-4 w-4" /> : <span className="h-2 w-2 rounded-full bg-[#E3A63A]" />}

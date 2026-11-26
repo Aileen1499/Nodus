@@ -14,7 +14,8 @@
       font-size: 16px !important;
     }
   }
-  html.dark { color-scheme: dark; }
+  html.dark { color-scheme: dark; background-color: #121214; }
+  html.light { background-color: #FBF9F5; }
 
   /* Kunci shell aplikasi: tidak bisa di-zoom cubit atau digeser ke samping. Hanya area di dalamnya yang menggulir. */
   html, body, #root {
@@ -37,7 +38,7 @@
     text-rendering: optimizeLegibility;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
-  html.dark body { background-color: #0F1520; color: #EEF1F6; }
+  html.dark body { background-color: #121214; color: #EFEBE3; }
   html.light body { background-color: #FBF9F5; color: #1B1B1E; }
 
   :focus-visible { outline: 2px solid #CF8E1F; outline-offset: 2px; }
@@ -46,8 +47,8 @@
 }
 
 html.dark ::-webkit-scrollbar, html.light ::-webkit-scrollbar { width: 6px; height: 6px; }
-html.dark ::-webkit-scrollbar-track { background: #0F1520; }
-html.dark ::-webkit-scrollbar-thumb { background: #33415A; border-radius: 9999px; }
+html.dark ::-webkit-scrollbar-track { background: #121214; }
+html.dark ::-webkit-scrollbar-thumb { background: #3A3A40; border-radius: 9999px; }
 html.light ::-webkit-scrollbar-track { background: #F4F1EA; }
 html.light ::-webkit-scrollbar-thumb { background: #D6D1C5; border-radius: 9999px; }
 
@@ -61,7 +62,7 @@ html.light ::-webkit-scrollbar-thumb { background: #D6D1C5; border-radius: 9999p
   .btn-ink { @apply inline-flex items-center justify-center gap-2 rounded-full bg-[#151517] px-5 py-3 text-sm font-bold text-[#FBF9F5] transition-all hover:bg-[#262629] active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none; }
   html.dark .btn-ink { @apply bg-[#FBF9F5] text-[#151517] hover:bg-white; }
   .chip { @apply inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors; }
-  .surface { @apply rounded-3xl border border-slate-200/80 bg-white shadow-card dark:border-slate-800 dark:bg-[#18202D] dark:shadow-none; }
+  .surface { @apply rounded-3xl border border-slate-200/80 bg-white shadow-card dark:border-slate-800 dark:bg-[#1C1C1F] dark:shadow-none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -77,26 +78,26 @@ html.light ::-webkit-scrollbar-thumb { background: #D6D1C5; border-radius: 9999p
 
 
 /* ---------------------------------------------------------------------------
-   Mode gelap: "Malam Biru" — dasar navy lembut, teks terang berkontras tinggi.
+   Mode gelap: arang hangat (selaras dengan tinta merek) — dasar #121214, teks terang berkontras tinggi.
    Skala slate hangat bawaan terlalu pudar di atas gelap (slate-500 ≈ 3,2:1),
    jadi teks sekunder, garis, dan latar dinaikkan khusus untuk mode gelap.
-   Kontras terhadap #0F1520: teks utama ≈ 16:1, sekunder ≈ 10:1, tersier ≈ 7:1.
+   Kontras terhadap #121214: teks utama ≈ 16:1, sekunder ≈ 10:1, tersier ≈ 7:1.
    --------------------------------------------------------------------------- */
-html.dark .text-slate-300, html.dark .dark\:text-slate-300 { color: #D3DAE6; }
-html.dark .text-slate-400, html.dark .dark\:text-slate-400 { color: #B4BFD0; }
-html.dark .text-slate-500, html.dark .dark\:text-slate-500 { color: #9EAABE; }
-html.dark .dark\:text-slate-600 { color: #8794AA; }
-html.dark .placeholder-slate-400::placeholder, html.dark .dark\:placeholder-slate-400::placeholder { color: #8794AA; }
-html.dark .border-slate-800, html.dark .dark\:border-slate-800, html.dark .dark\:border-slate-800\/90, html.dark .dark\:border-slate-800\/80 { border-color: #243046; }
-html.dark .border-slate-700, html.dark .dark\:border-slate-700 { border-color: #2F3D56; }
-html.dark .dark\:bg-slate-800 { background-color: #212B3B; }
-html.dark .dark\:hover\:bg-slate-800:hover { background-color: #212B3B; }
-html.dark .dark\:hover\:bg-slate-700:hover, html.dark .dark\:bg-slate-700 { background-color: #2A3750; }
-html.dark .dark\:bg-slate-900, html.dark .dark\:bg-slate-900\/90 { background-color: #18202D; }
-html.dark .dark\:bg-slate-900\/60 { background-color: rgb(24 32 45 / 0.6); }
-html.dark .dark\:bg-slate-900\/40 { background-color: rgb(24 32 45 / 0.4); }
-html.dark .dark\:bg-slate-900\/30 { background-color: rgb(24 32 45 / 0.3); }
-html.dark .dark\:bg-slate-800\/60 { background-color: rgb(33 43 59 / 0.6); }
+html.dark .text-slate-300, html.dark .dark\:text-slate-300 { color: #DEDAD2; }
+html.dark .text-slate-400, html.dark .dark\:text-slate-400 { color: #BDB8AD; }
+html.dark .text-slate-500, html.dark .dark\:text-slate-500 { color: #A8A398; }
+html.dark .dark\:text-slate-600 { color: #8C877D; }
+html.dark .placeholder-slate-400::placeholder, html.dark .dark\:placeholder-slate-400::placeholder { color: #8C877D; }
+html.dark .border-slate-800, html.dark .dark\:border-slate-800, html.dark .dark\:border-slate-800\/90, html.dark .dark\:border-slate-800\/80 { border-color: #2E2E33; }
+html.dark .border-slate-700, html.dark .dark\:border-slate-700 { border-color: #3A3A40; }
+html.dark .dark\:bg-slate-800 { background-color: #27272B; }
+html.dark .dark\:hover\:bg-slate-800:hover { background-color: #27272B; }
+html.dark .dark\:hover\:bg-slate-700:hover, html.dark .dark\:bg-slate-700 { background-color: #303036; }
+html.dark .dark\:bg-slate-900, html.dark .dark\:bg-slate-900\/90 { background-color: #1C1C1F; }
+html.dark .dark\:bg-slate-900\/60 { background-color: rgb(28 28 31 / 0.6); }
+html.dark .dark\:bg-slate-900\/40 { background-color: rgb(28 28 31 / 0.4); }
+html.dark .dark\:bg-slate-900\/30 { background-color: rgb(28 28 31 / 0.3); }
+html.dark .dark\:bg-slate-800\/60 { background-color: rgb(39 39 43 / 0.6); }
 
 /* Gulir di dalam sheet/layar penuh tidak boleh "bocor" ke layar di belakangnya. */
 .overflow-y-auto, .overflow-auto { overscroll-behavior-y: contain; }

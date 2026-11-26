@@ -21,9 +21,9 @@ export const StreakCard: React.FC<{ onContinue?: () => void }> = ({ onContinue }
   return (
     <button
       onClick={onContinue}
-      className={`flex w-full items-center gap-3 rounded-2xl border p-3.5 text-left transition-colors ${atRisk ? 'border-[#E3A63A]/60 bg-[#FDF0D5] dark:bg-[#E3A63A]/10' : 'border-slate-200/80 bg-white dark:border-white/10 dark:bg-[#18202D]'}`}
+      className={`flex w-full items-center gap-3 rounded-2xl border p-3.5 text-left transition-colors ${atRisk ? 'border-[#E3A63A]/60 bg-[#FDF0D5] dark:bg-[#E3A63A]/10' : 'border-slate-200/80 bg-white dark:border-white/10 dark:bg-[#1C1C1F]'}`}
     >
-      <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${atRisk ? 'bg-[#E3A63A] text-[#151517]' : 'bg-[#151517] text-[#E3A63A] dark:bg-[#E3A63A] dark:text-[#0F1520]'}`}>
+      <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${atRisk ? 'bg-[#E3A63A] text-[#151517]' : 'bg-[#151517] text-[#E3A63A] dark:bg-[#E3A63A] dark:text-[#121214]'}`}>
         {atRisk ? <ShieldAlert className="h-5 w-5" /> : doneToday ? <Target className="h-5 w-5" /> : <Flame className="h-5 w-5" />}
       </span>
       <span className="min-w-0 flex-1">

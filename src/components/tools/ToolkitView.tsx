@@ -37,7 +37,7 @@ const dec = (n: number, d = 1): string => fmtNum(n, d);
 const Field: React.FC<{ label: string; value: string; onChange: (v: string) => void; suffix?: string; prefix?: string; hint?: string; invalid?: boolean }> = ({ label, value, onChange, suffix, prefix, hint, invalid }) => (
   <label className="block">
     <span className="mb-1 block text-xs font-bold text-slate-700 dark:text-slate-300">{label}</span>
-    <span className={`flex items-center rounded-2xl border bg-white px-3.5 focus-within:border-[#CF8E1F] focus-within:ring-2 focus-within:ring-[#E3A63A]/30 dark:bg-[#18202D] ${invalid ? 'border-rose-300 dark:border-rose-500/60' : 'border-slate-200 dark:border-slate-700'}`}>
+    <span className={`flex items-center rounded-2xl border bg-white px-3.5 focus-within:border-[#CF8E1F] focus-within:ring-2 focus-within:ring-[#E3A63A]/30 dark:bg-[#1C1C1F] ${invalid ? 'border-rose-300 dark:border-rose-500/60' : 'border-slate-200 dark:border-slate-700'}`}>
       {prefix && <span className="mr-2 text-sm font-semibold text-slate-400">{prefix}</span>}
       <input
         type="text"
@@ -359,7 +359,7 @@ const CompoundTool: React.FC = () => {
           <select
             value={timing}
             onChange={(e) => setTiming(e.target.value === 'start' ? 'start' : 'end')}
-            className="w-full rounded-2xl border border-slate-200 bg-white px-3.5 py-3 text-sm font-semibold text-slate-900 focus:border-[#CF8E1F] focus:outline-none focus:ring-2 focus:ring-[#E3A63A]/30 dark:border-slate-700 dark:bg-[#18202D] dark:text-white"
+            className="w-full rounded-2xl border border-slate-200 bg-white px-3.5 py-3 text-sm font-semibold text-slate-900 focus:border-[#CF8E1F] focus:outline-none focus:ring-2 focus:ring-[#E3A63A]/30 dark:border-slate-700 dark:bg-[#1C1C1F] dark:text-white"
           >
             <option value="end">Akhir bulan</option>
             <option value="start">Awal bulan</option>
@@ -402,8 +402,8 @@ export const ToolkitView: React.FC<ToolkitViewProps> = ({ initialTool, lockedToo
   const Active = active ? RENDER[active] : null;
 
   return (
-    <div className="fixed inset-0 z-50 pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#0F1520] animate-fade-in" role="dialog" aria-label="Alat bisnis">
-      <div className="flex items-center gap-3 border-b border-slate-200/80 bg-[#FBF9F5]/95 px-4 py-3 backdrop-blur dark:border-slate-800 dark:bg-[#0F1520]/95 sm:px-8">
+    <div className="fixed inset-0 z-50 pt-[env(safe-area-inset-top)] flex flex-col bg-[#FBF9F5] dark:bg-[#121214] animate-fade-in" role="dialog" aria-label="Alat bisnis">
+      <div className="flex items-center gap-3 border-b border-slate-200/80 bg-[#FBF9F5]/95 px-4 py-3 backdrop-blur dark:border-slate-800 dark:bg-[#121214]/95 sm:px-8">
         {active && <button onClick={() => setActive(null)} aria-label="Kembali ke daftar alat" className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">
           <ArrowLeft className="h-5 w-5" />
         </button>}
