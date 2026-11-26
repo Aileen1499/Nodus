@@ -3,7 +3,7 @@ import { Logo } from '../brand/Logo';
 import { useUser } from '../../context/UserContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
-import { Sparkles, Flame, Zap, Settings, HelpCircle, Sun, Moon, Crown, User as UserIcon } from 'lucide-react';
+import { Flame, BookOpen, Zap, Settings, HelpCircle, Sun, Moon, Crown, User as UserIcon } from 'lucide-react';
 
 interface HeaderProps {
   onOpenSettings: () => void;
@@ -66,10 +66,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSettings, onOpenHelp, onOp
             <span className="tabular-nums">{progress.streak}</span>
           </div>
 
-          <button onClick={onOpenProfile} title="Rank Points — buka Brankas" className="flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5 text-sm font-bold text-slate-800 transition-colors hover:bg-slate-200 dark:bg-white/10 dark:text-white dark:hover:bg-white/15">
-            <Sparkles className="h-4 w-4 text-[#CF8E1F]" />
-            <span className="tabular-nums">{progress.rankPoints}</span>
-            <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">RP</span>
+          <button onClick={onOpenProfile} title="Pelajaran yang sudah kamu kuasai. Buka Brankas" className="flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5 text-sm font-bold text-slate-800 transition-colors hover:bg-slate-200 dark:bg-white/10 dark:text-white dark:hover:bg-white/15">
+            <BookOpen className="h-4 w-4 text-[#CF8E1F]" />
+            <span className="tabular-nums">{progress.masteredNodeIds.length}</span>
+            <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">dikuasai</span>
           </button>
 
           <div className="relative" ref={menuRef}>

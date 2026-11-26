@@ -98,16 +98,9 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart: onFinish,
           </button>
 
           <p className="eyebrow mt-8 !text-[#E3A63A]">Isi kurikulum</p>
-          <h2 className="mt-2 font-serif text-3xl font-semibold leading-tight sm:text-5xl">Satu platform, {maps.length} jalur belajar.</h2>
+          <h2 className="mt-2 font-serif text-3xl font-semibold leading-tight sm:text-5xl">{maps.length} jalur belajar, satu per satu.</h2>
 
-          <div className="mt-6 grid grid-cols-3 gap-2 text-center">
-            {[[maps.length, 'jalur'], [lessonCount, 'pelajaran'], [TOOLS.length, 'alat bisnis']].map(([n, l]) => (
-              <div key={l} className="rounded-2xl border border-white/10 bg-white/[0.04] py-4">
-                <p className="font-serif text-3xl font-semibold text-[#E3A63A] tabular-nums">{n}</p>
-                <p className="mt-1 text-xs text-[#FBF9F5]/60">{l}</p>
-              </div>
-            ))}
-          </div>
+          <p className="mt-4 text-base leading-relaxed text-[#FBF9F5]/75">{lessonCount} pelajaran pendek, {TOOLS.length} alat hitung, dan latihan keputusan. Dari dasar sampai lanjut, bisa dimulai dari mana saja.</p>
 
           <h3 className="mt-10 text-sm font-bold uppercase tracking-[0.14em] text-[#FBF9F5]/60">Cara belajarnya</h3>
           <ol className="mt-3 grid gap-2 sm:grid-cols-2">
