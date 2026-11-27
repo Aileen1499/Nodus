@@ -257,6 +257,7 @@ const AppContent: React.FC = () => {
           onSelectNode={openQuiz}
           onUpgrade={() => openPaywall('manual')}
           onLocked={() => openLock('case')}
+          onLockedStory={() => openLock('story')}
           onOpenLesson={(id) => {
             const hit = findNode(id);
             if (!hit) return;

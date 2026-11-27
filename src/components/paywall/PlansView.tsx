@@ -23,6 +23,7 @@ const HEADLINE: Record<PaywallReason, { title: string; text: string }> = {
   ai: { title: 'Tanya mentor lebih banyak', text: 'Kuota harian gratis habis. Pro memperluas kuota AI untuk bedah topik dan tanya jawab.' },
   welcome: { title: 'Belajar bisnis yang benar-benar terpakai', text: 'Satu langganan untuk semua jalur, semua alat, dan latihan yang menjaga ilmumu tetap ingat.' },
   case: { title: 'Buka semua simulasi bisnis', text: 'Jalankan lebih banyak bisnis ilustrasi dan lihat faktor yang menentukan hidup atau matinya.' },
+  story: { title: 'Buka semua kisah bisnis', text: 'Baca lebih banyak cerita nyata perusahaan yang tumbuh dan jatuh, lengkap dengan konsep di baliknya.' },
   manual: { title: 'Belajar bisnis sampai bisa menerapkan', text: 'Semua jalur, semua alat, dan latihan yang membuat ilmu benar-benar menempel.' },
 };
 

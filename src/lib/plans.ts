@@ -74,4 +74,4 @@ export const countProLessons = (maps: MindmapData[]): number =>
     return sum + Math.max(0, lessons - FREE_PREVIEW_LESSONS);
   }, 0);
 
-export type PaywallReason = 'lesson' | 'tool' | 'ai' | 'manual' | 'welcome' | 'case';
+export type PaywallReason = 'lesson' | 'tool' | 'ai' | 'manual' | 'welcome' | 'case' | 'story';

@@ -9,6 +9,7 @@ const COPY: Record<PaywallReason, { title: string; text: string; bullets: string
   tool: { title: 'Alat ini bagian dari Pro', text: 'Hitung angka bisnismu sendiri dengan alat yang siap pakai.', bullets: ['Arus kas, stok, unit economics, investasi', 'Hasil bisa disimpan dan diunduh', 'Alat baru tanpa biaya tambahan'] },
   ai: { title: 'Kuota mentor AI hari ini habis', text: 'Kuota gratis dihitung per hari. Pro memperbesar kuotanya.', bullets: ['Kuota tanya dan bedah topik lebih besar', 'Jalur yang disusun sesuai pertanyaanmu', 'Kuota gratis kembali besok'] },
   case: { title: 'Simulasi ini bagian dari Pro', text: 'Dua simulasi pertama gratis. Simulasi lain membuka bisnis dengan faktor penentu yang berbeda.', bullets: ['Semua studi kasus bertahan atau bangkrut', 'Bedah faktor penentu di tiap kasus', 'Kasus baru ditambahkan berkala'] },
+  story: { title: 'Kisah ini bagian dari Pro', text: 'Lima kisah pertama gratis. Kisah lain membedah perusahaan dan model bisnis lain.', bullets: ['Semua kisah sukses dan bangkrut', 'Tebak dulu, lalu pelajari konsep di baliknya', 'Kisah baru ditambahkan berkala'] },
   welcome: { title: 'NODUS Pro', text: 'Semua jalur, semua alat, dan latihan yang menjaga ilmumu tetap ingat.', bullets: ['Semua jalur sampai tuntas', 'Semua alat bisnis', 'Sertifikat penyelesaian'] },
   manual: { title: 'NODUS Pro', text: 'Semua jalur, semua alat, dan latihan yang menjaga ilmumu tetap ingat.', bullets: ['Semua jalur sampai tuntas', 'Semua alat bisnis', 'Sertifikat penyelesaian'] },
 };

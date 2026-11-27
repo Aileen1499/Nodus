@@ -12,7 +12,7 @@ const STEPS = [
   { icon: BookOpen, title: 'Baca satu pelajaran', text: 'Ketuk pelajaran di peta. Isinya pendek, sekitar 3 menit: ide utamanya, perumpamaan sehari-hari, lalu 3 langkah kecil yang bisa kamu lakukan hari ini.' },
   { icon: Target, title: 'Cek paham', text: 'Setelah membaca, jawab satu kasus keputusan dan beberapa soal. Tidak ada hukuman kalau salah; penjelasannya muncul. Kalau lulus, pelajaran berikutnya terbuka.' },
   { icon: Repeat, title: 'Ulangi sebentar tiap hari', text: 'Tab Arena menyiapkan latihan singkat dari pelajaran yang mulai terlupa. Belajar sedikit tiap hari menjaga streak-mu tetap menyala.' },
-  { icon: Calculator, title: 'Pakai di dunia nyata', text: 'Tab Alat berisi kalkulator untuk bisnismu (margin, titik impas, arus kas). Di Arena ada simulasi: jalankan bisnis ilustrasi dan lihat kenapa ia tumbuh atau bangkrut.' },
+  { icon: Calculator, title: 'Pakai di dunia nyata', text: 'Tab Alat berisi kalkulator untuk bisnismu (margin, titik impas, arus kas). Di Arena ada Kisah Bisnis (cerita nyata perusahaan yang tumbuh atau jatuh) dan simulasi bisnis ilustrasi.' },
 ];
 
 const WORDS = [

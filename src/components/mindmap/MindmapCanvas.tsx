@@ -95,13 +95,13 @@ const buildEdge = (a: Point, b: Point): { d: string; mid: Point } => {
   return { d: `M ${a.x} ${sy} C ${a.x} ${my}, ${b.x} ${my}, ${b.x} ${ty}`, mid: { x: (a.x + b.x) / 2, y: my } };
 };
 
-export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, onSelectNode, onStartQuiz, onSearch, onSelectMap, isLoading, presetQueries }) => {
+export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, onSelectNode, onStartQuiz, onSearch, onSelectMap, isLoading }) => {
   const { isNodeMastered } = useUser();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
   const [searchInput, setSearchInput] = useState('');
-  const [view, setView] = useState<'graph' | 'path'>('graph');
+  const [view, setView] = useState<'graph' | 'path'>(() => (typeof window !== 'undefined' && window.innerWidth < 768 ? 'path' : 'graph'));
   const [showPresets, setShowPresets] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -308,27 +308,11 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, 
           </button>
         </form>
 
-        <div className="-mx-4 flex items-center gap-2 overflow-x-auto px-4 pb-0.5 scrollbar-none sm:mx-0 sm:px-0" role="group" aria-label="Pilih jalur belajar">
-          {TRACK_CHIPS.map((cat) => {
-            const selected = data.id === cat.id;
-            return (
-              <button
-                key={cat.id}
-                aria-pressed={selected}
-                onClick={() => { if (!selected) onSelectMap(cat.id); }}
-                className={controlChip(selected)}
-              >
-                {cat.label}
-              </button>
-            );
-          })}
-        </div>
-
         <div className="rounded-2xl bg-[#FDF0D5] p-3.5 dark:bg-[#E3A63A]/10">
           <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/70 text-[#9A6410] dark:bg-white/10 dark:text-[#E9C06B]"><Layers className="h-5 w-5" /></span>
             <div className="min-w-0 flex-1">
-              <p className="eyebrow !text-[#7A4D0A] dark:!text-[#E9C06B]">Peta pengetahuan terpilih</p>
+              <p className="eyebrow !text-[#7A4D0A] dark:!text-[#E9C06B]">Jalur yang sedang dibuka</p>
               <h1 className="truncate text-[15px] font-extrabold leading-tight text-slate-900 dark:text-white">{data.topic}</h1>
             </div>
             <button onClick={() => setShowPresets((v) => !v)} aria-expanded={showPresets} className="shrink-0 rounded-full bg-white/80 px-3.5 py-1.5 text-xs font-bold text-[#5E3A08] transition-colors hover:bg-white dark:bg-white/10 dark:text-[#E9C06B] dark:hover:bg-white/15">
@@ -338,18 +322,17 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, 
 
           {showPresets && (
             <ul className="mt-3 max-h-56 space-y-1 overflow-y-auto rounded-xl bg-white/80 p-1.5 dark:bg-black/20">
-              {presetQueries.map((query) => {
-                const isActive = data.topic === query;
+              {TRACK_CHIPS.map((t) => {
+                const isActive = data.id === t.id;
                 return (
-                  <li key={query}>
+                  <li key={t.id}>
                     <button
-                      onClick={() => { setSearchInput(''); setShowPresets(false); onSearch(query); }}
-                      disabled={isLoading}
-                      className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-semibold transition-colors ${
+                      onClick={() => { setShowPresets(false); if (!isActive) onSelectMap(t.id); }}
+                      className={`flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-sm font-semibold transition-colors ${
                         isActive ? 'bg-[#151517] text-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#121214]' : 'text-slate-700 hover:bg-white dark:text-slate-200 dark:hover:bg-white/10'
                       }`}
                     >
-                      <span className="min-w-0 flex-1 truncate">{query}</span>
+                      <span className="min-w-0 flex-1 truncate">{t.label}</span>
                       {isActive && <Check className="h-4 w-4 shrink-0" />}
                     </button>
                   </li>
@@ -388,7 +371,7 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, 
         <div className="mt-4 flex flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 px-6 py-16 text-center dark:border-white/15">
           <BookOpen className="mb-3 h-10 w-10 text-slate-400" />
           <h2 className="text-base font-bold text-slate-800 dark:text-slate-100">Peta belum dimuat</h2>
-          <p className="mt-1 max-w-sm text-sm text-slate-500 dark:text-slate-400">Ketik topik di kolom pencarian, atau pilih salah satu peta lewat tombol “Ganti”.</p>
+          <p className="mt-1 max-w-sm text-sm text-slate-500 dark:text-slate-400">Ketik topik di kolom pencarian, atau pilih salah satu jalur lewat tombol “Ganti”.</p>
         </div>
       ) : view === 'path' ? (
         <div className="mt-4"><LearningPath data={data} onOpenNode={onSelectNode} /></div>

@@ -9,6 +9,7 @@ import { PracticeSession } from './PracticeSession';
 import { CertificateView } from './CertificateView';
 import { CapabilityCard } from './CapabilityCard';
 import { CaseList } from './CaseList';
+import { StoryList } from './StoryList';
 
 interface ArenaViewProps {
   data: MindmapData;
@@ -16,14 +17,16 @@ interface ArenaViewProps {
   onSelectNode: (node: MindmapNode) => void;
   onUpgrade?: () => void;
   onLocked?: () => void;
+  onLockedStory?: () => void;
   onOpenLesson?: (nodeId: string) => void;
 }
 
 type Filter = 'all' | 'todo' | 'done' | 'due';
 
-export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode, onUpgrade, onLocked, onOpenLesson }) => {
+export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode, onUpgrade, onLocked, onLockedStory, onOpenLesson }) => {
   const { isNodeMastered, progress, isPro } = useUser();
   const [filter, setFilter] = useState<Filter>('all');
+  const [section, setSection] = useState<'latihan' | 'kisah' | 'simulasi'>('latihan');
   const [showCertificate, setShowCertificate] = useState(false);
   const [session, setSession] = useState<{ items: PracticeItem[]; title: string } | null>(null);
 
@@ -67,7 +70,7 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode, onUpgr
     if (masteredPool.length === 0)
       return { title: 'Belum ada yang bisa diulang', body: 'Lulus satu evaluasi dulu. Setelah itu soal-soalnya akan kembali secara berkala supaya ilmu tidak menguap.', cta: null as string | null };
     if (duePool.length > 0)
-      return { title: `${duePool.length} pelajaran perlu diulang`, body: 'Lima soal campuran dari yang pernah Anda kuasai. Sekitar 3 menit, menjaga streak Anda.', cta: 'Mulai latihan 5 soal' };
+      return { title: `${duePool.length} pelajaran perlu diulang`, body: 'Lima soal campuran dari yang pernah kamu kuasai. Sekitar 3 menit, menjaga streakmu.', cta: 'Mulai latihan 5 soal' };
     return { title: 'Semua ingatan masih segar', body: 'Tidak ada yang jatuh tempo. Mau latihan bebas tetap boleh.', cta: 'Latihan bebas 5 soal' };
   })();
 
@@ -86,10 +89,18 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode, onUpgr
 
         <div className="flex-1 overflow-y-auto pb-32">
           <div className="mx-auto w-full max-w-5xl space-y-6 px-4 py-6 sm:px-8 sm:py-8">
-            <CapabilityCard isPro={isPro} onUpgrade={onUpgrade} />
+            <div className="flex rounded-full bg-slate-200/70 p-1 dark:bg-white/10" role="tablist" aria-label="Bagian Arena">
+              {([{ id: 'latihan', label: 'Latihan' }, { id: 'kisah', label: 'Kisah Bisnis' }, { id: 'simulasi', label: 'Simulasi' }] as const).map((t) => (
+                <button key={t.id} role="tab" aria-selected={section === t.id} onClick={() => setSection(t.id)}
+                  className={`flex-1 rounded-full px-3 py-2 text-[13px] font-bold transition-colors ${section === t.id ? 'bg-[#151517] text-[#FBF9F5] shadow-sm dark:bg-[#FBF9F5] dark:text-[#121214]' : 'text-slate-600 dark:text-slate-300'}`}>{t.label}</button>
+              ))}
+            </div>
 
-            <CaseList isPro={isPro} onUpgrade={onLocked ?? onUpgrade} onOpenLesson={onOpenLesson} />
+            {section === 'kisah' && <StoryList isPro={isPro} onLocked={onLockedStory ?? onUpgrade} onOpenLesson={onOpenLesson} />}
+            {section === 'simulasi' && <CaseList isPro={isPro} onUpgrade={onLocked ?? onUpgrade} onOpenLesson={onOpenLesson} />}
 
+            {section === 'latihan' && (
+              <>
             {/* Latihan harian */}
             <div className="rounded-3xl bg-[#151517] p-5 text-[#FBF9F5] shadow-float dark:bg-[#1C1C1F] sm:p-6">
               <div className="flex items-start gap-4">
@@ -102,6 +113,8 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode, onUpgr
                 </div>
               </div>
             </div>
+
+            <CapabilityCard isPro={isPro} onUpgrade={onUpgrade} />
 
             {/* Status jalur */}
             <div className="surface p-5">
@@ -176,6 +189,8 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode, onUpgr
                   );
                 })}
               </div>
+            )}
+              </>
             )}
           </div>
         </div>
