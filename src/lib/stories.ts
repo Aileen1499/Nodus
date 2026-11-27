@@ -197,7 +197,7 @@ export const STORIES: Story[] = [
         'Prinsip ini penting: fokus pada yang membedakan (desain dan bodi komposit), lalu membeli bagian lain dari pemasok terbaik.',
       ] },
       { h: 'Sengaja langka', p: [
-        'Huayra dibuat hanya 100 unit (versi "100" dengan 740 PS dan material "carbotanium"). Utopia diungkap pada September 2022 dengan 99 unit, harga mulai sekitar US$2,19 juta, dan pengiriman pertama Oktober 2023.',
+        'Huayra dibuat terbatas, sekitar 100 unit, dengan material komposit "carbotanium". Utopia diungkap pada September 2022 dengan 99 unit, harga mulai sekitar US$2,19 juta, dan pengiriman pertama Oktober 2023.',
         'Menurut Christopher Pagani, produksi sekitar 50 mobil per tahun. Pembeli ikut menentukan banyak detail, sehingga setiap mobil terasa seperti karya yang dipesan.',
       ] },
     ],
@@ -231,11 +231,11 @@ export const STORIES: Story[] = [
         'Mi-nya mulai dari sekitar Rp10.000, sehingga pelajar dan pekerja muda bisa makan di sana tanpa berpikir panjang.',
       ] },
       { h: 'Rancangan yang membuatnya ramai', p: [
-        'Dua hal sering dibahas: gerai yang luas dan terpisah dari ruko kecil, sehingga bisa menampung banyak pengunjung, dan SOP memasak yang seragam sehingga rasa dan kecepatan terjaga.',
+        'Dua hal sering dibahas: gerai yang luas dan berdiri sendiri, sehingga bisa menampung banyak pengunjung, dan SOP memasak yang seragam sehingga rasa dan kecepatan terjaga.',
         'Menu yang sempit dengan harga rendah berarti perputaran tinggi: margin per mangkuk kecil, tetapi jumlah mangkuk banyak. Angka pasti untung dan rugi mereka tidak dipublikasikan, jadi kita hanya bisa membaca polanya.',
       ] },
       { h: 'Persoalan hukum soal musik', p: [
-        'Di Bali, SELMI (lembaga kolektif royalti musik) melaporkan masalah pemutaran musik ke Polda Bali pada 26 Agustus 2024. Pada Juli 2025 direktur PT Mitra Bali Sukses (mitra yang mengelola gerai di Bali) ditetapkan sebagai tersangka, dan pada 8 Agustus 2025 tercapai perdamaian dengan pembayaran Rp2,2 miliar. Status pidananya belum final menurut sumber yang kami baca.',
+        'Di Bali, SELMI (lembaga kolektif royalti musik) melaporkan masalah pemutaran musik ke Polda Bali pada 26 Agustus 2024. Pada Juli 2025 direktur PT Mitra Bali Sukses ditetapkan sebagai tersangka, dan pada 8 Agustus 2025 tercapai perdamaian dengan pembayaran Rp2,2 miliar. Status pidananya belum final menurut sumber yang kami baca.',
         'Pelajarannya netral dan berlaku untuk semua usaha: memutar musik di tempat usaha adalah penggunaan komersial, dan lisensinya perlu diurus. Ini kasus satu mitra, bukan penilaian atas seluruh perusahaan.',
       ] },
     ],
