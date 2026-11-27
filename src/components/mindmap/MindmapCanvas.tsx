@@ -283,13 +283,6 @@ export const MindmapCanvas: React.FC<MindmapCanvasProps> = ({ data, activeNode, 
 
   const stateLabel: Record<VisualState, string> = { mastered: 'dikuasai', current: 'sedang dipelajari', available: 'siap dipelajari', locked: 'terkunci' };
 
-  const controlChip = (active: boolean) =>
-    `chip border ${
-      active
-        ? 'border-[#151517] bg-[#151517] text-[#FBF9F5] dark:border-[#FBF9F5] dark:bg-[#FBF9F5] dark:text-[#121214]'
-        : 'border-slate-200 bg-white text-slate-600 hover:text-slate-900 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:text-white'
-    }`;
-
   return (
     <div className="mx-auto w-full max-w-5xl px-4 pb-36 pt-4 sm:px-6">
       <div className="space-y-3">
