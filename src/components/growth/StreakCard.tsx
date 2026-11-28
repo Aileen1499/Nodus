@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flame, ShieldAlert, Target } from 'lucide-react';
+import { Flame, ShieldAlert, Snowflake, Target } from 'lucide-react';
 import { useUser } from '../../context/UserContext';
 import { localDay } from '../../lib/date';
 
@@ -29,9 +29,9 @@ export const StreakCard: React.FC<{ onContinue?: () => void }> = ({ onContinue }
           {atRisk ? `Streak ${streak} hari terancam putus` : doneToday ? `Target hari ini tercapai · ${streak} hari beruntun` : `${streak} hari beruntun`}
         </span>
         <span className="mt-0.5 block text-[12px] leading-snug text-slate-600 dark:text-slate-300">
-          {atRisk ? 'Satu pelajaran singkat hari ini menyelamatkannya.' : next ? `${next - streak} hari lagi menuju lencana ${next} hari.` : 'Konsistenmu luar biasa.'}
+          {atRisk ? ((progress.freezes || 0) > 0 ? 'Kamu punya libur streak, jadi satu hari terlewat masih aman.' : 'Satu pelajaran singkat hari ini menyelamatkannya.') : next ? `${next - streak} hari lagi menuju lencana ${next} hari.` : 'Konsistenmu luar biasa.'}
         </span>
-        
+        {(progress.freezes || 0) > 0 && <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-[#151517]/5 px-2 py-0.5 text-[11px] font-bold text-[#7A4D0A] dark:bg-white/10 dark:text-[#E9C06B]"><Snowflake className="h-3 w-3" />{progress.freezes} libur streak tersimpan</span>}
       </span>
     </button>
   );

@@ -47,13 +47,30 @@ const withActivity = (prev: UserProgress, today: string, minutes: number, lesson
 const nextStreak = (prev: UserProgress, today: string): number => {
   if (!prev.lastStudyDate) return 1;
   if (prev.lastStudyDate === today) return prev.streak;
-  const diff = Math.floor((new Date(today).getTime() - new Date(prev.lastStudyDate).getTime()) / (1000 * 3600 * 24));
-  return diff === 1 ? prev.streak + 1 : 1;
+  const diff = Math.round((new Date(today).getTime() - new Date(prev.lastStudyDate).getTime()) / (1000 * 3600 * 24));
+  if (diff === 1) return prev.streak + 1;
+  // Melewatkan tepat satu hari dan masih punya libur streak: streak tetap lanjut.
+  if (diff === 2 && (prev.freezes || 0) > 0) return prev.streak + 1;
+  return 1;
+};
+
+/** Sisa libur streak setelah belajar hari ini: dipakai bila melewatkan satu hari, dan dapat 1 baru tiap kelipatan 7 hari (maks 2). */
+export const MAX_FREEZES = 2;
+const nextFreezes = (prev: UserProgress, today: string): number => {
+  const before = prev.freezes || 0;
+  if (!prev.lastStudyDate || prev.lastStudyDate === today) return before;
+  const diff = Math.round((new Date(today).getTime() - new Date(prev.lastStudyDate).getTime()) / (1000 * 3600 * 24));
+  let left = before;
+  if (diff === 2 && before > 0) left = before - 1;
+  const streak = nextStreak(prev, today);
+  if (streak > 0 && streak % 7 === 0 && streak > prev.streak) left = Math.min(MAX_FREEZES, left + 1);
+  return left;
 };
 
 const defaultProgress: UserProgress = {
   rankPoints: 0,
   streak: 0,
+  freezes: 0,
   credits: DEFAULT_FREE_CREDITS, // 3 free credits per day
   masteredNodeIds: [],
   checkedActions: {},
@@ -87,7 +104,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Streak putus bila sudah lewat satu hari penuh sejak terakhir BELAJAR (bukan sekadar membuka aplikasi).
         if (parsed.lastStudyDate) {
           const sinceStudy = Math.round((new Date(today).getTime() - new Date(parsed.lastStudyDate).getTime()) / (1000 * 3600 * 24));
-          if (sinceStudy > 1) streak = 0;
+          const saved = sinceStudy === 2 && (parsed.freezes || 0) > 0;
+          if (sinceStudy > 1 && !saved) streak = 0;
         }
         let credits = parsed.credits ?? DEFAULT_FREE_CREDITS;
 
@@ -175,6 +193,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         ...prev,
         rankPoints: newPoints,
         streak: updatedStreak,
+        freezes: nextFreezes(prev, today),
         lastStudyDate: today,
         activityLog: withActivity(prev, today, 0, alreadyMastered ? 0 : 1),
         masteredNodeIds: newMastered,
@@ -189,7 +208,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       nodeIds.forEach((id) => { reviewed[id] = today; });
       const newRP = Math.max(0, prev.rankPoints + rp);
       if (user && rp !== 0) syncUserRP(user.uid, newRP);
-      return { ...prev, lastReviewed: reviewed, rankPoints: newRP, streak: nextStreak(prev, today), lastStudyDate: today, activityLog: withActivity(prev, today, 0, 0) };
+      return { ...prev, lastReviewed: reviewed, rankPoints: newRP, streak: nextStreak(prev, today), freezes: nextFreezes(prev, today), lastStudyDate: today, activityLog: withActivity(prev, today, 0, 0) };
     });
   };
 

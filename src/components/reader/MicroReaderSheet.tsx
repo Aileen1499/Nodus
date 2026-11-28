@@ -20,7 +20,10 @@ import {
   Check,
   Lock,
   StickyNote,
+  Volume2,
+  Square as StopIcon,
 } from 'lucide-react';
+import { canSpeak, speakText, stopSpeaking } from '../../lib/speech';
 
 interface MicroReaderSheetProps {
   node: MindmapNode | null;
@@ -195,6 +198,26 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, 
     }
   }, []);
 
+  // Dengarkan: bacakan isi pelajaran dengan suara perangkat; berhenti saat pindah pelajaran atau menutup.
+  const [listening, setListening] = useState(false);
+  useEffect(() => { setListening(false); return () => stopSpeaking(); }, [node?.id, activeTab]);
+  const toggleListen = () => {
+    if (!node) return;
+    if (listening) { stopSpeaking(); setListening(false); return; }
+    const mc = node.microContent;
+    const parts = [
+      node.label,
+      mc.mentalModel && plain(mc.mentalModel),
+      mc.analogy && plain(mc.analogy),
+      mc.crossDisciplinary?.insight && plain(mc.crossDisciplinary.insight),
+      mc.caseStudy?.story && `Studi kasus. ${plain(mc.caseStudy.story)}`,
+      mc.caseStudy?.takeaway && `Pelajaran kunci. ${plain(mc.caseStudy.takeaway)}`,
+      mc.actionableSteps?.length ? `Langkah yang bisa kamu lakukan hari ini. ${mc.actionableSteps.map((s, i) => `${i + 1}. ${plain(s)}`).join(' ')}` : '',
+    ].filter(Boolean).join('. ');
+    setListening(true);
+    speakText(parts, () => setListening(false));
+  };
+
   if (!node) return null;
 
   const mastered = isNodeMastered(node.id);
@@ -320,6 +343,17 @@ export const MicroReaderSheet: React.FC<MicroReaderSheetProps> = ({ node, data, 
                 <Clock className="h-3.5 w-3.5" />
                 {minutes}:{String(readingSeconds % 60).padStart(2, '0')}
               </span>
+              {canSpeak() && (
+                <button
+                  onClick={toggleListen}
+                  aria-pressed={listening}
+                  aria-label={listening ? 'Hentikan suara' : 'Dengarkan pelajaran'}
+                  title={listening ? 'Hentikan suara' : 'Dengarkan pelajaran'}
+                  className={`flex h-10 w-10 items-center justify-center rounded-full transition-colors ${listening ? 'bg-[#E3A63A] text-[#151517]' : 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10'}`}
+                >
+                  {listening ? <StopIcon className="h-4 w-4" fill="currentColor" /> : <Volume2 className="h-5 w-5" />}
+                </button>
+              )}
               <button
                 onClick={() => toggleBookmark(node.id)}
                 aria-pressed={saved}

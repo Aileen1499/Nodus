@@ -111,6 +111,7 @@ export interface UserHighlight {
 export interface UserProgress {
   rankPoints: number; // Total accumulated RP (Rank Points)
   streak: number; // Daily learning streak
+  freezes?: number; // Libur streak yang tersimpan (maks 2)
   credits: number; // Deep-dive credits (default 10)
   masteredNodeIds: string[]; // Node IDs completed by user
   checkedActions: Record<string, boolean>; // Node ID + Action Index for actionable checklist
