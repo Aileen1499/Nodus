@@ -10,6 +10,7 @@ import { CertificateView } from './CertificateView';
 import { CapabilityCard } from './CapabilityCard';
 import { CaseList } from './CaseList';
 import { StoryList } from './StoryList';
+import { WeeklyGoal } from '../growth/WeeklyGoal';
 
 interface ArenaViewProps {
   data: MindmapData;
@@ -113,6 +114,8 @@ export const ArenaView: React.FC<ArenaViewProps> = ({ data, onSelectNode, onUpgr
                 </div>
               </div>
             </div>
+
+            <WeeklyGoal />
 
             <CapabilityCard isPro={isPro} onUpgrade={onUpgrade} />
 

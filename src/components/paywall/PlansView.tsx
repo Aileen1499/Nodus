@@ -30,6 +30,7 @@ const HEADLINE: Record<PaywallReason, { title: string; text: string }> = {
 const FAQ: { q: string; a: string }[] = [
   { q: 'Bisa batal kapan saja?', a: 'Bisa. Langganan dikelola lewat akun toko aplikasi atau penyedia pembayaranmu, dan tetap aktif sampai akhir periode yang sudah dibayar.' },
   { q: 'Bagaimana uji coba gratis 7 hari?', a: 'Paket tahunan diawali 7 hari uji coba. Kamu baru ditagih setelah uji coba berakhir, dan bisa membatalkannya sebelum itu.' },
+  { q: 'Apakah ada tagihan atau perpanjangan yang tersembunyi?', a: 'Tidak boleh ada. Saat pembayaran aktif, harga, lama uji coba, dan tanggal perpanjangan ditampilkan sebelum kamu membayar, dan kami mengingatkan sebelum paket tahunan diperpanjang.' },
   { q: 'Apakah progres belajarku hilang jika berhenti?', a: 'Tidak. Progres, stabilo, dan catatanmu tetap tersimpan. Hanya akses ke pelajaran dan alat Pro yang berhenti.' },
   { q: 'Apakah ini nasihat investasi atau keuangan?', a: 'Bukan. NODUS adalah materi belajar. Angka kasus bersifat ilustrasi, dan keputusan keuanganmu tetap tanggung jawabmu.' },
 ];
