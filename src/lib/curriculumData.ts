@@ -13,6 +13,7 @@ import { UNIT_ECONOMICS_CURRICULUM } from './curricula/unitEconomics';
 import { MARKETING_CURRICULUM } from './curricula/marketing';
 import { INVESTING_CURRICULUM } from './curricula/investing';
 import { FRAMEWORKS_CURRICULUM } from './curricula/frameworks';
+import { TECHNICAL_CURRICULUM } from './curricula/technical';
 import { OPERATIONS_CURRICULUM } from './curricula/operations';
 import { NEGOTIATION_CURRICULUM } from './curricula/negotiation';
 import { LOKAL_CURRICULUM } from './curricula/lokal';
@@ -946,6 +947,13 @@ export const ALL_CURRICULA: Record<string, MindmapData> = {
   'brand': MARKETING_CURRICULUM,
   'branding': MARKETING_CURRICULUM,
   'kerangka klasik ruang kuliah bisnis: strategi, ekonomi & pasar modal': FRAMEWORKS_CURRICULUM,
+  'trading teknikal: membaca grafik dengan kepala dingin': TECHNICAL_CURRICULUM,
+  'trading teknikal': TECHNICAL_CURRICULUM,
+  'analisis teknikal': TECHNICAL_CURRICULUM,
+  'trading': TECHNICAL_CURRICULUM,
+  'candlestick': TECHNICAL_CURRICULUM,
+  'rsi': TECHNICAL_CURRICULUM,
+  'support resistance': TECHNICAL_CURRICULUM,
   'kerangka klasik': FRAMEWORKS_CURRICULUM,
   'teori bisnis': FRAMEWORKS_CURRICULUM,
   'teori portofolio': FRAMEWORKS_CURRICULUM,

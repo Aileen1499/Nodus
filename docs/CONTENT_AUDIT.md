@@ -44,6 +44,21 @@ Ditulis ulang dengan kata-kata NODUS. BUKAN materi, studi kasus, atau kurikulum 
 | Semua angka contoh | Ilustrasi, dihitung ulang (CAPM 5%+1,2x6%=12,2%) | aritmetika |
 Belum ditinjau pakar. Tinjau sebelum Pro dijual.
 
+## Jalur Trading Teknikal (ta-)
+Edukasi, bukan rekomendasi atau ajakan trading. Teknikal tidak menjamin hasil.
+| Klaim | Status | Sumber |
+|---|---|---|
+| RSI, 14 periode, 70/30 konvensional | Wilder 1978, New Concepts in Technical Trading Systems | buku asli |
+| ATR | Wilder 1978 | buku asli |
+| Bollinger Bands | John Bollinger, 1980-an (tahun pasti tidak ditulis) | umum |
+| Bukti teknikal campuran | Brock, Lakonishok, LeBaron 1992 (J. Finance); Sullivan, Timmermann, White 1999 (data snooping) | makalah asli, dibaca ringkasannya |
+| Day trader Taiwan: hanya sebagian kecil konsisten untung | Barber, Odean, dkk. Ditulis tanpa angka; BELUM dibuka ulang makalahnya, verifikasi sebelum Pro | belum diverifikasi penuh |
+| Satu lot = 100 lembar saham (BEI) | Umum; verifikasi ke aturan BEI terbaru | umum |
+| Aturan risiko 1-2% per transaksi | Aturan praktis umum, ditulis bukan rekomendasi | umum |
+| Contoh hitung (SMA 5=103, ukuran posisi 5.000 lembar=50 lot, impas 33%) | Dihitung ulang | aritmetika |
+| Pemeriksaan izin lewat OJK | Praktik umum; tidak menyebut nomor atau daftar spesifik | OJK |
+Sengaja TIDAK ditulis: batas ARA/ARB, biaya broker, nama sekuritas, sinyal beli/jual, saham tertentu.
+
 ## Yang HARUS ditinjau manusia sebelum Pro dijual
 1. Jalur Pajak (konsultan pajak) - angka dan tenggat berubah sering.
 2. Ketentuan Layanan & Kebijakan Privasi (konsultan hukum, 1 sesi).
