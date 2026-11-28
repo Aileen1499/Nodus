@@ -12,6 +12,7 @@ import { ACCOUNTING_CURRICULUM } from './curricula/accounting';
 import { UNIT_ECONOMICS_CURRICULUM } from './curricula/unitEconomics';
 import { MARKETING_CURRICULUM } from './curricula/marketing';
 import { INVESTING_CURRICULUM } from './curricula/investing';
+import { FRAMEWORKS_CURRICULUM } from './curricula/frameworks';
 import { OPERATIONS_CURRICULUM } from './curricula/operations';
 import { NEGOTIATION_CURRICULUM } from './curricula/negotiation';
 import { LOKAL_CURRICULUM } from './curricula/lokal';
@@ -944,6 +945,15 @@ export const ALL_CURRICULA: Record<string, MindmapData> = {
   'marketing': MARKETING_CURRICULUM,
   'brand': MARKETING_CURRICULUM,
   'branding': MARKETING_CURRICULUM,
+  'kerangka klasik ruang kuliah bisnis: strategi, ekonomi & pasar modal': FRAMEWORKS_CURRICULUM,
+  'kerangka klasik': FRAMEWORKS_CURRICULUM,
+  'teori bisnis': FRAMEWORKS_CURRICULUM,
+  'teori portofolio': FRAMEWORKS_CURRICULUM,
+  'capm': FRAMEWORKS_CURRICULUM,
+  'efficient market': FRAMEWORKS_CURRICULUM,
+  'modigliani miller': FRAMEWORKS_CURRICULUM,
+  'jobs to be done': FRAMEWORKS_CURRICULUM,
+  'vrio': FRAMEWORKS_CURRICULUM,
   'investasi & pasar modal untuk pemula': INVESTING_CURRICULUM,
   'investasi pemula': INVESTING_CURRICULUM,
   'pasar modal': INVESTING_CURRICULUM,

@@ -28,6 +28,22 @@ Klaim yang tidak bisa diverifikasi sengaja ditulis hati-hati ("umumnya", "periks
 - Tidak ada angka regulasi spesifik (mis. batas penjaminan LPS) atau rekomendasi saham/produk tertentu.
 - Tiga kalimat yang terlalu direktif ("bebas risiko", "aksi beli saham") sudah dilunakkan.
 
+## Jalur Kerangka Klasik Ruang Kuliah Bisnis (fw-)
+Ditulis ulang dengan kata-kata NODUS. BUKAN materi, studi kasus, atau kurikulum resmi institusi mana pun (termasuk Harvard Business School), dan tidak berafiliasi. Jangan menambahkan nama atau logo institusi sebagai klaim kerja sama.
+| Klaim | Status | Sumber |
+|---|---|---|
+| VRIO / Resource-Based View | Barney 1991, Journal of Management (VRIO dikembangkan dari karya lanjutannya) | makalah asli |
+| Jobs to Be Done; kisah milkshake | Christensen dan rekan; kisah ditulis "dalam kisah yang sering diceritakan", tanpa angka | publikasi Christensen |
+| Rantai nilai | Porter, Competitive Advantage, 1985 | buku asli |
+| Pasar lemon | Akerlof 1970, QJE; Nobel 2001 | makalah asli |
+| Agensi dan biaya transaksi | Jensen & Meckling 1976; Coase 1937 | makalah asli |
+| MPT dan CAPM | Markowitz 1952; Sharpe 1964; Nobel 1990 | makalah asli |
+| Hipotesis pasar efisien | Fama 1970; Fama dan Shiller Nobel 2013 | makalah asli |
+| Modigliani-Miller | 1958 AER; Nobel Modigliani 1985, Miller 1990 | makalah asli |
+| Ukuran posisi 1-2% | Aturan praktis umum, ditulis sebagai bukan rekomendasi | umum |
+| Semua angka contoh | Ilustrasi, dihitung ulang (CAPM 5%+1,2x6%=12,2%) | aritmetika |
+Belum ditinjau pakar. Tinjau sebelum Pro dijual.
+
 ## Yang HARUS ditinjau manusia sebelum Pro dijual
 1. Jalur Pajak (konsultan pajak) - angka dan tenggat berubah sering.
 2. Ketentuan Layanan & Kebijakan Privasi (konsultan hukum, 1 sesi).

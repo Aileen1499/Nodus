@@ -29,6 +29,7 @@ const TRACK_CHIPS = [
   { id: 'curriculum-zero-to-hero-owner', label: 'Mulai dari Nol' },
   { id: 'curriculum-corporate-strategy-wealth', label: 'Bisnis & Legal' },
   { id: 'curriculum-bisnis-strategi-moat', label: 'Strategi' },
+  { id: 'curriculum-kerangka-ruang-kuliah', label: 'Kerangka Klasik Kampus' },
   { id: 'curriculum-ekonomi-makro-keuangan', label: 'Makroekonomi' },
   { id: 'curriculum-psikologi-perilaku-keputusan', label: 'Psikologi' },
   { id: 'curriculum-akuntansi-pemilik-usaha', label: 'Akuntansi' },
