@@ -26,18 +26,13 @@ Aturan respons:
 4. Gunakan gaya bahasa mentor kelas atas yang menginspirasi, santun, dan profesional.`;
 
     if (!apiKey) {
-      return new Response(
-        JSON.stringify({
-          reply: `Sebagai Socrates, saya melihat inti dari "${nodeTitle}" adalah tentang leverage dan insentif. Mengenai pertanyaan Anda: bayangkan analogi kedai kopi lokal. Jika Anda menerapkan prinsip ini, jangan ubah bahan dasarnya, tetapi ubah struktur penawaran dan persepsi nilainya. Pelanggan Anda tidak membeli kafein, mereka membeli jeda ketenangan atau status bekerja di tempat yang tepat. Pertanyaan saya untuk Anda: Jika Anda menaikkan harga 10% besok pagi, nilai tambah apa yang membuat pelanggan setia Anda justru tersenyum puas?`,
-        }),
-        {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
+      return new Response(JSON.stringify({ error: 'AI mentor is not configured.', fallback: true }), {
+        status: 503,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     const geminiRes = await fetch(apiUrl, {
       method: 'POST',

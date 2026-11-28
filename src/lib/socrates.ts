@@ -50,7 +50,7 @@ export async function askSocratesAI(
 
   if (apiKey && apiKey.length > 10) {
     try {
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
       const systemPrompt = `Anda adalah Socrates, AI Mentor Nodus (seorang Senior Business Strategist dan Behavioral Psychologist kelas dunia). 
 Tugas Anda adalah membimbing pengguna yang sedang mempelajari simpul materi: "${nodeTitle}" (Domain: ${nodeDomain}).
 Aturan:
@@ -81,32 +81,10 @@ Gaya bahasa: Mentor berkelas, santun, lugas, menginspirasi.`;
     }
   }
 
-  // 3. Contextual Offline Mentor Intelligence
-  const qLower = trimmedQ.toLowerCase();
-  
-  if (qLower.includes('kopi') || qLower.includes('kafe') || qLower.includes('f&b') || qLower.includes('toko')) {
-    return `Sebagai Socrates, mari kita bawa konsep "${nodeTitle}" ke kedai kopi lokal Anda.
-Jika Anda menjual secangkir cappuccino seharga Rp 35.000, margin biji kopinya mungkin hanya Rp 3.000. Tapi mengapa pelanggan memilih duduk 2 jam di tempat Anda daripada menyeduh sachet di rumah? Karena Anda menjual ruang ketenangan, koneksi Wi-Fi yang stabil, dan validasi sosial. 
+  // 3. AI tidak aktif: katakan terus terang, jangan pura-pura menjawab.
+  return `Mentor AI belum aktif, jadi aku belum bisa menjawab pertanyaanmu tentang "${nodeTitle}".
 
-Penerapan taktisnya: Jangan bersaing di harga murah biji kopi. Terapkan "Pricing Tier": sediakan opsi kopi premium single-origin seharga Rp 55.000 sebagai jangkar (anchor). Secara otomatis, cappuccino Rp 35.000 Anda akan terasa sangat wajar dan menjadi pilihan mayoritas.
-
-Pertanyaan reflektif saya untuk Anda: Dari 100 orang yang datang ke toko Anda hari ini, berapa persen yang datang karena kualitas rasa, dan berapa persen yang datang karena suasana ruangan?`;
-  }
-
-  if (qLower.includes('contoh') || qLower.includes('terapkan') || qLower.includes('aplikasi') || qLower.includes('gimana')) {
-    return `Sebagai Socrates, analogi praktis untuk "${nodeTitle}" adalah seperti tuas pengungkit mekanis Archimedes. 
-
-Di dunia nyata, Anda tidak perlu bekerja 10 kali lebih keras untuk menghasilkan dampak 10 kali lipat. Anda hanya butuh posisi tumpuan (pivot) yang tepat: apakah itu lewat parit pertahanan ekonomi, penurunan friksi di otak konsumen, atau restrukturisasi penawaran Anda. Mulailah dengan 1 eksperimen mikro selama 7 hari tanpa mengubah seluruh bisnis Anda sekaligus.
-
-Pertanyaan saya: Jika Anda hanya boleh mengubah 1 variabel saja dalam penawaran Anda minggu ini, variabel mana yang paling cepat mengubah persepsi nilai di mata calon pembeli?`;
-  }
-
-  return `Sebagai Socrates, mari kita renungkan esensi dari "${nodeTitle}".
-Dalam domain ${nodeDomain}, prinsip paling mendasar adalah memahami bagaimana insentif dan persepsi menggerakkan alokasi sumber daya. Orang tidak mengambil keputusan berdasarkan angka objektif di atas kertas, melainkan berdasarkan bagaimana pikiran mereka menyaring rasa aman, risiko kehilangan, dan potensi status.
-
-Pegang prinsip ini: Sederhanakan pilihan, kurangi friksi keraguan, dan buktikan hasilnya dengan tindakan nyata terukur.
-
-Bagaimana Anda akan menguji konsep ini pada proyek atau pekerjaan Anda dalam 48 jam ke depan?`;
+Sementara itu, coba ini: tulis satu kalimat tentang bagaimana konsep ini terlihat di usaha atau pekerjaan yang kamu kenal, lalu cek apakah contoh di pelajaran sudah menjawab pertanyaanmu. Kamu juga bisa menambahkan kunci AI milikmu sendiri di Pengaturan.`;
 }
 
 

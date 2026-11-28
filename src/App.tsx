@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { localDay } from './lib/date';
 import { UserProvider, useUser } from './context/UserContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -7,20 +7,12 @@ import { Header } from './components/common/Header';
 import { BottomNav, NavTab } from './components/common/BottomNav';
 import { MindmapCanvas } from './components/mindmap/MindmapCanvas';
 import { MicroReaderSheet } from './components/reader/MicroReaderSheet';
-import { QuizEngine } from './components/quiz/QuizEngine';
-import { ArenaView } from './components/quiz/ArenaView';
 import { getNeighbours } from './lib/pathLogic';
-import { SettingsModal } from './components/common/SettingsModal';
-import { HelpModal } from './components/common/HelpModal';
-import { ExploreModal } from './components/explore/ExploreModal';
 import { ToolkitView, TOOLS } from './components/tools/ToolkitView';
 import type { ToolId } from './lib/curriculumBuilder';
 import { allNodes, findNode, getMapById, resolveRetired } from './lib/nodeIndex';
 import { isDueForReview } from './lib/review';
-import { ProfileModal } from './components/profile/ProfileModal';
-import { AuthModal } from './components/auth/AuthModal';
 import { WelcomeScreen } from './components/brand/WelcomeScreen';
-import { PlansView } from './components/paywall/PlansView';
 import { ProLockSheet } from './components/paywall/ProLockSheet';
 import { LegalView, LegalKind } from './components/legal/LegalView';
 import { readReminder, msUntil, showReminder } from './lib/reminder';
@@ -34,6 +26,15 @@ import { Greeting } from './components/growth/Greeting';
 import { ReviewDueCard } from './components/growth/ReviewDueCard';
 import { getRecommendedNode } from './lib/pathLogic';
 import { getCurriculumForQuery, ZERO_TO_HERO_OWNER_CURRICULUM } from './lib/curriculumData';
+
+const SettingsModal = lazy(() => import('./components/common/SettingsModal').then((m) => ({ default: m.SettingsModal })));
+const HelpModal = lazy(() => import('./components/common/HelpModal').then((m) => ({ default: m.HelpModal })));
+const ExploreModal = lazy(() => import('./components/explore/ExploreModal').then((m) => ({ default: m.ExploreModal })));
+const ProfileModal = lazy(() => import('./components/profile/ProfileModal').then((m) => ({ default: m.ProfileModal })));
+const AuthModal = lazy(() => import('./components/auth/AuthModal').then((m) => ({ default: m.AuthModal })));
+const PlansView = lazy(() => import('./components/paywall/PlansView').then((m) => ({ default: m.PlansView })));
+const ArenaView = lazy(() => import('./components/quiz/ArenaView').then((m) => ({ default: m.ArenaView })));
+const QuizEngine = lazy(() => import('./components/quiz/QuizEngine').then((m) => ({ default: m.QuizEngine })));
 
 const AppContent: React.FC = () => {
   const { progress, isPro, useCredit, isNodeMastered } = useUser();
@@ -64,6 +65,8 @@ const AppContent: React.FC = () => {
   const [paywall, setPaywall] = useState<{ open: boolean; reason: PaywallReason }>({ open: false, reason: 'manual' });
   const [legal, setLegal] = useState<LegalKind | null>(null);
   const [lock, setLock] = useState<PaywallReason | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+  const showNotice = (m: string) => { setNotice(m); window.setTimeout(() => setNotice((cur) => (cur === m ? null : cur)), 6000); };
   const openPaywall = (reason: PaywallReason = 'manual') => setPaywall({ open: true, reason });
   /** Fitur terkunci: tampilkan pop-up penjelasan dulu, bukan langsung halaman paket. */
   const openLock = (reason: PaywallReason) => setLock(reason);
@@ -138,30 +141,24 @@ const AppContent: React.FC = () => {
       return;
     }
 
+    if (!isPro && progress.credits <= 0) { openLock('ai'); return; }
     setIsLoadingMindmap(true);
 
-    if (!isPro) {
-      const creditUsed = useCredit();
-      if (!creditUsed) {
-        openLock('ai');
-        setIsLoadingMindmap(false);
-        return;
-      }
-    }
-
     try {
-      const generated = await generateMindmapWithGemini(
-        query,
-        progress.apiKey,
-        progress.aiModel || 'gemini-1.5-flash'
-      );
-
+      const model = progress.aiModel && !progress.aiModel.startsWith('gemini-1.5') ? progress.aiModel : 'gemini-2.5-flash';
+      const generated = await generateMindmapWithGemini(query, progress.apiKey, model);
+      // Kuota hanya terpakai bila hasilnya benar-benar didapat.
+      if (!isPro) useCredit();
       setCurrentMindmap(generated);
       setActiveReaderNode(null);
       setActiveQuizNode(null);
       setIsQuizHubOpen(false);
     } catch (err) {
-      console.error('Error generating mindmap:', err);
+      if (err instanceof Error && err.message === 'NO_MATCH') {
+        showNotice('Topik itu belum ada di NODUS, dan pembedah topik AI belum aktif. Coba kata kunci lain, atau pilih jalur lewat tombol "Ganti".');
+      } else {
+        showNotice('Gagal memuat topik. Periksa koneksi internetmu, lalu coba lagi.');
+      }
     } finally {
       setIsLoadingMindmap(false);
     }
@@ -224,6 +221,13 @@ const AppContent: React.FC = () => {
         />
       </main>
 
+      {notice && (
+        <div role="status" aria-live="polite" className="fixed inset-x-4 bottom-28 z-[95] mx-auto max-w-md rounded-2xl bg-[#151517] px-4 py-3 text-[13.5px] leading-snug text-[#FBF9F5] shadow-float animate-fade-in">
+          {notice}
+          <button onClick={() => setNotice(null)} className="ml-2 font-bold text-[#E9C06B]">Tutup</button>
+        </div>
+      )}
+
       {/* Mobile Bottom Navigation Bar (<768px) */}
       <BottomNav
         activeTab={activeTab}
@@ -248,7 +252,7 @@ const AppContent: React.FC = () => {
 
       {/* Arena (full screen) */}
       {isQuizHubOpen && (
-        <ArenaView
+        <Suspense fallback={null}><ArenaView
           data={currentMindmap}
           onClose={() => {
             setIsQuizHubOpen(false);
@@ -267,7 +271,7 @@ const AppContent: React.FC = () => {
             setActiveTab('map');
             openReader(hit.node);
           }}
-        />
+        /></Suspense>
       )}
 
       {/* Evaluasi (full screen, di atas Arena atau Peta) */}
@@ -281,7 +285,7 @@ const AppContent: React.FC = () => {
           setActiveReaderNode(node);
         };
         return (
-          <QuizEngine
+          <Suspense fallback={null}><QuizEngine
             key={quizNode.id}
             node={quizNode}
             onClose={() => setActiveQuizNode(null)}
@@ -290,13 +294,13 @@ const AppContent: React.FC = () => {
             nextLabel={nextNode ? `Lanjut: ${nextNode.label}` : undefined}
             onReadLesson={() => openReader(quizNode)}
             onUpgrade={() => setPaywall({ open: true, reason: 'manual' })}
-          />
+          /></Suspense>
         );
       })()}
 
       {/* Kurikulum (full screen) */}
       {isExploreOpen && (
-        <ExploreModal
+        <Suspense fallback={null}><ExploreModal
           onClose={() => {
             setIsExploreOpen(false);
             setActiveTab('map');
@@ -309,7 +313,7 @@ const AppContent: React.FC = () => {
             setActiveTab('map');
             openReader(node);
           }}
-        />
+        /></Suspense>
       )}
 
       {/* Alat bisnis (full screen) */}
@@ -328,7 +332,7 @@ const AppContent: React.FC = () => {
 
       {/* Profile & Achievements Modal */}
       {isProfileOpen && (
-        <ProfileModal
+        <Suspense fallback={null}><ProfileModal
           onOpenAuth={() => setIsAuthOpen(true)}
           onClose={() => {
             setIsProfileOpen(false);
@@ -340,34 +344,34 @@ const AppContent: React.FC = () => {
             setActiveTab('map');
             openReader(node);
           }}
-        />
+        /></Suspense>
       )}
 
       {/* User Auth Modal */}
       {isAuthOpen && (
-        <AuthModal onClose={() => setIsAuthOpen(false)} />
+        <Suspense fallback={null}><AuthModal onClose={() => setIsAuthOpen(false)} /></Suspense>
       )}
 
       {lock && <ProLockSheet reason={lock} onClose={() => setLock(null)} onSeePlans={() => { const r = lock; setLock(null); openPaywall(r); }} />}
 
       {paywall.open && (
-        <PlansView
+        <Suspense fallback={null}><PlansView
           reason={paywall.reason}
           onClose={() => setPaywall({ open: false, reason: 'manual' })}
           onOpenLegal={setLegal}
           onOpenAuth={() => setIsAuthOpen(true)}
-        />
+        /></Suspense>
       )}
 
       {/* Settings Modal */}
       {isSettingsOpen && (
-        <SettingsModal
+        <Suspense fallback={null}><SettingsModal
           onClose={() => setIsSettingsOpen(false)}
           onOpenAuth={() => setIsAuthOpen(true)}
           onOpenPlans={() => openPaywall('manual')}
           onOpenHelp={() => setIsHelpOpen(true)}
           onOpenLegal={setLegal}
-        />
+        /></Suspense>
       )}
 
       {isWelcomeOpen && (
@@ -378,7 +382,7 @@ const AppContent: React.FC = () => {
 
       {/* Help Modal */}
       {isHelpOpen && (
-        <HelpModal onClose={() => setIsHelpOpen(false)} />
+        <Suspense fallback={null}><HelpModal onClose={() => setIsHelpOpen(false)} /></Suspense>
       )}
 
     </div>

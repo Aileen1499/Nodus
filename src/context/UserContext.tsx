@@ -63,7 +63,7 @@ const defaultProgress: UserProgress = {
   lastStudyDate: undefined,
   lastActiveDate: getTodayString(),
   apiKey: '',
-  aiModel: 'gemini-1.5-flash',
+  aiModel: 'gemini-2.5-flash',
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -319,7 +319,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh)); } catch { /* penyimpanan tidak tersedia */ }
   };
 
-  const saveApiKey = (key: string, model: string = 'gemini-1.5-flash') => {
+  const saveApiKey = (key: string, model: string = 'gemini-2.5-flash') => {
     setProgress((prev) => ({
       ...prev,
       apiKey: key.trim(),

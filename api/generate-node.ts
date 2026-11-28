@@ -11,7 +11,7 @@ export default async function handler(req: Request) {
   }
 
   try {
-    const { topic, apiKey: clientApiKey, model = 'gemini-1.5-flash' } = await req.json();
+    const { topic, apiKey: clientApiKey, model = 'gemini-2.5-flash' } = await req.json();
 
     if (!topic || typeof topic !== 'string') {
       return new Response(JSON.stringify({ error: 'Topic is required' }), {
